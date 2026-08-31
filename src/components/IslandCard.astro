@@ -1,0 +1,171 @@
+---
+interface Props {
+  id: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  tag: string;
+  accentColor?: string;
+  imageUrl?: string;
+  markdownHtml?: string;
+  derivaId: string;
+  coordinatesText: string;
+  categoryLabel?: string;
+  captionLabel?: string;
+  width?: number | string;
+  height?: number | string;
+  imageMaxHeight?: number | string;
+  backgroundColor?: string;
+  headerTypeLabel?: string;
+  zIndex?: number;
+  borderWidth?: number | string;
+  borderColor?: string;
+  paddingY?: number | string;
+  paddingX?: number | string;
+  showAction?: boolean;
+  actionHref?: string;
+  actionLabel?: string;
+}
+
+const {
+  id,
+  code,
+  title,
+  subtitle,
+  tag,
+  accentColor = "#0038A8",
+  imageUrl,
+  markdownHtml,
+  derivaId,
+  coordinatesText,
+  categoryLabel = "REGISTRO / BITÁCORA",
+  captionLabel = "EXPLORACIÓN VIVA",
+  width = 740,
+  height = 730,
+  imageMaxHeight = 380,
+  backgroundColor = "#FAFAFA",
+  headerTypeLabel = "// ISLA DE CONTENIDO",
+  zIndex = 20,
+  borderWidth = 2,
+  borderColor,
+  paddingY = "0.9rem",
+  paddingX = "1.2rem",
+  showAction = true,
+  actionHref,
+  actionLabel = "INCURSIONAR [CLICK / ENTER]",
+} = Astro.props;
+
+const widthCss = typeof width === 'number' ? `${width}px` : width;
+const heightCss = typeof height === 'number' ? `${height}px` : height;
+const imageMaxHeightCss = typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight;
+const borderWidthCss = typeof borderWidth === 'number' ? `${borderWidth}px` : borderWidth;
+const paddingYCss = typeof paddingY === 'number' ? `${paddingY}rem` : paddingY;
+const paddingXCss = typeof paddingX === 'number' ? `${paddingX}rem` : paddingX;
+const finalBorderColor = borderColor || accentColor;
+---
+
+<article 
+  id={id}
+  class="absolute top-0 left-0 shadow-xl rounded-sm flex flex-col justify-between select-none pointer-events-auto transition-opacity duration-200"
+  style={`
+    width: ${widthCss}; 
+    min-height: ${heightCss}; 
+    background-color: ${backgroundColor}; 
+    border-style: solid;
+    border-width: ${borderWidthCss}; 
+    border-color: ${finalBorderColor}; 
+    padding-top: ${paddingYCss}; 
+    padding-bottom: ${paddingYCss}; 
+    padding-left: ${paddingXCss}; 
+    padding-right: ${paddingXCss}; 
+    transform-origin: center center; 
+    opacity: 1; 
+    z-index: ${zIndex};
+  `}
+>
+  <!-- Technical Header Bar -->
+  <div>
+    <div class="flex items-center justify-between border-b border-ink-border/50 pb-3 mb-4">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full animate-pulse" style={`background-color: ${accentColor};`}></span>
+        <span class="font-mono text-xs font-bold uppercase tracking-wider" style={`color: ${accentColor};`}>{code}</span>
+        <span class="text-xs text-ink-faint font-mono">{headerTypeLabel}</span>
+      </div>
+      <span 
+        class="font-mono text-[10px] px-2 py-1 rounded font-semibold tracking-widest border uppercase"
+        style={`color: ${accentColor}; border-color: ${accentColor}33; background-color: ${accentColor}12;`}
+      >
+        {tag}
+      </span>
+    </div>
+
+    <!-- Titles Section -->
+    <div class="mb-4">
+      <h2 class="font-sans font-bold text-2xl text-ink-primary tracking-tight">
+        {title}
+      </h2>
+      <p class="font-sans text-sm font-semibold mt-0.5" style={`color: ${accentColor};`}>
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="w-full h-px bg-ink-border/40 my-3"></div>
+
+    <!-- Two-column Body: Image + Markdown -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start my-2">
+      <!-- Left Column: Image -->
+      <div class="md:col-span-5 flex flex-col gap-2">
+        <div 
+          class="relative group overflow-hidden rounded-sm border p-2 shadow-sm flex items-center justify-center min-h-[320px]"
+          style={`border-color: ${accentColor}40; background-color: rgba(224, 228, 235, 0.3);`}
+        >
+          <img 
+            src={imageUrl} 
+            alt={title} 
+            class="w-auto h-auto max-w-full object-contain rounded-xs transition-transform duration-500 group-hover:scale-105"
+            style={`max-height: ${imageMaxHeightCss};`}
+            loading="eager"
+          />
+          <div class="absolute inset-0 pointer-events-none" style={`background-color: ${accentColor}08;`}></div>
+        </div>
+        <div class="flex items-center justify-between font-mono text-[9px] text-ink-faint px-1">
+          <span>{categoryLabel}</span>
+          <span>{captionLabel}</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Rendered Markdown Content -->
+      <div class="md:col-span-7 flex flex-col justify-between h-full bg-white/70 p-4 border border-ink-border/30 rounded-sm">
+        <div class="prose prose-sm font-sans text-ink-primary text-xs leading-relaxed space-y-2">
+          <Fragment set:html={markdownHtml} />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Action Button -->
+  <div class="mt-4 pt-3 border-t border-ink-border/40 flex items-center justify-between">
+    <div class="font-mono text-[10px] text-ink-muted flex items-center gap-2">
+      <span style={`color: ${accentColor};`}>✦</span> COORDENADAS: {coordinatesText}
+    </div>
+    {showAction && actionHref && (
+      <a
+        href={actionHref}
+        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-xs flex items-center gap-2 cursor-pointer border hover:scale-102"
+        style={`background-color: ${accentColor}; border-color: ${accentColor};`}
+      >
+        {actionLabel}
+      </a>
+    )}
+    {showAction && !actionHref && (
+      <button
+        data-incursionar={derivaId}
+        data-fly-to={derivaId}
+        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-xs flex items-center gap-2 cursor-pointer border hover:scale-102"
+        style={`background-color: ${accentColor}; border-color: ${accentColor};`}
+      >
+        {actionLabel}
+      </button>
+    )}
+  </div>
+</article>

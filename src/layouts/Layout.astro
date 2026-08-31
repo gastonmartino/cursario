@@ -1,0 +1,130 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  scrollable?: boolean;
+}
+
+const { 
+  title = "GASTÓN MARTINO // EN CURSO • Bitácora de Derivas",
+  description = "Espacio vivo de registro, artes electrónicas UNTREF, gráfica generativa, bitácora en curso y reflexión sobre diseño.",
+  scrollable = false,
+} = Astro.props;
+
+const bodyClass = scrollable
+  ? 'min-h-full w-full overflow-x-hidden font-sans text-ink-primary antialiased bg-paper-base'
+  : 'h-full w-full overflow-hidden font-sans text-ink-primary antialiased bg-paper-base';
+const htmlClass = scrollable
+  ? 'min-h-full bg-paper-base'
+  : 'h-full select-none bg-paper-base';
+---
+
+<!doctype html>
+<html lang="es" class={htmlClass}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Typography: Geist & Geist Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class={bodyClass}>
+    <slot />
+    <div id="page-transition" class="page-transition-layer" aria-hidden="true"></div>
+
+    <script>
+      const transitionLayer = document.getElementById('page-transition');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const transitionDuration = prefersReducedMotion ? 0 : 650;
+
+      const revealPage = () => {
+        requestAnimationFrame(() => transitionLayer?.classList.add('is-ready'));
+      };
+
+      revealPage();
+      window.addEventListener('pageshow', revealPage);
+
+      document.addEventListener('click', (event) => {
+        if (
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          !(event.target instanceof Element)
+        ) return;
+
+        const link = event.target.closest('a[href]') as HTMLAnchorElement | null;
+        if (!link || link.target || link.hasAttribute('download')) return;
+
+        const destination = new URL(link.href, window.location.href);
+        const current = new URL(window.location.href);
+        const isSameDocumentHash =
+          destination.pathname === current.pathname &&
+          destination.search === current.search &&
+          destination.hash;
+
+        if (destination.origin !== current.origin || isSameDocumentHash) return;
+
+        event.preventDefault();
+        transitionLayer?.classList.remove('is-ready');
+
+        window.setTimeout(() => {
+          window.location.assign(destination.href);
+        }, transitionDuration);
+      }, true);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Custom Cursor active on canvas */
+  canvas#infinite-canvas {
+    cursor: none;
+  }
+
+  .page-transition-layer {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    pointer-events: none;
+    opacity: 1;
+    background-color: #F5F7FA;
+    background-image:
+      radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
+      radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
+    background-position: 0 0, 3px 3px;
+    background-size: 7px 7px, 11px 11px;
+    transition: opacity 650ms ease-in-out;
+  }
+
+  .page-transition-layer.is-ready {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-transition-layer {
+      transition-duration: 0ms;
+    }
+  }
+
+  /* Custom scrollbar reset */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F5F7FA;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D0D6E2;
+    border-radius: 2px;
+  }
+</style>

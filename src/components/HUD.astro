@@ -1,0 +1,93 @@
+---
+// HUD Component - Telemetry bar & Controls for Macro & Deriva Levels
+---
+
+<header class="pointer-events-none fixed top-0 left-0 right-0 z-30 flex items-center justify-between p-4 md:p-6">
+  <!-- Left: Identity & Level Indicator -->
+  <div class="pointer-events-auto flex items-center gap-3">
+    <!-- Macro Identity Bar -->
+    <div id="hud-macro-identity" class="flex items-center gap-3 bg-white/85 backdrop-blur-md px-4 py-2.5 border border-ink-border/60 shadow-sm rounded-sm">
+      <div class="w-2.5 h-2.5 bg-cobalt rounded-full animate-pulse"></div>
+      <div>
+        <h1 class="text-xs font-mono font-bold tracking-widest text-ink-primary">
+          GASTÓN MARTINO <span class="text-ink-faint font-normal">// CURSARIO</span>
+        </h1>
+        <p class="text-[10px] font-mono text-ink-muted">
+          BITÁCORA DE DERIVAS
+        </p>
+      </div>
+    </div>
+
+    <!-- Deriva Level Return Button (Hidden in Level 1, Visible in Level 2) -->
+    <div id="hud-deriva-identity" class="hidden items-center gap-2">
+      <button 
+        id="btn-exit-deriva"
+        class="flex items-center gap-2 bg-cobalt text-white hover:bg-cobalt-dark transition-all px-4 py-2.5 border border-cobalt-dark shadow-sm rounded-sm font-mono text-xs font-bold"
+        title="Regresar al curso anterior (ESC)"
+      >
+        <span>← VOLVER</span>
+        <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-normal">[ESC]</span>
+      </button>
+
+      <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur-md px-3.5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs text-ink-primary">
+        <span class="text-ink-faint">DERIVA:</span>
+        <span id="hud-active-deriva-name" class="font-bold text-cobalt">[01:ELEC] ARTES ELECTRÓNICAS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center: Live Telemetry Display -->
+  <div class="pointer-events-auto hidden md:flex items-center gap-4 bg-white/85 backdrop-blur-md px-5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs">
+    <div class="flex items-center gap-2">
+      <span class="text-ink-faint">POS:</span>
+      <span id="telemetry-coords" class="font-semibold text-cobalt min-w-[140px]">
+        X: +0.0  Y: +0.0
+      </span>
+    </div>
+    
+    <div class="w-px h-3.5 bg-ink-border"></div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-ink-faint">ESCALA:</span>
+      <span id="telemetry-zoom" class="font-semibold text-cyanotype min-w-[45px]">
+        90%
+      </span>
+    </div>
+
+    <div class="w-px h-3.5 bg-ink-border"></div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-ink-faint">ESTADO:</span>
+      <span id="telemetry-zone" class="font-bold text-accent-vermilion">
+        [00:CURSO] EN PROGRESO
+      </span>
+    </div>
+  </div>
+
+  <!-- Right: Navigation Controls & Shortcuts -->
+  <div class="pointer-events-auto flex items-center gap-2">
+    <div class="flex items-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm overflow-hidden">
+      <button 
+        id="btn-zoom-in"
+        class="px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+        title="Acercar (+)"
+      >
+        +
+      </button>
+      <button 
+        id="btn-zoom-out"
+        class="px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+        title="Alejar (-)"
+      >
+        -
+      </button>
+      <button 
+        id="btn-reset-view"
+        class="px-3.5 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs flex items-center gap-1.5"
+        title="Centrar vista (R / 0)"
+      >
+        <span class="text-[10px] text-ink-faint">[R]</span> CENTRAR
+      </button>
+    </div>
+  </div>
+</header>

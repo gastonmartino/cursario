@@ -1,0 +1,566 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import HUD from './HUD.astro';
+import RadarMinimap from './RadarMinimap.astro';
+import IslandCard from './IslandCard.astro';
+import { SUBCURSOS } from '../data/subcursos';
+import { SPATIAL_DERIVAS } from '../engine/SpatialZones';
+import { renderMarkdownToHtml } from '../utils/markdown';
+
+// Read Markdown contents server-side
+let curso00MarkdownHtml = '';
+try {
+  const mdPath00 = path.join(process.cwd(), 'public', 'curso00', 'contenidos', 'curso00-inicio.md');
+  const rawMd00 = fs.readFileSync(mdPath00, 'utf-8');
+  curso00MarkdownHtml = renderMarkdownToHtml(rawMd00);
+} catch (e) {
+  console.error('Error al leer curso00-inicio.md:', e);
+}
+
+let curso01MarkdownHtml = '';
+try {
+  const mdPath01 = path.join(process.cwd(), 'public', 'curso01', 'contenidos', 'curso01-inicio.md');
+  const rawMd01 = fs.readFileSync(mdPath01, 'utf-8');
+  curso01MarkdownHtml = renderMarkdownToHtml(rawMd01);
+} catch (e) {
+  console.error('Error al leer curso01-inicio.md:', e);
+}
+
+let curso02MarkdownHtml = '';
+try {
+  const mdPath02 = path.join(process.cwd(), 'public', 'curso02', 'contenidos', 'curso02-inicio.md');
+  const rawMd02 = fs.readFileSync(mdPath02, 'utf-8');
+  curso02MarkdownHtml = renderMarkdownToHtml(rawMd02);
+} catch (e) {
+  console.error('Error al leer curso02-inicio.md:', e);
+}
+
+let curso03MarkdownHtml = '';
+try {
+  const mdPath03 = path.join(process.cwd(), 'public', 'curso03', 'contenidos', 'curso03-inicio.md');
+  const rawMd03 = fs.readFileSync(mdPath03, 'utf-8');
+  curso03MarkdownHtml = renderMarkdownToHtml(rawMd03);
+} catch (e) {
+  console.error('Error al leer curso03-inicio.md:', e);
+}
+
+function readSubcursoMarkdown(course: string, subcursoId: string) {
+  try {
+    const mdPath = path.join(
+      process.cwd(),
+      'public',
+      course,
+      'subcursos',
+      subcursoId,
+      'contenidos',
+      'contenido-curso.md'
+    );
+    return renderMarkdownToHtml(fs.readFileSync(mdPath, 'utf-8'));
+  } catch (e) {
+    console.error(`Error al leer el contenido de ${subcursoId}:`, e);
+    return '';
+  }
+}
+
+const subcursoCards = SUBCURSOS.map((subcurso) => {
+  const deriva = SPATIAL_DERIVAS.find((item) => item.id === subcurso.parentDerivaId);
+  const item = deriva?.items.find((entry) => entry.id === subcurso.itemId);
+  const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
+
+  return {
+    ...subcurso,
+    markdownHtml: readSubcursoMarkdown(subcurso.course, subcurso.subcurso),
+    coordinatesText: item
+      ? `X: ${formatCoordinate(item.x)}  Y: ${formatCoordinate(item.y)}`
+      : 'X: +0.0  Y: +0.0',
+  };
+});
+---
+
+<div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
+  <!-- HUD Telemetry & Navigation Controls -->
+  <HUD />
+
+  <!-- Smooth Level Transition Curtain -->
+  <div 
+    id="transition-curtain" 
+    class="pointer-events-none fixed inset-0 backdrop-blur-md opacity-0 z-20"
+    style="opacity: 0;"
+  ></div>
+
+  <!-- Main 60 FPS Infinite Canvas Element -->
+  <canvas 
+    id="infinite-canvas" 
+    class="absolute inset-0 w-full h-full block touch-none z-10"
+  ></canvas>
+
+  <!-- HTML Spatial Overlay Layer for Islands -->
+  <div id="spatial-nodes-layer" class="absolute inset-0 pointer-events-none z-[20] overflow-hidden">
+    
+    <!-- CURSO:00 (ISLA: Deriva actualmente en curso) -->
+    <IslandCard 
+      id="spatial-node-en-curso"
+      code="CURSO:00"
+      headerTypeLabel="// BITÁCORA EN CURSO"
+      title="En Curso..."
+      subtitle="Bitácora y exploraciones vivas"
+      tag="TFIC"
+      accentColor="#E03E2D"
+      imageUrl="/curso00/imagenes/curso00-inicio.jpg"
+      markdownHtml={curso00MarkdownHtml}
+      derivaId="en-curso"
+      coordinatesText="X: +0.0  Y: +0.0"
+      categoryLabel="BITÁCORA / TFIC"
+      captionLabel="INVESTIGACIÓN SITUADA"
+      width={740}
+      height={730}
+      imageMaxHeight={380}
+    />
+    
+    <!-- CURSO:01 (ISLA: Deriva de arte electrónico MAE) -->
+    <IslandCard 
+      id="spatial-node-untref"
+      code="CURSO:01"
+      headerTypeLabel="// MAE UNTREF"
+      title="Nubes infames, granjas turbias y una hominización especulativa"
+      subtitle="Producción MAE - 2025-2026"
+      tag="ARTES ELECTRÓNICAS"
+      accentColor="#0038A8"
+      imageUrl="/curso01/imagenes/curso01-inicio.png"
+      markdownHtml={curso01MarkdownHtml}
+      derivaId="untref"
+      coordinatesText="X: +0.0  Y: -1400.0"
+      categoryLabel="EJES: TIEMPO / ESPACIO / MOVIMIENTO"
+      captionLabel="2025-2026"
+      width={760}
+      height={730}
+      imageMaxHeight={440}
+    />
+  
+    <!-- CURSO:02 (Deriva generativa) -->
+    <IslandCard 
+      id="spatial-node-generativa"
+      code="CURSO:02"
+      headerTypeLabel="// GENERATIVA"
+      title="Gráfica generativa en p5js"
+      subtitle="Las abstracciones digitales también pueden producir fricción."
+      tag="ALGORITMOS & TRAMAS"
+      accentColor="#16253D"
+      imageUrl="/curso02/imagenes/curso02-inicio.jpg"
+      markdownHtml={curso02MarkdownHtml}
+      derivaId="generativa"
+      coordinatesText="X: -1600.0  Y: +0.0"
+      categoryLabel="PROCESSING / P5.JS"
+      captionLabel="2024"
+      width={760}
+      height={730}
+      imageMaxHeight={440}
+    />
+    
+    <!-- CURSO:03 (ISLA: Deriva del pensamiento de diseño) -->
+    <IslandCard 
+      id="spatial-node-pensamiento"
+      code="CURSO:03"
+      headerTypeLabel="// DISEÑO"
+      title="Pensamiento & Diseño"
+      subtitle="El giro UX. Al encuentro de otro diseño"
+      tag="INTERFACES & INTERACCIONES INTELIGENTES"
+      accentColor="#002FA7"
+      imageUrl="/curso03/imagenes/curso03-inicio.jpg"
+      markdownHtml={curso03MarkdownHtml}
+      derivaId="pensamiento"
+      coordinatesText="X: +1600.0  Y: +0.0"
+      categoryLabel="REFLEXIÓN / ENSAYO"
+      captionLabel="2026"
+      width={760}
+      height={730}
+      imageMaxHeight={440}
+    />
+
+    <!-- Subderivas: islas HTML enriquecidas dentro de cada canvas local -->
+    {subcursoCards.map((subcurso) => (
+      <IslandCard
+        id={`spatial-subnode-${subcurso.itemId}`}
+        code={subcurso.code}
+        headerTypeLabel={`// SUBCURSO / ${subcurso.parentDerivaId.toUpperCase()}`}
+        title={subcurso.title}
+        subtitle={subcurso.subtitle}
+        tag={subcurso.tag}
+        accentColor={subcurso.accentColor}
+        imageUrl={`/${subcurso.course}/subcursos/${subcurso.subcurso}/medios/portada-curso.jpg`}
+        markdownHtml={subcurso.markdownHtml}
+        derivaId={subcurso.itemId}
+        coordinatesText={subcurso.coordinatesText}
+        categoryLabel={subcurso.categoryLabel}
+        captionLabel={subcurso.captionLabel}
+        width={640}
+        height={660}
+        imageMaxHeight={360}
+        actionHref={`/${subcurso.course}/${subcurso.subcurso}/`}
+        actionLabel="INCURSIONAR [ABRIR]"
+      />
+    ))}
+  </div>
+
+  <!-- Radar Minimap Component -->
+  <RadarMinimap />
+
+  <!-- Foreground Cursor Canvas for Ink Trail & Reticle (z-40) -->
+  <canvas 
+    id="cursor-canvas" 
+    class="pointer-events-none fixed inset-0 w-full h-full block touch-none z-[40]"
+  ></canvas>
+
+  <!-- Subtitle Watermark bottom right -->
+  <div class="pointer-events-none fixed bottom-4 right-4 md:bottom-6 md:right-6 z-20 font-mono text-[9px] text-ink-faint tracking-widest uppercase">
+    GASTÓN MARTINO • INCURSOR v0.1
+  </div>
+</div>
+
+<script>
+  import { CanvasController, type TelemetryData } from '../engine/CanvasController';
+  import { SPATIAL_DERIVAS, type SpatialDeriva } from '../engine/SpatialZones';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
+    const cursorCanvas = document.getElementById('cursor-canvas') as HTMLCanvasElement;
+    const minimapCanvas = document.getElementById('minimap-canvas') as HTMLCanvasElement;
+    const curtain = document.getElementById('transition-curtain');
+
+    const macroIdentity = document.getElementById('hud-macro-identity');
+    const derivaIdentity = document.getElementById('hud-deriva-identity');
+    const activeDerivaName = document.getElementById('hud-active-deriva-name');
+    const btnExitDeriva = document.getElementById('btn-exit-deriva');
+
+    const coordsEl = document.getElementById('telemetry-coords');
+    const zoomEl = document.getElementById('telemetry-zoom');
+    const zoneEl = document.getElementById('telemetry-zone');
+
+    const radarBadge = document.getElementById('radar-level-badge');
+    const radarInstruction = document.getElementById('radar-instruction-text');
+
+    const btnZoomIn = document.getElementById('btn-zoom-in');
+    const btnZoomOut = document.getElementById('btn-zoom-out');
+    const btnReset = document.getElementById('btn-reset-view');
+
+    if (!mainCanvas) return;
+
+    // Minimap rendering helper
+    const minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
+    const worldRadius = 2400; // Visual radius for macro mapping
+
+    const renderMinimap = (data: TelemetryData) => {
+      if (!minimapCtx || !minimapCanvas) return;
+
+      const mw = minimapCanvas.width;
+      const mh = minimapCanvas.height;
+      const mcx = mw / 2;
+      const mcy = mh / 2;
+
+      minimapCtx.clearRect(0, 0, mw, mh);
+
+      if (data.level === 'macro') {
+        // LEVEL 1 MINIMAP
+        const scale = (mw / 2) / worldRadius;
+
+        // Concentric radar survey rings
+        minimapCtx.strokeStyle = 'rgba(22, 37, 61, 0.12)';
+        minimapCtx.lineWidth = 1;
+        minimapCtx.beginPath();
+        minimapCtx.arc(mcx, mcy, 35, 0, Math.PI * 2);
+        minimapCtx.arc(mcx, mcy, 70, 0, Math.PI * 2);
+        minimapCtx.arc(mcx, mcy, 105, 0, Math.PI * 2);
+        minimapCtx.stroke();
+
+        // Deriva Nodes
+        for (const deriva of SPATIAL_DERIVAS) {
+          const zx = mcx + deriva.x * scale;
+          const zy = mcy + deriva.y * scale;
+
+          minimapCtx.fillStyle = deriva.accentColor;
+          minimapCtx.beginPath();
+          minimapCtx.arc(zx, zy, 4, 0, Math.PI * 2);
+          minimapCtx.fill();
+
+          minimapCtx.font = '8px "Geist Mono", monospace';
+          minimapCtx.fillStyle = '#16253D';
+          minimapCtx.textAlign = 'center';
+          minimapCtx.fillText(deriva.code, zx, zy - 6);
+        }
+
+        // Camera Frustum Box
+        const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
+        const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
+        const camX = mcx + data.worldX * scale - viewportW / 2;
+        const camY = mcy + data.worldY * scale - viewportH / 2;
+
+        minimapCtx.strokeStyle = '#0038A8';
+        minimapCtx.lineWidth = 1.5;
+        minimapCtx.fillStyle = 'rgba(0, 56, 168, 0.08)';
+        minimapCtx.fillRect(camX, camY, viewportW, viewportH);
+        minimapCtx.strokeRect(camX, camY, viewportW, viewportH);
+
+        minimapCtx.fillStyle = '#E03E2D';
+        minimapCtx.beginPath();
+        minimapCtx.arc(mcx + data.worldX * scale, mcy + data.worldY * scale, 2, 0, Math.PI * 2);
+        minimapCtx.fill();
+      } else if (data.activeDeriva) {
+        // LEVEL 2 MINIMAP (Local Deriva Course)
+        const localRadius = 1200;
+        const scale = (mw / 2) / localRadius;
+
+        minimapCtx.strokeStyle = 'rgba(0, 56, 168, 0.15)';
+        minimapCtx.setLineDash([3, 3]);
+        minimapCtx.beginPath();
+        minimapCtx.moveTo(mcx - 100, mcy);
+        minimapCtx.lineTo(mcx + 100, mcy);
+        minimapCtx.stroke();
+        minimapCtx.setLineDash([]);
+
+        // Render Deriva Item dots
+        for (const item of data.activeDeriva.items) {
+          const ix = mcx + item.x * scale;
+          const iy = mcy + item.y * scale;
+
+          minimapCtx.fillStyle = item.accentColor;
+          minimapCtx.beginPath();
+          minimapCtx.arc(ix, iy, 4, 0, Math.PI * 2);
+          minimapCtx.fill();
+
+          minimapCtx.font = '8px "Geist Mono", monospace';
+          minimapCtx.fillStyle = '#16253D';
+          minimapCtx.textAlign = 'center';
+          minimapCtx.fillText(item.code, ix, iy - 6);
+        }
+
+        // Camera Frustum in local space
+        const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
+        const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
+        const camX = mcx + data.worldX * scale - viewportW / 2;
+        const camY = mcy + data.worldY * scale - viewportH / 2;
+
+        minimapCtx.strokeStyle = data.activeDeriva.accentColor;
+        minimapCtx.lineWidth = 1.5;
+        minimapCtx.fillStyle = 'rgba(0, 56, 168, 0.1)';
+        minimapCtx.fillRect(camX, camY, viewportW, viewportH);
+        minimapCtx.strokeRect(camX, camY, viewportW, viewportH);
+      }
+    };
+
+    let curtainTimer: ReturnType<typeof setTimeout> | undefined;
+
+    // Use the same patient paper-fade as page navigation for movements
+    // between the macro cartography and a local deriva.
+    const triggerCurtainTransition = () => {
+      if (!curtain) return;
+
+      if (curtainTimer) window.clearTimeout(curtainTimer);
+      const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+
+      curtain.style.transition = `opacity ${duration}ms ease-in-out`;
+      curtain.style.opacity = '1';
+
+      curtainTimer = window.setTimeout(() => {
+        curtain.style.opacity = '0';
+      }, duration + 120);
+    };
+
+    // Track level to avoid calling __radarSetLevel every frame
+    let lastKnownLevel: 'macro' | 'deriva' | null = null;
+
+    // Initialize Canvas Controller
+    const controller = new CanvasController(
+      mainCanvas, 
+      (data: TelemetryData) => {
+        // Update HUD telemetry
+        if (coordsEl) {
+          const signX = data.worldX >= 0 ? '+' : '';
+          const signY = data.worldY >= 0 ? '+' : '';
+          coordsEl.textContent = `X: ${signX}${data.worldX.toFixed(1)}  Y: ${signY}${data.worldY.toFixed(1)}`;
+        }
+
+        if (zoomEl) {
+          zoomEl.textContent = `${data.zoom}%`;
+        }
+
+        // Update identity and state based on Level
+        if (data.level === 'macro') {
+          macroIdentity?.classList.remove('hidden');
+          macroIdentity?.classList.add('flex');
+          derivaIdentity?.classList.add('hidden');
+          derivaIdentity?.classList.remove('flex');
+
+          if (radarBadge) radarBadge.textContent = ' ';
+          if (radarInstruction) radarInstruction.textContent = 'Arrastrar para surcar • Click para incursionar';
+
+          if (zoneEl) {
+            if (data.hoveredDeriva) {
+              zoneEl.textContent = `[${data.hoveredDeriva.code}] INCURSIONAR`;
+              zoneEl.style.color = data.hoveredDeriva.accentColor;
+            } else if (data.activeDeriva) {
+              zoneEl.textContent = `[${data.activeDeriva.code}] ${data.activeDeriva.name.toUpperCase()}`;
+              zoneEl.style.color = data.activeDeriva.accentColor;
+            } else {
+              zoneEl.textContent = `[SURCANDO] CURSOS`;
+              zoneEl.style.color = '#0038A8';
+            }
+          }
+        } else if (data.level === 'deriva' && data.activeDeriva) {
+          macroIdentity?.classList.add('hidden');
+          macroIdentity?.classList.remove('flex');
+          derivaIdentity?.classList.remove('hidden');
+          derivaIdentity?.classList.add('flex');
+
+          if (activeDerivaName) {
+            activeDerivaName.textContent = `[${data.activeDeriva.code}] ${data.activeDeriva.name.toUpperCase()}`;
+            activeDerivaName.style.color = data.activeDeriva.accentColor;
+          }
+
+          if (radarBadge) radarBadge.textContent = `DERIVA: ${data.activeDeriva.code}`;
+          if (radarInstruction) radarInstruction.textContent = 'Arrastrar para recorrer • ESC para volver';
+
+          if (zoneEl) {
+            if (data.hoveredItem) {
+              zoneEl.textContent = `[${data.hoveredItem.code}] ${data.hoveredItem.title.toUpperCase()}`;
+              zoneEl.style.color = data.hoveredItem.accentColor;
+            } else {
+              zoneEl.textContent = `[DERIVA ACTIVA] ${data.activeDeriva.name.toUpperCase()}`;
+              zoneEl.style.color = data.activeDeriva.accentColor;
+            }
+          }
+        }
+
+        // Notify radar minimap of level changes (only on actual change, not every frame)
+        if (data.level !== lastKnownLevel) {
+          lastKnownLevel = data.level;
+          (window as any).__radarSetLevel?.(data.level);
+        }
+
+        // Update minimap radar
+        renderMinimap(data);
+      },
+      (type: 'enter' | 'exit', deriva: SpatialDeriva | null) => {
+        triggerCurtainTransition();
+      },
+      cursorCanvas
+    );
+
+    // Direct links from third-level pages restore CURSO:00 in its local
+    // canvas, while the root URL continues to open the macro cartography.
+    const requestedDeriva = new URLSearchParams(window.location.search).get('deriva');
+    if (requestedDeriva && SPATIAL_DERIVAS.some((deriva) => deriva.id === requestedDeriva)) {
+      controller.incursionar(requestedDeriva);
+    }
+
+    // Bind Back / Exit Button
+    if (btnExitDeriva) {
+      btnExitDeriva.addEventListener('click', () => controller.exitDeriva());
+    }
+
+    // Bind HUD buttons
+    if (btnZoomIn) {
+      btnZoomIn.addEventListener('click', () => controller.zoomIn());
+    }
+
+    if (btnZoomOut) {
+      btnZoomOut.addEventListener('click', () => controller.zoomOut());
+    }
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => controller.resetView());
+    }
+
+    // Bind Quick Navigation Buttons
+    const derivaButtons = document.querySelectorAll('[data-fly-to]');
+    derivaButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        // If button has data-incursionar, incursionar() handles level entry instead
+        if (btn.hasAttribute('data-incursionar')) return;
+        const targetDeriva = btn.getAttribute('data-fly-to');
+        if (targetDeriva) {
+          controller.flyToDeriva(targetDeriva);
+        }
+      });
+    });
+
+    // Bind Incursionar Buttons (Enter Level 2 with smooth curtain transition)
+    const incursionarButtons = document.querySelectorAll('[data-incursionar]');
+    incursionarButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targetDeriva = btn.getAttribute('data-incursionar');
+        if (targetDeriva) {
+          controller.incursionar(targetDeriva);
+        }
+      });
+    });
+
+    // Forward spatial overlay DOM layer wheel & drag events to canvas controller
+    const spatialLayer = document.getElementById('spatial-nodes-layer');
+    if (spatialLayer) {
+      // The island cards sit above the main canvas, so their touch events do
+      // not reach the canvas listeners. Forward non-interactive touches to
+      // the controller to keep drag and pinch navigation continuous over them.
+      let isNavigatingFromSpatialOverlay = false;
+      const isInteractiveOverlayTarget = (target: EventTarget | null) =>
+        target instanceof Element && Boolean(target.closest('button, a, input, textarea, select, label'));
+
+      spatialLayer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        controller.onWheel(e);
+      }, { passive: false });
+
+      spatialLayer.addEventListener('mousedown', (e) => {
+        // Allow clicking buttons/links without triggering canvas drag
+        if ((e.target as HTMLElement).closest('button, a, input, textarea')) return;
+        controller.onMouseDown(e);
+      });
+
+      spatialLayer.addEventListener('mousemove', (e) => {
+        controller.onMouseMove(e);
+      });
+
+      spatialLayer.addEventListener('touchstart', (e) => {
+        if (isInteractiveOverlayTarget(e.target)) {
+          isNavigatingFromSpatialOverlay = false;
+          return;
+        }
+
+        isNavigatingFromSpatialOverlay = true;
+        e.preventDefault();
+        controller.onTouchStart(e);
+        // Update hit testing immediately so a stationary tap behaves the same
+        // way as one initiated directly on the canvas.
+        controller.onTouchMove(e);
+      }, { passive: false });
+
+      spatialLayer.addEventListener('touchmove', (e) => {
+        if (!isNavigatingFromSpatialOverlay) return;
+        e.preventDefault();
+        controller.onTouchMove(e);
+      }, { passive: false });
+
+      const finishOverlayTouch = (e: TouchEvent) => {
+        if (!isNavigatingFromSpatialOverlay) return;
+        e.preventDefault();
+        controller.onTouchEnd(e);
+        isNavigatingFromSpatialOverlay = false;
+      };
+
+      spatialLayer.addEventListener('touchend', finishOverlayTouch, { passive: false });
+      spatialLayer.addEventListener('touchcancel', finishOverlayTouch, { passive: false });
+    }
+  });
+</script>
+
+<style>
+  #transition-curtain {
+    background-color: rgba(245, 247, 250, 0.97);
+    background-image:
+      radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
+      radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
+    background-position: 0 0, 3px 3px;
+    background-size: 7px 7px, 11px 11px;
+  }
+</style>

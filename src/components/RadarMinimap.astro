@@ -1,0 +1,160 @@
+---
+// Radar Minimap & Derivas Navigator
+---
+
+<div class="pointer-events-none fixed bottom-0 left-0 p-4 md:p-6 z-30 flex flex-col gap-3 items-start">
+
+  <!-- Radar Widget: header always visible, body collapses -->
+  <div class="pointer-events-auto bg-white/90 backdrop-blur-md border border-ink-border/70 shadow-md rounded-sm w-[240px] md:w-[280px] overflow-hidden">
+
+    <!-- Header (always visible — contains the collapse toggle) -->
+    <div class="flex items-center justify-between px-3.5 pt-3 pb-2.5 border-b border-ink-border/50">
+      <div class="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-wider text-ink-primary uppercase">
+        <span class="inline-block w-1.5 h-1.5 bg-cobalt rounded-full animate-pulse"></span>
+        CURSOS
+      </div>
+
+      <!-- Toggle button replaces the old badge text -->
+      <button
+        id="radar-toggle"
+        class="flex items-center gap-1.5 font-mono text-[9px] text-ink-faint hover:text-cobalt transition-colors"
+        title="Colapsar / Expandir radar"
+        aria-expanded="true"
+        aria-controls="radar-body"
+      >
+        <span id="radar-level-badge">NAVEGADOR</span>
+        <svg
+          id="radar-chevron"
+          xmlns="http://www.w3.org/2000/svg"
+          width="10" height="10"
+          viewBox="0 0 24 24"
+          fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          style="transition: transform 0.3s ease; flex-shrink: 0;"
+        >
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Collapsible body -->
+    <div
+      id="radar-body"
+      style="overflow: hidden; transition: max-height 0.35s ease-in-out, opacity 0.28s ease-in-out;"
+    >
+      <div class="p-3.5 pt-3">
+
+        <!-- Minimap Visual Display Canvas -->
+        <div class="relative w-full h-[140px] bg-paper-sheet border border-ink-border/60 rounded-sm overflow-hidden flex items-center justify-center">
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-full h-px bg-ink-border/50"></div>
+            <div class="h-full w-px bg-ink-border/50 absolute"></div>
+          </div>
+          <canvas id="minimap-canvas" width="280" height="140" class="w-full h-full block"></canvas>
+        </div>
+
+        <!-- Quick Deriva Navigation Links — only visible in Macro level -->
+        <div
+          id="radar-nav-links"
+          class="grid grid-cols-2 gap-1.5 mt-2.5"
+          style="overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.25s ease-in-out, margin-top 0.3s ease-in-out;"
+        >
+          <button
+            data-fly-to="en-curso"
+            class="deriva-nav-btn text-left px-2 py-1.5 bg-paper-light hover:bg-river-mist hover:text-cobalt border border-ink-border/50 rounded-sm transition-all text-[10px] font-mono flex items-center justify-between"
+          >
+            <span class="font-semibold text-accent-vermilion">00:BITÁCORA</span>
+            <span class="text-[9px] text-ink-faint">[1]</span>
+          </button>
+
+          <button
+            data-fly-to="untref"
+            class="deriva-nav-btn text-left px-2 py-1.5 bg-paper-light hover:bg-river-mist hover:text-cobalt border border-ink-border/50 rounded-sm transition-all text-[10px] font-mono flex items-center justify-between"
+          >
+            <span class="font-semibold text-cobalt">01:MAE/UNTREF</span>
+            <span class="text-[9px] text-ink-faint">[2]</span>
+          </button>
+
+          <button
+            data-fly-to="generativa"
+            class="deriva-nav-btn text-left px-2 py-1.5 bg-paper-light hover:bg-river-mist hover:text-cobalt border border-ink-border/50 rounded-sm transition-all text-[10px] font-mono flex items-center justify-between"
+          >
+            <span class="font-semibold text-cyanotype">02:GENERATIVA</span>
+            <span class="text-[9px] text-ink-faint">[3]</span>
+          </button>
+
+          <button
+            data-fly-to="pensamiento"
+            class="deriva-nav-btn text-left px-2 py-1.5 bg-paper-light hover:bg-river-mist hover:text-cobalt border border-ink-border/50 rounded-sm transition-all text-[10px] font-mono flex items-center justify-between"
+          >
+            <span class="font-semibold text-cobalt-vibrant">03:DISEÑO</span>
+            <span class="text-[9px] text-ink-faint">[4]</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Instruction Badge -->
+  <div class="pointer-events-auto bg-white/80 backdrop-blur-sm px-3 py-1.5 border border-ink-border/50 rounded-sm font-mono text-[10px] text-ink-muted flex items-center gap-2">
+    <span class="text-cobalt">✦</span>
+    <span id="radar-instruction-text">Arrastrar para surcar • Click para incursionar</span>
+  </div>
+</div>
+
+<script>
+  const toggle  = document.getElementById('radar-toggle') as HTMLButtonElement | null;
+  const body    = document.getElementById('radar-body')   as HTMLElement | null;
+  const chevron = document.getElementById('radar-chevron') as HTMLElement | null;
+
+  let isOpen = true;
+
+  function setOpen(open: boolean) {
+    isOpen = open;
+    if (!body) return;
+
+    if (open) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px'; // snapshot real height
+      body.getBoundingClientRect();                      // force reflow
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+    }
+
+    if (chevron) chevron.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+    toggle?.setAttribute('aria-expanded', String(open));
+  }
+
+  // Initialise: give the body a concrete max-height so the first collapse
+  // has a known from-value for the CSS transition.
+  if (body) body.style.maxHeight = body.scrollHeight + 'px';
+
+  toggle?.addEventListener('click', () => setOpen(!isOpen));
+
+  // ── Nav-links level visibility (driven by InfiniteCanvas.astro telemetry) ──
+  (window as any).__radarSetLevel = (level: 'macro' | 'deriva') => {
+    const nav = document.getElementById('radar-nav-links') as HTMLElement | null;
+    if (!nav) return;
+
+    if (level === 'macro') {
+      nav.style.maxHeight = '80px';
+      nav.style.opacity   = '1';
+      nav.style.marginTop = '';
+      nav.querySelectorAll('button').forEach(b => ((b as HTMLElement).style.pointerEvents = ''));
+    } else {
+      nav.style.maxHeight = '0px';
+      nav.style.opacity   = '0';
+      nav.style.marginTop = '0';
+      nav.querySelectorAll('button').forEach(b => ((b as HTMLElement).style.pointerEvents = 'none'));
+    }
+
+    // Recalculate body's maxHeight after nav transition completes so the
+    // collapse toggle always knows the correct full height.
+    if (body && isOpen) {
+      setTimeout(() => { body.style.maxHeight = body.scrollHeight + 'px'; }, 320);
+    }
+  };
+</script>
