@@ -224,6 +224,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso003', itemId: 'dis-ensayo-03',
     imageUrl: '/curso03/subcursos/curso003/medios/portada-curso.jpg', 
     code: 'SUBCURSO:03.3', 
+    tag: 'GIRO UX',
     accentColor: '#002FA7', 
     categoryLabel: 'AL ENCUENTRO DE OTRO DISEÑO', captionLabel: 'DIS#03',
   },

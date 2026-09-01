@@ -14,6 +14,8 @@ export function getStaticPaths() {
 
 const { curso, subcurso } = Astro.params;
 const { data } = Astro.props as { data: SubcursoDefinition };
+const displayTitle = data.title ?? '';
+const displaySubtitle = data.subtitle ?? '';
 
 let markdownHtml = '';
 try {
@@ -31,8 +33,8 @@ try {
 ---
 
 <Layout
-  title={`GASTÓN MARTINO // ${data.code} • ${data.title}`}
-  description={`${data.subtitle}. Bitácora de Derivas de Gastón Martino.`}
+  title={`GASTÓN MARTINO // ${data.code} • ${displayTitle}`}
+  description={`${displaySubtitle}. Bitácora de Derivas de Gastón Martino.`}
   scrollable={true}
 >
   <div class="paper-texture min-h-screen">
@@ -57,7 +59,7 @@ try {
         <div class="flex items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-3.5 py-2 shadow-sm font-mono text-xs text-ink-primary md:px-4">
           <span class="h-2 w-2 rounded-full animate-pulse" style={`background-color: ${data.accentColor};`}></span>
           <span class="text-ink-faint">DERIVA:</span>
-          <span class="font-bold" style={`color: ${data.accentColor};`}>[{data.code}] {data.title.toUpperCase()}</span>
+          <span class="font-bold" style={`color: ${data.accentColor};`}>[{data.code}] {displayTitle.toUpperCase()}</span>
         </div>
       </div>
     </header>
@@ -69,7 +71,7 @@ try {
             <span class="h-2 w-2 rounded-full" style={`background-color: ${data.accentColor};`}></span>
             {data.code} // {data.tag}
           </div>
-          <p class="font-sans text-lg font-semibold" style={`color: ${data.accentColor};`}>{data.subtitle}</p>
+          <p class="font-sans text-lg font-semibold" style={`color: ${data.accentColor};`}>{displaySubtitle}</p>
         </div>
 
         <div class="markdown-page-content">
