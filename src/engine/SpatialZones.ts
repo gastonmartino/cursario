@@ -77,7 +77,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'bitacora-03',
         code: 'BIT-03',
-        title: 'Derivas Algorítmicas Recientes',
+        title: 'Cuestionario / preguntas',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
         x: 720,
@@ -90,7 +90,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'bitacora-04',
         code: 'BIT-04',
-        title: 'Derivas Algorítmicas Recientes',
+        title: 'Arroyo del Rey',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
         x: -720,
@@ -103,7 +103,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'bitacora-05',
         code: 'BIT-05',
-        title: 'Derivas Algorítmicas Recientes',
+        title: 'Ejercicio de recorrido',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
         x: 720,
@@ -132,7 +132,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'untref-obra-01',
         code: 'OBRA:01',
-        title: 'Dispositivos / Instalación Electrónica',
+        title: 'Ficha de obra',
         subtitle: 'MAE, obra #01',
         summary: 'Memoria técnica, registros sonoros, diagramas de circuitos y documentación audiovisual de la primera obra de maestría.',
         x: -720,
@@ -145,7 +145,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'untref-obra-02',
         code: 'OBRA:02',
-        title: 'Instalación Espacial & Sensórica',
+        title: 'Ficha de obra',
         subtitle: 'MAE, obra #02',
         summary: 'Sistema interactivo de transducción electromagnética y espacialización en tiempo real.',
         x: 0,
@@ -158,7 +158,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'untref-obra-03',
         code: 'OBRA:03',
-        title: 'Escultura & Materia Electrónica',
+        title: 'Ficha de obra',
         subtitle: 'MAE, obra #03',
         summary: 'Dispositivo escultórico con respuesta a variaciones ambientales y memoria física de la corriente.',
         x: 720,
@@ -171,7 +171,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'untref-obra-04',
         code: 'OBRA:04',
-        title: 'GPS (Goce Position System)',
+        title: 'Ficha de obra',
         subtitle: 'MAE, obra #03',
         summary: 'Dispositivo escultórico con respuesta a variaciones ambientales y memoria física de la corriente.',
         x: -20,
@@ -184,7 +184,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'untref-obra-05',
         code: 'OBRA:05',
-        title: 'Escultura & Materia Electrónica',
+        title: 'Ficha de obra',
         subtitle: 'MAE, obra #03',
         summary: 'Dispositivo escultórico con respuesta a variaciones ambientales y memoria física de la corriente.',
         x: 660,
@@ -215,7 +215,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-01',
         code: 'SERIE:01',
-        title: 'Campos de Flujo & Turbulencia',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Estudio en Processing / Java',
         summary: 'NO SUMMARY',
         x: -2000,
@@ -228,7 +228,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-02',
         code: 'SERIE:02',
-        title: 'Moiré & Interferencias de Tinta',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Gráfica Algorítmica',
         summary: 'Superposiciones de retículas geométricas deformadas proceduralmente que generan vibración visual y patrones moiré.',
         x: -1200,
@@ -241,7 +241,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-03',
         code: 'SERIE:03',
-        title: 'Estudio de Partículas & Video',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
         x: -400,
@@ -254,7 +254,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-04',
         code: 'SERIE:04',
-        title: 'Estudio de Partículas & Video',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
         x: 400,
@@ -267,7 +267,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-05',
         code: 'SERIE:05',
-        title: 'Estudio de Partículas & Video',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
         x: 1200,
@@ -280,7 +280,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'gen-serie-06',
         code: 'SERIE:06',
-        title: 'Estudio de Partículas & Video',
+        title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
         x: 2000,
@@ -309,7 +309,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'dis-ensayo-01',
         code: 'TXT:01',
-        title: 'Interfaces & Interacciones Inteligentes',
+        title: 'Diseño UX',
         subtitle: 'Ensayo Crítico',
         summary: 'Reflexión sobre el rol del diseño en la era de los agentes algorítmicos y la necesidad de interfaces sensibles y no higienizadas.',
         x: -720,
@@ -322,7 +322,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'dis-ensayo-02',
         code: 'TXT:02',
-        title: 'La Materia del Trazo Digital',
+        title: 'Diseño UX',
         subtitle: 'Apuntes de cátedra y pedagogía',
         summary: 'Notas sobre la enseñanza del diseño proyectual cuando el píxel se concibe como materia y no como abstracción.',
         x: 0,
@@ -335,7 +335,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       {
         id: 'dis-ensayo-03',
         code: 'TXT:03',
-        title: 'Al Encuentro de Otro Diseño',
+        title: 'Diseño UX',
         subtitle: 'Manifiesto & Derivas Disciplinares',
         summary: 'Bases para una práctica del diseño descentrada del consumo inmediato y abierta a la investigación experimental y el arte.',
         x: 720,

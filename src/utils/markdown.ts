@@ -62,7 +62,38 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
       continue;
     }
 
-    if (line.startsWith('# ')) {
+    const youtubeMatch = line.match(/^\[youtube:([A-Za-z0-9_-]{11})\]$/i);
+    const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)$/);
+
+    if (youtubeMatch) {
+      const videoId = youtubeMatch[1];
+      htmlLines.push(`
+        <div class="my-8 aspect-video w-full overflow-hidden rounded-sm border border-ink-border/60 bg-black">
+          <iframe
+            class="h-full w-full"
+            src="https://www.youtube-nocookie.com/embed/${videoId}"
+            title="Video embebido de YouTube"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      `);
+    } else if (isPage && imageMatch) {
+      const altText = imageMatch[1];
+      const imageSrc = imageMatch[2];
+      htmlLines.push(`
+        <figure class="my-8 w-full">
+          <img
+            src="${imageSrc}"
+            alt="${altText}"
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-full object-contain">
+        </figure>
+      `);
+    } else if (line.startsWith('# ')) {
       htmlLines.push(`<h1 class="${styles.h1}">${parseInline(line.slice(2))}</h1>`);
     } else if (line.startsWith('## ')) {
       htmlLines.push(`<h2 class="${styles.h2}">${parseInline(line.slice(3))}</h2>`);
