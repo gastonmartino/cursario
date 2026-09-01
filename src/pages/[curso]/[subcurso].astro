@@ -17,16 +17,14 @@ const { data } = Astro.props as { data: SubcursoDefinition };
 
 let markdownHtml = '';
 try {
-  const markdownPath = path.join(
-    process.cwd(),
-    'public',
-    curso!,
-    'subcursos',
-    subcurso!,
-    'contenidos',
-    'pagina-curso.md'
-  );
-  markdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'), 'page');
+  if (data.pageMarkdownFile) {
+    const markdownPath = path.join(
+      process.cwd(),
+      'public',
+      data.pageMarkdownFile.replace(/^\/+/, '')
+    );
+    markdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'), 'page');
+  }
 } catch (error) {
   console.error(`Error al leer la página de ${curso}/${subcurso}:`, error);
 }

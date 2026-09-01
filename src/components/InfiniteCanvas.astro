@@ -45,24 +45,6 @@ try {
   console.error('Error al leer curso03-inicio.md:', e);
 }
 
-function readSubcursoMarkdown(course: string, subcursoId: string) {
-  try {
-    const mdPath = path.join(
-      process.cwd(),
-      'public',
-      course,
-      'subcursos',
-      subcursoId,
-      'contenidos',
-      'contenido-curso.md'
-    );
-    return renderMarkdownToHtml(fs.readFileSync(mdPath, 'utf-8'));
-  } catch (e) {
-    console.error(`Error al leer el contenido de ${subcursoId}:`, e);
-    return '';
-  }
-}
-
 const subcursoCards = SUBCURSOS.map((subcurso) => {
   const deriva = SPATIAL_DERIVAS.find((item) => item.id === subcurso.parentDerivaId);
   const item = deriva?.items.find((entry) => entry.id === subcurso.itemId);
@@ -70,7 +52,6 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
 
   return {
     ...subcurso,
-    markdownHtml: readSubcursoMarkdown(subcurso.course, subcurso.subcurso),
     coordinatesText: item
       ? `X: ${formatCoordinate(item.x)}  Y: ${formatCoordinate(item.y)}`
       : 'X: +0.0  Y: +0.0',
@@ -99,13 +80,15 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
   <div id="spatial-nodes-layer" class="absolute inset-0 pointer-events-none z-[20] overflow-hidden">
     
     <!-- CURSO:00 (ISLA: Deriva actualmente en curso) -->
+    <!-- description={SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso')?.description} -->
+
     <IslandCard 
       id="spatial-node-en-curso"
       code="CURSO:00"
-      headerTypeLabel="// BITÁCORA EN CURSO"
+      headerTypeLabel="// BITÁCORA"
       title="En Curso..."
       subtitle="Bitácora y exploraciones vivas"
-      tag="TFIC"
+      tag="TFIC" 
       accentColor="#E03E2D"
       imageUrl="/curso00/imagenes/curso00-inicio.jpg"
       markdownHtml={curso00MarkdownHtml}
@@ -145,10 +128,10 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       headerTypeLabel="// GENERATIVA"
       title="Gráfica generativa en p5js"
       subtitle="Las abstracciones digitales también pueden producir fricción."
+      description="El código construye formas que escapan a la representación literal, pero que pueden cargar tensiones, conflictos y sentidos. Imágenes que, en apariencia, no dicen nada y, sin embargo, están diciendo algo. Imágenes que no ilustran consignas, sino que las infiltran."
       tag="ALGORITMOS & TRAMAS"
       accentColor="#16253D"
-      imageUrl="/curso02/imagenes/curso02-inicio.jpg"
-      markdownHtml={curso02MarkdownHtml}
+      imageUrl="/curso02/imagenes/curso02-inicio.gif"
       derivaId="generativa"
       coordinatesText="X: -1600.0  Y: +0.0"
       categoryLabel="PROCESSING / P5.JS"
@@ -183,19 +166,23 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       <IslandCard
         id={`spatial-subnode-${subcurso.itemId}`}
         code={subcurso.code}
-        headerTypeLabel={`// SUBCURSO / ${subcurso.parentDerivaId.toUpperCase()}`}
+        headerTypeLabel={`// ${subcurso.captionLabel.toUpperCase()}`}
         title={subcurso.title}
         subtitle={subcurso.subtitle}
+        description={subcurso.description}
+        keywords={subcurso.keywords}
         tag={subcurso.tag}
+        timeReference={subcurso.timeReference}
         accentColor={subcurso.accentColor}
-        imageUrl={`/${subcurso.course}/subcursos/${subcurso.subcurso}/medios/portada-curso.jpg`}
-        markdownHtml={subcurso.markdownHtml}
+        imageUrl={subcurso.imageUrl}
+        markdownFile={subcurso.markdownFile}
+        pageMarkdownFile={subcurso.pageMarkdownFile}
         derivaId={subcurso.itemId}
         coordinatesText={subcurso.coordinatesText}
         categoryLabel={subcurso.categoryLabel}
         captionLabel={subcurso.captionLabel}
-        width={640}
-        height={660}
+        width={subcurso.cardWidth ?? 640}
+        height={subcurso.cardHeight ?? 660}
         imageMaxHeight={360}
         actionHref={`/${subcurso.course}/${subcurso.subcurso}/`}
         actionLabel="INCURSIONAR [ABRIR]"
@@ -214,7 +201,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
 
   <!-- Subtitle Watermark bottom right -->
   <div class="pointer-events-none fixed bottom-4 right-4 md:bottom-6 md:right-6 z-20 font-mono text-[9px] text-ink-faint tracking-widest uppercase">
-    GASTÓN MARTINO • INCURSOR v0.1
+    GASTÓN MARTINO • CURSARIO v0.1
   </div>
 </div>
 
@@ -307,8 +294,27 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         minimapCtx.fill();
       } else if (data.activeDeriva) {
         // LEVEL 2 MINIMAP (Local Deriva Course)
-        const localRadius = 1200;
-        const scale = (mw / 2) / localRadius;
+        // Fit every item in the active deriva instead of assuming a fixed
+        // three-card layout around the world origin.
+        const localItems = data.activeDeriva.items;
+        const xValues = [0, ...localItems.map((item) => item.x)];
+        const yValues = [0, ...localItems.map((item) => item.y)];
+        const minX = Math.min(...xValues);
+        const maxX = Math.max(...xValues);
+        const minY = Math.min(...yValues);
+        const maxY = Math.max(...yValues);
+        const minimapPadding = 14;
+        const worldPadding = 120;
+        const worldWidth = Math.max(1, maxX - minX + worldPadding * 2);
+        const worldHeight = Math.max(1, maxY - minY + worldPadding * 2);
+        const scale = Math.min(
+          (mw - minimapPadding * 2) / worldWidth,
+          (mh - minimapPadding * 2) / worldHeight
+        );
+        const mapCenterX = (minX + maxX) / 2;
+        const mapCenterY = (minY + maxY) / 2;
+        const mapX = (worldX: number) => mcx + (worldX - mapCenterX) * scale;
+        const mapY = (worldY: number) => mcy + (worldY - mapCenterY) * scale;
 
         minimapCtx.strokeStyle = 'rgba(0, 56, 168, 0.15)';
         minimapCtx.setLineDash([3, 3]);
@@ -319,9 +325,9 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         minimapCtx.setLineDash([]);
 
         // Render Deriva Item dots
-        for (const item of data.activeDeriva.items) {
-          const ix = mcx + item.x * scale;
-          const iy = mcy + item.y * scale;
+        for (const item of localItems) {
+          const ix = mapX(item.x);
+          const iy = mapY(item.y);
 
           minimapCtx.fillStyle = item.accentColor;
           minimapCtx.beginPath();
@@ -337,8 +343,8 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         // Camera Frustum in local space
         const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
         const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
-        const camX = mcx + data.worldX * scale - viewportW / 2;
-        const camY = mcy + data.worldY * scale - viewportH / 2;
+        const camX = mapX(data.worldX) - viewportW / 2;
+        const camY = mapY(data.worldY) - viewportH / 2;
 
         minimapCtx.strokeStyle = data.activeDeriva.accentColor;
         minimapCtx.lineWidth = 1.5;
@@ -564,3 +570,5 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
     background-size: 7px 7px, 11px 11px;
   }
 </style>
+
+

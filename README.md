@@ -490,7 +490,7 @@ El lienzo infinito se transforma en una **Mesa de Dibujo / Pliego Cartográfico 
 
 ---
 
-## 10\. Primera Versión de la Implementación del Sitio
+## 10\. Registro de la Primera Versión de la Implementación del Sitio
 
 ![Diseño de la primera versión del sitio](media/mockup-sitio-01.jpg)
 
@@ -535,3 +535,136 @@ Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
 -   **`InfiniteCanvas.astro`:** Componente raíz de la vista que contiene el `<canvas id="infinite-canvas">`, la cortina de transición suave entre niveles (`#transition-curtain`) e inicializa el `CanvasController`.
 -   **`HUD.astro`:** Barra flotante de telemetría superior que muestra coordenadas en vivo (`POS: X, Y`), nivel de zoom (`ESCALA: %`), estado del nodo activo, botón `← VOLVER [ESC]` y controles de zoom (+, -, centrar).
 -   **`RadarMinimap.astro`:** Widget minimapa radar colapsable en la esquina inferior izquierda. Dibuja en un mini-canvas la posición de la cámara en relación con los nodos, botones de vuelo rápido `[1]` a `[4]` e instrucciones interactivas.
+
+---
+
+## 11\. Estado Actual de la Implementación
+
+La primera implementación ya no es solamente un mockup visual: el sitio cuenta con una navegación espacial funcional y con contenido editorial real cargado desde Markdown. La página raíz (`/`) presenta la cartografía macro; cada región puede abrirse como una deriva local; y cada subcurso dispone de una página propia generada de forma estática.
+
+### 11\.1. Stack y configuración
+
+-   **Astro 5** como framework y generador de páginas estáticas.
+-   **TypeScript** en modo estricto, con alias de imports `@/*` configurado en `tsconfig.json`.
+-   **Tailwind CSS 3** integrado mediante `@astrojs/tailwind`.
+-   **HTML Canvas 2D nativo** para el motor espacial y la superficie generativa.
+-   **`simplex-noise`** para la generación de corrientes y perturbaciones cartográficas.
+-   **Lucide** y `tailwind-merge` disponibles como dependencias de interfaz.
+-   Servidor de desarrollo configurado en el puerto `3000`, accesible desde otros dispositivos de la red (`host: true`).
+
+Los comandos principales son:
+
+```bash
+npm run dev       # desarrollo
+npm run build     # compilación estática
+npm run preview   # previsualización de la compilación
+```
+
+### 11\.2. Organización del código
+
+```text
+src/
+├── components/       # Canvas, tarjetas, HUD y minimapa
+├── data/             # Catálogo tipado de subcursos
+├── engine/           # Cámara, interacción, cursor y superficie generativa
+├── layouts/          # Documento base, metadatos y transiciones de página
+├── pages/            # Inicio y rutas dinámicas de cada subcurso
+└── utils/            # Conversión del Markdown editorial a HTML
+
+public/
+├── curso00/          # Bitácora En Curso
+├── curso01/          # Artes Electrónicas / UNTREF
+├── curso02/          # Gráfica Generativa
+└── curso03/          # Pensamiento & Diseño
+```
+
+`InfiniteCanvas.astro` compone la escena y carga server-side los Markdown de cada curso y subcurso. `CanvasController` conecta el motor con el DOM: el canvas dibuja el territorio, mientras que las tarjetas `IslandCard.astro` se posicionan como una capa HTML superior para conservar legibilidad, imágenes, enlaces y contenido editorial a cualquier escala.
+
+### 11\.3. Modelo de contenidos
+
+El catálogo de `src/data/subcursos.ts` define doce subcursos, tres por cada curso principal:
+
+| Curso | Región | Contenido actual |
+| --- | --- | --- |
+| `curso00` | `en-curso` | Cinco registros de bitácora y experimentación |
+| `curso01` | `untref` | Cinco obras de Artes Electrónicas / MAE |
+| `curso02` | `generativa` | Seis series de Processing, gráfica y video |
+| `curso03` | `pensamiento` | Tres ensayos, apuntes y manifiestos de diseño |
+
+Cada subcurso tiene una definición tipada —código, título, subtítulo, etiqueta, color, categoría e identificador espacial— y una pareja de archivos Markdown:
+
+-   `contenido-curso.md`: resumen que aparece dentro de la tarjeta espacial.
+-   `pagina-curso.md`: contenido de la página editorial individual.
+
+Las imágenes y portadas se sirven desde `public/cursoXX/...`, por lo que mantienen rutas públicas estables y no requieren importación desde los componentes Astro.
+
+El conversor de `src/utils/markdown.ts` es deliberadamente pequeño y controlado: soporta títulos de nivel 1 a 3, párrafos, citas, negrita, cursiva y código inline. No es todavía un procesador Markdown completo; listas, tablas, enlaces y otros recursos quedan como trabajo pendiente si el archivo editorial los necesita.
+
+### 11\.4. Arquitectura de navegación espacial
+
+La navegación se divide en dos niveles:
+
+```text
+Nivel macro: cartografía completa
+  ├── CURSO:00  En Curso...              ( 0,     0)
+  ├── CURSO:01  Artes Electrónicas       ( 0, -1400)
+  ├── CURSO:02  Gráfica Generativa       (-1600,  0)
+  └── CURSO:03  Pensamiento & Diseño     ( 1600,  0)
+
+Nivel deriva: recorrido local de una región
+  └── una cantidad variable de tarjetas de subcurso conectadas por una corriente
+```
+
+En el nivel macro, el usuario puede arrastrar el plano, desplazarse entre regiones, usar el radar o seleccionar una isla para `INCURSIONAR`. La cámara conserva coordenadas de mundo independientes de la pantalla y calcula automáticamente un zoom de encuadre para que cada región resulte visible al llegar.
+
+Al entrar en una deriva, la cámara se centra en el sistema local y muestra sus subcursos sobre una retícula fina, unidos por un cauce curvo. La cantidad de tarjetas no está limitada a tres: se determina mediante el arreglo `items` de cada deriva. Las tarjetas locales incluyen imagen, resumen, coordenadas y un enlace `INCURSIONAR [ABRIR]` hacia la página editorial.
+
+### 11\.5. Controles disponibles
+
+| Acción | Escritorio | Touch / interfaz |
+| --- | --- | --- |
+| Surcar el plano | Arrastrar con el mouse; rueda para desplazar o hacer zoom | Arrastre de un dedo |
+| Zoom | Rueda, `+`, `-` o botones del HUD | Pinch con dos dedos |
+| Centrar | `R`, `0` o `CENTRAR` | Botón del HUD |
+| Ir a una región | `1`–`4` o botones del radar | Botones del radar |
+| Abrir una región | Click sobre una isla, `ENTER` o `INCURSIONAR` | Toque sobre el botón o la isla |
+| Volver al nivel macro | `ESC` o `← VOLVER` | Botón del HUD |
+| Abrir un subcurso | `INCURSIONAR [ABRIR]` | Enlace de la tarjeta |
+
+El radar es colapsable y cambia su información según el nivel activo. En macro muestra las cuatro regiones y el encuadre de la cámara; dentro de una deriva muestra las tres tarjetas locales y el encuadre correspondiente.
+
+### 11\.6. Renderizado e interacción
+
+-   `Camera.ts` transforma coordenadas de pantalla y mundo, aplica inercia al arrastre y suaviza los desplazamientos mediante interpolación.
+-   `CanvasController.ts` ejecuta el ciclo de actualización y renderizado con `requestAnimationFrame`, ajusta los canvas al `devicePixelRatio`, realiza hit-testing y sincroniza la posición de las tarjetas HTML.
+-   `GenerativeSurface.ts` dibuja el papel texturado, retículas, corrientes hidrográficas, esquemas electrónicos, ventanas atmosféricas y marcas de cada nivel.
+-   `InkCursor.ts` usa un segundo canvas superpuesto para la mira técnica, la estela de tinta y las salpicaduras que responden a la velocidad del cursor.
+-   La cortina de transición emplea la misma textura de papel que el fondo y respeta `prefers-reduced-motion`.
+-   La capa HTML reenvía rueda, arrastre y gestos táctiles no interactivos al controlador para que las tarjetas no interrumpan la navegación espacial.
+
+### 11\.7. Rutas y deep linking implementado
+
+Astro genera una página por cada combinación declarada en `SUBCURSOS` mediante `getStaticPaths()`:
+
+```text
+/curso00/curso001/
+/curso00/curso002/
+/curso00/curso003/
+...
+/curso03/curso003/
+```
+
+Las páginas individuales tienen navegación propia `← VOLVER` e `INICIO`, metadatos dinámicos y lectura editorial con scroll. Al volver, el enlace conserva la región de origen mediante `/?deriva=<id>`; la página raíz interpreta ese parámetro y reabre directamente la deriva correspondiente. La raíz sin parámetros siempre comienza en la cartografía macro.
+
+### 11\.8. Límites conocidos y próximos pasos
+
+Esta versión debe considerarse un prototipo funcional de navegación y publicación de contenidos. Todavía quedan fuera de implementación:
+
+-   Drawer o modal editorial dentro del canvas.
+-   Modo “Flujo Continuo” específico para mobile y accesibilidad.
+-   Visores de código, reproductores de video y registros sonoros integrados.
+-   Persistencia de la posición de cámara entre sesiones.
+-   Procesamiento Markdown completo y validación editorial automatizada.
+-   Optimización y pruebas sistemáticas de rendimiento en dispositivos de baja potencia.
+
+La siguiente etapa consiste en reemplazar los contenidos de prueba por las fichas definitivas de las obras, completar sus medios y decidir si el acceso editorial seguirá siendo exclusivamente por páginas estáticas o incorporará una lectura inmersiva dentro de la deriva.
