@@ -110,7 +110,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       subtitle="Producción MAE - 2025-2026"
       tag="ARTES ELECTRÓNICAS"
       accentColor="#0038A8"
-      imageUrl="/curso01/imagenes/curso01-inicio.png"
+      imageUrl="/curso01/imagenes/curso01-inicio.jpg"
       markdownHtml={curso01MarkdownHtml}
       derivaId="untref"
       coordinatesText="X: +0.0  Y: -1400.0"
@@ -165,6 +165,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
     {subcursoCards.map((subcurso) => (
       <IslandCard
         id={`spatial-subnode-${subcurso.itemId}`}
+        detailHref={subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined}
         code={subcurso.code}
         headerTypeLabel={`// ${subcurso.captionLabel.toUpperCase()}`}
         title={subcurso.title}
@@ -503,6 +504,77 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       });
     });
 
+    // A subderiva with an editorial page can be opened by clicking anywhere
+    // on its card. This remains independent from the optional action button.
+    const subderivaCards = document.querySelectorAll<HTMLElement>('[data-detail-href]');
+    subderivaCards.forEach((card) => {
+      const detailHref = card.dataset.detailHref;
+      if (!detailHref) return;
+
+      card.style.cursor = 'pointer';
+      let tapCandidate = false;
+      let tapStartX = 0;
+      let tapStartY = 0;
+      let tapStartTime = 0;
+
+      // The spatial overlay prevents the browser's synthetic click so it can
+      // keep touch panning and pinch navigation under control. Detect a
+      // genuine one-finger tap explicitly for touch devices.
+      card.addEventListener('touchstart', (event) => {
+        const target = event.target;
+        if (target instanceof Element && target.closest('a, button, input, textarea')) {
+          tapCandidate = false;
+          return;
+        }
+
+        if (event.touches.length !== 1) {
+          tapCandidate = false;
+          return;
+        }
+
+        const touch = event.touches[0];
+        tapCandidate = true;
+        tapStartX = touch.clientX;
+        tapStartY = touch.clientY;
+        tapStartTime = performance.now();
+      }, { passive: true });
+
+      card.addEventListener('touchmove', (event) => {
+        if (!tapCandidate || event.touches.length !== 1) {
+          tapCandidate = false;
+          return;
+        }
+
+        const touch = event.touches[0];
+        if (Math.hypot(touch.clientX - tapStartX, touch.clientY - tapStartY) >= 10) {
+          tapCandidate = false;
+        }
+      }, { passive: true });
+
+      card.addEventListener('touchend', (event) => {
+        if (!tapCandidate || event.touches.length !== 0) return;
+
+        const touch = event.changedTouches[0];
+        const duration = performance.now() - tapStartTime;
+        const distance = Math.hypot(touch.clientX - tapStartX, touch.clientY - tapStartY);
+        tapCandidate = false;
+
+        if (duration < 500 && distance < 10) {
+          window.location.href = detailHref;
+        }
+      }, { passive: true });
+
+      card.addEventListener('touchcancel', () => {
+        tapCandidate = false;
+      }, { passive: true });
+
+      card.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target instanceof Element && target.closest('a, button, input, textarea')) return;
+        window.location.href = detailHref;
+      });
+    });
+
     // Forward spatial overlay DOM layer wheel & drag events to canvas controller
     const spatialLayer = document.getElementById('spatial-nodes-layer');
     if (spatialLayer) {
@@ -529,7 +601,10 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       });
 
       spatialLayer.addEventListener('touchstart', (e) => {
-        if (isInteractiveOverlayTarget(e.target)) {
+        // Keep native taps on buttons and links, but if a second finger is
+        // added over an interactive child it must still enter the shared
+        // pinch state.
+        if (isInteractiveOverlayTarget(e.target) && e.touches.length === 1) {
           isNavigatingFromSpatialOverlay = false;
           return;
         }
@@ -552,7 +627,10 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         if (!isNavigatingFromSpatialOverlay) return;
         e.preventDefault();
         controller.onTouchEnd(e);
-        isNavigatingFromSpatialOverlay = false;
+        // A pinch emits one touchend when the first finger is lifted. Keep
+        // forwarding events while another finger remains so panning can
+        // continue and a new pinch can start without getting stuck.
+        isNavigatingFromSpatialOverlay = e.type !== 'touchcancel' && e.touches.length > 0;
       };
 
       spatialLayer.addEventListener('touchend', finishOverlayTouch, { passive: false });

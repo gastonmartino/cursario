@@ -43,6 +43,7 @@ export class CanvasController {
   private touches: Map<number, { x: number; y: number }> = new Map();
   private initialPinchDist: number = 0;
   private initialPinchZoom: number = 1;
+  private isPinching: boolean = false;
 
   // Click tracking
   private mouseDownPos = { x: 0, y: 0, time: 0 };
@@ -230,8 +231,12 @@ export class CanvasController {
 
   public onTouchStart(e: TouchEvent) {
     e.preventDefault();
-    for (let i = 0; i < e.changedTouches.length; i++) {
-      const t = e.changedTouches[i];
+    // Synchronize all active contacts. A second finger can begin over a
+    // different DOM layer (or over an interactive child), so relying only on
+    // changedTouches can leave the controller unaware of the first finger.
+    this.touches.clear();
+    for (let i = 0; i < e.touches.length; i++) {
+      const t = e.touches[i];
       this.touches.set(t.identifier, { x: t.clientX, y: t.clientY });
     }
 
@@ -241,6 +246,11 @@ export class CanvasController {
       this.cursor.setPosition(t.clientX, t.clientY, 0, 0);
       this.mouseDownPos = { x: t.clientX, y: t.clientY, time: performance.now() };
     } else if (this.touches.size === 2) {
+      // A pinch is a separate gesture from a one-finger pan. Stop the
+      // previous drag so the remaining finger can be re-anchored cleanly
+      // when the pinch ends.
+      this.isPinching = true;
+      this.camera.endDrag();
       const [t1, t2] = [e.touches[0], e.touches[1]];
       this.initialPinchDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
       this.initialPinchZoom = this.camera.zoom;
@@ -279,7 +289,7 @@ export class CanvasController {
   }
 
   public onTouchEnd(e: TouchEvent) {
-    if (this.touches.size === 1) {
+    if (this.touches.size === 1 && !this.isPinching) {
       const t = e.changedTouches[0];
       const dist = Math.hypot(t.clientX - this.mouseDownPos.x, t.clientY - this.mouseDownPos.y);
       if (dist < 10 && (performance.now() - this.mouseDownPos.time) < 300) {
@@ -290,8 +300,21 @@ export class CanvasController {
     for (let i = 0; i < e.changedTouches.length; i++) {
       this.touches.delete(e.changedTouches[i].identifier);
     }
-    if (this.touches.size === 0) {
+
+    if (this.touches.size === 1 && this.isPinching) {
+      // Resume one-finger panning from the remaining finger's current
+      // position instead of from the position where the pinch began.
+      const remainingTouch = e.touches[0];
+      this.camera.startDrag(remainingTouch.clientX, remainingTouch.clientY);
+      this.mouseDownPos = {
+        x: remainingTouch.clientX,
+        y: remainingTouch.clientY,
+        time: performance.now(),
+      };
+    } else if (this.touches.size === 0) {
       this.camera.endDrag();
+      this.isPinching = false;
+      this.initialPinchDist = 0;
     }
   }
 

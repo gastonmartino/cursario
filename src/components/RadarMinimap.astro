@@ -7,24 +7,25 @@
   <!-- Radar Widget: header always visible, body collapses -->
   <div class="pointer-events-auto bg-white/90 backdrop-blur-md border border-ink-border/70 shadow-md rounded-sm w-[240px] md:w-[280px] overflow-hidden">
 
-    <!-- Header (always visible — contains the collapse toggle) -->
-    <div class="flex items-center justify-between px-3.5 pt-3 pb-2.5 border-b border-ink-border/50">
-      <div class="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-wider text-ink-primary uppercase">
+    <!-- Entire header is the collapse / expand toggle -->
+    <button
+      id="radar-toggle"
+      type="button"
+      class="flex w-full items-center justify-between border-b border-ink-border/50 px-3.5 pt-3 pb-2.5 text-left"
+      title="Colapsar / Expandir radar"
+      aria-expanded="true"
+      aria-controls="radar-body"
+    >
+      <span class="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-wider text-ink-primary uppercase">
         <span class="inline-block w-1.5 h-1.5 bg-cobalt rounded-full animate-pulse"></span>
-        CURSOS
-      </div>
+        RADAR
+      </span>
 
-      <!-- Toggle button replaces the old badge text -->
-      <button
-        id="radar-toggle"
-        class="flex items-center gap-1.5 font-mono text-[9px] text-ink-faint hover:text-cobalt transition-colors"
-        title="Colapsar / Expandir radar"
-        aria-expanded="true"
-        aria-controls="radar-body"
-      >
+      <span class="flex items-center gap-1.5 font-mono text-[9px] text-ink-faint">
         <span id="radar-level-badge">NAVEGADOR</span>
         <svg
           id="radar-chevron"
+          class="text-cobalt-dark"
           xmlns="http://www.w3.org/2000/svg"
           width="10" height="10"
           viewBox="0 0 24 24"
@@ -34,8 +35,8 @@
         >
           <polyline points="6 9 12 15 18 9"/>
         </svg>
-      </button>
-    </div>
+      </span>
+    </button>
 
     <!-- Collapsible body -->
     <div
@@ -108,7 +109,9 @@
   const body    = document.getElementById('radar-body')   as HTMLElement | null;
   const chevron = document.getElementById('radar-chevron') as HTMLElement | null;
 
-  let isOpen = true;
+  // Keep the radar compact on mobile so it does not cover the canvas.
+  // The breakpoint matches Tailwind's `md` breakpoint used by the widget.
+  let isOpen = !window.matchMedia('(max-width: 767px)').matches;
 
   function setOpen(open: boolean) {
     isOpen = open;
@@ -128,9 +131,12 @@
     toggle?.setAttribute('aria-expanded', String(open));
   }
 
-  // Initialise: give the body a concrete max-height so the first collapse
-  // has a known from-value for the CSS transition.
-  if (body) body.style.maxHeight = body.scrollHeight + 'px';
+  // Initialise the body and ARIA state according to the viewport.
+  if (body) {
+    body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : '0px';
+    body.style.opacity = isOpen ? '1' : '0';
+  }
+  toggle?.setAttribute('aria-expanded', String(isOpen));
 
   toggle?.addEventListener('click', () => setOpen(!isOpen));
 
@@ -158,3 +164,4 @@
     }
   };
 </script>
+

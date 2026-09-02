@@ -34,6 +34,7 @@ interface Props {
   paddingX?: number | string;
   showAction?: boolean;
   actionHref?: string;
+  detailHref?: string;
   actionLabel?: string;
 }
 
@@ -68,6 +69,7 @@ const {
   paddingX = "1.2rem",
   showAction = true,
   actionHref,
+  detailHref,
   actionLabel = "INCURSIONAR [CLICK / ENTER]",
 } = Astro.props;
 
@@ -99,6 +101,10 @@ if (!resolvedMarkdownHtml && markdownFile) {
 const hasMarkdown = Boolean(resolvedMarkdownHtml);
 const isSubderiva = Boolean(actionHref);
 const hasMediaMetadata = !isSubderiva || Boolean(categoryLabel || timeReference);
+// A custom detailHref can be used for a second-level card with an explicit
+// destination. Otherwise, subderivas only become clickable when their
+// editorial page exists.
+const navigableHref = detailHref || (isSubderiva && pageMarkdownFile ? actionHref : undefined);
 // Subderiva cards use actionHref to open their detail page. That action is
 // only available when the corresponding editorial page exists.
 const canShowAction = showAction && (!actionHref || Boolean(pageMarkdownFile));
@@ -106,6 +112,7 @@ const canShowAction = showAction && (!actionHref || Boolean(pageMarkdownFile));
 
 <article 
   id={id}
+  data-detail-href={navigableHref}
   class="absolute top-0 left-0 shadow-xl rounded-sm flex flex-col justify-between select-none pointer-events-auto transition-opacity duration-200"
   style={`
     width: ${widthCss}; 
