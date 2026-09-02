@@ -61,7 +61,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     pageMarkdownFile: '/curso00/subcursos/curso005/contenidos/pagina-curso.md',
     code: 'SUBCURSO:00.5', 
     title: 'Ejercicio de Recorrido', 
-    subtitle: 'Visital al Arroyo del Rey / Rayo de Sol / Longchampos',
+    subtitle: 'Visital al Arroyo del Rey / Rayo de Sol / Longchamps',
     tag: 'EJERCICIO #3', accentColor: '#E03E2D', 
     categoryLabel: 'REGISTRO', captionLabel: 'ARROYO DEL REY',
     timeReference: '31 de agosto de 2026', 
