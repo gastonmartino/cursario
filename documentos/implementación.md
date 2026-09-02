@@ -86,6 +86,12 @@ npm run preview
 - Completar la documentación de las obras de Artes Electrónicas, las series generativas y los escritos.
 - Incorporar, cuando corresponda, registros sonoros, videos propios, código y diagramas.
 
+### Agrupamiento de contenidos
+- Permitir que las subderivas sean agrupadas lógicamente en el canvas. Es decir, si cada deriva es una isla, poder definir archipiélagos que las reúna, con algún criterio lógico. Por ejemplo, en el caso de la gráfica generativa, armar agrupaciones por "colecciones" o "curadurías".
+- Pemitir incorporar en los canvas de navegación algún otro elemento simple que no sean islas (sólo texto y/o imagen), sin contenedor y sin necesidad de navegar a un siguiente nivel.
+- Añadir una sección de **Acerca del "El Cursario"**
+- Añadir un link en el header que despliegue un índice de contenidos (agrupado por cursos/subderivas) y que apunte a las páginas estáticas. Este índice debería poder ser accedido desde cualquier nivel.
+
 ### Experiencia y accesibilidad
 
 - Definir e implementar un modo de “Flujo Continuo” para mobile y accesibilidad, que permita recorrer los contenidos en una secuencia vertical clara sin depender exclusivamente del canvas bidimensional.
@@ -107,6 +113,7 @@ npm run preview
 - Probar sistemáticamente desktop, mobile, touch y distintos tamaños de pantalla.
 - Verificar compatibilidad entre navegadores y respetar de manera consistente `prefers-reduced-motion`.
 - Incorporar una revisión básica de SEO, metadatos sociales y páginas de error.
+
 
 ## 4. Propuesta de próximos pasos
 
