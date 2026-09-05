@@ -15,9 +15,6 @@ interface Props {
   accentColor?: string;
   imageUrl?: string;
   imageLoading?: 'eager' | 'lazy';
-  markdownHtml?: string;
-  markdownFile?: string | null;
-  pageMarkdownFile?: string | null;
   derivaId: string;
   coordinatesText: string;
   categoryLabel?: string | null;
@@ -32,10 +29,16 @@ interface Props {
   borderColor?: string;
   paddingY?: number | string;
   paddingX?: number | string;
-  showAction?: boolean;
-  actionHref?: string;
-  detailHref?: string;
+
+// Detalle / Navegación siguiente nivel
+  markdownHtml?: string;
+  markdownFile?: string | null;
+  pageMarkdownFile?: string | null;
+  actionHref?: string | null;
+  detailHref?: string | null;
+  isSubderiva?: boolean;
   actionLabel?: string;
+  showAction?: boolean;
 }
 
 const {
@@ -50,9 +53,6 @@ const {
   accentColor = "#0038A8",
   imageUrl,
   imageLoading = 'eager',
-  markdownHtml,
-  markdownFile = null,
-  pageMarkdownFile = null,
   derivaId,
   coordinatesText,
   categoryLabel,
@@ -67,11 +67,27 @@ const {
   borderColor,
   paddingY = "0.9rem",
   paddingX = "1.2rem",
-  showAction = true,
+  actionLabel = "INCURSIONAR [CLICK / ENTER]",
+
+// Markdown HTML y Markdown File definen contenido dinámico para la deriva,
+// es decir, lo que se muestra dentro de la propia tarjeta.
+  markdownHtml,
+  markdownFile = null,
+
+// Page Markdown File, es el archivo .md (opcional) al que se debe navegar
+// desde la subderiva (no existe para las derivas de primer nivel)
+  pageMarkdownFile = null,
   actionHref,
   detailHref,
-  actionLabel = "INCURSIONAR [CLICK / ENTER]",
+  isSubderiva = false,
+
+// El atributo "showAction" permite definir si se muestra o no se muestra
+// el botón para navegar al siguiente nivel (INCURSIONAR). En las subderivas,
+// el botón también requiere que exista un pageMarkdownFile.
+  showAction = true,
+
 } = Astro.props;
+
 
 const widthCss = typeof width === 'number' ? `${width}px` : width;
 const heightCss = typeof height === 'number' ? `${height}px` : height;
@@ -99,7 +115,6 @@ if (!resolvedMarkdownHtml && markdownFile) {
 }
 
 const hasMarkdown = Boolean(resolvedMarkdownHtml);
-const isSubderiva = Boolean(actionHref);
 const hasMediaMetadata = !isSubderiva || Boolean(categoryLabel || timeReference);
 // A custom detailHref can be used for a second-level card with an explicit
 // destination. Otherwise, subderivas only become clickable when their
@@ -107,7 +122,9 @@ const hasMediaMetadata = !isSubderiva || Boolean(categoryLabel || timeReference)
 const navigableHref = detailHref || (isSubderiva && pageMarkdownFile ? actionHref : undefined);
 // Subderiva cards use actionHref to open their detail page. That action is
 // only available when the corresponding editorial page exists.
-const canShowAction = showAction && (!actionHref || Boolean(pageMarkdownFile));
+const canShowAction = isSubderiva
+  ? showAction && Boolean(pageMarkdownFile)
+  : showAction;
 ---
 
 <article 
@@ -272,7 +289,7 @@ const canShowAction = showAction && (!actionHref || Boolean(pageMarkdownFile));
         {actionLabel}
       </a>
     )}
-    {canShowAction && !actionHref && (
+    {!isSubderiva && canShowAction && !actionHref && (
       <button
         data-incursionar={derivaId}
         data-fly-to={derivaId}

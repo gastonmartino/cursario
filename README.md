@@ -520,7 +520,7 @@ Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
     -   *Textura de Papel:* Genera en caché un patrón de micro-grano risográfico.
     -   *Nivel 1 (Macro Cartografía):* Dibuja la retícula técnica con coordenadas en tiempo real (`+X, +Y`), meandros de ríos generados procedimentalmente con `simplex-noise`, esquemáticos de circuitos integrados con pines, ventanas circulares fotográficas de cielo/nubes con tramado en semitono (*halftone*) y las 4 "islas" cartográficas principales con corchetes de plano técnico y botones *"INCURSIONAR"*.
     -   *Nivel 2 (Local Deriva):* Retícula fina, río de flujo sinuoso que conecta las tarjetas (*items*) de la deriva activa y marca de agua.
--   **`SpatialZones.ts`:** Define la espacialidad de las 4 regiones principales:
+-   **`Derivas.ts`:** Define la espacialidad de las 4 regiones principales:
     -   `00:CURSO` — **En Curso** `(0, 0)` (con 3 registros de taller).
     -   `01:ELEC` — **Artes Electrónicas UNTREF** `(0, -1400)` (con las 3 obras principales).
     -   `02:GEN` — **Gráfica Generativa** `(-1600, 0)` (con 3 series de Processing/GLSL).

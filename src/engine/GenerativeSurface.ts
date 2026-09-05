@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './SpatialZones';
+import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();

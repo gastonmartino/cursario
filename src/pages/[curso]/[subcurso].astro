@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
+import NavigationDrawer from '../../components/NavigationDrawer.astro';
 import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
 import { renderMarkdownToHtml } from '../../utils/markdown';
 
@@ -40,7 +41,7 @@ try {
   <div class="paper-texture min-h-screen">
     <header class="sticky top-0 z-30 border-b border-ink-border/70 bg-paper-base/90 px-4 py-3 backdrop-blur-md md:px-6 md:py-4">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-        <nav class="flex items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
+        <nav class="order-1 flex items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
           <a
             href={`/?deriva=${data.parentDerivaId}`}
             class="border-r border-ink-border/60 px-3 py-2 font-mono text-xs font-bold transition-colors hover:bg-river-mist md:px-4"
@@ -56,13 +57,31 @@ try {
           </a>
         </nav>
 
-        <div class="flex items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-3.5 py-2 shadow-sm font-mono text-xs text-ink-primary md:px-4">
+        <div class="order-3 w-full flex items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-3.5 py-2 shadow-sm font-mono text-xs text-ink-primary md:order-2 md:w-auto md:px-4">
           <span class="h-2 w-2 rounded-full animate-pulse" style={`background-color: ${data.accentColor};`}></span>
           <span class="text-ink-faint">DERIVA:</span>
           <span class="font-bold" style={`color: ${data.accentColor};`}>[{data.code}] {displayTitle.toUpperCase()}</span>
         </div>
+
+        <button
+          id="btn-open-menu"
+          type="button"
+          class="order-2 flex h-9 w-9 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt md:order-3"
+          title="Abrir navegación"
+          aria-label="Abrir navegación"
+          aria-controls="navigation-drawer"
+          aria-expanded="false"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
       </div>
     </header>
+
+    <NavigationDrawer />
 
     <main class="mx-auto max-w-4xl px-5 py-14 md:px-8 md:py-20">
       <article class="border border-ink-border/80 bg-white/80 p-6 shadow-sm md:p-12">

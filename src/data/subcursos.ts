@@ -4,8 +4,6 @@ export interface SubcursoDefinition {
   subcurso: string;
   itemId: string;
   imageUrl?: string | null;
-  markdownFile?: string | null;
-  pageMarkdownFile?: string | null;
   cardWidth?: number;
   cardHeight?: number;
   code: string;
@@ -18,6 +16,13 @@ export interface SubcursoDefinition {
   accentColor: string;
   categoryLabel?: string | null;
   captionLabel: string;
+    
+  // DETALLE DE LA SUBDERIVA
+  markdownFile?: string | null;
+  pageMarkdownFile?: string | null;
+  actionHref?: string | null;
+  detailHref?: string | null;
+  showAction?: boolean;
 }
 
 export const SUBCURSOS: SubcursoDefinition[] = [
@@ -29,13 +34,19 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     course: 'curso00', parentDerivaId: 'en-curso', subcurso: 'curso001', itemId: 'bitacora-01',
     imageUrl: '/curso00/subcursos/curso001/medios/portada-curso.jpg',
     code: 'SUBCURSO:00.1', 
-    tag: 'BITÁCORA VIVA', accentColor: '#E03E2D', categoryLabel: '', captionLabel: 'INICIO BITÁCORA'
+    tag: 'BITÁCORA VIVA', 
+    accentColor: '#E03E2D', 
+    categoryLabel: '', 
+    captionLabel: 'INICIO BITÁCORA'
   },
   {
     course: 'curso00', parentDerivaId: 'en-curso', subcurso: 'curso002', itemId: 'bitacora-02',
-    markdownFile: '/curso00/subcursos/curso002/contenidos/contenido-curso.md', pageMarkdownFile: '/curso00/subcursos/curso002/contenidos/pagina-curso.md',
-    code: 'SUBCURSO:00.2', title: 'Statement de Artista', subtitle: 'Por Diego Flores',
-    tag: 'EJERCICIO #1', accentColor: '#E03E2D', categoryLabel: '', captionLabel: 'STATEMENT',
+    markdownFile: '/curso00/subcursos/curso002/contenidos/contenido-curso.md', 
+    pageMarkdownFile: '/curso00/subcursos/curso002/contenidos/pagina-curso.md',
+    code: 'SUBCURSO:00.2', 
+    title: 'Statement de Artista', subtitle: 'Por Diego Flores',
+    tag: 'EJERCICIO #1', 
+    accentColor: '#E03E2D', categoryLabel: '', captionLabel: 'STATEMENT',
   },
   {
     course: 'curso00', parentDerivaId: 'en-curso', subcurso: 'curso003', itemId: 'bitacora-03',
@@ -50,7 +61,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     title: 'Camino de las Flores', 
     subtitle: 'Un área protegida al sur del conurbano bonaerense',
     description: 'Ubicado dentro de la Cuenca Matanza Riachuelo, es un área natural de 160ha que conserva parte del ecosistema natural de la provincia de Buenos Aires. Es un gran mosaico de pastizales inmerso en una matriz urbana.  En esta área coexisten productores rurales de la agricultura familiar, barrios populares y el Sector Industrial Planificado de Almirante Brown (SIPAB) con más de 200 industrias instaladas.',
-    tag: 'REGISTRO DE CAMPO', accentColor: '#E03E2D', 
+    tag: 'REGISTRO DE CAMPO', 
+    accentColor: '#E03E2D', 
     categoryLabel: 'FOTOGRAFÍA', captionLabel: 'ARROYO DEL REY',
     timeReference: '31 de agosto de 2026', 
   },

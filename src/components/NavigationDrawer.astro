@@ -1,0 +1,145 @@
+---
+import { SPATIAL_DERIVAS } from '../engine/Derivas';
+import { SUBCURSOS } from '../data/subcursos';
+
+const getSubcursoHref = (subcurso: (typeof SUBCURSOS)[number]) =>
+  subcurso.actionHref || subcurso.detailHref || (subcurso.pageMarkdownFile
+    ? `/${subcurso.course}/${subcurso.subcurso}/`
+    : null);
+
+const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
+  ...deriva,
+  subcursos: SUBCURSOS.filter(
+    (subcurso) => subcurso.parentDerivaId === deriva.id && Boolean(getSubcursoHref(subcurso))
+  ).map((subcurso) => ({
+    ...subcurso,
+    href: getSubcursoHref(subcurso),
+  })),
+}));
+---
+
+<div id="navigation-drawer-root" class="pointer-events-none fixed inset-0 z-[60]" aria-hidden="true">
+  <div
+    id="navigation-drawer-backdrop"
+    class="absolute inset-0 bg-cyanotype/25 opacity-0 transition-opacity duration-300"
+  ></div>
+
+  <aside
+    id="navigation-drawer"
+    class="absolute right-0 top-0 flex h-full w-full max-w-md translate-x-full flex-col border-l border-ink-border/70 bg-paper-base/95 shadow-2xl backdrop-blur-md transition-transform duration-300 ease-out"
+    aria-label="Navegación principal"
+  >
+    <header class="flex items-center justify-between border-b border-ink-border/60 px-5 py-4 md:px-6">
+      <div>
+        <p class="font-mono text-[10px] font-bold tracking-widest text-cobalt">NAVEGACIÓN</p>
+        <h2 class="mt-1 font-sans text-xl font-bold text-ink-primary">Recorrer Cursario</h2>
+      </div>
+      <button
+        id="navigation-drawer-close"
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-sm border border-ink-border/60 text-ink-muted transition-colors hover:bg-paper-sheet hover:text-cobalt"
+        aria-label="Cerrar navegación"
+        title="Cerrar navegación"
+      >
+        <span class="text-xl leading-none" aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <nav class="flex-1 overflow-y-auto px-5 py-6 md:px-6" aria-label="Índice del sitio">
+      <div class="space-y-1">
+        <a href="/acerca-de-cursario/" class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+          Acerca de Cursario
+        </a>
+        <a href="/acerca-de-mi/" class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+          Acerca de mí
+        </a>
+      </div>
+
+      <div class="my-7 border-t border-ink-border/70 pt-5">
+        <p class="mb-3 font-mono text-[10px] font-bold tracking-widest text-ink-muted uppercase">Cursos y derivas</p>
+
+        <div class="space-y-1">
+          {navigationSections.map((deriva, index) => (
+            <div class="border-b border-ink-border/50">
+              <button
+                type="button"
+                class="navigation-accordion-trigger flex w-full items-center justify-between gap-3 py-3 text-left font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt"
+                aria-expanded="false"
+                aria-controls={`navigation-panel-${deriva.id}`}
+              >
+                <span class="flex items-center gap-2">
+                  <span class="font-mono text-[10px]" style={`color: ${deriva.accentColor};`}>{deriva.code}</span>
+                  <span>{deriva.name}</span>
+                </span>
+                <span class="navigation-accordion-icon font-mono text-lg text-cobalt transition-transform duration-200" aria-hidden="true">+</span>
+              </button>
+
+              <div id={`navigation-panel-${deriva.id}`} class="hidden pb-3 pl-4" role="region">
+                {deriva.subcursos.length > 0 ? (
+                  <div class="space-y-1 border-l border-cobalt/25 pl-3">
+                    {deriva.subcursos.map((subcurso) => (
+                      <a href={subcurso.href ?? undefined} class="block py-2 font-sans text-sm leading-snug text-ink-muted transition-colors hover:text-cobalt">
+                        <span class="mr-1 font-mono text-[9px] text-cobalt/70">{subcurso.code}</span>
+                        {subcurso.title || subcurso.subcurso}
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="py-2 font-mono text-[10px] text-ink-faint">Sin páginas editoriales publicadas.</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+<script>
+  const drawerRoot = document.getElementById('navigation-drawer-root');
+  const drawer = document.getElementById('navigation-drawer');
+  const drawerBackdrop = document.getElementById('navigation-drawer-backdrop');
+  const openButton = document.getElementById('btn-open-menu');
+  const closeButton = document.getElementById('navigation-drawer-close');
+
+  const setDrawerOpen = (open: boolean) => {
+    if (!drawerRoot || !drawer || !drawerBackdrop) return;
+
+    drawerRoot.classList.toggle('pointer-events-none', !open);
+    drawerRoot.classList.toggle('pointer-events-auto', open);
+    drawerRoot.setAttribute('aria-hidden', String(!open));
+    drawer.classList.toggle('translate-x-full', !open);
+    drawerBackdrop.classList.toggle('opacity-0', !open);
+    drawerBackdrop.classList.toggle('opacity-100', open);
+    openButton?.setAttribute('aria-expanded', String(open));
+
+    if (open) closeButton?.focus();
+    else openButton?.focus();
+  };
+
+  openButton?.addEventListener('click', () => setDrawerOpen(true));
+  closeButton?.addEventListener('click', () => setDrawerOpen(false));
+  drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && drawerRoot?.getAttribute('aria-hidden') === 'false') {
+      setDrawerOpen(false);
+    }
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.navigation-accordion-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const panelId = trigger.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const icon = trigger.querySelector('.navigation-accordion-icon');
+      if (!panel) return;
+
+      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      trigger.setAttribute('aria-expanded', String(willOpen));
+      panel.classList.toggle('hidden', !willOpen);
+      icon?.classList.toggle('rotate-45', willOpen);
+      icon?.classList.toggle('text-cobalt-dark', willOpen);
+    });
+  });
+</script>

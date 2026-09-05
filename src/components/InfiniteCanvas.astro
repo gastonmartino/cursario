@@ -3,9 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import HUD from './HUD.astro';
 import RadarMinimap from './RadarMinimap.astro';
+import NavigationDrawer from './NavigationDrawer.astro';
 import IslandCard from './IslandCard.astro';
 import { SUBCURSOS } from '../data/subcursos';
-import { SPATIAL_DERIVAS } from '../engine/SpatialZones';
+import { SPATIAL_DERIVAS } from '../engine/Derivas';
 import { renderMarkdownToHtml } from '../utils/markdown';
 
 // Read Markdown contents server-side
@@ -62,6 +63,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
   <!-- HUD Telemetry & Navigation Controls -->
   <HUD />
+  <NavigationDrawer />
 
   <!-- Smooth Level Transition Curtain -->
   <div 
@@ -165,7 +167,8 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
     {subcursoCards.map((subcurso) => (
       <IslandCard
         id={`spatial-subnode-${subcurso.itemId}`}
-        detailHref={subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined}
+        detailHref={subcurso.detailHref || subcurso.actionHref || (subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined)}
+        isSubderiva={true}
         code={subcurso.code}
         headerTypeLabel={`// ${subcurso.captionLabel.toUpperCase()}`}
         title={subcurso.title}
@@ -179,6 +182,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         imageLoading="lazy"
         markdownFile={subcurso.markdownFile}
         pageMarkdownFile={subcurso.pageMarkdownFile}
+        showAction={subcurso.showAction ?? true}
         derivaId={subcurso.itemId}
         coordinatesText={subcurso.coordinatesText}
         categoryLabel={subcurso.categoryLabel}
@@ -186,7 +190,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         width={subcurso.cardWidth ?? 640}
         height={subcurso.cardHeight ?? 660}
         imageMaxHeight={360}
-        actionHref={`/${subcurso.course}/${subcurso.subcurso}/`}
+        actionHref={subcurso.actionHref || (subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined)}
         actionLabel="INCURSIONAR [ABRIR]"
       />
     ))}
@@ -209,7 +213,7 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
 
 <script>
   import { CanvasController, type TelemetryData } from '../engine/CanvasController';
-  import { SPATIAL_DERIVAS, type SpatialDeriva } from '../engine/SpatialZones';
+  import { SPATIAL_DERIVAS, type SpatialDeriva } from '../engine/Derivas';
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;

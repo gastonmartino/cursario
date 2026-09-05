@@ -130,16 +130,116 @@ Los archivos de `src/engine/` controlan la parte espacial:
 - `CanvasController.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
 - `GenerativeSurface.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
 - `InkCursor.ts`: cursor gráfico, estela y partículas.
-- `SpatialZones.ts`: definición de los cursos principales y las posiciones de sus subderivas.
+- `Derivas.ts`: definición de los cursos principales y las posiciones de sus subderivas.
 
-## 6. Cómo añadir un nuevo curso principal
+## 6. Atributos de contenido y navegación de `IslandCard`
+
+Las tarjetas utilizan atributos relacionados con el contenido y la navegación. Algunos se definen en `src/data/subcursos.ts`, otros se calculan en `src/components/InfiniteCanvas.astro` y finalmente son recibidos por `src/components/IslandCard.astro`.
+
+### `markdownHtml`
+
+Es contenido Markdown ya convertido a HTML antes de llegar a la tarjeta. Se usa principalmente para el contenido introductorio de los cursos principales:
+
+```astro
+<IslandCard markdownHtml={curso00MarkdownHtml} />
+```
+
+No se define en `subcursos.ts`. Para las subderivas se utiliza normalmente `markdownFile`.
+
+### `markdownFile`
+
+Es la ruta pública al Markdown breve que aparece dentro de la tarjeta de una subderiva. Se define en `src/data/subcursos.ts`:
+
+```ts
+markdownFile: '/curso00/subcursos/curso005/contenidos/contenido-curso.md',
+```
+
+Es opcional. Sin este atributo, la tarjeta puede mostrar sólo una imagen. Con el archivo y sin imagen, muestra una sola columna de texto; con ambos, muestra imagen y texto.
+
+### `pageMarkdownFile`
+
+Es la ruta pública al Markdown extendido de la página editorial de tercer nivel:
+
+```ts
+pageMarkdownFile: '/curso00/subcursos/curso005/contenidos/pagina-curso.md',
+```
+
+Ese archivo se presenta en una ruta como `/curso00/curso005/`. Es el indicador de que la subderiva tiene una página editorial disponible. Si no está definido, no aparece el botón de acción ni se habilita el click general de la tarjeta hacia una página de detalle.
+
+### `actionHref`
+
+Es la URL de destino de una acción de navegación. Puede definirse opcionalmente en `subcursos.ts`:
+
+```ts
+actionHref: '/curso00/curso005/',
+```
+
+Si no se indica, `InfiniteCanvas.astro` construye automáticamente `/${course}/${subcurso}/` cuando existe `pageMarkdownFile`. Define el destino del botón `INCURSIONAR`; el botón sigue dependiendo de que exista una página editorial válida.
+
+### `detailHref`
+
+Es el destino al hacer click sobre cualquier parte de la tarjeta. Al igual que `actionHref`, puede definirse directamente en la definición de la subderiva dentro de `src/data/subcursos.ts`:
+
+```ts
+detailHref: '/curso00/curso005/',
+```
+
+Para las subderivas se pasa desde `InfiniteCanvas.astro`, con estos valores de fallback:
+
+```astro
+detailHref={subcurso.detailHref || subcurso.actionHref || (subcurso.pageMarkdownFile
+  ? `/${subcurso.course}/${subcurso.subcurso}/`
+  : undefined)}
+```
+
+La navegación completa de la tarjeta es independiente de `showAction`: aunque el botón esté oculto, el click puede seguir llevando a `detailHref`. Si no existe `detailHref`, la tarjeta no navega al hacer click fuera de sus controles.
+
+### `actionLabel`
+
+Es el texto visible del botón de acción:
+
+```astro
+actionLabel="INCURSIONAR [ABRIR]"
+```
+
+Si no se indica, se utiliza `INCURSIONAR [CLICK / ENTER]`. Sólo cambia la etiqueta visual; no define el destino.
+
+### `showAction`
+
+Controla exclusivamente si se incluye el botón de acción. Para una subderiva se define en `src/data/subcursos.ts`:
+
+```ts
+showAction: false,
+```
+
+Es opcional y por defecto vale `true` mediante:
+
+```astro
+showAction={subcurso.showAction ?? true}
+```
+
+Por lo tanto, `showAction: false` oculta el botón, pero no desactiva el click general mediante `detailHref`. Además, si no existe `pageMarkdownFile`, el botón no aparece aunque `showAction` sea `true`.
+
+### Resumen rápido
+
+| Atributo | Función | Lugar habitual |
+| --- | --- | --- |
+| `markdownHtml` | HTML ya generado para una tarjeta | `InfiniteCanvas.astro` |
+| `markdownFile` | Markdown breve dentro de la tarjeta | `src/data/subcursos.ts` |
+| `pageMarkdownFile` | Markdown de la página editorial | `src/data/subcursos.ts` |
+| `actionHref` | Destino del botón de acción | `src/data/subcursos.ts` o calculado |
+| `detailHref` | Destino del click sobre toda la tarjeta | `src/data/subcursos.ts` |
+| `actionLabel` | Texto visible del botón | Instancia de `IslandCard` |
+| `showAction` | Muestra u oculta el botón | `src/data/subcursos.ts` |
+
+## 7. Cómo añadir un nuevo curso principal
 
 Un curso principal necesita una definición espacial, una tarjeta visible en la vista macro, una entrada en el radar, una carpeta pública para sus contenidos y, normalmente, subderivas asociadas.
 
 ### Pasos
 
 1. Crear en `public/` una carpeta con el identificador del curso, por ejemplo `public/curso04/`, y dentro sus carpetas de contenidos, imágenes y subcursos.
-2. En `src/engine/SpatialZones.ts`, agregar una nueva entrada a `SPATIAL_DERIVAS` con:
+2. En `src/engine/Derivas.ts`, agregar una nueva entrada a `SPATIAL_DERIVAS` con:
    - `id` único;
    - `code`, `name`, `subtitle` y `description`;
    - `x`, `y`, `width` y `height` iniciales;
@@ -154,9 +254,9 @@ Un curso principal necesita una definición espacial, una tarjeta visible en la 
 
 El motor espacial recorre `SPATIAL_DERIVAS` de forma general, pero los cuatro cursos actuales aparecen escritos explícitamente en la tarjeta macro y en los botones del radar. Por eso esos dos archivos requieren una modificación manual al incorporar un quinto curso.
 
-## 7. Cómo modificar las posiciones en el canvas
+## 8. Cómo modificar las posiciones en el canvas
 
-Las posiciones de los cursos principales y sus subderivas se definen en `src/engine/SpatialZones.ts`.
+Las posiciones de los cursos principales y sus subderivas se definen en `src/engine/Derivas.ts`.
 
 - Para mover un curso principal, modificar sus valores `x` y `y` dentro de `SPATIAL_DERIVAS`.
 - Para mover una subderiva, modificar `x` y `y` dentro del arreglo `items` de su curso.
@@ -168,12 +268,12 @@ Después de cambiar posiciones, revisar el encuadre automático, las conexiones 
 
 Para conservar una composición particular, conviene modificar las coordenadas de los elementos en conjunto. Por ejemplo, una fila horizontal usa valores de `x` progresivos y valores de `y` iguales o cercanos; dos filas usan un segundo grupo con un `y` mayor. Si se cambia el orden visual, también puede ser necesario revisar el orden de los elementos en `items`, porque las conexiones siguen ese orden.
 
-## 8. Cómo añadir una nueva subderiva
+## 9. Cómo añadir una nueva subderiva
 
 Cada subderiva se define en dos lugares relacionados:
 
 - `src/data/subcursos.ts`: identidad editorial y rutas de contenido.
-- `src/engine/SpatialZones.ts`: posición y geometría dentro de la deriva local.
+- `src/engine/Derivas.ts`: posición y geometría dentro de la deriva local.
 
 ### Pasos
 
@@ -232,7 +332,7 @@ public/curso02/subcursos/curso007/
 6. Si no existe `imageUrl`, la tarjeta sólo mostrará el Markdown. Si no existe `markdownFile`, mostrará únicamente la imagen. Si no existe `pageMarkdownFile`, no mostrará el botón de acceso al detalle.
 7. Ejecutar `npm run build` para que Astro genere automáticamente la nueva ruta `/curso02/curso007/`.
 
-## 9. Cómo crear el Markdown de una subderiva
+## 10. Cómo crear el Markdown de una subderiva
 
 Hay dos archivos con funciones diferentes:
 
@@ -289,12 +389,12 @@ En un enlace como `https://youtu.be/nnM_C6h1D_A`, el identificador es la parte p
 
 La etiqueta debe escribirse sola en una línea. También puede usarse con videos cuyo enlace original tenga el formato `https://www.youtube.com/watch?v=ID`, tomando únicamente el valor de `ID`.
 
-## 10. Comprobaciones antes de publicar
+## 11. Comprobaciones antes de publicar
 
 Antes de subir una nueva versión:
 
 1. Revisar que todos los nombres de archivos coincidan exactamente con las rutas declaradas, incluyendo mayúsculas y extensiones.
-2. Confirmar que cada `itemId` de `src/data/subcursos.ts` coincida con un `id` del curso correspondiente en `SpatialZones.ts`.
+2. Confirmar que cada `itemId` de `src/data/subcursos.ts` coincida con un `id` del curso correspondiente en `Derivas.ts`.
 3. Comprobar que `pageMarkdownFile` sólo esté definido cuando el archivo existe.
 4. Ejecutar `npm run build` y corregir cualquier error.
 5. Probar la navegación local con `npm run preview`.

@@ -30,7 +30,7 @@ export interface SpatialDeriva {
   items: DerivaItem[];
 }
 
-export type SpatialZone = SpatialDeriva; // Alias for backward compatibility
+export type Derivas = SpatialDeriva; // Alias for backward compatibility
 
 export const SPATIAL_DERIVAS: SpatialDeriva[] = [
   {
@@ -348,5 +348,3 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     ]
   }
 ];
-
-export const SPATIAL_ZONES = SPATIAL_DERIVAS; // Backward compatibility

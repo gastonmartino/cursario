@@ -1,7 +1,7 @@
 import { Camera } from './Camera';
 import { InkCursor } from './InkCursor';
 import { GenerativeSurface } from './GenerativeSurface';
-import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './SpatialZones';
+import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
 
 export interface TelemetryData {
   worldX: number;
