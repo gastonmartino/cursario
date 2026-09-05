@@ -575,6 +575,20 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       });
     });
 
+    // Reveal each image only after it has finished loading/decoding so the
+    // lightweight inline SVG placeholder keeps the card responsive meanwhile.
+    const islandImages = document.querySelectorAll<HTMLImageElement>('[data-island-image]');
+    islandImages.forEach((image) => {
+      const revealImage = () => {
+        image.classList.remove('opacity-0');
+        image.classList.add('opacity-100');
+        image.parentElement?.querySelector('[data-image-placeholder]')?.remove();
+      };
+
+      image.addEventListener('load', revealImage, { once: true });
+      if (image.complete && image.naturalWidth > 0) revealImage();
+    });
+
     // Forward spatial overlay DOM layer wheel & drag events to canvas controller
     const spatialLayer = document.getElementById('spatial-nodes-layer');
     if (spatialLayer) {

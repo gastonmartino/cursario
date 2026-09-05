@@ -198,21 +198,38 @@ const canShowAction = showAction && (!actionHref || Boolean(pageMarkdownFile));
             'relative group overflow-hidden flex items-center justify-center',
             hasMarkdown
               ? 'rounded-sm border p-2 shadow-sm min-h-[320px]'
-              : 'w-full',
-          ]}
+              : 'w-full min-h-[240px]',
+        ]}
           style={hasMarkdown
             ? `border-color: ${accentColor}40; background-color: rgba(224, 228, 235, 0.3);`
             : undefined}
         >
+          <div
+            data-image-placeholder
+            class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center bg-paper-sheet/70"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-8 w-8 animate-spin text-cobalt/60"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle class="opacity-20" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+              <path class="opacity-80" d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
           <img 
+            data-island-image
             src={imageUrl} 
             alt={title} 
             class:list={[
-              'h-auto object-contain rounded-xs transition-transform duration-500 group-hover:scale-105',
+              'relative z-10 h-auto object-contain rounded-xs opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105',
               hasMarkdown ? 'w-auto max-w-full' : 'w-full max-w-full',
             ]}
             style={`max-height: ${hasMarkdown ? imageMaxHeightCss : 'none'};`}
             loading={imageLoading}
+            decoding="async"
           />
           {hasMarkdown && (
           <div class="absolute inset-0 pointer-events-none" style={`background-color: ${accentColor}08;`}></div>

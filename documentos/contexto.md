@@ -1,5 +1,23 @@
 # Cursario
 
+## Bitácora de Derivas y Cartografía de Trayectos en Curso
+
+---
+
+> *Cursar es abrir cauce, atravesar un medio, persistir en un proceso, dejarse llevar y a la vez intervenir en la corriente. Ser un cursor no es solo señalar un píxel en la pantalla: es ser un surcador de materias, un incursionista de ideas, un cartógrafo de derivas y excursos.  
+> Cursario es un manifiesto de desvaríos intencionalmente traslapados para provocar cruces y roces. Es una cartografía de derivas en un territorio surcado por corrientes tendientes al desvío. Es el mapa del corsario que incita a incursionar en aguas ajenas, abrir nuevos cursos, franquear los límites del territorio y, así, alcanzar las riquezas que esconden los márgenes.*     
+
+## Glosario
+
+-   **El curso** como idea estructurante: recorrido, cauce, formación, continuidad. Las producciones no son piezas aisladas sino partes de procesos que continúan.
+-   **La deriva** como forma de navegación y también como metodología: no todo está predeterminado y el recorrido puede generar nuevos descubrimientos.
+-   **La incursión** como acción del visitante: entrar en una zona, explorar sus ramificaciones y atravesar materiales, obras, textos y procesos.
+-   **El excurso** como desvío productivo: textos, referencias, ideas o experimentos que se apartan del recorrido principal pero lo enriquecen.
+-   **El cursor** como elemento conceptual y material: es simultáneamente el puntero de la interfaz y aquello que señala, surca, mide e inscribe.
+-   **La cartografía** como modelo de organización: el sitio funciona como un territorio bidimensional, con cursos, subderivas, islas, trazas y corrientes
+
+---
+
 ## Contexto general del proyecto
 
 *Cursario* es un sitio personal para reunir producciones, obras, experimentos y escritos personales. No busca funcionar como una vitrina ordenada de resultados terminados, sino como un espacio vivo para hacer visible el recorrido que los produce: las investigaciones, las pruebas, las preguntas, los desvíos y las formas todavía abiertas.
@@ -28,10 +46,10 @@ El cursor participa de esta misma imagen. Es el puntero de la interfaz, pero tam
 
 El contenido se organiza en cuatro cursos principales, conectados alrededor de un territorio común:
 
-1. **En Curso...**: bitácora de investigaciones activas, registros de taller, pruebas materiales, sensóricas y algorítmicas.
-2. **Artes Electrónicas**: obras, dispositivos e instalaciones desarrolladas en el marco de la Maestría en Artes Electrónicas de UNTREF.
-3. **Generativa**: gráfica computarizada, imágenes, tramas, campos de flujo, partículas, animaciones y exploraciones realizadas mediante código.
-4. **Pensamiento & Diseño**: ensayos, apuntes, reflexiones pedagógicas y escritos sobre interfaces, técnica, materia y práctica proyectual.
+1.  **En Curso...**: bitácora de investigaciones activas, registros de taller, pruebas materiales, sensóricas y algorítmicas.
+2.  **Artes Electrónicas**: obras, dispositivos e instalaciones desarrolladas en el marco de la Maestría en Artes Electrónicas de UNTREF.
+3.  **Generativa**: gráfica computarizada, imágenes, tramas, campos de flujo, partículas, animaciones y exploraciones realizadas mediante código.
+4.  **Pensamiento & Diseño**: ensayos, apuntes, reflexiones pedagógicas y escritos sobre interfaces, técnica, materia y práctica proyectual.
 
 Cada curso puede abrirse en una serie de subderivas. Estas reúnen trabajos relacionados y permiten pasar de una vista general a un recorrido más concentrado. La cantidad de subderivas no es fija: cada curso puede crecer según el desarrollo de sus contenidos.
 
