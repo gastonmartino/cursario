@@ -50,7 +50,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     items: [
       {
         id: 'bitacora-01',
-        code: 'BIT-01',
+        code: 'REG:01',
         title: 'Inicio del recorrido',
         subtitle: 'Registro de Taller #01',
         summary: 'Ensayos con papel de algodón, pátinas de risografía y pruebas de pigmento azul cobalto para la superficie háptica.',
@@ -63,7 +63,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-02',
-        code: 'BIT-02',
+        code: 'REG:02',
         title: 'Statement de Artista',
         subtitle: 'Por Diego Flores',
         summary: 'Ejercicio del taller de trabajo final.',
@@ -76,7 +76,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-03',
-        code: 'BIT-03',
+        code: 'REG:03',
         title: 'Cuestionario / preguntas',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -89,7 +89,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-04',
-        code: 'BIT-04',
+        code: 'REG:04',
         title: 'Arroyo del Rey',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -102,7 +102,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-05',
-        code: 'BIT-05',
+        code: 'REG:05',
         title: 'Ejercicio de recorrido',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -214,7 +214,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     items: [
       {
         id: 'gen-serie-01',
-        code: 'SERIE:01',
+        code: 'GEN:01',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Estudio en Processing / Java',
         summary: 'NO SUMMARY',
@@ -227,7 +227,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'gen-serie-02',
-        code: 'SERIE:02',
+        code: 'GEN:02',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Gráfica Algorítmica',
         summary: 'Superposiciones de retículas geométricas deformadas proceduralmente que generan vibración visual y patrones moiré.',
@@ -240,7 +240,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'gen-serie-03',
-        code: 'SERIE:03',
+        code: 'GEN:03',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
@@ -253,7 +253,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'gen-serie-04',
-        code: 'SERIE:04',
+        code: 'GEN:04',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
@@ -266,7 +266,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'gen-serie-05',
-        code: 'SERIE:05',
+        code: 'GEN:05',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
@@ -279,7 +279,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'gen-serie-06',
-        code: 'SERIE:06',
+        code: 'GEN:06',
         title: 'Gráfica generativa con p5js',
         subtitle: 'Piezas audiovisuales',
         summary: 'Sistemas dinámicos de partículas atraídas por campos magnéticos simulados, con captura y renderizado en video HD.',
@@ -308,7 +308,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     items: [
       {
         id: 'dis-ensayo-01',
-        code: 'TXT:01',
+        code: 'ART:01',
         title: 'Diseño UX',
         subtitle: 'Ensayo Crítico',
         summary: 'Reflexión sobre el rol del diseño en la era de los agentes algorítmicos y la necesidad de interfaces sensibles y no higienizadas.',
@@ -321,7 +321,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'dis-ensayo-02',
-        code: 'TXT:02',
+        code: 'ART:02',
         title: 'Diseño UX',
         subtitle: 'Apuntes de cátedra y pedagogía',
         summary: 'Notas sobre la enseñanza del diseño proyectual cuando el píxel se concibe como materia y no como abstracción.',
@@ -334,7 +334,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'dis-ensayo-03',
-        code: 'TXT:03',
+        code: 'ART:03',
         title: 'Diseño UX',
         subtitle: 'Manifiesto & Derivas Disciplinares',
         summary: 'Bases para una práctica del diseño descentrada del consumo inmediato y abierta a la investigación experimental y el arte.',

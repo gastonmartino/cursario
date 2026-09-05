@@ -520,6 +520,38 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       let tapStartX = 0;
       let tapStartY = 0;
       let tapStartTime = 0;
+      let mouseDownX = 0;
+      let mouseDownY = 0;
+      let suppressNextClick = false;
+
+      // Browsers may emit a click after a mouse drag if the pointer started
+      // and ended over the same card. Track mouse movement independently so
+      // that finishing a canvas drag cannot trigger detail navigation.
+      card.addEventListener('pointerdown', (event) => {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+        const target = event.target;
+        if (target instanceof Element && target.closest('a, button, input, textarea')) return;
+
+        mouseDownX = event.clientX;
+        mouseDownY = event.clientY;
+        suppressNextClick = false;
+        card.setPointerCapture(event.pointerId);
+      });
+
+      card.addEventListener('pointerup', (event) => {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+        const distance = Math.hypot(event.clientX - mouseDownX, event.clientY - mouseDownY);
+        suppressNextClick = distance >= 6;
+        if (card.hasPointerCapture(event.pointerId)) {
+          card.releasePointerCapture(event.pointerId);
+        }
+      });
+
+      card.addEventListener('pointercancel', (event) => {
+        if (event.pointerType === 'mouse') suppressNextClick = true;
+      });
 
       // The spatial overlay prevents the browser's synthetic click so it can
       // keep touch panning and pinch navigation under control. Detect a
@@ -573,6 +605,12 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
       }, { passive: true });
 
       card.addEventListener('click', (event) => {
+        if (suppressNextClick) {
+          suppressNextClick = false;
+          event.preventDefault();
+          return;
+        }
+
         const target = event.target;
         if (target instanceof Element && target.closest('a, button, input, textarea')) return;
         window.location.href = detailHref;

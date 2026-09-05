@@ -244,9 +244,10 @@ const canShowAction = isSubderiva
               'relative z-10 h-auto object-contain rounded-xs opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105',
               hasMarkdown ? 'w-auto max-w-full' : 'w-full max-w-full',
             ]}
-            style={`max-height: ${hasMarkdown ? imageMaxHeightCss : 'none'};`}
+            style={`max-height: ${hasMarkdown ? imageMaxHeightCss : 'none'}; -webkit-user-drag: none;`}
             loading={imageLoading}
             decoding="async"
+            draggable="false"
           />
           {hasMarkdown && (
           <div class="absolute inset-0 pointer-events-none" style={`background-color: ${accentColor}08;`}></div>
