@@ -85,7 +85,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
  //
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso001', itemId: 'untref-obra-01',
-    imageUrl: '/curso01/subcursos/curso001/medios/portada-curso.gif', 
+    imageUrl: '/curso01/subcursos/curso001/medios/portada-sos.gif', 
     pageMarkdownFile: '/curso01/subcursos/curso001/contenidos/pagina-curso.md',
     code: 'SUBCURSO:01.1', 
     title: 'Siervos del Obnubilante Scrolling', 
@@ -99,7 +99,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso002', itemId: 'untref-obra-02',
-    imageUrl: '/curso01/subcursos/curso002/medios/portada-curso.png', 
+    imageUrl: '/curso01/subcursos/curso002/medios/portada-granja.jpg', 
     pageMarkdownFile: '/curso01/subcursos/curso002/contenidos/pagina-curso.md',
     code: 'SUBCURSO:01.2', 
     title: 'Rebelión en la Granja de Clics', 
@@ -126,7 +126,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso004', itemId: 'untref-obra-04',
-    imageUrl: '/curso01/subcursos/curso004/medios/portada-curso.jpg', 
+    imageUrl: '/curso01/subcursos/curso004/medios/portada-gps.jpg', 
     pageMarkdownFile: '/curso01/subcursos/curso004/contenidos/pagina-curso.md',
     cardWidth: 560, cardHeight: 580,
     code: 'SUBCURSO:01.4', 
@@ -236,7 +236,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
  //
   {
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso001', itemId: 'dis-ensayo-01',
-    imageUrl: '/curso03/subcursos/curso001/medios/portada-curso.jpg', 
+    imageUrl: '/curso03/subcursos/curso001/medios/portada-interaccion.jpg', 
     code: 'SUBCURSO:03.1', 
     title: '¿Qué sostiene la experiencia del usuario?', 
     description: '¿Qué hay debajo de cada interacción que hace posible que ésta tenga lugar. El teléfono celular no es más que la extremidad visible (y táctil) de una descomunal infrastrucutra a nivel planetario.',
@@ -257,7 +257,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso003', itemId: 'dis-ensayo-03',
     subtitle: 'Patrones de Diseño Agéntico',
     description: '¿Qué nuevos patrones de diseño emergen al integrar la inteligencia artificial en las experiencias?',
-    imageUrl: '/curso03/subcursos/curso003/medios/portada-curso.jpg', 
+    imageUrl: '/curso03/subcursos/curso003/medios/portada-experiencia.jpg', 
     code: 'SUBCURSO:03.3', 
     tag: 'GIRO UX',
     accentColor: '#002FA7', 
