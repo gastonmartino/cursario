@@ -1,0 +1,111 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { renderMarkdownToHtml } from '../utils/markdown';
+
+interface Props {
+  id: string;
+  code: string;
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  keywords?: string | null;
+  tag: string;
+  timeReference?: string | null;
+  accentColor?: string;
+  imageUrl?: string | null;
+  markdownFile?: string | null;
+  categoryLabel?: string | null;
+  captionLabel?: string;
+  showHeader?: boolean;
+  width?: number | string;
+  height?: number | string;
+  imageMaxHeight?: number | string;
+  imageLoading?: 'eager' | 'lazy';
+}
+
+const {
+  id,
+  code,
+  title,
+  subtitle,
+  description,
+  keywords,
+  tag,
+  timeReference,
+  accentColor = '#0038A8',
+  imageUrl,
+  markdownFile = null,
+  categoryLabel,
+  captionLabel = 'ISLOTE',
+  showHeader = true,
+  width = 420,
+  height = 320,
+  imageMaxHeight = 200,
+  imageLoading = 'lazy',
+} = Astro.props;
+
+const widthCss = typeof width === 'number' ? `${width}px` : width;
+const heightCss = typeof height === 'number' ? `${height}px` : height;
+const imageMaxHeightCss = typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight;
+const hasImage = Boolean(imageUrl);
+const hasTitle = Boolean(title);
+const hasSubtitle = Boolean(subtitle);
+const hasDescription = Boolean(description);
+const keywordsList = keywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) ?? [];
+let markdownHtml = '';
+
+if (markdownFile) {
+  try {
+    const markdownPath = path.join(process.cwd(), 'public', markdownFile.replace(/^\/+/, ''));
+    markdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'));
+  } catch (error) {
+    console.error(`Error al leer el Markdown del islote ${markdownFile}:`, error);
+  }
+}
+
+const hasMarkdown = Boolean(markdownHtml);
+const hasMetadata = Boolean(categoryLabel || timeReference);
+---
+
+<article
+  id={id}
+  class="absolute left-0 top-0 flex select-none flex-col justify-between overflow-hidden rounded-lg border border-dotted border-ink-border/70 bg-transparent p-3 shadow-md pointer-events-auto"
+  style={`width: ${widthCss}; min-height: ${heightCss}; border-color: ${accentColor}99;`}
+>
+  <div>
+    {showHeader && (
+      <div class="mb-2 flex items-center justify-between gap-2 border-b border-ink-border/40 pb-2">
+        <div class="flex min-w-0 items-center gap-1.5">
+          <span class="h-1.5 w-1.5 shrink-0 rounded-full" style={`background-color: ${accentColor};`}></span>
+          <span class="font-mono text-[9px] font-bold tracking-wider" style={`color: ${accentColor};`}>{code}</span>
+        </div>
+        <span class="shrink-0 font-mono text-[8px] tracking-wider text-ink-faint">{tag}</span>
+      </div>
+    )}
+
+    {(hasTitle || hasSubtitle) && (
+      <div class="mb-2">
+        {hasTitle && <h2 class="font-sans text-base font-bold leading-tight text-ink-primary">{title}</h2>}
+        {hasSubtitle && <p class="mt-0.5 font-sans text-[10px] font-semibold leading-tight" style={`color: ${accentColor};`}>{subtitle}</p>}
+      </div>
+    )}
+
+    {hasDescription && <p class="mb-2 font-sans text-[10px] leading-relaxed text-ink-muted">{description}</p>}
+
+    {keywordsList.length > 0 && (
+      <div class="mb-2 flex flex-wrap gap-1">
+        {keywordsList.map((keyword) => <span class="rounded-sm border border-cobalt/20 bg-cobalt/5 px-1.5 py-0.5 font-mono text-[8px] text-cobalt">{keyword}</span>)}
+      </div>
+    )}
+
+    {(hasImage || hasMarkdown) && (
+      <div class="grid grid-cols-1 gap-2">
+        {hasImage && <img src={imageUrl} alt={title || captionLabel} class="h-auto w-full rounded-sm object-contain" style={`max-height: ${imageMaxHeightCss};`} loading={imageLoading} decoding="async" draggable="false" />}
+        {hasMarkdown && <div class="prose prose-xs min-w-0 text-[10px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
+      </div>
+    )}
+  </div>
+
+  {hasMetadata && <div class="mt-2 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{categoryLabel}</span><span>{timeReference}</span></div>}
+</article>

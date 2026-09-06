@@ -30,6 +30,15 @@ export interface SpatialDeriva {
   items: DerivaItem[];
 }
 
+export interface IsloteSpatial {
+  id: string;
+  parentId: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export type Derivas = SpatialDeriva; // Alias for backward compatibility
 
 export const SPATIAL_DERIVAS: SpatialDeriva[] = [
@@ -122,7 +131,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     subtitle: 'Maestría UNTREF • Producción',
     description: 'Dispositivos, instalaciones sensibles, circuitos y espacialidad física. Hibridación de hardware, materia y poética electromagnética.',
     x: -641,
-    y: -260,
+    y: -270,
     width: 760,
     height: 730,
     accentColor: '#0038A8', // Cobalt
@@ -348,3 +357,49 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     ]
   }
 ];
+
+// Islotes share the coordinate system of their parent: top-level parents use
+// macro coordinates, while subderiva parents use local deriva coordinates.
+export const ISLOTES_SPATIAL: IsloteSpatial[] = [
+  {
+    id: 'islote-en-curso-01',
+    parentId: 'en-curso',
+    x: -490,
+    y: 510,
+    width: 420,
+    height: 320,
+  },
+  {
+    id: 'islote-generativa-01',
+    parentId: 'gen-serie-01',
+    x: -2100,
+    y: -1020,
+    width: 420,
+    height: 320,
+  },
+  {
+    id: 'islote-bitacora-05-01',
+    parentId: 'bitacora-05',
+    x: 1400,
+    y: 550,
+    width: 400,
+    height: 300,
+  },
+  {
+    id: 'islote-bitacora-05-02',
+    parentId: 'bitacora-05',
+    x: 1370,
+    y: 946,
+    width: 400,
+    height: 300,
+  },
+  {
+    id: 'islote-bitacora-05-03',
+    parentId: 'bitacora-05',
+    x: 1420,
+    y: 1360,
+    width: 400,
+    height: 300,
+  },
+];
+

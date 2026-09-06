@@ -5,8 +5,10 @@ import HUD from './HUD.astro';
 import RadarMinimap from './RadarMinimap.astro';
 import NavigationDrawer from './NavigationDrawer.astro';
 import IslandCard from './IslandCard.astro';
+import Islote from './Islote.astro';
 import { SUBCURSOS } from '../data/subcursos';
-import { SPATIAL_DERIVAS } from '../engine/Derivas';
+import { ISLOTES_SPATIAL, SPATIAL_DERIVAS } from '../engine/Derivas';
+import { ISLOTES } from '../data/islotes';
 import { renderMarkdownToHtml } from '../utils/markdown';
 
 // Read Markdown contents server-side
@@ -56,6 +58,15 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
     coordinatesText: item
       ? `X: ${formatCoordinate(item.x)}  Y: ${formatCoordinate(item.y)}`
       : 'X: +0.0  Y: +0.0',
+  };
+});
+
+const isloteCards = ISLOTES.map((islote) => {
+  const spatial = ISLOTES_SPATIAL.find((item) => item.id === islote.itemId);
+
+  return {
+    ...islote,
+    spatial,
   };
 });
 ---
@@ -192,6 +203,29 @@ const subcursoCards = SUBCURSOS.map((subcurso) => {
         imageMaxHeight={360}
         actionHref={subcurso.actionHref || (subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined)}
         actionLabel="INCURSIONAR [ABRIR]"
+      />
+    ))}
+
+    <!-- Islotes: pequeñas islas editoriales sin nivel de navegación propio -->
+    {isloteCards.map((islote) => islote.spatial && (
+      <Islote
+        id={`spatial-islote-${islote.itemId}`}
+        code={islote.code}
+        title={islote.title}
+        subtitle={islote.subtitle}
+        description={islote.description}
+        keywords={islote.keywords}
+        tag={islote.tag}
+        timeReference={islote.timeReference}
+        accentColor={islote.accentColor}
+        imageUrl={islote.imageUrl}
+        markdownFile={islote.markdownFile}
+        categoryLabel={islote.categoryLabel}
+        captionLabel={islote.captionLabel}
+        showHeader={islote.showHeader ?? true}
+        width={islote.spatial.width}
+        height={islote.spatial.height}
+        imageLoading="lazy"
       />
     ))}
   </div>

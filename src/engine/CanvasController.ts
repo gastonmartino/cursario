@@ -1,7 +1,7 @@
 import { Camera } from './Camera';
 import { InkCursor } from './InkCursor';
 import { GenerativeSurface } from './GenerativeSurface';
-import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
+import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
 
 export interface TelemetryData {
   worldX: number;
@@ -601,6 +601,33 @@ export class CanvasController {
         node.style.opacity = this.camera.zoom < 0.22 ? '0' : '1';
         node.style.pointerEvents = this.camera.zoom < 0.22 ? 'none' : 'auto';
       }
+    }
+
+    // Islotes live in the same coordinate space as their parent. A top-level
+    // parent shows its islotes in the macro view; a subderiva parent shows
+    // them only while its containing deriva is active.
+    for (const islote of ISLOTES_SPATIAL) {
+      const node = document.getElementById(`spatial-islote-${islote.id}`);
+      if (!node) continue;
+
+      const topLevelParent = SPATIAL_DERIVAS.find((deriva) => deriva.id === islote.parentId);
+      const containingDeriva = topLevelParent || SPATIAL_DERIVAS.find((deriva) =>
+        deriva.items.some((item) => item.id === islote.parentId)
+      );
+      const shouldShow = topLevelParent
+        ? this.level === 'macro'
+        : this.level === 'deriva' && this.activeDeriva?.id === containingDeriva?.id;
+
+      if (!shouldShow) {
+        node.style.display = 'none';
+        continue;
+      }
+
+      const screen = this.camera.worldToScreen(islote.x, islote.y, w, h);
+      node.style.display = 'flex';
+      node.style.transform = `translate3d(${screen.x.toFixed(2)}px, ${screen.y.toFixed(2)}px, 0) translate(-50%, -50%) scale(${this.camera.zoom.toFixed(4)})`;
+      node.style.opacity = this.camera.zoom < 0.22 ? '0' : '1';
+      node.style.pointerEvents = this.camera.zoom < 0.22 ? 'none' : 'auto';
     }
   }
 

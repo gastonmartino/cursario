@@ -1,0 +1,1 @@
+Proyecto que pone en juego, de manera orgánica, los conceptos, las funcionalidades y las estéticas investigadas y trabajadas durante el último cuatrimestre de la maestría.

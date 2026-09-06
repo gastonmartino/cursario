@@ -3,8 +3,10 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="GASTÓN MARTINO // ACERCA DE MÍ" description="Acerca de Gastón Martino." scrollable={true}>
-  <main class="paper-texture min-h-screen px-5 py-16 md:px-8 md:py-24">
-    <article class="mx-auto max-w-3xl border border-ink-border/80 bg-white/80 p-6 shadow-sm md:p-12">
+  <main class="paper-texture min-h-screen px-5 py-8 md:px-8 md:py-12">
+    <article
+      class="mx-auto flex min-h-[900px] max-w-3xl flex-col border border-ink-border/80 bg-white/80 bg-no-repeat p-6 shadow-sm md:min-h-[1050px] md:p-12"
+      style="background-image: url('/medios/cursario-gm.jpg'); background-position: bottom 0 right -105%; background-size: 77% auto;" >
       <a href="/" class="font-mono text-xs font-bold text-cobalt hover:text-cobalt-dark">← VOLVER AL CURSARIO</a>
       <h1 class="mt-10 font-sans text-3xl font-bold tracking-tight text-ink-primary md:text-5xl">Gastón Martino</h1>
       <p class="mt-5 text-lg leading-relaxed text-ink-muted">
@@ -24,7 +26,7 @@ import Layout from '../layouts/Layout.astro';
           Investiga, en la actualidad, la integración de la inteligencia artificial en los flujos de trabajo de diseño y en los procesos creativos.
       </p>
         
-      <p class="mt-10 font-mono text-xs text-ink-faint uppercase">Cursario surcando la deriva.</p>
+      <p class="mt-auto pt-10 font-mono text-xs text-ink-faint uppercase">Cursario surcando la deriva.</p>
     </article>
   </main>
 </Layout>

@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
+import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();
@@ -79,6 +79,9 @@ export class GenerativeSurface {
 
     // 6. The 4 Spatial Derivas Archipelago
     this.drawDerivaLandmarks(ctx, width, height, camX, camY, zoom, hoveredDeriva);
+
+    // 7. Secondary islands connected to top-level courses
+    this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
 
   private drawAtmosphericPaper(
@@ -583,10 +586,13 @@ export class GenerativeSurface {
     // 3. Local River Course Connecting the Deriva Items
     this.drawDerivaStream(ctx, width, height, camX, camY, zoom, deriva);
 
-    // 4. Background Watermark Banner
+    // 4. Secondary islands connected to subderivas in this local course
+    this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'deriva', deriva);
+
+    // 5. Background Watermark Banner
     this.drawDerivaHeaderWatermark(ctx, width, height, deriva);
 
-    // 5. Render Placeholder Cards along the Course
+    // 6. Render Placeholder Cards along the Course
     this.drawDerivaItems(ctx, width, height, camX, camY, zoom, deriva, hoveredItem);
   }
 
@@ -696,6 +702,83 @@ export class GenerativeSurface {
       }
       ctx.stroke();
       ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
+  private drawIsloteConnections(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    camX: number,
+    camY: number,
+    zoom: number,
+    level: 'macro' | 'deriva',
+    activeDeriva?: SpatialDeriva
+  ) {
+    const cx = width / 2;
+    const cy = height / 2;
+    const toScreen = (x: number, y: number) => ({
+      x: (x - camX) * zoom + cx,
+      y: (y - camY) * zoom + cy,
+    });
+
+    ctx.save();
+    ctx.setLineDash([6 * zoom, 5 * zoom]);
+    ctx.lineWidth = Math.max(1, 1.5 * zoom);
+
+    for (const islote of ISLOTES_SPATIAL) {
+      let parent: { x: number; y: number; accentColor: string } | undefined;
+
+      if (level === 'macro') {
+        const deriva = SPATIAL_DERIVAS.find((item) => item.id === islote.parentId);
+        if (deriva) parent = deriva;
+      } else if (activeDeriva) {
+        const item = activeDeriva.items.find((entry) => entry.id === islote.parentId);
+        if (item) parent = item;
+      }
+
+      if (!parent) continue;
+
+      const parentPoint = toScreen(parent.x, parent.y);
+      const islotePoint = toScreen(islote.x, islote.y);
+      const directionX = parentPoint.x - islotePoint.x;
+      const directionY = parentPoint.y - islotePoint.y;
+      // Use the rendered card dimensions when available. Islote content is
+      // dynamic, so the CSS min-height is not always its final height; using
+      // the static spatial height makes top/bottom connections end too early
+      // or too late.
+      const isloteNode = typeof document !== 'undefined'
+        ? document.getElementById(`spatial-islote-${islote.id}`)
+        : null;
+      const renderedWidth = isloteNode instanceof HTMLElement && isloteNode.offsetWidth > 0
+        ? isloteNode.offsetWidth
+        : islote.width;
+      const renderedHeight = isloteNode instanceof HTMLElement && isloteNode.offsetHeight > 0
+        ? isloteNode.offsetHeight
+        : islote.height;
+      const halfWidth = (renderedWidth * zoom) / 2;
+      const halfHeight = (renderedHeight * zoom) / 2;
+      const horizontalFactor = Math.abs(directionX) > 0 ? halfWidth / Math.abs(directionX) : Infinity;
+      const verticalFactor = Math.abs(directionY) > 0 ? halfHeight / Math.abs(directionY) : Infinity;
+      const edgeFactor = Math.min(horizontalFactor, verticalFactor);
+      const edgeX = islotePoint.x + directionX * edgeFactor;
+      const edgeY = islotePoint.y + directionY * edgeFactor;
+      const midY = (parentPoint.y + edgeY) / 2;
+
+      ctx.strokeStyle = `${parent.accentColor}99`;
+      ctx.beginPath();
+      ctx.moveTo(parentPoint.x, parentPoint.y);
+      ctx.quadraticCurveTo(parentPoint.x, midY, edgeX, edgeY);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+      ctx.fillStyle = parent.accentColor;
+      ctx.beginPath();
+      ctx.arc(parentPoint.x, parentPoint.y, Math.max(2, 3 * zoom), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.setLineDash([6 * zoom, 5 * zoom]);
     }
 
     ctx.restore();
