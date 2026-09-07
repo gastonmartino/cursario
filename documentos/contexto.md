@@ -7,7 +7,7 @@
 > *Cursar es abrir cauce, atravesar un medio, persistir en un proceso, dejarse llevar y a la vez intervenir en la corriente. Ser un cursor no es solo señalar un píxel en la pantalla: es ser un surcador de materias, un incursionista de ideas, un mareante de desviaciones y excursos.  
 > Cursario es un manifiesto de desvaríos intencionalmente traslapados para provocar cruces y roces. Es una cartografía de derivas en un territorio surcado por corrientes tendientes al desvío. Es el mapa del corsario que incita a incursionar en aguas ajenas, abrir nuevos cursos, franquear los límites del territorio y, así, alcanzar las riquezas que esconden los márgenes.*  
 
-## Glosario
+## Jerga del Cursario
 
 -   **El curso** como idea estructurante: recorrido, cauce, formación, continuidad. Las producciones no son piezas aisladas sino partes de procesos que continúan.
 -   **La deriva** como forma de navegación y también como metodología: no todo está predeterminado y el recorrido puede generar nuevos descubrimientos.

@@ -4,17 +4,18 @@ import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import NavigationDrawer from '../../components/NavigationDrawer.astro';
 import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
+import { ISLOTES, type IsloteDefinition } from '../../data/islotes';
 import { renderMarkdownToHtml } from '../../utils/markdown';
 
 export function getStaticPaths() {
-  return SUBCURSOS.map((data) => ({
+  return [...SUBCURSOS, ...ISLOTES].map((data) => ({
     params: { curso: data.course, subcurso: data.subcurso },
     props: { data },
   }));
 }
 
 const { curso, subcurso } = Astro.params;
-const { data } = Astro.props as { data: SubcursoDefinition };
+const { data } = Astro.props as { data: SubcursoDefinition | IsloteDefinition };
 const displayTitle = data.title ?? '';
 const displaySubtitle = data.subtitle ?? '';
 

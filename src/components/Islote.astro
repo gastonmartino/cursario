@@ -5,6 +5,8 @@ import { renderMarkdownToHtml } from '../utils/markdown';
 
 interface Props {
   id: string;
+  course?: string;
+  subcurso?: string;
   code: string;
   title?: string | null;
   subtitle?: string | null;
@@ -15,6 +17,10 @@ interface Props {
   accentColor?: string;
   imageUrl?: string | null;
   markdownFile?: string | null;
+  pageMarkdownFile?: string | null;
+  actionHref?: string | null;
+  actionLabel?: string;
+  showAction?: boolean;
   categoryLabel?: string | null;
   captionLabel?: string;
   showHeader?: boolean;
@@ -26,6 +32,8 @@ interface Props {
 
 const {
   id,
+  course,
+  subcurso,
   code,
   title,
   subtitle,
@@ -36,6 +44,10 @@ const {
   accentColor = '#0038A8',
   imageUrl,
   markdownFile = null,
+  pageMarkdownFile = null,
+  actionHref,
+  actionLabel = 'INCURSIONAR [ABRIR]',
+  showAction = true,
   categoryLabel,
   captionLabel = 'ISLOTE',
   showHeader = true,
@@ -51,8 +63,11 @@ const imageMaxHeightCss = typeof imageMaxHeight === 'number' ? `${imageMaxHeight
 const hasImage = Boolean(imageUrl);
 const hasTitle = Boolean(title);
 const hasSubtitle = Boolean(subtitle);
-const hasDescription = Boolean(description);
+const descriptionHtml = description ? renderMarkdownToHtml(description) : '';
+const hasDescription = Boolean(descriptionHtml);
 const keywordsList = keywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) ?? [];
+const pageHref = pageMarkdownFile && course && subcurso ? `/${course}/${subcurso}/` : undefined;
+const navigableHref = actionHref || pageHref;
 let markdownHtml = '';
 
 if (markdownFile) {
@@ -70,6 +85,7 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
 
 <article
   id={id}
+  data-detail-href={navigableHref}
   class="absolute left-0 top-0 flex select-none flex-col justify-between overflow-hidden rounded-lg border border-dotted border-ink-border/70 bg-transparent p-3 shadow-md pointer-events-auto"
   style={`width: ${widthCss}; min-height: ${heightCss}; border-color: ${accentColor}99;`}
 >
@@ -91,7 +107,7 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
       </div>
     )}
 
-    {hasDescription && <p class="mb-2 font-sans text-[10px] leading-relaxed text-ink-muted">{description}</p>}
+    {hasDescription && <div class="mb-2 min-w-0"><Fragment set:html={descriptionHtml} /></div>}
 
     {keywordsList.length > 0 && (
       <div class="mb-2 flex flex-wrap gap-1">
@@ -108,4 +124,16 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
   </div>
 
   {hasMetadata && <div class="mt-2 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{categoryLabel}</span><span>{timeReference}</span></div>}
+
+  {showAction && navigableHref && (
+    <div class="mt-3 border-t border-ink-border/40 pt-2">
+      <a
+        href={navigableHref}
+        class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[10px] font-bold text-white shadow-xs transition-all hover:scale-102"
+        style={`background-color: ${accentColor}; border-color: ${accentColor};`}
+      >
+        {actionLabel}
+      </a>
+    </div>
+  )}
 </article>

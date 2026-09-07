@@ -59,7 +59,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     items: [
       {
         id: 'bitacora-01',
-        code: 'REG:01',
+        code: 'TFIC:01',
         title: 'Inicio del recorrido',
         subtitle: 'Registro de Taller #01',
         summary: 'Ensayos con papel de algodón, pátinas de risografía y pruebas de pigmento azul cobalto para la superficie háptica.',
@@ -72,7 +72,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-02',
-        code: 'REG:02',
+        code: 'TFIC:02',
         title: 'Statement de Artista',
         subtitle: 'Por Diego Flores',
         summary: 'Ejercicio del taller de trabajo final.',
@@ -85,7 +85,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-03',
-        code: 'REG:03',
+        code: 'TFIC:03',
         title: 'Cuestionario / preguntas',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -98,7 +98,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-04',
-        code: 'REG:04',
+        code: 'TFIC:04',
         title: 'Arroyo del Rey',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -111,7 +111,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'bitacora-05',
-        code: 'REG:05',
+        code: 'TFIC:05',
         title: 'Ejercicio de recorrido',
         subtitle: 'Registro de Taller #03',
         summary: 'Nuevos scripts de simulación de campos de fuerza y bifurcaciones hidráulicas en tiempo real.',
@@ -317,7 +317,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
     items: [
       {
         id: 'dis-ensayo-01',
-        code: 'ART:01',
+        code: 'NOTA:01',
         title: 'Diseño UX',
         subtitle: 'Ensayo Crítico',
         summary: 'Reflexión sobre el rol del diseño en la era de los agentes algorítmicos y la necesidad de interfaces sensibles y no higienizadas.',
@@ -330,7 +330,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'dis-ensayo-02',
-        code: 'ART:02',
+        code: 'NOTA:02',
         title: 'Diseño UX',
         subtitle: 'Apuntes de cátedra y pedagogía',
         summary: 'Notas sobre la enseñanza del diseño proyectual cuando el píxel se concibe como materia y no como abstracción.',
@@ -343,7 +343,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
       },
       {
         id: 'dis-ensayo-03',
-        code: 'ART:03',
+        code: 'NOTA:03',
         title: 'Diseño UX',
         subtitle: 'Manifiesto & Derivas Disciplinares',
         summary: 'Bases para una práctica del diseño descentrada del consumo inmediato y abierta a la investigación experimental y el arte.',
@@ -370,10 +370,18 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     height: 320,
   },
   {
+    id: 'islote-bitacora-01-01',
+    parentId: 'bitacora-01',
+    x: -1331,
+    y: -121,
+    width: 420,
+    height: 320,
+  },
+  {
     id: 'islote-generativa-01',
     parentId: 'gen-serie-01',
-    x: -2100,
-    y: -1020,
+    x: 286,
+    y: -841,
     width: 420,
     height: 320,
   },
@@ -402,4 +410,5 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     height: 300,
   },
 ];
+
 

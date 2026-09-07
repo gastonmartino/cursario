@@ -210,6 +210,8 @@ const isloteCards = ISLOTES.map((islote) => {
     {isloteCards.map((islote) => islote.spatial && (
       <Islote
         id={`spatial-islote-${islote.itemId}`}
+        course={islote.course}
+        subcurso={islote.subcurso}
         code={islote.code}
         title={islote.title}
         subtitle={islote.subtitle}
@@ -220,6 +222,10 @@ const isloteCards = ISLOTES.map((islote) => {
         accentColor={islote.accentColor}
         imageUrl={islote.imageUrl}
         markdownFile={islote.markdownFile}
+        pageMarkdownFile={islote.pageMarkdownFile}
+        actionHref={islote.actionHref || (islote.pageMarkdownFile ? `/${islote.course}/${islote.subcurso}/` : undefined)}
+        actionLabel={islote.actionLabel}
+        showAction={islote.showAction ?? true}
         categoryLabel={islote.categoryLabel}
         captionLabel={islote.captionLabel}
         showHeader={islote.showHeader ?? true}

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cartografía del Cursario</title>
+  <desc id="desc">Mapa vectorial de cursos de agua, recorridos, islas e islotes en azul cobalto y rojo vermilion.</desc>
+
+  <defs>
+    <pattern id="hatch" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
+      <path d="M0 0V26" stroke="#0038A8" stroke-width="2" opacity=".16" />
+    </pattern>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 11 6 1 11 3.5 6Z" fill="#0038A8" opacity=".75" />
+    </marker>
+  </defs>
+
+  <path d="M55 118C185 56 316 94 428 62s205-28 314 28c126 65 222 35 333 12 140-29 289 9 423 112 68 52 87 123 42 187-54 76-168 68-240 106-98 52-135 163-253 192-126 31-213-51-322-38-119 15-218 136-366 132-125-3-215-73-251-177-29-84 31-151 3-238-25-77-93-121-56-198Z" fill="url(#hatch)" stroke="#0038A8" stroke-width="4" opacity=".8" />
+  <path d="M120 186C275 117 372 165 489 132m-336 91c99-47 163-31 247 12m-225 49c111-31 196-8 268 36M132 629c121 45 227 27 331-19m-282 92c99 29 194 14 289-35m26-548c137 76 241 57 343 19m-248 92c139 61 239 35 359-13m-203 158c118 37 230 4 314-53m-74 174c93 28 184 11 267-42m-81 147c77 14 159-1 232-38" fill="none" stroke="#16253D" stroke-width="3" opacity=".34" stroke-linecap="round" />
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-40 708C142 615 177 482 308 446c139-38 213 61 320 20 135-52 132-207 286-245 155-39 203 99 334 68 111-26 201-150 402-118" stroke="#0038A8" stroke-width="13" opacity=".72" />
+    <path d="M-24 728C143 646 201 531 318 495c119-37 195 48 300 11 142-50 166-190 292-211 142-24 192 103 312 71 118-31 207-161 414-136" stroke="#5B7DBB" stroke-width="4" opacity=".8" />
+    <path d="M104 16C180 151 214 251 182 362c-28 98 36 165 125 191 115 34 177 114 167 241-5 65 15 99 55 146" stroke="#0038A8" stroke-width="8" opacity=".62" marker-end="url(#arrow)" />
+    <path d="M1532 86C1412 188 1361 293 1392 399c27 92-54 145-157 163-118 20-174 103-148 224" stroke="#0038A8" stroke-width="6" opacity=".62" stroke-dasharray="18 18" marker-end="url(#arrow)" />
+    <path d="M390 92C473 184 548 225 628 221c91-5 139-80 222-91 89-12 156 57 224 129" stroke="#16253D" stroke-width="4" opacity=".54" stroke-dasharray="5 14" />
+    <path d="M622 817c-24-111 16-185 105-224 95-41 132 3 217-26 75-25 105-108 86-196" stroke="#16253D" stroke-width="4" opacity=".5" marker-end="url(#arrow)" />
+  </g>
+
+  <g stroke="#0038A8" stroke-width="5" fill="none">
+    <path d="M453 311c33-43 103-47 136-12 21 23 10 64-28 83-48 24-122 4-108-71Z" fill="#C7D5EE" fill-opacity=".3" />
+    <path d="M839 350c27-32 82-38 108-8 27 31 6 76-36 88-52 14-97-35-72-80Z" fill="#C7D5EE" fill-opacity=".26" />
+    <path d="M1128 559c43-45 119-32 137 14 14 36-26 74-74 74-58 0-98-44-63-88Z" fill="#C7D5EE" fill-opacity=".3" />
+    <path d="M726 655c22-25 63-27 83-5 19 22 3 54-31 62-39 9-70-25-52-57Z" fill="#C7D5EE" fill-opacity=".28" />
+    <path d="M1281 267c15-18 47-17 57 2 10 18-8 38-31 39-29 1-42-22-26-41Z" fill="#C7D5EE" fill-opacity=".3" />
+  </g>
+
+  <g fill="#E03E2D" stroke="#FAFAFA" stroke-width="5">
+    <circle cx="308" cy="446" r="14" />
+    <circle cx="628" cy="221" r="12" />
+    <circle cx="914" cy="269" r="15" />
+    <circle cx="1128" cy="559" r="12" />
+    <circle cx="1392" cy="399" r="14" />
+  </g>
+  <g fill="none" stroke="#E03E2D" stroke-width="4" opacity=".9">
+    <path d="M250 446h116M308 388v116" />
+    <path d="M877 269h74M914 232v74" />
+    <path d="m1184 534 28 28m0-28-28 28" />
+  </g>
+
+  <g fill="#0038A8" opacity=".62">
+    <circle cx="190" cy="774" r="5" /><circle cx="214" cy="762" r="3" /><circle cx="237" cy="750" r="4" />
+    <circle cx="1460" cy="718" r="4" /><circle cx="1487" cy="705" r="3" /><circle cx="1511" cy="694" r="5" />
+  </g>
+</svg>
+

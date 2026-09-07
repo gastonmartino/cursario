@@ -9,6 +9,7 @@ export interface IsloteDefinition {
   actionHref?: string | null;
   detailHref?: string | null;
   showAction?: boolean;
+  actionLabel?: string;
   showHeader?: boolean;
   cardWidth?: number;
   cardHeight?: number;
@@ -43,6 +44,28 @@ export const ISLOTES: IsloteDefinition[] = [
     captionLabel: 'EXCURSO 01',
   },
   {
+    course: 'curso00',
+    parentDerivaId: 'bitacora-01',
+    subcurso: 'islote006',
+    itemId: 'islote-bitacora-01-01',
+    imageUrl: '/curso00/imagenes/cursario-cartografia.svg',
+    showHeader: false,
+    code: 'CURSARIO:00.1',
+    title: 'Cursario, un proyecto en sí mismo',
+    subtitle: 'Registro dinámico de cursos y derivas (desarrollado con IA)',
+    description: `Este sitio en sí mismo nació como una necesidad de la propia investigación: un lugar para registrar, reunir y hacer circular las exploraciones que acompañan el “Trabajo Final de Investigación-Creación” (TFIC) para la Maestría en Artes Electrónicas de la UNTREF. ***Cursario*** es, entonces, un proyecto paralelo pero indivisible del trabajo en curso: una cartografía que crece con la investigación, recoge rastros y abre nuevos desvíos.
+
+Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes diversos, ***Cursario*** es un compendio en movimiento: un mapa de las líneas de investigación, las derivas activas, los hallazgos y los fragmentos del trabajo que está ocurriendo. Porque la investigación parte de seguir el rastro de un curso de agua —el Arroyo del Rey— y porque de un curso pueden surgir otros cursos, y también innumerables excursos: desvíos, rodeos y desvaríos fértiles.
+
+***Cursario*** recupera ese antiguo sentido de la palabra: quien incursiona en aguas ajenas, se aparta de las rutas establecidas y navega hacia aquello que el mapa no alcanza a señalar. Porque seguir un curso no significa necesariamente llegar a destino. El mapa no busca clausurar el territorio, sino provocar nuevas incursiones.`,
+    actionHref: '/acerca-de-cursario/',
+    actionLabel: 'Ver más...',
+    showAction: true,
+    tag: 'EXCURSO',
+    accentColor: '#E03E2D',
+    captionLabel: 'EXCURSO 04',
+  },
+  {
     course: 'curso02',
     parentDerivaId: 'gen-serie-01',
     subcurso: 'islote002',
@@ -71,7 +94,7 @@ export const ISLOTES: IsloteDefinition[] = [
     accentColor: '#E03E2D',
     categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
     captionLabel: 'RECORRIDO 01',
-    timeReference: '31-AGO-2026', 
+    timeReference: '1-SEP-2026', 
   },
   {
     course: 'curso00',
@@ -87,7 +110,7 @@ export const ISLOTES: IsloteDefinition[] = [
     accentColor: '#E03E2D',
     categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
     captionLabel: 'RECORRIDO 02',
-    timeReference: '31-AGO-2026', 
+    timeReference: '1-SEP-2026', 
   },
   {
     course: 'curso00',
@@ -103,6 +126,6 @@ export const ISLOTES: IsloteDefinition[] = [
     accentColor: '#E03E2D',
     categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
     captionLabel: 'RECORRIDO 03',
-    timeReference: '31-AGO-2026', 
+    timeReference: '1-SEP-2026', 
   },
 ];
