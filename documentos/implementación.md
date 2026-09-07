@@ -4,7 +4,7 @@ Este documento registra el estado de la implementación de *Cursario* y propone 
 
 ## 1. Estado general
 
-*Cursario* cuenta actualmente con un prototipo funcional construido con Astro, TypeScript, Tailwind y Canvas 2D. La aplicación puede compilarse como un sitio estático y ya permite recorrer la cartografía principal, entrar en cada curso, explorar sus subderivas y abrir páginas editoriales individuales.
+*Cursario* cuenta actualmente con un prototipo funcional construido con Astro, TypeScript, Tailwind y Canvas 2D. La aplicación puede compilarse como un sitio estático y ya permite recorrer la cartografía principal, entrar en cada curso, explorar sus subderivas e islotes y abrir páginas editoriales individuales.
 
 La estructura actual comprende cuatro cursos principales:
 
@@ -28,6 +28,8 @@ La cantidad de subderivas no está fijada en el código. Cada curso obtiene sus 
 - Retorno desde una deriva al nivel macro mediante `ESC` o `VOLVER`.
 - Radar/minimapa colapsable con representación de la cámara y acceso rápido a los cuatro cursos.
 - Radar local que representa todos los elementos de la deriva activa, sin asumir un máximo de tres, cinco o seis subderivas.
+- Islotes definidos en `src/data/islotes.ts`, dibujados en el mismo canvas que su deriva o subderiva padre y conectados mediante líneas.
+- Drawer `Derrotero` con enlaces a páginas generales y un acordeón dinámico de cursos y subderivas con destino editorial.
 - Distribuciones espaciales específicas: seis subderivas en una fila para `curso02` y una composición de tres elementos superiores y dos inferiores para `curso01`, con menor tamaño en la fila inferior.
 - Recuperación de la deriva de origen al volver desde una página editorial mediante un parámetro de navegación.
 
@@ -45,6 +47,7 @@ La cantidad de subderivas no está fijada en el código. Cada curso obtiene sus 
 ### Tarjetas e interfaz
 
 - Tarjetas HTML superpuestas al canvas para conservar legibilidad y enlaces.
+- Componentes diferenciados para las tarjetas principales y subderivas (`Isla`) y para las tarjetas secundarias (`Islote`).
 - Contenido visual adaptable: una o dos columnas según la combinación de imagen y Markdown.
 - Carga `eager` para las imágenes de los cursos principales y `lazy` para las imágenes de las subderivas.
 - HUD con coordenadas, escala, estado del curso activo, zoom, centrado y retorno.
@@ -54,7 +57,7 @@ La cantidad de subderivas no está fijada en el código. Cada curso obtiene sus 
 
 ### Páginas editoriales
 
-- Generación estática de una página por cada subderiva que figure en el catálogo.
+- Generación estática de una página por cada subderiva o islote que figure en los catálogos y tenga `pageMarkdownFile`.
 - Encabezado editorial con código, título, subtítulo, navegación de retorno e inicio.
 - Lectura vertical independiente del canvas.
 - Conversor Markdown controlado para títulos, párrafos, citas, negrita, cursiva y código inline.
@@ -88,16 +91,14 @@ npm run preview
 
 ### Agrupamiento de contenidos
 - Permitir que las subderivas sean agrupadas lógicamente en el canvas. Es decir, si cada deriva es una isla, poder definir archipiélagos que las reúna, con algún criterio lógico. Por ejemplo, en el caso de la gráfica generativa, armar agrupaciones por "colecciones" o "curadurías".
-- Pemitir incorporar en los canvas de navegación algún otro elemento simple que no sean islas (sólo texto y/o imagen), sin contenedor y sin necesidad de navegar a un siguiente nivel.
-- Añadir una sección de **Acerca del "El Cursario"**
-- Añadir un link en el header que despliegue un índice de contenidos (agrupado por cursos/subderivas) y que apunte a las páginas estáticas. Este índice debería poder ser accedido desde cualquier nivel.
+- Definir criterios visuales y editoriales para ampliar el uso de islotes como elementos secundarios del territorio.
 
 ### Experiencia y accesibilidad
 
 - Definir e implementar un modo de “Flujo Continuo” para mobile y accesibilidad, que permita recorrer los contenidos en una secuencia vertical clara sin depender exclusivamente del canvas bidimensional.
 - Mejorar la navegación por teclado, el foco visible, las etiquetas ARIA y las alternativas textuales de las tarjetas y controles.
 - Resolver una alternativa accesible para la información que hoy se comunica principalmente mediante posición, color, movimiento o coordenadas.
-- Evaluar un drawer o modal editorial para consultar contenidos sin abandonar completamente la deriva espacial.
+- Evaluar si el drawer `Derrotero` necesita ampliar sus contenidos, filtros o niveles de acceso a medida que crezca el catálogo.
 
 ### Contenidos enriquecidos
 

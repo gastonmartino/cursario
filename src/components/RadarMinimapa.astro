@@ -140,7 +140,7 @@
 
   toggle?.addEventListener('click', () => setOpen(!isOpen));
 
-  // ── Nav-links level visibility (driven by InfiniteCanvas.astro telemetry) ──
+  // ── Nav-links level visibility (driven by Cursario.astro telemetry) ──
   (window as any).__radarSetLevel = (level: 'macro' | 'deriva') => {
     const nav = document.getElementById('radar-nav-links') as HTMLElement | null;
     if (!nav) return;

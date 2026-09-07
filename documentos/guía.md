@@ -102,25 +102,33 @@ La publicación no requiere ejecutar `npm run dev` ni `npm run preview` en el ho
 
 Es la estructura base de las páginas. Define metadatos, tipografías, estilos globales, comportamiento de scroll y el marco visual común.
 
-### `InfiniteCanvas.astro`
+### `Cursario.astro`
 
 Es la vista principal del sitio. Combina el canvas de navegación, las tarjetas HTML de cursos y subderivas, la cortina de transición, el HUD y el radar. También carga los contenidos Markdown de las tarjetas principales y vincula cada subderiva con su definición de datos.
 
-### `IslandCard.astro`
+### `Isla.astro`
 
 Es la tarjeta visual utilizada para representar cursos y subderivas. Puede recibir una imagen, contenido Markdown o ambos. También administra títulos, subtítulos, descripciones, palabras clave, metadatos, acciones de navegación y el comportamiento visual responsive de sus contenidos.
+
+### `Derrotero.astro`
+
+Es el drawer de navegación que se despliega desde el HUD. Contiene los enlaces a las páginas estáticas generales y un acordeón construido a partir de los cursos y subderivas que tienen destino editorial disponible.
+
+### `Islote.astro`
+
+Es la tarjeta secundaria que se dibuja en el mismo canvas que su deriva o subderiva padre. Puede mostrar imagen, Markdown, descripción y palabras clave, y admite acciones hacia páginas editoriales sin abrir un nuevo canvas.
 
 ### `HUD.astro`
 
 Es la interfaz flotante de orientación. Muestra coordenadas, escala, estado de la navegación y controles para acercar, alejar, centrar y volver desde una deriva.
 
-### `RadarMinimap.astro`
+### `RadarMinimapa.astro`
 
 Es el radar/minimapa colapsable. Representa la posición de la cámara, ofrece accesos rápidos a los cursos principales y cambia su información cuando se ingresa en una deriva local.
 
 ### `src/pages/[curso]/[subcurso].astro`
 
-Es la plantilla de las páginas editoriales de tercer nivel. Astro genera una ruta por cada subderiva con `pageMarkdownFile` definido y allí se presenta el contenido largo, la navegación editorial y los medios incluidos en el Markdown.
+Es la plantilla de las páginas editoriales de tercer nivel. Astro genera una ruta por cada subderiva o islote con `pageMarkdownFile` definido y allí se presenta el contenido largo, la navegación editorial y los medios incluidos en el Markdown.
 
 ### Archivos del motor
 
@@ -132,16 +140,16 @@ Los archivos de `src/engine/` controlan la parte espacial:
 - `InkCursor.ts`: cursor gráfico, estela y partículas.
 - `Derivas.ts`: definición de los cursos principales y las posiciones de sus subderivas.
 
-## 6. Atributos de contenido y navegación de `IslandCard`
+## 6. Atributos de contenido y navegación de `Isla`
 
-Las tarjetas utilizan atributos relacionados con el contenido y la navegación. Algunos se definen en `src/data/subcursos.ts`, otros se calculan en `src/components/InfiniteCanvas.astro` y finalmente son recibidos por `src/components/IslandCard.astro`.
+Las tarjetas utilizan atributos relacionados con el contenido y la navegación. Algunos se definen en `src/data/subcursos.ts`, otros se calculan en `src/components/Cursario.astro` y finalmente son recibidos por `src/components/Isla.astro`.
 
 ### `markdownHtml`
 
 Es contenido Markdown ya convertido a HTML antes de llegar a la tarjeta. Se usa principalmente para el contenido introductorio de los cursos principales:
 
 ```astro
-<IslandCard markdownHtml={curso00MarkdownHtml} />
+<Isla markdownHtml={curso00MarkdownHtml} />
 ```
 
 No se define en `subcursos.ts`. Para las subderivas se utiliza normalmente `markdownFile`.
@@ -174,7 +182,7 @@ Es la URL de destino de una acción de navegación. Puede definirse opcionalment
 actionHref: '/curso00/curso005/',
 ```
 
-Si no se indica, `InfiniteCanvas.astro` construye automáticamente `/${course}/${subcurso}/` cuando existe `pageMarkdownFile`. Define el destino del botón `INCURSIONAR`; el botón sigue dependiendo de que exista una página editorial válida.
+Si no se indica, `Cursario.astro` construye automáticamente `/${course}/${subcurso}/` cuando existe `pageMarkdownFile`. Define el destino del botón `INCURSIONAR`; el botón sigue dependiendo de que exista una página editorial válida.
 
 ### `detailHref`
 
@@ -184,7 +192,7 @@ Es el destino al hacer click sobre cualquier parte de la tarjeta. Al igual que `
 detailHref: '/curso00/curso005/',
 ```
 
-Para las subderivas se pasa desde `InfiniteCanvas.astro`, con estos valores de fallback:
+Para las subderivas se pasa desde `Cursario.astro`, con estos valores de fallback:
 
 ```astro
 detailHref={subcurso.detailHref || subcurso.actionHref || (subcurso.pageMarkdownFile
@@ -224,13 +232,15 @@ Por lo tanto, `showAction: false` oculta el botón, pero no desactiva el click g
 
 | Atributo | Función | Lugar habitual |
 | --- | --- | --- |
-| `markdownHtml` | HTML ya generado para una tarjeta | `InfiniteCanvas.astro` |
+| `markdownHtml` | HTML ya generado para una tarjeta | `Cursario.astro` |
 | `markdownFile` | Markdown breve dentro de la tarjeta | `src/data/subcursos.ts` |
 | `pageMarkdownFile` | Markdown de la página editorial | `src/data/subcursos.ts` |
 | `actionHref` | Destino del botón de acción | `src/data/subcursos.ts` o calculado |
 | `detailHref` | Destino del click sobre toda la tarjeta | `src/data/subcursos.ts` |
-| `actionLabel` | Texto visible del botón | Instancia de `IslandCard` |
-| `showAction` | Muestra u oculta el botón | `src/data/subcursos.ts` |
+| `actionLabel` | Texto visible del botón | Instancia de `Isla` |
+| `showAction` | Muestra u oculta el botón | `src/data/subcursos.ts` o `src/data/islotes.ts` |
+
+Los islotes utilizan los mismos atributos de contenido y navegación cuando corresponde. Sus definiciones se encuentran en `src/data/islotes.ts` y se renderizan mediante `src/components/Islote.astro`. No utilizan `detailHref` por el momento: si tienen `actionHref` o `pageMarkdownFile`, el destino se abre desde el botón y desde el click sobre la tarjeta.
 
 ## 7. Cómo añadir un nuevo curso principal
 
@@ -246,8 +256,8 @@ Un curso principal necesita una definición espacial, una tarjeta visible en la 
    - `accentColor` y `tag`;
    - `type` apropiado;
    - arreglo `items` con las subderivas espaciales.
-3. En `src/components/InfiniteCanvas.astro`, agregar la tarjeta principal del nuevo curso. Allí se indica la imagen, el Markdown inicial, el código, la descripción, la región y las dimensiones de la tarjeta.
-4. En `src/components/RadarMinimap.astro`, agregar un botón de acceso rápido con `data-fly-to` apuntando al nuevo `id`.
+3. En `src/components/Cursario.astro`, agregar la tarjeta principal del nuevo curso. Allí se indica la imagen, el Markdown inicial, el código, la descripción, la región y las dimensiones de la tarjeta.
+4. En `src/components/RadarMinimapa.astro`, agregar un botón de acceso rápido con `data-fly-to` apuntando al nuevo `id`.
 5. Si el nuevo identificador debe formar parte del catálogo de subderivas, ampliar los tipos de `src/data/subcursos.ts` (`course` y `parentDerivaId`) y agregar las definiciones correspondientes.
 6. Crear los Markdown e imágenes con las rutas que se hayan declarado.
 7. Ejecutar `npm run build` y revisar que la nueva región, sus enlaces y sus páginas se generen correctamente.
@@ -332,14 +342,14 @@ public/curso02/subcursos/curso007/
 6. Si no existe `imageUrl`, la tarjeta sólo mostrará el Markdown. Si no existe `markdownFile`, mostrará únicamente la imagen. Si no existe `pageMarkdownFile`, no mostrará el botón de acceso al detalle.
 7. Ejecutar `npm run build` para que Astro genere automáticamente la nueva ruta `/curso02/curso007/`.
 
-## 10. Cómo crear el Markdown de una subderiva
+## 10. Cómo crear el Markdown de una subderiva o islote
 
 Hay dos archivos con funciones diferentes:
 
 - `contenido-curso.md`: resumen breve que aparece dentro de la tarjeta en la deriva local. Es opcional.
 - `pagina-curso.md`: contenido extendido de la página editorial de tercer nivel. Es necesario para que aparezca el botón de detalle de una subderiva.
 
-Los archivos deben guardarse en la carpeta pública declarada en `src/data/subcursos.ts`. Por ejemplo:
+Los archivos deben guardarse en la carpeta pública declarada en `src/data/subcursos.ts` o `src/data/islotes.ts`. Por ejemplo:
 
 ```text
 public/curso00/subcursos/curso005/contenidos/

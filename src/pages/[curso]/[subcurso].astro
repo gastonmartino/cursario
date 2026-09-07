@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
-import NavigationDrawer from '../../components/NavigationDrawer.astro';
+import Derrotero from '../../components/Derrotero.astro';
 import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
 import { ISLOTES, type IsloteDefinition } from '../../data/islotes';
 import { renderMarkdownToHtml } from '../../utils/markdown';
@@ -82,7 +82,7 @@ try {
       </div>
     </header>
 
-    <NavigationDrawer />
+    <Derrotero />
 
     <main class="mx-auto max-w-4xl px-5 py-7 md:px-8 md:py-10">
       <article class="border border-ink-border/80 bg-white/80 p-6 shadow-sm md:p-12">

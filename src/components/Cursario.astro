@@ -2,9 +2,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import HUD from './HUD.astro';
-import RadarMinimap from './RadarMinimap.astro';
-import NavigationDrawer from './NavigationDrawer.astro';
-import IslandCard from './IslandCard.astro';
+import RadarMinimapa from './RadarMinimapa.astro';
+import Derrotero from './Derrotero.astro';
+import Isla from './Isla.astro';
 import Islote from './Islote.astro';
 import { SUBCURSOS } from '../data/subcursos';
 import { ISLOTES_SPATIAL, SPATIAL_DERIVAS } from '../engine/Derivas';
@@ -74,7 +74,7 @@ const isloteCards = ISLOTES.map((islote) => {
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
   <!-- HUD Telemetry & Navigation Controls -->
   <HUD />
-  <NavigationDrawer />
+  <Derrotero />
 
   <!-- Smooth Level Transition Curtain -->
   <div 
@@ -95,7 +95,7 @@ const isloteCards = ISLOTES.map((islote) => {
     <!-- CURSO:00 (ISLA: Deriva actualmente en curso) -->
     <!-- description={SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso')?.description} -->
 
-    <IslandCard 
+    <Isla 
       id="spatial-node-en-curso"
       code="CURSO:00"
       headerTypeLabel="// BITÁCORA"
@@ -115,7 +115,7 @@ const isloteCards = ISLOTES.map((islote) => {
     />
     
     <!-- CURSO:01 (ISLA: Deriva de arte electrónico MAE) -->
-    <IslandCard 
+    <Isla 
       id="spatial-node-untref"
       code="CURSO:01"
       headerTypeLabel="// MAE UNTREF"
@@ -135,7 +135,7 @@ const isloteCards = ISLOTES.map((islote) => {
     />
   
     <!-- CURSO:02 (Deriva generativa) -->
-    <IslandCard 
+    <Isla 
       id="spatial-node-generativa"
       code="CURSO:02"
       headerTypeLabel="// GENERATIVA"
@@ -155,7 +155,7 @@ const isloteCards = ISLOTES.map((islote) => {
     />
     
     <!-- CURSO:03 (ISLA: Deriva del pensamiento de diseño) -->
-    <IslandCard 
+    <Isla 
       id="spatial-node-pensamiento"
       code="CURSO:03"
       headerTypeLabel="// DISEÑO"
@@ -176,7 +176,7 @@ const isloteCards = ISLOTES.map((islote) => {
 
     <!-- Subderivas: islas HTML enriquecidas dentro de cada canvas local -->
     {subcursoCards.map((subcurso) => (
-      <IslandCard
+      <Isla
         id={`spatial-subnode-${subcurso.itemId}`}
         detailHref={subcurso.detailHref || subcurso.actionHref || (subcurso.pageMarkdownFile ? `/${subcurso.course}/${subcurso.subcurso}/` : undefined)}
         isSubderiva={true}
@@ -237,7 +237,7 @@ const isloteCards = ISLOTES.map((islote) => {
   </div>
 
   <!-- Radar Minimap Component -->
-  <RadarMinimap />
+  <RadarMinimapa />
 
   <!-- Foreground Cursor Canvas for Ink Trail & Reticle (z-40) -->
   <canvas 

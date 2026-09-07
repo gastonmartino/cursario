@@ -493,6 +493,8 @@ El lienzo infinito se transforma en una **Mesa de Dibujo / Pliego Cartográfico 
 
 ## 10\. Registro de la Primera Versión de la Implementación del Sitio
 
+Esta sección conserva la nomenclatura de la primera implementación como registro histórico. La organización y los nombres actuales se describen en la sección 11.
+
 ![Diseño de la primera versión del sitio](media/mockup-sitio-01.jpg)
 
 > Diseño preliminar de la página principal (sin contenidos, aún). Cada ventana representa un posible curso a recorrer. Abajo, a la izquierda un mapa miniatura (*colapsable*) que orienta la navegación.
@@ -535,13 +537,13 @@ Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
 -   **`Layout.astro`:** Configuración base con Google Fonts, meta-etiquetas y deshabilitación del cursor por defecto en el canvas.
 -   **`InfiniteCanvas.astro`:** Componente raíz de la vista que contiene el `<canvas id="infinite-canvas">`, la cortina de transición suave entre niveles (`#transition-curtain`) e inicializa el `CanvasController`.
 -   **`HUD.astro`:** Barra flotante de telemetría superior que muestra coordenadas en vivo (`POS: X, Y`), nivel de zoom (`ESCALA: %`), estado del nodo activo, botón `← VOLVER [ESC]` y controles de zoom (+, -, centrar).
--   **`RadarMinimap.astro`:** Widget minimapa radar colapsable en la esquina inferior izquierda. Dibuja en un mini-canvas la posición de la cámara en relación con los nodos, botones de vuelo rápido `[1]` a `[4]` e instrucciones interactivas.
+-   **`RadarMinimapa.astro`:** Widget minimapa radar colapsable en la esquina inferior izquierda. Dibuja en un mini-canvas la posición de la cámara en relación con los nodos, botones de vuelo rápido `[1]` a `[4]` e instrucciones interactivas.
 
 ---
 
 ## 11\. Estado Actual de la Implementación
 
-La primera implementación ya no es solamente un mockup visual: el sitio cuenta con una navegación espacial funcional y con contenido editorial real cargado desde Markdown. La página raíz (`/`) presenta la cartografía macro; cada región puede abrirse como una deriva local; y cada subcurso dispone de una página propia generada de forma estática.
+La primera implementación ya no es solamente un mockup visual: el sitio cuenta con una navegación espacial funcional y con contenido editorial real cargado desde Markdown. La página raíz (`/`) presenta la cartografía macro; cada región puede abrirse como una deriva local; y cada subcurso o islote con `pageMarkdownFile` dispone de una página propia generada de forma estática.
 
 ### 11\.1. Stack y configuración
 
@@ -565,8 +567,8 @@ npm run preview   # previsualización de la compilación
 
 ```text
 src/
-├── components/       # Canvas, tarjetas, HUD y minimapa
-├── data/             # Catálogo tipado de subcursos
+├── components/       # Cursario, Isla, Islote, HUD, radar y Derrotero
+├── data/             # Catálogos tipados de subcursos e islotes
 ├── engine/           # Cámara, interacción, cursor y superficie generativa
 ├── layouts/          # Documento base, metadatos y transiciones de página
 ├── pages/            # Inicio y rutas dinámicas de cada subcurso
@@ -579,11 +581,11 @@ public/
 └── curso03/          # Pensamiento & Diseño
 ```
 
-`InfiniteCanvas.astro` compone la escena y carga server-side los Markdown de cada curso y subcurso. `CanvasController` conecta el motor con el DOM: el canvas dibuja el territorio, mientras que las tarjetas `IslandCard.astro` se posicionan como una capa HTML superior para conservar legibilidad, imágenes, enlaces y contenido editorial a cualquier escala.
+`Cursario.astro` compone la escena y carga server-side los Markdown de cada curso, subcurso e islote. `CanvasController` conecta el motor con el DOM: el canvas dibuja el territorio, mientras que las tarjetas `Isla.astro` e `Islote.astro` se posicionan como una capa HTML superior para conservar legibilidad, imágenes, enlaces y contenido editorial a cualquier escala. `Derrotero.astro` ofrece el drawer y el índice de navegación.
 
 ### 11\.3. Modelo de contenidos
 
-El catálogo de `src/data/subcursos.ts` define doce subcursos, tres por cada curso principal:
+El catálogo de `src/data/subcursos.ts` define actualmente diecinueve subderivas, distribuidas así:
 
 | Curso | Región | Contenido actual |
 | --- | --- | --- |
@@ -592,10 +594,12 @@ El catálogo de `src/data/subcursos.ts` define doce subcursos, tres por cada cur
 | `curso02` | `generativa` | Seis series de Processing, gráfica y video |
 | `curso03` | `pensamiento` | Tres ensayos, apuntes y manifiestos de diseño |
 
-Cada subcurso tiene una definición tipada —código, título, subtítulo, etiqueta, color, categoría e identificador espacial— y una pareja de archivos Markdown:
+El catálogo complementario de `src/data/islotes.ts` define islotes que dependen de cursos principales o de subderivas y se dibujan en el mismo canvas que su elemento padre.
+
+Cada subderiva puede tener una definición tipada —código, título, subtítulo, etiqueta, color, categoría, medios y acciones— junto con archivos Markdown opcionales:
 
 -   `contenido-curso.md`: resumen que aparece dentro de la tarjeta espacial.
--   `pagina-curso.md`: contenido de la página editorial individual.
+-   `pagina-curso.md`: contenido de la página editorial individual, cuando existe `pageMarkdownFile`.
 
 Las imágenes y portadas se sirven desde `public/cursoXX/...`, por lo que mantienen rutas públicas estables y no requieren importación desde los componentes Astro.
 
@@ -618,7 +622,7 @@ Nivel deriva: recorrido local de una región
 
 En el nivel macro, el usuario puede arrastrar el plano, desplazarse entre regiones, usar el radar o seleccionar una isla para `INCURSIONAR`. La cámara conserva coordenadas de mundo independientes de la pantalla y calcula automáticamente un zoom de encuadre para que cada región resulte visible al llegar.
 
-Al entrar en una deriva, la cámara se centra en el sistema local y muestra sus subcursos sobre una retícula fina, unidos por un cauce curvo. La cantidad de tarjetas no está limitada a tres: se determina mediante el arreglo `items` de cada deriva. Las tarjetas locales incluyen imagen, resumen, coordenadas y un enlace `INCURSIONAR [ABRIR]` hacia la página editorial.
+Al entrar en una deriva, la cámara se centra en el sistema local y muestra sus subderivas sobre una retícula fina, unidos por un cauce curvo. La cantidad de tarjetas no está limitada a tres: se determina mediante el arreglo `items` de cada deriva. Los islotes secundarios pueden aparecer alrededor de cursos o subderivas, conectados mediante líneas. Las tarjetas locales incluyen imagen, resumen y acciones hacia páginas editoriales cuando están configuradas.
 
 ### 11\.5. Controles disponibles
 
@@ -630,9 +634,9 @@ Al entrar en una deriva, la cámara se centra en el sistema local y muestra sus 
 | Ir a una región | `1`–`4` o botones del radar | Botones del radar |
 | Abrir una región | Click sobre una isla, `ENTER` o `INCURSIONAR` | Toque sobre el botón o la isla |
 | Volver al nivel macro | `ESC` o `← VOLVER` | Botón del HUD |
-| Abrir un subcurso | `INCURSIONAR [ABRIR]` | Enlace de la tarjeta |
+| Abrir una página editorial | Botón o click sobre la tarjeta | Toque o enlace de la tarjeta |
 
-El radar es colapsable y cambia su información según el nivel activo. En macro muestra las cuatro regiones y el encuadre de la cámara; dentro de una deriva muestra las tres tarjetas locales y el encuadre correspondiente.
+El radar es colapsable y cambia su información según el nivel activo. En macro muestra las cuatro regiones y el encuadre de la cámara; dentro de una deriva muestra todos los elementos locales y el encuadre correspondiente.
 
 ### 11\.6. Renderizado e interacción
 
@@ -645,7 +649,7 @@ El radar es colapsable y cambia su información según el nivel activo. En macro
 
 ### 11\.7. Rutas y deep linking implementado
 
-Astro genera una página por cada combinación declarada en `SUBCURSOS` mediante `getStaticPaths()`:
+Astro genera una página por cada combinación declarada en `SUBCURSOS` o `ISLOTES` mediante `getStaticPaths()`:
 
 ```text
 /curso00/curso001/
@@ -661,7 +665,6 @@ Las páginas individuales tienen navegación propia `← VOLVER` e `INICIO`, met
 
 Esta versión debe considerarse un prototipo funcional de navegación y publicación de contenidos. Todavía quedan fuera de implementación:
 
--   Drawer o modal editorial dentro del canvas.
 -   Modo “Flujo Continuo” específico para mobile y accesibilidad.
 -   Visores de código, reproductores de video y registros sonoros integrados.
 -   Persistencia de la posición de cámara entre sesiones.
