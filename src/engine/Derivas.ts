@@ -373,7 +373,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     id: 'islote-bitacora-01-01',
     parentId: 'bitacora-01',
     x: -1331,
-    y: -121,
+    y: -72,
     width: 420,
     height: 320,
   },

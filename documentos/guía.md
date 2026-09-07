@@ -399,6 +399,22 @@ En un enlace como `https://youtu.be/nnM_C6h1D_A`, el identificador es la parte p
 
 La etiqueta debe escribirse sola en una línea. También puede usarse con videos cuyo enlace original tenga el formato `https://www.youtube.com/watch?v=ID`, tomando únicamente el valor de `ID`.
 
+### Insertar un enlace externo
+
+Se puede agregar un enlace con la sintaxis Markdown habitual:
+
+```markdown
+[Repositorio de Cursario en GitHub](https://github.com/gastonmartino/cursario)
+```
+
+También se reconocen las URLs externas escritas directamente en una línea o dentro de un párrafo:
+
+```markdown
+https://github.com/gastonmartino/cursario
+```
+
+Los enlaces se muestran con el estilo editorial correspondiente y se abren en una pestaña nueva.
+
 ## 11. Comprobaciones antes de publicar
 
 Antes de subir una nueva versión:

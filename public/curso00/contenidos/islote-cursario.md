@@ -1,0 +1,2 @@
+El desarrollo de ***Cursario*** se inicia, entonces, el 30/8/2026, en paralelo con la investigación y las exploraciones físicas. Se emplean **ChatGPT** y **Antigravity** para generar el código HTML/CSS/JS que posibilite implementar la plataforma donde ir volcando los resultados de las investigaciones y el registro del trabajo en curso.
+> Código del proyecto en **GitHub**: https://github.com/gastonmartino/cursario

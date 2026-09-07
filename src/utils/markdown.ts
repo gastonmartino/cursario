@@ -10,6 +10,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     ? {
         blockquote: 'border-l-2 border-accent-vermilion pl-5 py-2 my-7 italic text-ink-muted bg-river-mist/35 text-base leading-relaxed font-sans',
         strong: 'font-bold text-ink-primary',
+        link: 'font-semibold text-cobalt underline decoration-cobalt/40 underline-offset-2 hover:text-cobalt-dark',
         code: 'font-mono text-sm bg-paper-sheet px-1.5 py-0.5 rounded text-cobalt',
         h1: 'font-sans font-bold text-3xl md:text-5xl text-ink-primary tracking-tight mt-0 mb-6',
         h2: 'font-sans font-bold text-2xl md:text-3xl text-ink-primary tracking-tight mt-10 mb-4',
@@ -19,6 +20,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     : {
         blockquote: 'border-l-2 border-cobalt pl-3 py-1 my-2 italic text-ink-muted bg-river-mist/30 text-[11px] font-sans',
         strong: 'font-bold text-ink-primary',
+        link: 'font-semibold text-cobalt underline decoration-cobalt/40 underline-offset-2 hover:text-cobalt-dark',
         code: 'font-mono text-[10px] bg-paper-sheet px-1 py-0.5 rounded text-cobalt',
         h1: 'font-sans font-bold text-sm text-ink-primary mt-2 mb-1',
         h2: 'font-sans font-bold text-xs text-ink-primary mt-2 mb-1',
@@ -41,10 +43,31 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
   };
 
   const parseInline = (text: string): string => {
-    return text
+    const linkTokens: string[] = [];
+    const linkToken = (label: string, href: string) => {
+      const token = `__CURSARIO_LINK_${linkTokens.length}__`;
+      linkTokens.push(`<a href="${href}" class="${styles.link}" target="_blank" rel="noopener noreferrer">${label}</a>`);
+      return token;
+    };
+
+    const withMarkdownLinks = text.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)/g,
+      (_match, label: string, href: string) => linkToken(label, href)
+    );
+    const withBareLinks = withMarkdownLinks.replace(
+      /(^|\s)(https?:\/\/[^\s<]+)/g,
+      (_match, prefix: string, rawHref: string) => {
+        const trailingPunctuation = rawHref.match(/[.,;:!?]+$/)?.[0] ?? '';
+        const href = trailingPunctuation ? rawHref.slice(0, -trailingPunctuation.length) : rawHref;
+        return `${prefix}${linkToken(href, href)}${trailingPunctuation}`;
+      }
+    );
+
+    return withBareLinks
       .replace(/\*\*(.*?)\*\*/g, `<strong class="${styles.strong}">$1</strong>`)
       .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-      .replace(/`([^`]+)`/g, `<code class="${styles.code}">$1</code>`);
+      .replace(/`([^`]+)`/g, `<code class="${styles.code}">$1</code>`)
+      .replace(/__CURSARIO_LINK_(\d+)__/g, (_match, index: string) => linkTokens[Number(index)]);
   };
 
   for (const rawLine of lines) {

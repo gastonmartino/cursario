@@ -49,11 +49,12 @@ export const ISLOTES: IsloteDefinition[] = [
     subcurso: 'islote006',
     itemId: 'islote-bitacora-01-01',
     imageUrl: '/curso00/imagenes/cursario-cartografia.svg',
+    markdownFile: '/curso00/contenidos/islote-cursario.md',
     showHeader: false,
     code: 'CURSARIO:00.1',
-    title: 'Cursario, un proyecto en sí mismo',
-    subtitle: 'Registro dinámico de cursos y derivas (desarrollado con IA)',
-    description: `Este sitio en sí mismo nació como una necesidad de la propia investigación: un lugar para registrar, reunir y hacer circular las exploraciones que acompañan el “Trabajo Final de Investigación-Creación” (TFIC) para la Maestría en Artes Electrónicas de la UNTREF. ***Cursario*** es, entonces, un proyecto paralelo pero indivisible del trabajo en curso: una cartografía que crece con la investigación, recoge rastros y abre nuevos desvíos.
+    title: 'CURSARIO - Un proyecto en sí mismo',
+    subtitle: 'Plataforma para registro dinámico de cursos y derivas (hecho con IA)',
+    description: `La idea del desarrollo de este sitio nació como una necesidad de la propia investigación: un lugar para registrar, reunir y hacer circular las exploraciones que acompañan el “Trabajo Final de Investigación-Creación” (TFIC) para la Maestría en Artes Electrónicas de la UNTREF. ***Cursario*** es, entonces, un proyecto paralelo pero indivisible del trabajo en curso: una cartografía que crece con la investigación, recoge rastros y abre nuevos desvíos.
 
 Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes diversos, ***Cursario*** es un compendio en movimiento: un mapa de las líneas de investigación, las derivas activas, los hallazgos y los fragmentos del trabajo que está ocurriendo. Porque la investigación parte de seguir el rastro de un curso de agua —el Arroyo del Rey— y porque de un curso pueden surgir otros cursos, y también innumerables excursos: desvíos, rodeos y desvaríos fértiles.
 
