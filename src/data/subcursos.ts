@@ -78,9 +78,33 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     categoryLabel: 'REGISTRO', captionLabel: 'ARROYO DEL REY',
     timeReference: '31 de agosto de 2026', 
   },
+  {
+    course: 'curso00', parentDerivaId: 'en-curso', subcurso: 'curso006', itemId: 'bitacora-06',
+    imageUrl: '/curso00/subcursos/curso006/medios/arroyo-macrofitas-v01.jpg',
+    pageMarkdownFile: '/curso00/subcursos/curso006/contenidos/macrofitas.md',
+    code: 'TFIC:06',
+    title: 'Macrófitas - Visualización de un territorio generativo',
+    subtitle: 'Escalas visibles (MACRO) e invisibles (MICRO)',
+    description: 'Las macrófitas (plantas acuáticas del arroyo) contienen de alguna manera el territorio. En su crecimiento quedan inscriptas las condiciones del lugar. Su cualidad de "macro" contiene, a su vez, lo "micro". Las macrófitas son una emergencia visible de procesos invisibles dentro del territorio. Pero al mismo tiempo que son su consecuencia, participan activamente de su transformación, siempre cambiante, siempre sujetas a las nuevas condiciones de generación.',
+    tag: 'NATURALEZA',
+    accentColor: '#E03E2D',
+    captionLabel: 'GENERATIVA',
+  },
+  {
+    course: 'curso00', parentDerivaId: 'en-curso', subcurso: 'curso007', itemId: 'bitacora-07',
+    imageUrl: '/curso00/subcursos/curso007/medios/collage-emergencia-01.jpg',
+    pageMarkdownFile: '/curso00/subcursos/curso007/contenidos/emergencia.md',
+    code: 'TFIC:07',
+    title: 'Emergencias del Territorio',
+    subtitle: 'El territorio produce formas inesperadas. Las formas producen territorio',
+    tag: 'INVESTIGACIÓN',
+    accentColor: '#E03E2D',
+    categoryLabel: 'MICRO / MACRO',
+    captionLabel: 'EMERGENCIA',
+  },
     
 
- //
+//
  // CURSO:01 - MAE UNTREF
  //
   {

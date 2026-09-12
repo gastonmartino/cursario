@@ -10,7 +10,7 @@ La estructura actual comprende cuatro cursos principales:
 
 | Curso | Tema | Subderivas actuales |
 | --- | --- | ---: |
-| `curso00` | En Curso / bitácora | 5 |
+| `curso00` | En Curso / bitácora | 7 |
 | `curso01` | Artes Electrónicas / UNTREF | 5 |
 | `curso02` | Gráfica Generativa | 6 |
 | `curso03` | Pensamiento & Diseño | 3 |

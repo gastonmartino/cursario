@@ -16,6 +16,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
         h2: 'font-sans font-bold text-2xl md:text-3xl text-ink-primary tracking-tight mt-10 mb-4',
         h3: 'font-sans font-semibold text-xl text-ink-primary mt-8 mb-3',
         paragraph: 'text-base md:text-lg text-ink-muted leading-relaxed my-4 font-sans',
+        caption: 'mt-2 text-sm text-ink-faint italic leading-relaxed font-sans',
       }
     : {
         blockquote: 'border-l-2 border-cobalt pl-3 py-1 my-2 italic text-ink-muted bg-river-mist/30 text-[11px] font-sans',
@@ -26,6 +27,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
         h2: 'font-sans font-bold text-xs text-ink-primary mt-2 mb-1',
         h3: 'font-sans font-semibold text-xs text-ink-primary mt-1 mb-1',
         paragraph: 'text-xs text-ink-muted leading-relaxed my-1 font-sans',
+        caption: 'mt-1 text-[10px] text-ink-faint italic leading-relaxed font-sans',
       };
 
   const lines = markdown.split(/\r?\n/);
@@ -86,7 +88,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     }
 
     const youtubeMatch = line.match(/^\[youtube:([A-Za-z0-9_-]{11})\]$/i);
-    const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)$/);
+    const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)(?:\s+\*([^*]+)\*)?$/);
 
     if (youtubeMatch) {
       const videoId = youtubeMatch[1];
@@ -106,6 +108,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     } else if (isPage && imageMatch) {
       const altText = imageMatch[1];
       const imageSrc = imageMatch[2];
+      const caption = imageMatch[3]?.trim();
       htmlLines.push(`
         <figure class="my-8 w-full">
           <img
@@ -114,6 +117,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
             loading="lazy"
             decoding="async"
             class="h-auto w-full object-contain">
+          ${caption ? `<figcaption class="${styles.caption}">${caption}</figcaption>` : ''}
         </figure>
       `);
     } else if (line.startsWith('# ')) {

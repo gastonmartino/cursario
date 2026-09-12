@@ -387,6 +387,14 @@ el Markdown debe contener:
 
 No usar una ruta relativa al propio archivo Markdown como `./medios/recorrido-001.jpg`. En el sitio, `/` representa la raíz pública del dominio. Las imágenes de las páginas editoriales se muestran de manera responsive, ocupan el ancho disponible y utilizan `lazy loading`.
 
+Para agregar una leyenda, escribir el texto en cursiva inmediatamente después del Markdown de la imagen, en la misma línea:
+
+```markdown
+![Recorrido por el Arroyo del Rey](/curso00/subcursos/curso005/medios/recorrido-001.jpg) *Recorrido del Arroyo del Rey, Longchamps — 31 de agosto de 2026.*
+```
+
+La leyenda se genera como un elemento `figcaption`, con un tamaño menor y estilo diferenciado del cuerpo editorial.
+
 ### Insertar un video de YouTube
 
 Usar una línea independiente con el identificador de once caracteres del video:

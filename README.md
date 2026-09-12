@@ -585,11 +585,11 @@ public/
 
 ### 11\.3. Modelo de contenidos
 
-El catálogo de `src/data/subcursos.ts` define actualmente diecinueve subderivas, distribuidas así:
+El catálogo de `src/data/subcursos.ts` define actualmente veinte subderivas, distribuidas así:
 
 | Curso | Región | Contenido actual |
 | --- | --- | --- |
-| `curso00` | `en-curso` | Cinco registros de bitácora y experimentación |
+| `curso00` | `en-curso` | Siete registros de bitácora y experimentación |
 | `curso01` | `untref` | Cinco obras de Artes Electrónicas / MAE |
 | `curso02` | `generativa` | Seis series de Processing, gráfica y video |
 | `curso03` | `pensamiento` | Tres ensayos, apuntes y manifiestos de diseño |
