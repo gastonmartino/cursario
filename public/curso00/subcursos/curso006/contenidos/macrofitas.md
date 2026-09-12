@@ -17,6 +17,8 @@ Las macrofitas permiten pensar juntas **dos escalas** que suelen separarse: la e
 **1. Macro**: aquello que el territorio permite ver. 
 **2. Micro**: aquello que está operando pero permanece fuera de nuestra percepción inmediata.
 
+![Escalas de macrófitas generativas](/curso00/subcursos/curso006/medios/arroyo-mosaico-escalas-01.jpg) *Especies riparias generadas con IA a diferentes escalas. En muchos casos termina reproduciendo hojas muy similares al Ginkgo que no estaba presente en la zona.*
+
 Las macrófitas dependen de las condiciones físicas, químicas y biológicas del arroyo para crecer y desarrollarse: la disponibilidad de nutrientes, la calidad y el movimiento del agua, la luz, el tipo de sedimento y otros factores ambientales condicionan su presencia y distribución. A su vez, estas plantas dejan de ser meras consecuencias del entorno y comienzan a transformarlo. Sus raíces retienen sedimentos, sus tallos modifican el movimiento del agua y su crecimiento genera refugio y nuevas condiciones para otros organismos. Hasta pueden producir turbulencias que alteren el propio curso del arroyo.
 
-> El agua determina dónde crece la planta, pero la planta modifica cómo circula el agua.
+> **El agua determina dónde crece la planta, pero la planta modifica cómo circula el agua**.
