@@ -41,6 +41,18 @@ export interface IsloteSpatial {
 
 export type Derivas = SpatialDeriva; // Alias for backward compatibility
 
+
+// =====================================================================================
+//
+// DERIVAS
+// Las derivas son los cursos en los que se organizan los contenidos del sitio.
+// Se trata de ítems dispuestos en un "lienzo infinito" —de ahí el nombre de
+// "Derivas Espaciales"—. Cada deriva o curso de nivel superior puede tener una
+// o múltiples subderivas o subcursos que son dibujadas en su propio lienzo, 
+// y vinculadas entre sí por una línea que representa el flujo.
+//
+// =====================================================================================
+
 export const SPATIAL_DERIVAS: SpatialDeriva[] = [
   {
     id: 'en-curso',
@@ -384,9 +396,22 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
   }
 ];
 
-// Islotes share the coordinate system of their parent: top-level parents use
-// macro coordinates, while subderiva parents use local deriva coordinates.
+
+// =====================================================================================
+//
+// ISLOTES
+// Los islotes flotan siempre asociados a una deriva/curso. Son item mucho más simples
+// que las derivas. Contienen menos información y no pueden incluir subderivas.
+// Los islotes comparten el sistema de coordenadas de las derivas a las que están
+// asociadas. Las derivas (cursos) de nivel superior utilizan coordenadas macros,
+// mientras que las subderivas (subcursos) usan coodenadas locales.
+// 
+// =====================================================================================
 export const ISLOTES_SPATIAL: IsloteSpatial[] = [
+    
+  // ISLOTES DEL CURSO:00 / DERIVA "EN CURSO"
+  // Se muestra junto con los cursos del nivel superior
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     id: 'islote-en-curso-01',
     parentId: 'en-curso',
@@ -395,19 +420,17 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     width: 420,
     height: 320,
   },
+
+    
+  // ISLOTES DEL CURSO:00 / SUBDERIVAS "EN CURSO"
+  // Se muestran asociados a las subderivas de la deriva "En Curso",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     id: 'islote-bitacora-01-01',
     parentId: 'bitacora-01',
     x: -1331,
     y: -72,
-    width: 420,
-    height: 320,
-  },
-  {
-    id: 'islote-generativa-01',
-    parentId: 'gen-serie-01',
-    x: 286,
-    y: -841,
     width: 420,
     height: 320,
   },
@@ -434,6 +457,66 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     y: 1260,
     width: 400,
     height: 300,
+  },
+    
+    
+  // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
+  // Se muestran asociados a las subderivas de la deriva "Arte Electrónico",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    id: 'islote-obra-01',
+    parentId: 'untref-obra-01',
+    x: -726,
+    y: -766,
+    width: 220,
+    height: 220,
+  },
+  {
+    id: 'islote-obra-02',
+    parentId: 'untref-obra-02',
+    x: 0,
+    y: -766,
+    width: 340,
+    height: 190,
+  },
+  {
+    id: 'islote-obra-03',
+    parentId: 'untref-obra-03',
+    x: 1236,
+    y: -266,
+    width: 220,
+    height: 220,
+  },
+  {
+    id: 'islote-obra-04',
+    parentId: 'untref-obra-04',
+    x: -480,
+    y: 732,
+    width: 144,
+    height: 144,
+  },
+  {
+    id: 'islote-obra-05',
+    parentId: 'untref-obra-05',
+    x: 1100,
+    y: 830,
+    width: 160,
+    height: 160,
+  },
+    
+
+  // ISLOTES DEL CURSO:02 / SUBDERIVAS "GENERATIVA"
+  // Se muestran asociados a las subderivas de la deriva "Generativa",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    id: 'islote-generativa-01',
+    parentId: 'gen-serie-01',
+    x: 286,
+    y: -841,
+    width: 420,
+    height: 320,
   },
 ];
 

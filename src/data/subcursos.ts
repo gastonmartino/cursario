@@ -112,7 +112,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     imageUrl: '/curso01/subcursos/curso001/medios/portada-sos.gif', 
     pageMarkdownFile: '/curso01/subcursos/curso001/contenidos/pagina-curso.md',
     code: 'OBRA:01', 
-    title: 'Siervos del Obnubilante Scrolling', 
+    title: 'Siervos del Obnubilante Scrolling (S.O.S)', 
     subtitle: 'Trabajo final del primer cuatrimestre, 2025',
     description: 'Un culto a la obnubilación, con tecnoliturgias obscenas, maquinales actos de fe y profecías de autosatisfacción. Una historia apócrifa sobre el arrobamiento del Antropobsceno tardío',
     tag: 'MAESTRÍA UNTREF', 

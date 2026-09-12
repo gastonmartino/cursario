@@ -26,6 +26,10 @@ export interface IsloteDefinition {
 }
 
 export const ISLOTES: IsloteDefinition[] = [
+    
+  // ISLOTES DEL CURSO:00 / DERIVA "EN CURSO"
+  // Se muestra junto con los cursos del nivel superior
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     course: 'curso00',
     parentDerivaId: 'en-curso',
@@ -43,6 +47,12 @@ export const ISLOTES: IsloteDefinition[] = [
     categoryLabel: 'UNTREF / MAE / TFIC / EN CURSO',
     captionLabel: 'EXCURSO 01',
   },
+    
+    
+  // ISLOTES DEL CURSO:00 / SUBDERIVAS "EN CURSO"
+  // Se muestran asociados a las subderivas de la deriva "En Curso",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     course: 'curso00',
     parentDerivaId: 'bitacora-01',
@@ -65,21 +75,6 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
     captionLabel: 'EXCURSO 04',
-  },
-  {
-    course: 'curso02',
-    parentDerivaId: 'gen-serie-01',
-    subcurso: 'islote002',
-    itemId: 'islote-generativa-01',
-    showHeader: true,
-    imageUrl: '/curso02/imagenes/serie-generativa-01.jpg',
-    markdownFile: '/curso02/contenidos/islote-01.md',
-    code: 'SERIE GENERATIVA 01',
-    tag: 'P5JS',
-    accentColor: '#16253D',
-    categoryLabel: 'GENERATIVA',
-    captionLabel: 'EXCURSO 01',
-    timeReference: '2024-2025', 
   },
   {
     course: 'curso00',
@@ -129,4 +124,102 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     captionLabel: 'RECORRIDO 03',
     timeReference: '1-SEP-2026', 
   },
+    
+    
+  // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
+  // Se muestran asociados a las subderivas de la deriva "Arte Electrónico",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-01',
+    subcurso: 'islote007',
+    itemId: 'islote-obra-01',
+    showHeader: false,
+    imageUrl: '/curso01/imagenes/curso01-sos-azul.png',
+    code: 'SEAMOS TODOS ARROBADOS POR LA NUBE',
+    tag: '',
+    accentColor: '#0038A8',
+    categoryLabel: '',
+    captionLabel: '',
+    showAction: false,
+  },
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-02',
+    subcurso: 'islote008',
+    itemId: 'islote-obra-02',
+    showHeader: false,
+    imageUrl: '/curso01/imagenes/curso01-turbio-azul.png',
+    code: 'TURBIO',
+    tag: '',
+    accentColor: '#0038A8',
+    categoryLabel: '',
+    captionLabel: '',
+    showAction: false,
+  },
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-03',
+    subcurso: 'islote009',
+    itemId: 'islote-obra-03',
+    showHeader: false,
+    imageUrl: '/curso01/imagenes/curso01-hamatus-azul.png',
+    code: 'HOMO HAMATUS',
+    tag: '',
+    accentColor: '#0038A8',
+    categoryLabel: '',
+    captionLabel: '',
+    showAction: false,
+  }, 
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-04',
+    subcurso: 'islote010',
+    itemId: 'islote-obra-04',
+    showHeader: false,
+    imageUrl: '/curso01/imagenes/curso01-gps-azul.png',
+    code: 'GPS',
+    tag: '',
+    accentColor: '#0038A8',
+    categoryLabel: '',
+    captionLabel: '',
+    showAction: false,
+  },
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-05',
+    subcurso: 'islote011',
+    itemId: 'islote-obra-05',
+    showHeader: false,
+    imageUrl: '/curso01/imagenes/curso01-haptica-azul.png',
+    code: 'HAPTICA',
+    tag: '',
+    accentColor: '#0038A8',
+    categoryLabel: '',
+    captionLabel: '',
+    showAction: false,
+  }, 
+    
+    
+  // ISLOTES DEL CURSO:02 / SUBDERIVAS "GENERATIVA"
+  // Se muestran asociados a las subderivas de la deriva "Generativa",
+  // es decir, en la carta de navegación de segundo nivel (subcurso).
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    course: 'curso02',
+    parentDerivaId: 'gen-serie-01',
+    subcurso: 'islote002',
+    itemId: 'islote-generativa-01',
+    showHeader: true,
+    imageUrl: '/curso02/imagenes/serie-generativa-01.jpg',
+    markdownFile: '/curso02/contenidos/islote-01.md',
+    code: 'SERIE GENERATIVA 01',
+    tag: 'P5JS',
+    accentColor: '#16253D',
+    categoryLabel: 'GENERATIVA',
+    captionLabel: 'EXCURSO 01',
+    timeReference: '2024-2025', 
+  },    
+
 ];
