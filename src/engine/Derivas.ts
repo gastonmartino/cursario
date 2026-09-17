@@ -409,7 +409,7 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
 // =====================================================================================
 export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     
-  // ISLOTES DEL CURSO:00 / DERIVA "EN CURSO"
+  // ISLOTES DEL CURSO:00 / NIVEL 1 / "EN CURSO"
   // Se muestra junto con los cursos del nivel superior
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
@@ -422,7 +422,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   },
 
     
-  // ISLOTES DEL CURSO:00 / SUBDERIVAS "EN CURSO"
+  // ISLOTES DEL CURSO:00 / NIVEL 2 / SUBDERIVAS "EN CURSO"
   // Se muestran asociados a las subderivas de la deriva "En Curso",
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -459,8 +459,19 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     height: 300,
   },
     
+  // ISLOTES DEL CURSO:01 / NIVEL 1 / "ARTE ELECTRÓNICO"
+  // Se muestra junto con los cursos del nivel superior
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    id: 'islote-obra-00',
+    parentId: 'untref-obra-01',
+    x: -1440,
+    y: -61,
+    width: 580,
+    height: 800, 
+  },
     
-  // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
+  // ISLOTES DEL CURSO:01 / NIVEL 2 / SUBDERIVAS "ARTE ELECTRÓNICO"
   // Se muestran asociados a las subderivas de la deriva "Arte Electrónico",
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -506,7 +517,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   },
     
 
-  // ISLOTES DEL CURSO:02 / SUBDERIVAS "GENERATIVA"
+  // ISLOTES DEL CURSO:02 / NIVEL 2 / SUBDERIVAS "GENERATIVA"
   // Se muestran asociados a las subderivas de la deriva "Generativa",
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv

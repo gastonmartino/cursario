@@ -11,6 +11,8 @@ export interface IsloteDefinition {
   showAction?: boolean;
   actionLabel?: string;
   showHeader?: boolean;
+  imageMaxHeight?: number;
+  backgroundColor?: string | null;
   cardWidth?: number;
   cardHeight?: number;
   code: string;
@@ -130,6 +132,23 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   // Se muestran asociados a las subderivas de la deriva "Arte Electrónico",
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    course: 'curso01',
+    parentDerivaId: 'untref-obra-01',
+    subcurso: 'islote007',
+    itemId: 'islote-obra-00',
+    showHeader: true,
+    imageUrl: '/curso01/imagenes/instructivo-dominion.jpg',
+    markdownFile: '/curso01/contenidos/dominion.md',
+    code: 'EMPIRE LTD. / ROBOTICS & APPROPRIATION DEPARTMENT',
+    tag: 'MANFIESTO v1.0',
+    accentColor: '#0038A8',
+    backgroundColor: '#ffffff',
+    categoryLabel: '',
+    captionLabel: 'Diagrama de dominación en tres capas',
+    showAction: false,
+    imageMaxHeight: 800,
+  },    
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-01',

@@ -118,6 +118,12 @@ Es el drawer de navegación que se despliega desde el HUD. Contiene los enlaces 
 
 Es la tarjeta secundaria que se dibuja en el mismo canvas que su deriva o subderiva padre. Puede mostrar imagen, Markdown, descripción y palabras clave, y admite acciones hacia páginas editoriales sin abrir un nuevo canvas.
 
+La altura máxima de su imagen puede definirse individualmente mediante `imageMaxHeight` en `src/data/islotes.ts`. Si no se indica, se utiliza el valor predeterminado de `200px`:
+
+```ts
+imageMaxHeight: 280,
+```
+
 ### `HUD.astro`
 
 Es la interfaz flotante de orientación. Muestra coordenadas, escala, estado de la navegación y controles para acercar, alejar, centrar y volver desde una deriva.

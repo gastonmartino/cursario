@@ -1,11 +1,13 @@
 # Homo Hamatus
 ## Una fenomenología de la vulnerabilidad.
+![Instalación Homo Hamatus - Torres de redes de sostén](/curso01/subcursos/curso003/medios/homo-hamatus-000.jpg)
 > [Ver el escrito completo de "Homo Hamatus" como documento PDF](/documentos/homo_hamatus.pdf)
 
 ### *PROLES AVSTRALIS*
 *Migrantes de redes móviles y adaptados a conectividades precarias e inestables. En su búsqueda de puntos de anclaje temporales, forjan identidades provisorias, insertas en los entramados en los que, voluntaria o involuntariamente, consiguen engancharse. Encarnan una descendencia evolucionada para habitar territorios políticamente australes y habituada a descensos borealmente articulados. Las redes de las que dependen les proveen los “asideros” constitutivos de su identidad: sustentadores, apuntalantes, aliviadores de carga y, al mismo tiempo, transitorios, fortuitos y urgentes.*
 
 > **Palabras claves**: hamatus, red, gancho, sostén, precariedad, carga, gravedad
+
 
 ![Homo hamatus. Hominización especulativa](/curso01/subcursos/curso003/medios/homo-hamatus-001.jpg)
 
