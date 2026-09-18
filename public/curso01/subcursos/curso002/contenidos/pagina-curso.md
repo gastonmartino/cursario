@@ -6,6 +6,9 @@
 > **Palabras clave**: metáforas tecnológicas, enturbiamiento, opacidad, fragmentación, invisualidad
 ![Pantallas de acrílico de la instalación "Rebelión en la granja de clics"](/curso01/subcursos/curso002/medios/granja-001.jpg) *Pantallas de acrílico de la obra "Rebelión en la granja de clics".*
 
+![Turbio](/curso01/subcursos/curso002/medios/granja-015.png)
+
+
 ## Introducción
 Las granjas de clics son presentadas como sistemas precarizados de engaños, montados con la intención de subvertir los controles del algoritmo pero que, con cada clic, se tornan ellas mismas en nuevas maquinarias opacas de explotación. Las pantallas son presentadas como ventanas hacia los mundos digitales que habitamos y que, intencionalmente, son veladas, tapiadas, desgastadas, empañadas o fragmentadas en aras de una nueva “invisualidad” que impide ver con claridad más allá de sus marcos.
 ![Pantallas de acrílico de la instalación en la vidriera de "Casa Belgrado"](/curso01/subcursos/curso002/medios/granja-002.jpg) *Las pantallas montadas sobre la estructura de chapa con sus “enturbiadores” en Casa Belgrado.*
@@ -88,3 +91,7 @@ Comunicación serial con Max for Live mediante protocolo Firmata (librería Firm
 Señales de control para los enturbiadores.
 
 ![Bitácora de la obra: "Turbio: el mundo a través de pantallas empañadas"](/curso01/subcursos/curso002/medios/granja-012.jpg) *Turbio: el mundo a través de pantallas empañadas. Pieza editorial / bitácora que acompaña la instalación.*
+
+![Imágenes de la bitácora de la obra con las exploraciones realizados en torno al enturbiamiento](/curso01/subcursos/curso002/medios/granja-014.jpg) *Imágenes de la bitácora de trabajo con las exploraciones realizadas.*
+
+![Turbio](/curso01/subcursos/curso002/medios/granja-015.png)
