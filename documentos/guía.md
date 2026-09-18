@@ -375,6 +375,30 @@ Párrafos normales con **negrita**, *cursiva* y `código inline`.
 > Una cita destacada.
 ```
 
+También se pueden insertar separadores y espacios estructurales colocando la cadena correspondiente sola en una línea:
+
+```markdown
+---   <!-- línea gris con espaciado medio -->
+___   <!-- línea gris fina con poco espaciado -->
+***   <!-- línea negra gruesa con más espaciado -->
+===   <!-- línea doble gris -->
+++   <!-- bloque blanco de separación -->
+```
+
+Estas cadenas deben ocupar una línea completa, aunque pueden tener espacios en blanco alrededor. La cadena `***` sólo se interpreta como divisor cuando aparece sola; por eso no interfiere con énfasis como `***Cursario***` dentro de un párrafo.
+
+Los mismos separadores también pueden utilizarse dentro de una cita, colocando `>` al comienzo de la línea:
+
+```markdown
+> ---
+> ___
+> ***
+> ===
+> +++
+```
+
+`___` utiliza aproximadamente la mitad del espaciado vertical de `---`. `===` no agrega margen ni padding vertical. `+++` genera un bloque de separación reducido; dentro de una cita, ese bloque vuelve a reducirse a la mitad. Los demás separadores conservan sus espaciados diferenciados.
+
 La lectura del Markdown se hace durante la compilación. Si la ruta no existe o el archivo está vacío, no se generará contenido para esa sección.
 
 ### Insertar una imagen

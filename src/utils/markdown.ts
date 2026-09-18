@@ -33,14 +33,35 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
   const lines = markdown.split(/\r?\n/);
   const htmlLines: string[] = [];
   let inBlockquote = false;
-  let blockquoteBuffer: string[] = [];
+  let blockquoteBuffer: Array<{ type: 'text' | 'html'; value: string }> = [];
 
   const flushBlockquote = () => {
     if (blockquoteBuffer.length > 0) {
-      const content = parseInline(blockquoteBuffer.join(' '));
+      const content = blockquoteBuffer
+        .map((segment) => segment.type === 'html' ? segment.value : parseInline(segment.value))
+        .join(' ');
       htmlLines.push(`<blockquote class="${styles.blockquote}">${content}</blockquote>`);
       blockquoteBuffer = [];
       inBlockquote = false;
+    }
+  };
+
+  const renderStructuralLine = (marker: string, insideBlockquote = false): string | null => {
+    switch (marker) {
+      case '---':
+        return '<div class="my-6 h-px w-full bg-ink-border/80" role="separator" aria-hidden="true"></div>';
+      case '___':
+        return '<div class="my-3 h-px w-full bg-ink-border/55" role="separator" aria-hidden="true"></div>';
+      case '***':
+        return '<div class="my-8 h-0.5 w-full bg-ink-primary" role="separator" aria-hidden="true"></div>';
+      case '===':
+        return '<div class="my-0 h-2 w-full border-y border-ink-border/80" role="separator" aria-hidden="true"></div>';
+      case '+++':
+        return insideBlockquote
+          ? '<div class="my-1 h-2 w-full" aria-hidden="true"></div>'
+          : '<div class="my-2 h-4 w-full" aria-hidden="true"></div>';
+      default:
+        return null;
     }
   };
 
@@ -77,13 +98,26 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
 
     if (line.startsWith('>')) {
       inBlockquote = true;
-      blockquoteBuffer.push(line.replace(/^>\s*/, ''));
+      const quotedLine = line.replace(/^>\s*/, '').trim();
+      const quotedStructuralLine = renderStructuralLine(quotedLine, true);
+
+      if (quotedStructuralLine) {
+        blockquoteBuffer.push({ type: 'html', value: quotedStructuralLine });
+      } else {
+        blockquoteBuffer.push({ type: 'text', value: quotedLine });
+      }
       continue;
     } else if (inBlockquote) {
       flushBlockquote();
     }
 
     if (!line) {
+      continue;
+    }
+
+    const structuralLine = renderStructuralLine(line);
+    if (structuralLine) {
+      htmlLines.push(structuralLine);
       continue;
     }
 
