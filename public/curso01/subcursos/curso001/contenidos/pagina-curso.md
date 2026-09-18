@@ -1,4 +1,4 @@
-# Siervos del Obnubilante Scrolling (S.O.S)
+# Siervos del Obnubilante *Scrolling* (S.O.S)
 ***Un culto a la obnubilación, con tecnoliturgias obscenas, maquinales actos de fe y profecías de autosatisfacción***.
 > **Palabras claves**: antropobsceno, nube, pantalla, experiencia, arrobamiento
 
@@ -20,7 +20,7 @@ Muchos autores coinciden en señalar el comienzo de una nueva época, iniciada y
 > +++
 > Las tecnoliturgias dominaron cada aspecto de la cotidianidad con tal naturalidad y convicción que la repentina disposición de un diezmo obligatorio no suscitó ninguna resistencia. “La Nube” se alimentó de las ofrendas entregadas por sus propios seguidores obnubilados —la misma palabra obnubilar viene del latín obnubilāre y significa literalmente “cubrir con una nube”. El culto celebró la obnubilación y el arrobamiento de sus congregantes convertidos en siervos embelesados por la luz divina que les imposibilita ver que, antes que liviana y etérea, la nube es una descomunal y obscena infraestructura material. Una devoradora insaciable de las ofrendas digitales que sus devotos abstraídos le conceden inconscientemente (o no tanto) con cada movimiento del pulgar por sus feeds. 
 > +++
->¡Gloria a los serviles “Siervos del Obnubilante Scrolling” (S.O.S)!
+>¡Gloria a los serviles “Siervos del Obnubilante *Scrolling*” (S.O.S)!
 
 +++
 ![S.O.S. Seamos todos arrobados por la nube](/curso01/subcursos/curso001/medios/sos-001.png)
@@ -37,12 +37,12 @@ La obra escenifica el rito contemporáneo de veneración ciega a “La Nube”. 
 ![La nube proyectada en la pantall principal del recinto](/curso01/subcursos/curso001/medios/sos-003.jpg) *Figura 2: “La Nube” en estado de expectación, sin visitantes en el recinto.*
 
 ## La Pantalla de Ofrendas (“El Alfolí”)
-La manera de interactuar con la nube proyectada es a través de la pantalla táctil que cada visitante lleva en su bolsillo. El código QR de la pantalla principal obra como un persuasivo cebo que atrae a los visitantes para convertirlos en fieles seguidores ofreciendo promesas de recompensa inmediata. El acto místico de la lectura del QR entabla de inmediato una unión directa entre la nube-pantalla y el sujeto-pantalla como una representación de la interconectividad suprema que el dispositivo ofrece. En respuesta, una imagen sugerente, pero no revelada en su totalidad, es conjurada en la pantalla táctil del visitante al mismo tiempo que una leyenda en su celular lo invita a hacer scroll para desvelar el misterio que la figura provocadora encierra. En el extremo opuesto de la habitación, y aprovechando la abstracción del visitante, “El Alfolí” se alza como una proyección en la pared con la forma de una caja para ofrendas que monitorea las conexiones de los propios seguidores en el recinto y contabiliza las ofrendas digitales extraídas furtivamente de los dispositivos, como sublimes actos de entrega y renuncia. El instante cúlmine de la liturgia tecnológica basada en la creencia inquebrantable de que absolutamente todo se reduce a simples datos y que están ahí para ser tomados (Crawford, 2021, p.93).
+La manera de interactuar con la nube proyectada es a través de la pantalla táctil que cada visitante lleva en su bolsillo. El código QR de la pantalla principal obra como un persuasivo cebo que atrae a los visitantes para convertirlos en fieles seguidores ofreciendo promesas de recompensa inmediata. El acto místico de la lectura del QR entabla de inmediato una unión directa entre la nube-pantalla y el sujeto-pantalla como una representación de la interconectividad suprema que el dispositivo ofrece. En respuesta, una imagen sugerente, pero no revelada en su totalidad, es conjurada en la pantalla táctil del visitante al mismo tiempo que una leyenda en su celular lo invita a hacer *scroll* para desvelar el misterio que la figura provocadora encierra. En el extremo opuesto de la habitación, y aprovechando la abstracción del visitante, “El Alfolí” se alza como una proyección en la pared con la forma de una caja para ofrendas que monitorea las conexiones de los propios seguidores en el recinto y contabiliza las ofrendas digitales extraídas furtivamente de los dispositivos, como sublimes actos de entrega y renuncia. El instante cúlmine de la liturgia tecnológica basada en la creencia inquebrantable de que absolutamente todo se reduce a simples datos y que están ahí para ser tomados (Crawford, 2021, p.93).
 
 ![Proyección del alfolí para ofrendas en la pared enfrentada a la nube](/curso01/subcursos/curso001/medios/sos-004.jpg) *Figura 3: “El Alfolí”. Proyección en la pared opuesta a “La Nube” para la contabilización de las ofrendas digitales.*
 
 ## La Pantalla Táctil ("El Siervo")
-La promesa seductora de la recompensa inmediata convoca al visitante a aventurarse en el rito perverso del scroll infinito. Una respuesta maquinal e inducida para buscar una gratificación que nunca llega. La pantalla del celular insta al visitante a seguir haciendo scroll, cada vez más rápido. Pero el mero acto de tocar su pantalla excita a la nube que flota en la pantalla principal. Otras nubes de píxeles más pequeñas se concentran y arremolinan en la misma pantalla, representando las conexiones de cada uno de los seguidores del recinto. Cuanto más intenso es el scroll de los visitantes, más espasmódicos son los movimientos de las nubes proyectadas. La acción desmedida del visitante de frotar incesantemente su pantalla despierta la respuesta lasciva de “La Nube” mediante movimientos convulsivos, color y sonido; al mismo tiempo que las interminables ristras de datos sustraídos durante la interacción corren frenéticamente dentro de la pequeña ventana de ofrendas de “El Alfolí”.
+La promesa seductora de la recompensa inmediata convoca al visitante a aventurarse en el rito perverso del *scroll* infinito. Una respuesta maquinal e inducida para buscar una gratificación que nunca llega. La pantalla del celular insta al visitante a seguir haciendo *scroll*, cada vez más rápido. Pero el mero acto de tocar su pantalla excita a la nube que flota en la pantalla principal. Otras nubes de píxeles más pequeñas se concentran y arremolinan en la misma pantalla, representando las conexiones de cada uno de los seguidores del recinto. Cuanto más intenso es el *scroll* de los visitantes, más espasmódicos son los movimientos de las nubes proyectadas. La acción desmedida del visitante de frotar incesantemente su pantalla despierta la respuesta lasciva de “La Nube” mediante movimientos convulsivos, color y sonido; al mismo tiempo que las interminables ristras de datos sustraídos durante la interacción corren frenéticamente dentro de la pequeña ventana de ofrendas de “El Alfolí”.
 
 ![Imágenes (pixeladas) que la nube reproduce en la pantalla personal del siervo](/curso01/subcursos/curso001/medios/sos-005.jpg) *Figura 4: “El Siervo”. Pantalla móvil con un feed que promete una revelación gradual de la recompensa del seguidor.*
 
@@ -57,12 +57,25 @@ El desarrollo de la ceremonia de obnubilación y renuncia del visitante al poder
 ![Diagrama que muestra las relaciones entre Nube-Siervo-Alfolí](/curso01/subcursos/curso001/medios/sos-007.png) *Figura 6: Intervinientes en la tecnoliturgia: los mensajes de la obra son transmitidos mediante el protocolo OSC.*
 
 De esta forma, el código del software escrito para la obra profetiza inexorablemente el fenómeno que tendrá lugar en el recinto mucho antes de que la tecnoliturgia se inicie. Las órdenes e instrucciones programadas se convierten en “Sagradas Escrituras” con el don divino de presagiar la afición, el arrobamiento y la entrega del visitante a la voluntad de “La Nube”. 
-*Todo ya está escrito en el código, sólo hay que poder leerlo.*
+***Todo ya está escrito en el código, sólo hay que poder leerlo.***
 
 ![Logo del culto a la nube](/curso01/subcursos/curso001/medios/sos-008.png)
 
+## Estrategias de Comunicación
+Como parte del trabajo se plantea una **estrategia transmedia de comunicación** que busca no sólo dar a conocer la obra y compartir sus argumentaciones conceptuales, sino también enriquecer la experiencia mística creada en torno al proyecto, siempre con un tono entre solemne e irónico, entremezclando datos reales de la propuesta con las ficciones creadas en torno al imaginario representado y haciendo uso de las siguientes iniciativas.
+> [Ver el PDF con el detalle de la estragegia de comunicación de la obra](/documentos/sos-comunicación.pdf)
+
+![Imágenes para la estrategia de comunicación de la obra](/curso01/subcursos/curso001/medios/sos-000.jpg)
+
+Estas estragegias incluyen:
+1. **Sitio web**: difusión del mensaje oficial de la obra.
+2. **Ceremonias de iniciación**: "Mi primer arrobamiento".
+3. **Corto documental**: *"Anales de la obnubilación"*.
+4. **Sagradas escrituras**: pieza editorial única, con encuadernación artesanal que reúne el código de la obra.
+
+
 ## Screening Operating System (SOS)
-Resumen de la obra y parte del proceso, visto a través de las pantallas del ***Screening Operating System (SOS)***, un sistema operativo diseñado para la optimización de sus pantallas y para el monitoreo —discreto— de sus usuario seguidores.
+La pieza audiovisual adjunta despliega un resumen de la obra y parte del proceso, visto a través de las pantallas del ***Screening Operating System (SOS)***, un sistema operativo diseñado para la optimización de sus pantallas y para el monitoreo —discreto— de sus usuarios seguidores.
 
 ![About Screening Operating System](/curso01/subcursos/curso001/medios/sos-009.png)
 +++
