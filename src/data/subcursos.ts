@@ -4,6 +4,7 @@ export interface SubcursoDefinition {
   subcurso: string;
   itemId: string;
   imageUrl?: string | null;
+  imageBackgroundColor?: string | null;
   cardWidth?: number;
   cardHeight?: number;
   code: string;

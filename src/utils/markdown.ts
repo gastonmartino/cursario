@@ -1,6 +1,10 @@
-/**
- * Simple Markdown parser for island content blocks.
- * Converts headers, blockquotes, bold/italic, lists and paragraphs into HTML strings.
+/** 
+ * 
+ * MIMO - Markdown In. Markup Out
+ * Intérprete simplificado de código markdown para generar el código markup del sitio.
+ * Como todo "mimo" imita y reproduce el lenguaje altamente simplificado del markdown 
+ * (creado en 2004 por John Gruber and Aaron Swartz) con su absurda simetría.
+ * 
  */
 export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page' = 'island'): string {
   if (!markdown) return '';

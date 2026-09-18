@@ -22,6 +22,7 @@ interface Props {
   width?: number | string;
   height?: number | string;
   imageMaxHeight?: number | string;
+  imageBackgroundColor?: string | null;
   backgroundColor?: string;
   headerTypeLabel?: string;
   zIndex?: number;
@@ -60,6 +61,7 @@ const {
   width = 740,
   height = 730,
   imageMaxHeight = 380,
+  imageBackgroundColor = 'rgba(224, 228, 235, 0.3)',
   backgroundColor = "#FAFAFA",
   headerTypeLabel = "// ISLA DE CONTENIDO",
   zIndex = 20,
@@ -218,7 +220,7 @@ const canShowAction = isSubderiva
               : 'w-full min-h-[240px]',
         ]}
           style={hasMarkdown
-            ? `border-color: ${accentColor}40; background-color: rgba(224, 228, 235, 0.3);`
+            ? `border-color: ${accentColor}40; background-color: ${imageBackgroundColor ?? 'rgba(224, 228, 235, 0.3)'};`
             : undefined}
         >
           <div
@@ -250,7 +252,7 @@ const canShowAction = isSubderiva
             draggable="false"
           />
           {hasMarkdown && (
-          <div class="absolute inset-0 pointer-events-none" style={`background-color: ${accentColor}08;`}></div>
+          <div class="absolute inset-0 pointer-events-none" style={`background-color: ${imageBackgroundColor ?? accentColor}08;`}></div>
           )}
         </div>
         {hasMediaMetadata && (
@@ -302,3 +304,4 @@ const canShowAction = isSubderiva
     )}
   </div>
 </article>
+
