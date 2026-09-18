@@ -1,6 +1,6 @@
 # Siervos del Obnubilante *Scrolling* (S.O.S)
 ***Un culto a la obnubilación, con tecnoliturgias obscenas, maquinales actos de fe y profecías de autosatisfacción***.
-> **Palabras claves**: antropobsceno, nube, pantalla, experiencia, arrobamiento
+> **Palabras claves**: antropobsceno, nube, pantalla, tecnoliturgia, arrobamiento, tecnosiervos
 
 Una breve ficción acerca del surgimiento del "Culto a la Obnubilación", planteada irónicamente como “Una historia apócrifa sobre el arrobamiento del Antropobsceno tardío”, funciona como disparador del proyecto y como instrumento para **desnaturalizar los discursos tecnológicos** cínicos que encubren prácticas extractivistas no sustentables y supuestos mitos de inmaterialidad digital. La obra escenifica el rito contemporáneo de veneración ciega a **“La Nube”** como numen etéreo, omnipotente que convierte a sus seguidores en serviles devotos dispuestos al sagrado acto de renuncia (a su privacidad) y de entrega incondicional (de sus datos digitales), bajo la promesa apócrifa del socorro tecnológico en el devenir digital cotidiano.
 
