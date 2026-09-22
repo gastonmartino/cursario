@@ -160,6 +160,19 @@ export const SPATIAL_DERIVAS: SpatialDeriva[] = [
         accentColor: '#E03E2D',
         tag: 'INVESTIGACIÓN'
       },
+      {
+        id: 'bitacora-08',
+        code: 'TFIC:08',
+        title: 'Estrategias estéticas, cruces y agrupamientos',
+        subtitle: 'Registro del territorio y sus emergencias',
+        summary: 'Una exploración de las formas en que el territorio hace visibles sus procesos y transformaciones.',
+        x: 2186,
+        y: -126,
+        width: 640,
+        height: 660,
+        accentColor: '#E03E2D',
+        tag: 'INVESTIGACIÓN'
+      },
     ]
   },
   {

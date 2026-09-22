@@ -103,7 +103,22 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     categoryLabel: 'MICRO / MACRO',
     captionLabel: 'EMERGENCIA',
   },
-    
+  {
+    course: 'curso00', 
+    parentDerivaId: 'en-curso', 
+    subcurso: 'curso008', 
+    itemId: 'bitacora-08',
+    imageUrl: '/curso00/subcursos/curso008/medios/stranger-visions.jpg',
+    markdownFile: '/curso00/subcursos/curso008/contenidos/actividad-consigna.md',
+    pageMarkdownFile: '/curso00/subcursos/curso008/contenidos/actividad-respuesta.md',
+    code: 'TFIC:08',
+    title: 'Estrategias estéticas, cruces y agrupamientos',
+    subtitle: 'Actividad - Primer acercamiento al cuerpo de obra',
+    tag: 'EJERCICIO #4',
+    accentColor: '#E03E2D',
+    categoryLabel: 'STRANGER VISIONS / Heather Dewey-Hagborg',
+    captionLabel: 'CUERPO DE OBRA',
+  },
 
 //
  // CURSO:01 - MAE UNTREF
