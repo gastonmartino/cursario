@@ -80,6 +80,21 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   },
   {
     course: 'curso00',
+    parentDerivaId: 'bitacora-01',
+    subcurso: 'islote013',
+    itemId: 'islote-bitacora-01-02',
+    imageUrl: '/curso00/subcursos/curso001/medios/arroyo.del.rey-mapa.jpg',
+    showHeader: false,
+    code: 'CURSARIO:00.1',
+    title: 'ARROYO DEL REY / Donde empieza todo...',
+    subtitle: 'Vestigios de la monarquía en el conurbano bonaerense',
+    description: `El proyecto comienza con la intención de investigar un arroyo que nace en el barrio **Rayo de Sol**, en **Longchamps**, a pocas cuadras del lugar donde crecí. Allí se presenta como un curso de agua de poco caudal que atraviesa barrios vulnerables, parques industriales y áreas naturales protegidas del partido de Almirante Brown, para luego continuar su recorrido por el conurbano sur —por momentos entubado y por momentos a cielo abierto— hasta desembocar en el río **Matanza-Riachuelo**.`,
+    tag: 'DISPARADOR',
+    accentColor: '#E03E2D',
+    captionLabel: 'EXCURSO 04',
+  },
+  {
+    course: 'curso00',
     parentDerivaId: 'bitacora-05',
     subcurso: 'islote003',
     itemId: 'islote-bitacora-05-01',
@@ -126,6 +141,22 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     captionLabel: 'RECORRIDO 03',
     timeReference: '1-SEP-2026', 
   },
+  {
+    course: 'curso00',
+    parentDerivaId: 'bitacora-08',
+    subcurso: 'islote014',
+    itemId: 'islote-bitacora-08-01',
+    showHeader: false ,
+    imageUrl: '/curso00/subcursos/curso008/medios/marca-de-agua.jpg',
+    code: 'ISLOTE:00.8',
+    title: 'MARCA DE AGUA ©',
+    subtitle: '© ARROYO DEL REY. Todos los derechos reservados.',
+    description: `El **Arroyo del Rey** introduce otra genealogía posible: la de las marcas que se inscriben sobre un territorio para nombrarlo, delimitarlo, administrarlo y, eventualmente, apropiarlo. Pero, en este caso, la marca pertenece al propio territorio. ¿Quién tiene derecho a poner una marca sobre el agua? El título propone una ironía para tensionar diseño, propiedad, autoría y territorio, al mismo tiempo que abre una posible lectura sobre las formas históricas de inscripción y apropiación territorial vinculadas al colonialismo.`,
+    tag: 'MARCAS / SURCOS',
+    accentColor: '#E03E2D',
+    categoryLabel: 'PROPIEDAD REAL / DOMINIO PÚBLICO',
+    captionLabel: 'MARCA DE AGUA',
+  },
     
     
   // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
@@ -152,7 +183,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-01',
-    subcurso: 'islote007',
+    subcurso: 'islote008',
     itemId: 'islote-obra-01',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-sos-azul.png',
@@ -166,7 +197,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-02',
-    subcurso: 'islote008',
+    subcurso: 'islote009',
     itemId: 'islote-obra-02',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-turbio-azul.png',
@@ -180,7 +211,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-03',
-    subcurso: 'islote009',
+    subcurso: 'islote010',
     itemId: 'islote-obra-03',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-hamatus-azul.png',
@@ -194,7 +225,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-04',
-    subcurso: 'islote010',
+    subcurso: 'islote011',
     itemId: 'islote-obra-04',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-gps-azul.png',
@@ -208,7 +239,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   {
     course: 'curso01',
     parentDerivaId: 'untref-obra-05',
-    subcurso: 'islote011',
+    subcurso: 'islote012',
     itemId: 'islote-obra-05',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-haptica-azul.png',

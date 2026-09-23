@@ -22,7 +22,8 @@ Se seleccionan para el proyecto estrategias estéticas que funcionen no solo com
 
 ## Desarrollo
 
-El título provisorio de la obra, **MARCA DE AGUA**, parte de una expresión que parece pertenecer naturalmente al universo del Diseño: una marca que identifica, protege, certifica o reclama una propiedad. Pero acá la marca es, literalmente, de agua. 
+El título provisorio de la obra, **MARCA DE AGUA**, parte de una expresión que parece pertenecer naturalmente al universo del **Diseño**: una marca que identifica, protege, certifica o reclama una propiedad. Pero acá la marca es, literalmente, de agua. 
+![Arroyo del Rey con marcas de agua que reclaman su propiedad](/curso00/subcursos/curso008/medios/marca-de-agua.jpg) *© ARROYO DEL REY. Todos los derechos reservados. Propiedad real, dominio público.*
 
 El Arroyo del Rey introduce otra genealogía posible: la de las marcas que se inscriben sobre un territorio para nombrarlo, delimitarlo, administrarlo y, eventualmente, apropiarlo. Pero, en este caso, la marca pertenece al propio territorio. ¿Quién tiene derecho a poner una marca sobre el agua? El título propone una ironía para tensionar diseño, propiedad, autoría y territorio, al mismo tiempo que abre una posible lectura sobre las formas históricas de inscripción y apropiación territorial vinculadas al colonialismo.
 
@@ -36,8 +37,9 @@ El interés no está solamente en utilizar recursos del Diseño para producir un
 
 ## Referentes
 ### 1. Nikita Diakur
-https://backflip.training/
 *Backflip* (2022) es un cortometraje experimental de unos 12 minutos. La premisa es: *Diakur había intentado aprender a hacer un salto mortal hacia atrás, tuvo un accidente —se rompió un dedo del pie— y abandonó. Entonces decidió construir un avatar digital que aprendiera a hacerlo por él.*
+> Link al proyecto: https://backflip.training/
+
 El avatar es una reconstrucción 3D del propio Diakur. Se lo somete a un entorno de **machine learning basado en *DeepMimic***, un trabajo académico sobre aprendizaje por refuerzo para que personajes físicos aprendan movimientos a partir de ejemplos humanos.
 ![Backflip (still frame). Nikita Diakur, 2022](/curso00/subcursos/curso008/medios/nikita-diakur-01.jpg) *Still frame de la obra Backflip de Nikita Diakur.*
 
@@ -57,7 +59,7 @@ En el campo UX normalmente se diseña el sistema para que el usuario aprenda a u
 
 La obra de Mark Dion examina cómo las ideologías dominantes y las instituciones públicas moldean nuestra comprensión de la historia, el conocimiento y el mundo natural. Según el artista, su labor consiste en **ir a contracorriente de la cultura dominante** y desafiar tanto la percepción como las convenciones establecidas. Mediante la **apropiación de métodos propios de la arqueología, la ecología de campo y otras disciplinas científicas** —tales como la recolección, la clasificación y la exhibición de objetos—, Dion crea obras que cuestionan la distinción entre los métodos científicos «objetivos» («racionales») y las influencias «subjetivas» («irracionales»). Sus espectaculares y a menudo fantásticos **gabinetes de curiosidades**, inspirados en las *Wunderkammern* de los siglos XVI y XVII, exaltan formas atípicas de organizar objetos y especímenes. Asimismo, Dion colabora con frecuencia con museos de historia natural, acuarios, zoológicos y otras instituciones dedicadas a generar conocimiento público sobre la naturaleza. Al situar los orígenes de la política ambiental y las políticas públicas en la construcción del saber sobre la naturaleza, Mark Dion cuestiona la objetividad y la autoridad de la voz científica en la sociedad contemporánea, rastreando cómo la pseudociencia, las agendas sociales y la ideología se infiltran en el discurso público y en la producción de conocimiento.
 
-https://neatlyart.wordpress.com/2013/06/29/mark-dion/
+> Link al proyecto: https://neatlyart.wordpress.com/2013/06/29/mark-dion/
 
 Dion pone en evidencia que **toda metodología construye aquello que pretende conocer**.
 
@@ -67,9 +69,8 @@ Dion pone en evidencia que **toda metodología construye aquello que pretende co
 
 ## 3. Bjørn Staal
 
-https://www.nonfigurativ.com/projects 
-
 Es un artista que viene del diseño y actualmente trabaja en arte, tecnología y sistema especulativos. En una entrevista reciente explica explícitamente que pasó del diseño al arte porque considera que el arte le permite una mayor especulación, y dice: “***You can use the skills of design and a design methodology to make art, and that’s definitely what I do***.”.
+> Link a proyectos: https://www.nonfigurativ.com/projects 
 
 ![Bjørn Staal, Losing Oneself](/curso00/subcursos/curso008/medios/bjorn-staal-02.jpg) *Losing Oneself: a través de una serie de mapas psicogeográficos generados algorítmicamente, la obra explora la tensión entre la naturaleza caótica de la realidad y nuestro afán simultáneo por mantener el control. Planificamos nuestras vidas tejiendo estructuras complejas y ficticias que intentamos habitar, solo para vernos sorprendidos una y otra vez por el azar, el desorden, la degeneración y la eventual desintegración.*
 
