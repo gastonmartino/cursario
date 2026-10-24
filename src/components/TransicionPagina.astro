@@ -2,6 +2,10 @@
 // Capa que cubre la página mientras se navega entre páginas del sitio: se
 // desvanece al llegar y vuelve a cubrir antes de ir a otro enlace interno.
 // Una carta puede cambiar su aspecto redefiniendo #page-transition.
+//
+// Al llegar se desvanece sola, con una animación CSS: si el JavaScript no
+// carga, la página no queda tapada. El script solo la vuelve a mostrar antes
+// de salir.
 ---
 
 <div id="page-transition" class="page-transition-layer" aria-hidden="true"></div>
@@ -11,12 +15,11 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const transitionDuration = prefersReducedMotion ? 0 : 650;
 
-  const revealPage = () => {
-    requestAnimationFrame(() => transitionLayer?.classList.add('is-ready'));
-  };
-
-  revealPage();
-  window.addEventListener('pageshow', revealPage);
+  // Al volver con "atrás", la página puede llegar desde la memoria del
+  // navegador tal como quedó al salir, cubierta.
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) transitionLayer?.classList.remove('cubriendo');
+  });
 
   document.addEventListener('click', (event) => {
     if (
@@ -42,7 +45,7 @@
     if (destination.origin !== current.origin || isSameDocumentHash) return;
 
     event.preventDefault();
-    transitionLayer?.classList.remove('is-ready');
+    transitionLayer?.classList.add('cubriendo');
 
     window.setTimeout(() => {
       window.location.assign(destination.href);
@@ -56,22 +59,34 @@
     z-index: 100;
     inset: 0;
     pointer-events: none;
-    opacity: 1;
+    opacity: 0;
     background-color: #F5F7FA;
     background-image:
       radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
       radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
     background-position: 0 0, 3px 3px;
     background-size: 7px 7px, 11px 11px;
+    animation: revelar-pagina 650ms ease-in-out;
     transition: opacity 650ms ease-in-out;
   }
 
-  .page-transition-layer.is-ready {
-    opacity: 0;
+  .page-transition-layer.cubriendo {
+    opacity: 1;
+    animation: none;
+  }
+
+  @keyframes revelar-pagina {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .page-transition-layer {
+      animation: none;
       transition-duration: 0ms;
     }
   }
