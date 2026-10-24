@@ -216,9 +216,66 @@ const MD: Composicion = {
   rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2800 }],
 };
 
+// Ventanas de menos de 620 px: una sola columna de 400 px (de x = 110 a
+// x = 510), que entra completa hasta unos 420 px. Las láminas y los recuadros la
+// quiebran, y los textos alternan entre más a la izquierda y más a la derecha.
+// VOLVER y el menú, fijos en las esquinas de la ventana.
+const SM: Composicion = {
+  hoja: { ancho: 620, alto: 3800, margen: 0, banda: 0, marco: false },
+  navegacion: { arriba: 12, izquierda: 12, derecha: 12, fija: true },
+  recuadros: [
+    [[110, 470, 330, 220], [110, 690, 400, 210]],
+    [[170, 1200, 340, 210], [130, 1410, 380, 220]],
+    [[110, 2380, 380, 200]],
+    // píxeles sueltos
+    [[450, 960, 36, 36]], [[120, 1250, 30, 30]], [[460, 2290, 30, 30]],
+  ],
+  rosas: [
+    { x: 400, y: 340, r: 75 },
+    { x: 300, y: 1780, r: 80 },
+  ],
+  aguas: [
+    { x: 180, y: 360, r: 50 },
+    { x: 560, y: 1000, r: 45 },
+    { x: 90, y: 2160, r: 45 },
+  ],
+  islas: [
+    { x: 450, y: 2470, r: 22 },
+  ],
+  sondeos: 900,
+  // Cinco láminas, como en md; las curvas de relieve, al corte por la izquierda
+  // (así la frase de la imagen queda dentro de la ventana).
+  imagenes: [
+    { x: 130, y: 490, ancho: 290, alto: 200, modo: 'recuadro' },
+    { x: 190, y: 1220, ancho: 300, alto: 186, modo: 'recuadro' },
+    { x: 125, y: 2395, ancho: 270, alto: 150, modo: 'recuadro' },
+    { x: 250, y: 2050, ancho: 250, alto: 136, modo: 'papel' },
+    { x: 0, y: 2850, ancho: 420, alto: 300, modo: 'transparencia' },
+    null,
+  ],
+  notas: [
+    { x: 130, y: 770, ancho: 360, enRecuadro: true },
+    { x: 150, y: 1450, ancho: 340, enRecuadro: true },
+    { x: 130, y: 2400, ancho: 300, enRecuadro: true },
+  ],
+  toponimos: [
+    { x: 110, y: 940, ancho: 290 },
+    { x: 210, y: 1060, ancho: 300 },
+    { x: 110, y: 1920, ancho: 290 },
+    { x: 110, y: 2260, ancho: 300 },
+    { x: 210, y: 2620, ancho: 300 },
+    { x: 110, y: 2740, ancho: 300 },
+    { x: 110, y: 3190, ancho: 300 },
+    { x: 210, y: 3310, ancho: 300 },
+  ],
+  titulo: [110, 64, 400, 120],
+  cartucho: [145, 3450, 330, 250],
+  rotulos: [{ derecha: 110, arriba: 200 }, { izquierda: 110, arriba: 3740 }],
+};
+
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
 // sm, xs), pero los cortes son los de esta carta.
-export const COMPOSICIONES = { xl: XL, lg: LG, md: MD };
+export const COMPOSICIONES = { xl: XL, lg: LG, md: MD, sm: SM };
 export type NombreComposicion = keyof typeof COMPOSICIONES;
 
 // Zonas donde no se dibujan sondeos, para que el texto se lea.
