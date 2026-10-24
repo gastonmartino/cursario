@@ -513,13 +513,13 @@ El diseño refleja fielmente la dirección estética *"Cartografía Sensible, Az
 
 ---
 
-### 2\. Motor 2D del Canvas Infinito (Carpeta `src/engine/`)
+### 2\. Motor 2D del Canvas Infinito (Carpeta `src/motor/`)
 
 Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
 
--   **`Camera.ts`:** Maneja las transformaciones entre Coordenadas de Pantalla y Coordenadas del Mundo. Inercia de arrastre (*momentum pan*) y zoom fluido (*lerp/spring*) centrado en el cursor (rango `0.25x` a `2.5x`).
--   **`InkCursor.ts`:** Reemplaza el puntero por una mira técnica reticular en Azul Cobalto / Vermellón. Dibuja una cinta de tinta fluida cuya línea cambia de grosor según la velocidad del trazo, emitiendo salpicaduras de micro-gotas al moverlo rápidamente.
--   **`GenerativeSurface.ts`:**
+-   **`Camara.ts`:** Maneja las transformaciones entre Coordenadas de Pantalla y Coordenadas del Mundo. Inercia de arrastre (*momentum pan*) y zoom fluido (*lerp/spring*) centrado en el cursor (rango `0.25x` a `2.5x`).
+-   **`CursorEntintado.ts`:** Reemplaza el puntero por una mira técnica reticular en Azul Cobalto / Vermellón. Dibuja una cinta de tinta fluida cuya línea cambia de grosor según la velocidad del trazo, emitiendo salpicaduras de micro-gotas al moverlo rápidamente.
+-   **`SuperficieGenerativa.ts`:**
     -   *Textura de Papel:* Genera en caché un patrón de micro-grano risográfico.
     -   *Nivel 1 (Macro Cartografía):* Dibuja la retícula técnica con coordenadas en tiempo real (`+X, +Y`), meandros de ríos generados procedimentalmente con `simplex-noise`, esquemáticos de circuitos integrados con pines, ventanas circulares fotográficas de cielo/nubes con tramado en semitono (*halftone*) y las 4 "islas" cartográficas principales con corchetes de plano técnico y botones *"INCURSIONAR"*.
     -   *Nivel 2 (Local Deriva):* Retícula fina, río de flujo sinuoso que conecta las tarjetas (*items*) de la deriva activa y marca de agua.
@@ -528,7 +528,7 @@ Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
     -   `01:ELEC` — **Artes Electrónicas UNTREF** `(0, -1400)` (con las 3 obras principales).
     -   `02:GEN` — **Gráfica Generativa** `(-1600, 0)` (con 3 series de Processing/GLSL).
     -   `03:DIS` — **Pensamiento & Diseño** `(1600, 0)` (con 3 ensayos/textos).
--   **`CanvasController.ts`:** Orquesta los eventos (ratón, rueda, *pinch-to-zoom* en touch, atajos de teclado `[ESC]`, `[R]`, `[1]..[4]`, `[+]`, `[-]`). Realiza el *hit-testing* en tiempo real para hover sobre nodos e items, y maneja las transiciones cinemáticas entre Nivel Macro y Nivel Deriva (`incursionar()` y `exitDeriva()`).
+-   **`ControladorLienzo.ts`:** Orquesta los eventos (ratón, rueda, *pinch-to-zoom* en touch, atajos de teclado `[ESC]`, `[R]`, `[1]..[4]`, `[+]`, `[-]`). Realiza el *hit-testing* en tiempo real para hover sobre nodos e items, y maneja las transiciones cinemáticas entre Nivel Macro y Nivel Deriva (`incursionar()` y `exitDeriva()`).
 
 ---
 
@@ -569,7 +569,7 @@ npm run preview   # previsualización de la compilación
 src/
 ├── components/       # Cursario, Isla, Islote, HUD, radar y Derrotero
 ├── data/             # Catálogos tipados de subcursos e islotes
-├── engine/           # Cámara, interacción, cursor y superficie generativa
+├── motor/            # Cámara, interacción, cursor y superficie generativa
 ├── layouts/          # Documento base, metadatos y transiciones de página
 ├── pages/            # Inicio y rutas dinámicas de cada subcurso
 └── utils/            # Conversión del Markdown editorial a HTML
@@ -640,10 +640,10 @@ El radar es colapsable y cambia su información según el nivel activo. En macro
 
 ### 11\.6. Renderizado e interacción
 
--   `Camera.ts` transforma coordenadas de pantalla y mundo, aplica inercia al arrastre y suaviza los desplazamientos mediante interpolación.
--   `CanvasController.ts` ejecuta el ciclo de actualización y renderizado con `requestAnimationFrame`, ajusta los canvas al `devicePixelRatio`, realiza hit-testing y sincroniza la posición de las tarjetas HTML.
--   `GenerativeSurface.ts` dibuja el papel texturado, retículas, corrientes hidrográficas, esquemas electrónicos, ventanas atmosféricas y marcas de cada nivel.
--   `InkCursor.ts` usa un segundo canvas superpuesto para la mira técnica, la estela de tinta y las salpicaduras que responden a la velocidad del cursor.
+-   `Camara.ts` transforma coordenadas de pantalla y mundo, aplica inercia al arrastre y suaviza los desplazamientos mediante interpolación.
+-   `ControladorLienzo.ts` ejecuta el ciclo de actualización y renderizado con `requestAnimationFrame`, ajusta los canvas al `devicePixelRatio`, realiza hit-testing y sincroniza la posición de las tarjetas HTML.
+-   `SuperficieGenerativa.ts` dibuja el papel texturado, retículas, corrientes hidrográficas, esquemas electrónicos, ventanas atmosféricas y marcas de cada nivel.
+-   `CursorEntintado.ts` usa un segundo canvas superpuesto para la mira técnica, la estela de tinta y las salpicaduras que responden a la velocidad del cursor.
 -   La cortina de transición emplea la misma textura de papel que el fondo y respeta `prefers-reduced-motion`.
 -   La capa HTML reenvía rueda, arrastre y gestos táctiles no interactivos al controlador para que las tarjetas no interrumpan la navegación espacial.
 

@@ -2,7 +2,7 @@
  * ÍNSULAS
  * Contenido de las tarjetas de los cursos de primer nivel: lo que se muestra
  * en cada ínsula del lienzo principal. La estructura (su carpeta, posición,
- * tamaño y subcursos) se define en src/engine/Derivas.ts, y cada ínsula se
+ * tamaño y subcursos) se define en src/motor/Derivas.ts, y cada ínsula se
  * vincula con su curso por el id.
  */
 export interface InsulaDefinition {

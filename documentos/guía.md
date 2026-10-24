@@ -138,12 +138,12 @@ Es la plantilla de las páginas editoriales de tercer nivel. Astro genera una ru
 
 ### Archivos del motor
 
-Los archivos de `src/engine/` controlan la parte espacial:
+Los archivos de `src/motor/` controlan la parte espacial:
 
-- `Camera.ts`: cámara, zoom y coordenadas del mundo.
-- `CanvasController.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
-- `GenerativeSurface.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
-- `InkCursor.ts`: cursor gráfico, estela y partículas.
+- `Camara.ts`: cámara, zoom y coordenadas del mundo.
+- `ControladorLienzo.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
+- `SuperficieGenerativa.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
+- `CursorEntintado.ts`: cursor gráfico, estela y partículas.
 - `Derivas.ts`: definición de los cursos principales y las posiciones de sus subderivas.
 
 ## 6. Atributos de contenido y navegación de `Isla`
@@ -255,7 +255,7 @@ Un curso principal necesita una definición espacial, una tarjeta visible en la 
 ### Pasos
 
 1. Crear en `public/` una carpeta con el identificador del curso, por ejemplo `public/curso04/`, y dentro sus carpetas de contenidos, imágenes y subcursos.
-2. En `src/engine/Derivas.ts`, agregar una nueva entrada a `SPATIAL_DERIVAS` con:
+2. En `src/motor/Derivas.ts`, agregar una nueva entrada a `SPATIAL_DERIVAS` con:
    - `id` único;
    - `code`, `name`, `subtitle` y `description`;
    - `x`, `y`, `width` y `height` iniciales;
@@ -272,7 +272,7 @@ El motor espacial recorre `SPATIAL_DERIVAS` de forma general, pero los cuatro cu
 
 ## 8. Cómo modificar las posiciones en el canvas
 
-Las posiciones de los cursos principales y sus subderivas se definen en `src/engine/Derivas.ts`.
+Las posiciones de los cursos principales y sus subderivas se definen en `src/motor/Derivas.ts`.
 
 - Para mover un curso principal, modificar sus valores `x` y `y` dentro de `SPATIAL_DERIVAS`.
 - Para mover una subderiva, modificar `x` y `y` dentro del arreglo `items` de su curso.
@@ -289,7 +289,7 @@ Para conservar una composición particular, conviene modificar las coordenadas d
 Cada subderiva se define en dos lugares relacionados:
 
 - `src/data/subcursos.ts`: identidad editorial y rutas de contenido.
-- `src/engine/Derivas.ts`: posición y geometría dentro de la deriva local.
+- `src/motor/Derivas.ts`: posición y geometría dentro de la deriva local.
 
 ### Pasos
 

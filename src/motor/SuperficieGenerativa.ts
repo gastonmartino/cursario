@@ -7,7 +7,7 @@ export class SuperficieGenerativa {
   // Cached pattern canvas for paper grain
   private grainCanvas: HTMLCanvasElement | null = null;
 
-  // Color de acento de un curso o subcurso, por id (ver CanvasAppearance).
+  // Color de acento de un curso o subcurso, por id (ver AparienciaLienzo).
   private accentColor: (id: string) => string;
 
   constructor(accentColor: (id: string) => string) {

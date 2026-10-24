@@ -1,4 +1,4 @@
-export interface InkParticle {
+export interface GotaDeTinta {
   x: number;
   y: number;
   vx: number;
@@ -10,7 +10,7 @@ export interface InkParticle {
   color: string;
 }
 
-export interface TrailPoint {
+export interface PuntoDelTrazo {
   x: number;
   y: number;
   width: number;
@@ -27,8 +27,8 @@ export class CursorEntintado {
   private lastX: number = -100;
   private lastY: number = -100;
 
-  private trail: TrailPoint[] = [];
-  private particles: InkParticle[] = [];
+  private trail: PuntoDelTrazo[] = [];
+  private particles: GotaDeTinta[] = [];
   public isHovering: boolean = false;
   public isDragging: boolean = false;
   public hoverLabel: string = '';

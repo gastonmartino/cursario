@@ -3,7 +3,7 @@
  * Contenido de las tarjetas de los subcursos: lo que se muestra en cada isla
  * del lienzo de un curso y en su página. La estructura (a qué curso pertenece,
  * su carpeta, su URL, su posición y su tamaño) se define en
- * src/engine/Derivas.ts, y cada isla se vincula con su subcurso por el id.
+ * src/motor/Derivas.ts, y cada isla se vincula con su subcurso por el id.
  */
 export interface IslaDefinition {
   id: string;

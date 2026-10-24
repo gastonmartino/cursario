@@ -6,12 +6,12 @@ import Layout from '../../layouts/Layout.astro';
 import Derrotero from '../../components/Derrotero.astro';
 import { ISLAS } from '../../data/islas';
 import { ISLOTES } from '../../data/islotes';
-import { ubicar } from '../../engine/Derivas';
+import { ubicar } from '../../motor/Derivas';
 import { renderMarkdownToHtml } from '../../utils/markdown';
 import { resolveFile, withBase } from '../../utils/paths';
 
 // Solo se generan páginas para los subcursos e islotes que tienen un archivo
-// de página. La URL es la urlPagina de su ubicación (src/engine/Derivas.ts).
+// de página. La URL es la urlPagina de su ubicación (src/motor/Derivas.ts).
 export function getStaticPaths() {
   return [...ISLAS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => {
     const ubicacion = ubicar(data.id);

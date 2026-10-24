@@ -8,7 +8,7 @@ import Islote from './Islote.astro';
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
-import { ubicar } from '../engine/Derivas';
+import { ubicar } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { version } from '../../package.json';
 
@@ -19,7 +19,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
   `X: ${formatCoordinate(point.x)}  Y: ${formatCoordinate(point.y)}`;
 
 // Cada tarjeta combina su contenido (src/data/) con su ubicación en la
-// estructura (src/engine/Derivas.ts): posición, tamaño, carpeta y URL.
+// estructura (src/motor/Derivas.ts): posición, tamaño, carpeta y URL.
 const insulas = INSULAS.map((insula) => {
   const ubicacion = ubicar(insula.id);
   return {
@@ -172,8 +172,8 @@ const islotes = ISLOTES.map((islote) => {
 </div>
 
 <script>
-  import { ControladorLienzo, type TelemetryData } from '../engine/ControladorLienzo';
-  import { DERIVAS_INSULAS } from '../engine/Derivas';
+  import { ControladorLienzo, type DatosTelemetria } from '../motor/ControladorLienzo';
+  import { DERIVAS_INSULAS } from '../motor/Derivas';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
 
@@ -215,7 +215,7 @@ const islotes = ISLOTES.map((islote) => {
     const minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
     const worldRadius = 2400; // Visual radius for macro mapping
 
-    const renderMinimap = (data: TelemetryData) => {
+    const renderMinimap = (data: DatosTelemetria) => {
       if (!minimapCtx || !minimapCanvas) return;
 
       const mw = minimapCanvas.width;
@@ -356,7 +356,7 @@ const islotes = ISLOTES.map((islote) => {
     // Initialize Canvas Controller
     const controller = new ControladorLienzo(
       mainCanvas, 
-      (data: TelemetryData) => {
+      (data: DatosTelemetria) => {
         // Update HUD telemetry
         if (coordsEl) {
           const signX = data.worldX >= 0 ? '+' : '';

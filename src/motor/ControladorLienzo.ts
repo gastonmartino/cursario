@@ -7,7 +7,7 @@ import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula, type DerivaIsla } 
  * Lo único del contenido que el motor necesita, pedido por id. Lo provee
  * quien crea el motor, que es quien conoce el contenido de cada elemento.
  */
-export interface CanvasAppearance {
+export interface AparienciaLienzo {
   // Color de acento de un curso o subcurso.
   accentColor: (id: string) => string;
   // Texto junto al cursor sobre un curso o subcurso: 'hover' al pasar por
@@ -15,12 +15,12 @@ export interface CanvasAppearance {
   cursorLabel: (id: string, action: 'hover' | 'select') => string;
 }
 
-const NEUTRAL_APPEARANCE: CanvasAppearance = {
+const APARIENCIA_NEUTRA: AparienciaLienzo = {
   accentColor: () => '#0038A8',
   cursorLabel: () => '',
 };
 
-export interface TelemetryData {
+export interface DatosTelemetria {
   worldX: number;
   worldY: number;
   zoom: number;
@@ -30,8 +30,8 @@ export interface TelemetryData {
   hoveredItem: DerivaIsla | null;
 }
 
-export type TelemetryCallback = (data: TelemetryData) => void;
-export type TransitionCallback = (type: 'enter' | 'exit', deriva: DerivaInsula | null) => void;
+export type AlActualizarTelemetria = (data: DatosTelemetria) => void;
+export type AlCambiarDeNivel = (type: 'enter' | 'exit', deriva: DerivaInsula | null) => void;
 
 export class ControladorLienzo {
   private canvas: HTMLCanvasElement;
@@ -50,8 +50,8 @@ export class ControladorLienzo {
   private lastTime: number = 0;
   private dpr: number = 1;
 
-  private telemetryCallback: TelemetryCallback | null = null;
-  private transitionCallback: TransitionCallback | null = null;
+  private telemetryCallback: AlActualizarTelemetria | null = null;
+  private transitionCallback: AlCambiarDeNivel | null = null;
 
   // Touch tracking
   private touches: Map<number, { x: number; y: number }> = new Map();
@@ -65,14 +65,14 @@ export class ControladorLienzo {
   private cursorCanvas: HTMLCanvasElement | null = null;
   private cursorCtx: CanvasRenderingContext2D | null = null;
 
-  private appearance: CanvasAppearance;
+  private appearance: AparienciaLienzo;
 
   constructor(
     canvas: HTMLCanvasElement, 
-    onTelemetry?: TelemetryCallback,
-    onTransition?: TransitionCallback,
+    onTelemetry?: AlActualizarTelemetria,
+    onTransition?: AlCambiarDeNivel,
     cursorCanvas?: HTMLCanvasElement,
-    appearance: CanvasAppearance = NEUTRAL_APPEARANCE
+    appearance: AparienciaLienzo = APARIENCIA_NEUTRA
   ) {
     this.canvas = canvas;
     this.appearance = appearance;
