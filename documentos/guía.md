@@ -141,8 +141,8 @@ Es la plantilla de las páginas editoriales de tercer nivel. Astro genera una ru
 Los archivos de `src/motor/` controlan la parte espacial:
 
 - `Camara.ts`: cámara, zoom y coordenadas del mundo.
-- `ControladorLienzo.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
-- `SuperficieGenerativa.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
+- `MotorCursario.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
+- `CartografiaGenerativa.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
 - `CursorEntintado.ts`: cursor gráfico, estela y partículas.
 - `Derivas.ts`: definición de los cursos principales y las posiciones de sus subderivas.
 

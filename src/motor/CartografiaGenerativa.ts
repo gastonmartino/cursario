@@ -1,7 +1,7 @@
 import { createNoise2D } from 'simplex-noise';
 import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula } from './Derivas';
 
-export class SuperficieGenerativa {
+export class CartografiaGenerativa {
   private noise2D = createNoise2D();
 
   // Cached pattern canvas for paper grain

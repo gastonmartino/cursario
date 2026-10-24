@@ -173,7 +173,7 @@ const islotes = ISLOTES.map((islote) => {
 </div>
 
 <script>
-  import { ControladorLienzo, type DatosTelemetria } from '../motor/ControladorLienzo';
+  import { MotorCursario, type DatosTelemetria } from '../motor/MotorCursario';
   import { DERIVAS_INSULAS } from '../motor/Derivas';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
@@ -355,7 +355,7 @@ const islotes = ISLOTES.map((islote) => {
     let lastKnownLevel: 'macro' | 'deriva' | null = null;
 
     // Initialize Canvas Controller
-    const controller = new ControladorLienzo(
+    const controller = new MotorCursario(
       mainCanvas, 
       (data: DatosTelemetria) => {
         // Update HUD telemetry

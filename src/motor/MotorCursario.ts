@@ -1,6 +1,6 @@
 import { Camara } from './Camara';
 import { CursorEntintado } from './CursorEntintado';
-import { SuperficieGenerativa } from './SuperficieGenerativa';
+import { CartografiaGenerativa } from './CartografiaGenerativa';
 import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula, type DerivaIsla } from './Derivas';
 
 /**
@@ -33,13 +33,13 @@ export interface DatosTelemetria {
 export type AlActualizarTelemetria = (data: DatosTelemetria) => void;
 export type AlCambiarDeNivel = (type: 'enter' | 'exit', deriva: DerivaInsula | null) => void;
 
-export class ControladorLienzo {
+export class MotorCursario {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
 
   private camera: Camara;
   private cursor: CursorEntintado;
-  private surface: SuperficieGenerativa;
+  private surface: CartografiaGenerativa;
 
   public level: 'macro' | 'deriva' = 'macro';
   public activeDeriva: DerivaInsula | null = null;
@@ -100,7 +100,7 @@ export class ControladorLienzo {
     const initialDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
     this.camera = new Camara(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
     this.cursor = new CursorEntintado();
-    this.surface = new SuperficieGenerativa(appearance.accentColor);
+    this.surface = new CartografiaGenerativa(appearance.accentColor);
 
     if (onTelemetry) {
       this.telemetryCallback = onTelemetry;

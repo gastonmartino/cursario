@@ -17,9 +17,9 @@ provee quien lo crea, la portada (`src/components/Cursario.astro`).
 | Archivo | Para qué se usa |
 |---|---|
 | `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos (`DERIVAS_ISLAS`) y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
-| `ControladorLienzo.ts` | El motor propiamente dicho: recibe los eventos (puntero, rueda, toques, teclado), administra los dos niveles (lienzo principal y lienzo de un curso), mueve la cámara, ubica las tarjetas HTML, informa la telemetría al HUD y decide cuándo hay que dibujar. |
+| `MotorCursario.ts` | El motor propiamente dicho: recibe los eventos (puntero, rueda, toques, teclado), administra los dos niveles (lienzo principal y lienzo de un curso), mueve la cámara, ubica las tarjetas HTML, informa la telemetría al HUD y decide cuándo hay que dibujar. |
 | `Camara.ts` | Posición y zoom de la vista: conversión entre coordenadas de pantalla y del mundo, arrastre con inercia, zoom centrado en un punto y vuelos suaves hacia un destino. |
-| `SuperficieGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, ventanas de nubes, línea de recorrido de los subcursos y conexiones de los islotes. |
+| `CartografiaGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, ventanas de nubes, línea de recorrido de los subcursos y conexiones de los islotes. |
 | `CursorEntintado.ts` | Dibujo del cursor en su propio lienzo (`cursor-canvas`, encima de todo): mira técnica, estela de tinta, gotas que salpican y la etiqueta junto al puntero. |
 
 ## Estructura y contenido
@@ -97,7 +97,7 @@ el puntero. En pantallas táctiles la marca dura lo que dura el toque.
 
 ## Lo que el motor pide desde afuera
 
-Al crear `ControladorLienzo`, la portada le pasa:
+Al crear `MotorCursario`, la portada le pasa:
 
 - **`AparienciaLienzo`**: dos funciones por id, `accentColor` (color de acento
   de un curso o subcurso, para la línea de recorrido y las conexiones de los
@@ -125,7 +125,7 @@ El motor dibuja bajo demanda; con todo quieto no hace ningún trabajo.
 
 ## El fondo
 
-Lo que dibuja `SuperficieGenerativa.ts` depende solo de la cámara, del nivel y
+Lo que dibuja `CartografiaGenerativa.ts` depende solo de la cámara, del nivel y
 del tamaño de la ventana; nada se anima con el paso del tiempo.
 
 - **Lienzo principal**: textura de papel, retícula de 200 unidades (con cruces
