@@ -172,7 +172,7 @@ const islotes = ISLOTES.map((islote) => {
 </div>
 
 <script>
-  import { CanvasController, type TelemetryData } from '../engine/CanvasController';
+  import { ControladorLienzo, type TelemetryData } from '../engine/ControladorLienzo';
   import { DERIVAS_INSULAS } from '../engine/Derivas';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
@@ -254,7 +254,7 @@ const islotes = ISLOTES.map((islote) => {
           minimapCtx.fillText(describir(deriva.id).code, zx, zy - 6);
         }
 
-        // Camera Frustum Box
+        // Encuadre de la cámara
         const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
         const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
         const camX = mcx + data.worldX * scale - viewportW / 2;
@@ -318,7 +318,7 @@ const islotes = ISLOTES.map((islote) => {
           minimapCtx.fillText(describir(item.id).code, ix, iy - 6);
         }
 
-        // Camera Frustum in local space
+        // Encuadre de la cámara en el lienzo local
         const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
         const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
         const camX = mapX(data.worldX) - viewportW / 2;
@@ -354,7 +354,7 @@ const islotes = ISLOTES.map((islote) => {
     let lastKnownLevel: 'macro' | 'deriva' | null = null;
 
     // Initialize Canvas Controller
-    const controller = new CanvasController(
+    const controller = new ControladorLienzo(
       mainCanvas, 
       (data: TelemetryData) => {
         // Update HUD telemetry

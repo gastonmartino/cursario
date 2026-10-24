@@ -18,7 +18,7 @@ export interface TrailPoint {
   time: number;
 }
 
-export class InkCursor {
+export class CursorEntintado {
   public screenX: number = -100;
   public screenY: number = -100;
   public worldX: number = 0;

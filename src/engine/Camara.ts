@@ -1,5 +1,5 @@
 
-export class Camera {
+export class Camara {
   public x: number = 0;
   public y: number = 0;
   public zoom: number = 1.0;

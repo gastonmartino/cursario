@@ -1,6 +1,6 @@
-import { Camera } from './Camera';
-import { InkCursor } from './InkCursor';
-import { GenerativeSurface } from './GenerativeSurface';
+import { Camara } from './Camara';
+import { CursorEntintado } from './CursorEntintado';
+import { SuperficieGenerativa } from './SuperficieGenerativa';
 import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula, type DerivaIsla } from './Derivas';
 
 /**
@@ -33,13 +33,13 @@ export interface TelemetryData {
 export type TelemetryCallback = (data: TelemetryData) => void;
 export type TransitionCallback = (type: 'enter' | 'exit', deriva: DerivaInsula | null) => void;
 
-export class CanvasController {
+export class ControladorLienzo {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
 
-  private camera: Camera;
-  private cursor: InkCursor;
-  private surface: GenerativeSurface;
+  private camera: Camara;
+  private cursor: CursorEntintado;
+  private surface: SuperficieGenerativa;
 
   public level: 'macro' | 'deriva' = 'macro';
   public activeDeriva: DerivaInsula | null = null;
@@ -88,9 +88,9 @@ export class CanvasController {
     }
 
     const initialDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
-    this.camera = new Camera(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
-    this.cursor = new InkCursor();
-    this.surface = new GenerativeSurface(appearance.accentColor);
+    this.camera = new Camara(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
+    this.cursor = new CursorEntintado();
+    this.surface = new SuperficieGenerativa(appearance.accentColor);
 
     if (onTelemetry) {
       this.telemetryCallback = onTelemetry;
