@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva } from './Derivas';
+import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula } from './Derivas';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();
@@ -41,8 +41,8 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    activeDeriva: SpatialDeriva | null = null,
-    hoveredDeriva: SpatialDeriva | null = null
+    activeDeriva: DerivaInsula | null = null,
+    hoveredDeriva: DerivaInsula | null = null
   ) {
     if (activeDeriva) {
       // LEVEL 2: DERIVA INTERIOR INFINITE CANVAS
@@ -63,7 +63,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: SpatialDeriva | null
+    hoveredDeriva: DerivaInsula | null
   ) {
     // 1. Base Dynamic Atmospheric Paper Tint
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -430,16 +430,16 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: SpatialDeriva | null
+    hoveredDeriva: DerivaInsula | null
   ) {
     const cx = width / 2;
     const cy = height / 2;
 
-    for (const deriva of SPATIAL_DERIVAS) {
+    for (const deriva of DERIVAS_INSULAS) {
       const sx = (deriva.x - camX) * zoom + cx;
       const sy = (deriva.y - camY) * zoom + cy;
-      const zw = deriva.width * zoom;
-      const zh = deriva.height * zoom;
+      const zw = deriva.ancho * zoom;
+      const zh = deriva.alto * zoom;
 
       const left = sx - zw / 2;
       const top = sy - zh / 2;
@@ -500,7 +500,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: SpatialDeriva
+    deriva: DerivaInsula
   ) {
     // 1. Dedicated Paper Base
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -565,13 +565,13 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: SpatialDeriva
+    deriva: DerivaInsula
   ) {
     ctx.save();
     const cx = width / 2;
     const cy = height / 2;
 
-    const items = deriva.items;
+    const items = deriva.subcursos;
     if (items.length >= 2) {
       // Connect items with a flowing meander line
       ctx.beginPath();
@@ -633,7 +633,7 @@ export class GenerativeSurface {
     camY: number,
     zoom: number,
     level: 'macro' | 'deriva',
-    activeDeriva?: SpatialDeriva
+    activeDeriva?: DerivaInsula
   ) {
     const cx = width / 2;
     const cy = height / 2;
@@ -646,14 +646,14 @@ export class GenerativeSurface {
     ctx.setLineDash([6 * zoom, 5 * zoom]);
     ctx.lineWidth = Math.max(1, 1.5 * zoom);
 
-    for (const islote of ISLOTES_SPATIAL) {
+    for (const islote of DERIVAS_ISLOTES) {
       let parent: { id: string; x: number; y: number } | undefined;
 
       if (level === 'macro') {
-        const deriva = SPATIAL_DERIVAS.find((item) => item.id === islote.parentId);
+        const deriva = DERIVAS_INSULAS.find((item) => item.id === islote.idSuperior);
         if (deriva) parent = deriva;
       } else if (activeDeriva) {
-        const item = activeDeriva.items.find((entry) => entry.id === islote.parentId);
+        const item = activeDeriva.subcursos.find((entry) => entry.id === islote.idSuperior);
         if (item) parent = item;
       }
 
@@ -672,10 +672,10 @@ export class GenerativeSurface {
         : null;
       const renderedWidth = isloteNode instanceof HTMLElement && isloteNode.offsetWidth > 0
         ? isloteNode.offsetWidth
-        : islote.width;
+        : islote.ancho;
       const renderedHeight = isloteNode instanceof HTMLElement && isloteNode.offsetHeight > 0
         ? isloteNode.offsetHeight
-        : islote.height;
+        : islote.alto;
       const halfWidth = (renderedWidth * zoom) / 2;
       const halfHeight = (renderedHeight * zoom) / 2;
       const horizontalFactor = Math.abs(directionX) > 0 ? halfWidth / Math.abs(directionX) : Infinity;

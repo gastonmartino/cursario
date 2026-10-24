@@ -8,16 +8,16 @@ const islas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
   return {
     ...isla,
-    derivaId: ubicacion.derivaId,
+    idDeriva: ubicacion.idDeriva,
     subcurso: ubicacion.subcurso,
-    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.pageUrl : null) || null,
+    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null) || null,
   };
 });
 
 // Una sección por curso, con los subcursos que tienen página o enlace propio.
 const navigationSections = INSULAS.map((deriva) => ({
   ...deriva,
-  subcursos: islas.filter((subcurso) => subcurso.derivaId === deriva.id && Boolean(subcurso.href)),
+  subcursos: islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
 }));
 ---
 

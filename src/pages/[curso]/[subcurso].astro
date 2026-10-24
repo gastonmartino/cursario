@@ -11,16 +11,16 @@ import { renderMarkdownToHtml } from '../../utils/markdown';
 import { resolveFile, withBase } from '../../utils/paths';
 
 // Solo se generan páginas para los subcursos e islotes que tienen un archivo
-// de página. La URL es la pageUrl de su ubicación (src/engine/Derivas.ts).
+// de página. La URL es la urlPagina de su ubicación (src/engine/Derivas.ts).
 export function getStaticPaths() {
   return [...ISLAS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => {
     const ubicacion = ubicar(data.id);
     return {
-      params: { curso: ubicacion.course, subcurso: ubicacion.subcurso },
+      params: { curso: ubicacion.curso, subcurso: ubicacion.subcurso },
       props: {
         data,
-        derivaId: ubicacion.derivaId,
-        pageMarkdownFile: resolveFile(ubicacion.contentFolder, data.pageMarkdownFile),
+        idDeriva: ubicacion.idDeriva,
+        pageMarkdownFile: resolveFile(ubicacion.carpetaContenidos, data.pageMarkdownFile),
       },
     };
   });
@@ -29,12 +29,12 @@ export function getStaticPaths() {
 const { curso, subcurso } = Astro.params;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { data, derivaId, pageMarkdownFile } = Astro.props;
+const { data, idDeriva, pageMarkdownFile } = Astro.props;
 const displayTitle = data.title ?? '';
 const displaySubtitle = data.subtitle ?? '';
 
 // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-const backHref = withBase(`/?deriva=${derivaId}`);
+const backHref = withBase(`/?deriva=${idDeriva}`);
 
 let markdownHtml = '';
 try {

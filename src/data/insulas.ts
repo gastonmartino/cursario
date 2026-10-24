@@ -22,8 +22,8 @@ export interface InsulaDefinition {
 
   // imageUrl y markdownFile se escriben solo con el nombre del archivo, que
   // se busca en la carpeta del curso (ver Derivas.ts):
-  //   imageUrl     → /{course}/imagenes/
-  //   markdownFile → /{course}/contenidos/
+  //   imageUrl     → /{curso}/imagenes/
+  //   markdownFile → /{curso}/contenidos/
   // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
   imageUrl?: string | null;
   markdownFile?: string | null;

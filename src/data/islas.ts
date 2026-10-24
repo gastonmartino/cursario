@@ -23,8 +23,8 @@ export interface IslaDefinition {
   // DETALLE DE LA SUBDERIVA
   // imageUrl, markdownFile y pageMarkdownFile se escriben solo con el nombre
   // del archivo, que se busca en la carpeta del subcurso (ver Derivas.ts):
-  //   imageUrl      → /{course}/subcursos/{subcurso}/medios/
-  //   *MarkdownFile → /{course}/subcursos/{subcurso}/contenidos/
+  //   imageUrl      → /{curso}/subcursos/{subcurso}/medios/
+  //   *MarkdownFile → /{curso}/subcursos/{subcurso}/contenidos/
   // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
   markdownFile?: string | null;
   pageMarkdownFile?: string | null;

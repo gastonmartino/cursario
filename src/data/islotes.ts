@@ -2,7 +2,7 @@
  * ISLOTES
  * Contenido de las tarjetas de los islotes. La estructura (a qué curso o
  * subcurso pertenece, su URL, su posición y su tamaño) se define en
- * ISLOTES_SPATIAL, en src/engine/Derivas.ts, y cada islote se vincula con
+ * DERIVAS_ISLOTES, en src/engine/Derivas.ts, y cada islote se vincula con
  * su definición espacial por el id.
  */
 export interface IsloteDefinition {
