@@ -3,31 +3,26 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import Derrotero from '../../components/Derrotero.astro';
-import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
-import { ISLOTES, type IsloteDefinition } from '../../data/islotes';
-import { SPATIAL_DERIVAS } from '../../engine/Derivas';
+import { ISLA_CARDS, ISLOTE_CARDS, type IslaCard, type IsloteCard } from '../../data';
 import { renderMarkdownToHtml } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 
 // Solo se generan páginas para los ítems que tienen un archivo de página.
+// La URL coincide con pageHref (src/utils/paths.ts).
 export function getStaticPaths() {
-  return [...SUBCURSOS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => ({
+  return [...ISLA_CARDS, ...ISLOTE_CARDS].filter((data) => data.pageHref).map((data) => ({
     params: { curso: data.course, subcurso: data.subcurso },
     props: { data },
   }));
 }
 
 const { curso, subcurso } = Astro.params;
-const { data } = Astro.props as { data: SubcursoDefinition | IsloteDefinition };
+const { data } = Astro.props as { data: IslaCard | IsloteCard };
 const displayTitle = data.title ?? '';
 const displaySubtitle = data.subtitle ?? '';
 
-// VOLVER abre el lienzo de la deriva de primer nivel. Un islote puede
-// depender de una subderiva, en cuyo caso se vuelve a la deriva que la contiene.
-const backDerivaId =
-  SPATIAL_DERIVAS.find((deriva) => deriva.id === data.parentDerivaId)?.id ??
-  SPATIAL_DERIVAS.find((deriva) => deriva.items.some((item) => item.id === data.parentDerivaId))?.id;
-const backHref = withBase(backDerivaId ? `/?deriva=${backDerivaId}` : '/');
+// VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
+const backHref = withBase(`/?deriva=${data.derivaId}`);
 
 let markdownHtml = '';
 try {

@@ -1,20 +1,20 @@
 import { Camera } from './Camera';
 import { InkCursor } from './InkCursor';
 import { GenerativeSurface } from './GenerativeSurface';
-import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
+import { CURSOS, ISLOTES_SPATIAL, type Curso, type Subcurso } from '../data';
 
 export interface TelemetryData {
   worldX: number;
   worldY: number;
   zoom: number;
   level: 'macro' | 'deriva';
-  activeDeriva: SpatialDeriva | null;
-  hoveredDeriva: SpatialDeriva | null;
-  hoveredItem: DerivaItem | null;
+  activeDeriva: Curso | null;
+  hoveredDeriva: Curso | null;
+  hoveredItem: Subcurso | null;
 }
 
 export type TelemetryCallback = (data: TelemetryData) => void;
-export type TransitionCallback = (type: 'enter' | 'exit', deriva: SpatialDeriva | null) => void;
+export type TransitionCallback = (type: 'enter' | 'exit', deriva: Curso | null) => void;
 
 export class CanvasController {
   private canvas: HTMLCanvasElement;
@@ -25,9 +25,9 @@ export class CanvasController {
   private surface: GenerativeSurface;
 
   public level: 'macro' | 'deriva' = 'macro';
-  public activeDeriva: SpatialDeriva | null = null;
-  public hoveredDeriva: SpatialDeriva | null = null;
-  public hoveredItem: DerivaItem | null = null;
+  public activeDeriva: Curso | null = null;
+  public hoveredDeriva: Curso | null = null;
+  public hoveredItem: Subcurso | null = null;
 
   private isRunning: boolean = false;
   private lastTime: number = 0;
@@ -66,7 +66,7 @@ export class CanvasController {
       this.cursorCtx = cursorCanvas.getContext('2d');
     }
 
-    const initialDeriva = SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso');
+    const initialDeriva = CURSOS.find((deriva) => deriva.id === 'en-curso');
     this.camera = new Camera(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
     this.cursor = new InkCursor();
     this.surface = new GenerativeSurface();
@@ -101,11 +101,11 @@ export class CanvasController {
     return Math.max(0.25, Math.min(preferredZoom, fitZoom, 2.5));
   }
 
-  private getMacroZoom(deriva: SpatialDeriva, preferredZoom = 0.9) {
+  private getMacroZoom(deriva: Curso, preferredZoom = 0.9) {
     return this.getZoomToFit(deriva.width, deriva.height, preferredZoom);
   }
 
-  private getDerivaZoom(deriva: SpatialDeriva, preferredZoom = 0.95) {
+  private getDerivaZoom(deriva: Curso, preferredZoom = 0.95) {
     if (deriva.items.length === 0) {
       return this.getZoomToFit(deriva.width, deriva.height, preferredZoom);
     }
@@ -380,9 +380,9 @@ export class CanvasController {
   }
 
   private checkMacroHover(worldX: number, worldY: number) {
-    let found: SpatialDeriva | null = null;
+    let found: Curso | null = null;
 
-    for (const d of SPATIAL_DERIVAS) {
+    for (const d of CURSOS) {
       const hw = d.width / 2;
       const hh = d.height / 2;
       if (
@@ -404,7 +404,7 @@ export class CanvasController {
   private checkDerivaItemHover(worldX: number, worldY: number) {
     if (!this.activeDeriva) return;
 
-    let found: DerivaItem | null = null;
+    let found: Subcurso | null = null;
     for (const item of this.activeDeriva.items) {
       const hw = item.width / 2;
       const hh = item.height / 2;
@@ -429,7 +429,7 @@ export class CanvasController {
   ------------------------------------------------------------- */
   public incursionar(derivaId?: string) {
     const targetId = derivaId || this.hoveredDeriva?.id || 'en-curso';
-    const targetDeriva = SPATIAL_DERIVAS.find((d) => d.id === targetId);
+    const targetDeriva = CURSOS.find((d) => d.id === targetId);
 
     if (!targetDeriva) return;
 
@@ -474,7 +474,7 @@ export class CanvasController {
 
   public flyToDeriva(derivaId: string) {
     if (this.level === 'macro') {
-      const d = SPATIAL_DERIVAS.find((item) => item.id === derivaId);
+      const d = CURSOS.find((item) => item.id === derivaId);
       if (d) {
         this.camera.flyTo(d.x, d.y, this.getMacroZoom(d));
       }
@@ -486,7 +486,7 @@ export class CanvasController {
 
   public resetView() {
     if (this.level === 'macro') {
-      const initialDeriva = SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso');
+      const initialDeriva = CURSOS.find((deriva) => deriva.id === 'en-curso');
       this.camera.flyTo(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
     } else {
       this.camera.flyTo(0, 0, this.activeDeriva ? this.getDerivaZoom(this.activeDeriva) : 0.95);
@@ -548,7 +548,7 @@ export class CanvasController {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    for (const d of SPATIAL_DERIVAS) {
+    for (const d of CURSOS) {
       const node = document.getElementById(`spatial-node-${d.id}`);
       if (!node) continue;
 
@@ -565,7 +565,7 @@ export class CanvasController {
     }
 
     // Every local deriva uses rich HTML islands for its second-level content.
-    for (const deriva of SPATIAL_DERIVAS) {
+    for (const deriva of CURSOS) {
       for (const item of deriva.items) {
         const node = document.getElementById(`spatial-subnode-${item.id}`);
         if (!node) continue;
@@ -591,8 +591,8 @@ export class CanvasController {
       const node = document.getElementById(`spatial-islote-${islote.id}`);
       if (!node) continue;
 
-      const topLevelParent = SPATIAL_DERIVAS.find((deriva) => deriva.id === islote.parentId);
-      const containingDeriva = topLevelParent || SPATIAL_DERIVAS.find((deriva) =>
+      const topLevelParent = CURSOS.find((deriva) => deriva.id === islote.parentId);
+      const containingDeriva = topLevelParent || CURSOS.find((deriva) =>
         deriva.items.some((item) => item.id === islote.parentId)
       );
       const shouldShow = topLevelParent

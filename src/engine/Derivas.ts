@@ -1,19 +1,24 @@
-import { SUBCURSOS } from '../data/subcursos';
+/**
+ * DERIVAS
+ * Estructura del sitio: los cursos, sus subcursos y los islotes, cómo se
+ * relacionan entre sí (padre-hijo), su carpeta y URL, y dónde se ubican en el
+ * lienzo. El contenido de cada tarjeta está en src/data/ (insulas.ts,
+ * islas.ts e islotes.ts) y se vincula con esta estructura por el id.
+ */
 
 /**
  * SpatialDeriva
  * Son las derivas del nivel superior, es decir, cada uno
  * de los cursos que se muestran en el canvas principal.
+ * `course` es su carpeta en public/ y el primer tramo de sus URLs.
  */
 export interface SpatialDeriva {
   id: string;
-  code: string;
-  name: string;
+  course: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  accentColor: string;
   items: DerivaItem[];
 }
 
@@ -22,52 +27,36 @@ export interface SpatialDeriva {
  * Son las derivas de segundo nivel, es decir, cada uno
  * de los subcursos que se muestran al navegar dentro de
  * alguna de las derivas principales.
+ * `subcurso` es su carpeta (/{course}/subcursos/{subcurso}/) y
+ * el segundo tramo de la URL de su página (/{course}/{subcurso}/).
  */
 export interface DerivaItem {
   id: string;
-  code: string;
-  title: string;
+  subcurso: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  accentColor: string;
 }
 
 /**
  * IsloteSpatial
  * Son un tipo especial de derivas, similares al "DerivaItem" pero
- * con una representación más simple y aislada (un islote). 
+ * con una representación más simple y aislada (un islote).
  * Pueden asociarse a una deriva del primer nivel o a una subderiva
- * (a un curso principal o a un subcurso), pero se dibujan en el 
- * mismo lienzo que estos, no abren nuevos subcursos o lienzos. 
+ * (a un curso principal o a un subcurso), pero se dibujan en el
+ * mismo lienzo que estos, no abren nuevos subcursos o lienzos.
+ * `subcurso` es el segundo tramo de la URL de su página, si la tiene.
  */
 export interface IsloteSpatial {
   id: string;
   parentId: string;
+  subcurso: string;
   x: number;
   y: number;
   width: number;
   height: number;
 }
-
-
-// Posición y tamaño de una subderiva en el lienzo local de su deriva.
-// Los textos y el color se toman de SUBCURSOS (src/data/subcursos.ts),
-// que es la única fuente del contenido de cada subderiva.
-type DerivaItemPosition = Pick<DerivaItem, 'id' | 'x' | 'y' | 'width' | 'height'>;
-type SpatialDerivaDefinition = Omit<SpatialDeriva, 'items'> & { items: DerivaItemPosition[] };
-
-const withSubcursoContent = (item: DerivaItemPosition): DerivaItem => {
-  const subcurso = SUBCURSOS.find((entry) => entry.itemId === item.id);
-
-  return {
-    ...item,
-    code: subcurso?.code ?? item.id,
-    title: subcurso?.title || subcurso?.captionLabel || '',
-    accentColor: subcurso?.accentColor ?? '#0038A8',
-  };
-};
 
 
 // =====================================================================================
@@ -81,19 +70,18 @@ const withSubcursoContent = (item: DerivaItemPosition): DerivaItem => {
 //
 // =====================================================================================
 
-const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
+export const SPATIAL_DERIVAS: SpatialDeriva[] = [
   {
     id: 'en-curso',
-    code: 'CURSO:00',
-    name: 'En Curso...',
+    course: 'curso00',
     x: 200,
     y: 20,
     width: 740,
     height: 730,
-    accentColor: '#E03E2D', // Vermilion
     items: [
       {
         id: 'bitacora-01',
+        subcurso: 'curso001',
         x: -720,
         y: 20,
         width: 640,
@@ -101,6 +89,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-02',
+        subcurso: 'curso002',
         x: -20,
         y: -250,
         width: 640,
@@ -108,6 +97,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-03',
+        subcurso: 'curso003',
         x: 710,
         y: -190,
         width: 640,
@@ -115,6 +105,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-04',
+        subcurso: 'curso004',
         x: -780,
         y: 840,
         width: 640,
@@ -122,6 +113,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-05',
+        subcurso: 'curso005',
         x: 22,
         y: 600,
         width: 640,
@@ -129,6 +121,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-06',
+        subcurso: 'curso006',
         x: 750,
         y: 620,
         width: 640,
@@ -136,6 +129,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-07',
+        subcurso: 'curso007',
         x: 1450,
         y: 120,
         width: 640,
@@ -143,6 +137,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'bitacora-08',
+        subcurso: 'curso008',
         x: 2186,
         y: -126,
         width: 640,
@@ -152,16 +147,15 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
   },
   {
     id: 'untref',
-    code: 'CURSO:01',
-    name: 'Artes Electrónicas',
+    course: 'curso01',
     x: -641,
     y: -270,
     width: 760,
     height: 730,
-    accentColor: '#0038A8', // Cobalt
     items: [
       {
         id: 'untref-obra-01',
+        subcurso: 'curso001',
         x: -720,
         y: -30,
         width: 640,
@@ -169,6 +163,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'untref-obra-02',
+        subcurso: 'curso002',
         x: 0,
         y: -220,
         width: 640,
@@ -176,6 +171,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'untref-obra-03',
+        subcurso: 'curso003',
         x: 720,
         y: -260,
         width: 640,
@@ -183,6 +179,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'untref-obra-04',
+        subcurso: 'curso004',
         x: -20,
         y: 560,
         width: 560,
@@ -190,6 +187,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'untref-obra-05',
+        subcurso: 'curso005',
         x: 660,
         y: 860,
         width: 560,
@@ -199,17 +197,16 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
   },
   {
     id: 'generativa',
-    code: 'CURSO:02',
-    name: 'Gráfica Generativa',
+    course: 'curso02',
     x: -1511,
     y: -11,
     width: 760,
     height: 730,
-    accentColor: '#16253D', // Cyanotype
 
     items: [
       {
         id: 'gen-serie-01',
+        subcurso: 'curso001',
         x: -2000,
         y: -60,
         width: 640,
@@ -217,6 +214,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'gen-serie-02',
+        subcurso: 'curso002',
         x: -1200,
         y: 80,
         width: 640,
@@ -224,6 +222,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'gen-serie-03',
+        subcurso: 'curso003',
         x: -400,
         y: -40,
         width: 640,
@@ -231,6 +230,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'gen-serie-04',
+        subcurso: 'curso004',
         x: 400,
         y: 100,
         width: 640,
@@ -238,6 +238,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'gen-serie-05',
+        subcurso: 'curso005',
         x: 1200,
         y: -20,
         width: 640,
@@ -245,6 +246,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'gen-serie-06',
+        subcurso: 'curso006',
         x: 2000,
         y: 70,
         width: 640,
@@ -254,16 +256,15 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
   },
   {
     id: 'pensamiento',
-    code: 'CURSO:03',
-    name: 'Pensamiento & Diseño',
+    course: 'curso03',
     x: 1041,
     y: -110,
     width: 760,
     height: 730,
-    accentColor: '#002FA7', // Klein blue
     items: [
       {
         id: 'dis-ensayo-01',
+        subcurso: 'curso001',
         x: -720,
         y: 50,
         width: 640,
@@ -271,6 +272,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'dis-ensayo-02',
+        subcurso: 'curso002',
         x: 0,
         y: 120,
         width: 640,
@@ -278,6 +280,7 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
       },
       {
         id: 'dis-ensayo-03',
+        subcurso: 'curso003',
         x: 720,
         y: 70,
         width: 640,
@@ -286,11 +289,6 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     ]
   }
 ];
-
-export const SPATIAL_DERIVAS: SpatialDeriva[] = DERIVAS_DEFINITIONS.map((deriva) => ({
-  ...deriva,
-  items: deriva.items.map(withSubcursoContent),
-}));
 
 
 // =====================================================================================
@@ -311,6 +309,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-en-curso-01',
     parentId: 'en-curso',
+    subcurso: 'islote001',
     x: -490,
     y: 510,
     width: 420,
@@ -325,6 +324,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-01-01',
     parentId: 'bitacora-01',
+    subcurso: 'islote006',
     x: -1331,
     y: -22,
     width: 420,
@@ -333,6 +333,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-01-02',
     parentId: 'bitacora-01',
+    subcurso: 'islote013',
     x: -720,
     y: -641,
     width: 386,
@@ -341,6 +342,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-05-01',
     parentId: 'bitacora-05',
+    subcurso: 'islote003',
     x: -190,
     y: 1380,
     width: 400,
@@ -349,6 +351,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-05-02',
     parentId: 'bitacora-05',
+    subcurso: 'islote004',
     x: 270,
     y: 1466,
     width: 400,
@@ -357,6 +360,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-05-03',
     parentId: 'bitacora-05',
+    subcurso: 'islote005',
     x: 720,
     y: 1260,
     width: 400,
@@ -365,6 +369,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-bitacora-08-01',
     parentId: 'bitacora-08',
+    subcurso: 'islote014',
     x: 1540,
     y: -596 ,
     width: 400 ,
@@ -377,6 +382,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-00',
     parentId: 'untref-obra-01',
+    subcurso: 'islote007',
     x: -1440,
     y: -61,
     width: 580,
@@ -390,6 +396,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-01',
     parentId: 'untref-obra-01',
+    subcurso: 'islote008',
     x: -726,
     y: -766,
     width: 220,
@@ -398,6 +405,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-02',
     parentId: 'untref-obra-02',
+    subcurso: 'islote009',
     x: 0,
     y: -766,
     width: 340,
@@ -406,6 +414,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-03',
     parentId: 'untref-obra-03',
+    subcurso: 'islote010',
     x: 1236,
     y: -266,
     width: 220,
@@ -414,6 +423,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-04',
     parentId: 'untref-obra-04',
+    subcurso: 'islote011',
     x: -480,
     y: 732,
     width: 144,
@@ -422,6 +432,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-obra-05',
     parentId: 'untref-obra-05',
+    subcurso: 'islote012',
     x: 1100,
     y: 830,
     width: 160,
@@ -436,6 +447,7 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
   {
     id: 'islote-generativa-01',
     parentId: 'gen-serie-01',
+    subcurso: 'islote002',
     x: 286,
     y: -841,
     width: 420,

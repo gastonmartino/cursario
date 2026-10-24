@@ -1,4 +1,6 @@
 ---
+// Tarjeta de un subcurso (isla) en el lienzo de su curso.
+// Lleva a la página del subcurso cuando la tiene.
 import fs from 'node:fs';
 import path from 'node:path';
 import { renderMarkdownToHtml } from '../utils/markdown';
@@ -14,12 +16,10 @@ interface Props {
   tag: string;
   timeReference?: string | null;
   accentColor?: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   imageLoading?: 'eager' | 'lazy';
-  derivaId: string;
   coordinatesText: string;
   categoryLabel?: string | null;
-  captionLabel?: string;
   width?: number | string;
   height?: number | string;
   imageMaxHeight?: number | string;
@@ -33,12 +33,10 @@ interface Props {
   paddingX?: number | string;
 
 // Detalle / Navegación siguiente nivel
-  markdownHtml?: string;
   markdownFile?: string | null;
   pageMarkdownFile?: string | null;
   actionHref?: string | null;
   detailHref?: string | null;
-  isSubderiva?: boolean;
   actionLabel?: string;
   showAction?: boolean;
 }
@@ -54,11 +52,9 @@ const {
   timeReference,
   accentColor = "#0038A8",
   imageUrl,
-  imageLoading = 'eager',
-  derivaId,
+  imageLoading = 'lazy',
   coordinatesText,
   categoryLabel,
-  captionLabel = "EXPLORACIÓN VIVA",
   width = 740,
   height = 730,
   imageMaxHeight = 380,
@@ -72,21 +68,17 @@ const {
   paddingX = "1.2rem",
   actionLabel = "INCURSIONAR [CLICK / ENTER]",
 
-// Markdown HTML y Markdown File definen contenido dinámico para la deriva,
-// es decir, lo que se muestra dentro de la propia tarjeta.
-  markdownHtml,
+// Markdown File define el contenido que se muestra dentro de la tarjeta.
   markdownFile = null,
 
-// Page Markdown File, es el archivo .md (opcional) al que se debe navegar
-// desde la subderiva (no existe para las derivas de primer nivel)
+// Page Markdown File, es el archivo .md (opcional) de la página del subcurso,
+// a la que se navega desde la tarjeta.
   pageMarkdownFile = null,
   actionHref,
   detailHref,
-  isSubderiva = false,
 
-// El atributo "showAction" permite definir si se muestra o no se muestra
-// el botón para navegar al siguiente nivel (INCURSIONAR). En las subderivas,
-// el botón también requiere que exista un pageMarkdownFile.
+// El atributo "showAction" permite definir si se muestra o no el botón para
+// abrir la página del subcurso. El botón también requiere un pageMarkdownFile.
   showAction = true,
 
 } = Astro.props;
@@ -106,9 +98,9 @@ const hasDescription = Boolean(description);
 const keywordChips = keywords
   ? keywords.split(',').map((keyword) => keyword.trim()).filter(Boolean)
   : [];
-let resolvedMarkdownHtml = markdownHtml || '';
+let resolvedMarkdownHtml = '';
 
-if (!resolvedMarkdownHtml && markdownFile) {
+if (markdownFile) {
   try {
     const markdownPath = path.join(process.cwd(), 'public', markdownFile.replace(/^\/+/, ''));
     resolvedMarkdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'));
@@ -118,16 +110,12 @@ if (!resolvedMarkdownHtml && markdownFile) {
 }
 
 const hasMarkdown = Boolean(resolvedMarkdownHtml);
-const hasMediaMetadata = !isSubderiva || Boolean(categoryLabel || timeReference);
-// A custom detailHref can be used for a second-level card with an explicit
-// destination. Otherwise, subderivas only become clickable when their
-// editorial page exists.
-const navigableHref = detailHref || (isSubderiva && pageMarkdownFile ? actionHref : undefined);
-// Subderiva cards use actionHref to open their detail page. That action is
-// only available when the corresponding editorial page exists.
-const canShowAction = isSubderiva
-  ? showAction && Boolean(pageMarkdownFile)
-  : showAction;
+const hasMediaMetadata = Boolean(categoryLabel || timeReference);
+// A custom detailHref can be used for a card with an explicit destination.
+// Otherwise, the card only becomes clickable when its page exists.
+const navigableHref = detailHref || (pageMarkdownFile ? actionHref : undefined);
+// The action button opens the subcurso page, so it requires that page.
+const canShowAction = showAction && Boolean(pageMarkdownFile);
 ---
 
 <article 
@@ -190,7 +178,7 @@ const canShowAction = isSubderiva
     </div>
     )}
 
-    {isSubderiva && keywordChips.length > 0 && (
+    {keywordChips.length > 0 && (
     <div class="mb-4 flex w-full flex-wrap gap-2">
       {keywordChips.map((keyword) => (
         <span class="rounded-sm border border-cobalt/25 bg-cobalt/5 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-wide text-cobalt">
@@ -292,16 +280,6 @@ const canShowAction = isSubderiva
       >
         {actionLabel}
       </a>
-    )}
-    {!isSubderiva && canShowAction && !actionHref && (
-      <button
-        data-incursionar={derivaId}
-        data-fly-to={derivaId}
-        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
-        style={`background-color: ${accentColor}; border-color: ${accentColor};`}
-      >
-        {actionLabel}
-      </button>
     )}
   </div>
 </article>

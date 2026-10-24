@@ -1,82 +1,18 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
 import HUD from './HUD.astro';
 import RadarMinimapa from './RadarMinimapa.astro';
 import Derrotero from './Derrotero.astro';
+import Insula from './Insula.astro';
 import Isla from './Isla.astro';
 import Islote from './Islote.astro';
-import { SUBCURSOS } from '../data/subcursos';
-import { ISLOTES_SPATIAL, SPATIAL_DERIVAS } from '../engine/Derivas';
-import { ISLOTES } from '../data/islotes';
-import { renderMarkdownToHtml } from '../utils/markdown';
-import { pageHref } from '../utils/paths';
+import { INSULA_CARDS, ISLA_CARDS, ISLOTE_CARDS } from '../data';
 import { version } from '../../package.json';
 
 const displayVersion = version.split('.').slice(0, 2).join('.');
 
-// Read Markdown contents server-side
-let curso00MarkdownHtml = '';
-try {
-  const mdPath00 = path.join(process.cwd(), 'public', 'curso00', 'contenidos', 'curso00-inicio.md');
-  const rawMd00 = fs.readFileSync(mdPath00, 'utf-8');
-  curso00MarkdownHtml = renderMarkdownToHtml(rawMd00);
-} catch (e) {
-  console.error('Error al leer curso00-inicio.md:', e);
-}
-
-let curso01MarkdownHtml = '';
-try {
-  const mdPath01 = path.join(process.cwd(), 'public', 'curso01', 'contenidos', 'curso01-inicio.md');
-  const rawMd01 = fs.readFileSync(mdPath01, 'utf-8');
-  curso01MarkdownHtml = renderMarkdownToHtml(rawMd01);
-} catch (e) {
-  console.error('Error al leer curso01-inicio.md:', e);
-}
-
-let curso02MarkdownHtml = '';
-try {
-  const mdPath02 = path.join(process.cwd(), 'public', 'curso02', 'contenidos', 'curso02-inicio.md');
-  const rawMd02 = fs.readFileSync(mdPath02, 'utf-8');
-  curso02MarkdownHtml = renderMarkdownToHtml(rawMd02);
-} catch (e) {
-  console.error('Error al leer curso02-inicio.md:', e);
-}
-
-let curso03MarkdownHtml = '';
-try {
-  const mdPath03 = path.join(process.cwd(), 'public', 'curso03', 'contenidos', 'curso03-inicio.md');
-  const rawMd03 = fs.readFileSync(mdPath03, 'utf-8');
-  curso03MarkdownHtml = renderMarkdownToHtml(rawMd03);
-} catch (e) {
-  console.error('Error al leer curso03-inicio.md:', e);
-}
-
 const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
-const formatCoordinates = (point?: { x: number; y: number }) => point
-  ? `X: ${formatCoordinate(point.x)}  Y: ${formatCoordinate(point.y)}`
-  : 'X: +0.0  Y: +0.0';
-const derivaCoordinates = (derivaId: string) =>
-  formatCoordinates(SPATIAL_DERIVAS.find((deriva) => deriva.id === derivaId));
-
-const subcursoCards = SUBCURSOS.map((subcurso) => {
-  const deriva = SPATIAL_DERIVAS.find((item) => item.id === subcurso.parentDerivaId);
-  const item = deriva?.items.find((entry) => entry.id === subcurso.itemId);
-
-  return {
-    ...subcurso,
-    coordinatesText: formatCoordinates(item),
-  };
-});
-
-const isloteCards = ISLOTES.map((islote) => {
-  const spatial = ISLOTES_SPATIAL.find((item) => item.id === islote.itemId);
-
-  return {
-    ...islote,
-    spatial,
-  };
-});
+const formatCoordinates = (point: { x: number; y: number }) =>
+  `X: ${formatCoordinate(point.x)}  Y: ${formatCoordinate(point.y)}`;
 ---
 
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
@@ -100,126 +36,62 @@ const isloteCards = ISLOTES.map((islote) => {
   <!-- HTML Spatial Overlay Layer for Islands -->
   <div id="spatial-nodes-layer" class="absolute inset-0 pointer-events-none z-[20] overflow-hidden">
     
-    <!-- CURSO:00 (ISLA: Deriva actualmente en curso) -->
-    <!-- description={SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso')?.description} -->
-
-    <Isla 
-      id="spatial-node-en-curso"
-      code="CURSO:00"
-      headerTypeLabel="// BITÁCORA"
-      title="En Curso..."
-      subtitle="Bitácora y exploraciones vivas"
-      tag="TFIC" 
-      accentColor="#E03E2D"
-      imageUrl="/curso00/imagenes/curso00-inicio.jpg"
-      markdownHtml={curso00MarkdownHtml}
-      derivaId="en-curso"
-      coordinatesText={derivaCoordinates('en-curso')}
-      categoryLabel="BITÁCORA / TFIC"
-      captionLabel="INVESTIGACIÓN SITUADA"
-      width={740}
-      height={730}
-      imageMaxHeight={380}
-    />
-    
-    <!-- CURSO:01 (ISLA: Deriva de arte electrónico MAE) -->
-    <Isla 
-      id="spatial-node-untref"
-      code="CURSO:01"
-      headerTypeLabel="// MAE UNTREF"
-      title="Nubes infames, granjas turbias y una hominización especulativa"
-      subtitle="Producción MAE - 2025-2026"
-      tag="ARTES ELECTRÓNICAS"
-      accentColor="#0038A8"
-      imageUrl="/curso01/imagenes/curso01-inicio.jpg"
-      markdownHtml={curso01MarkdownHtml}
-      derivaId="untref"
-      coordinatesText={derivaCoordinates('untref')}
-      categoryLabel="EJES: TIEMPO / ESPACIO / MOVIMIENTO"
-      captionLabel="2025-2026"
-      width={760}
-      height={730}
-      imageMaxHeight={440}
-      imageBackgroundColor="#ffffff"
-    />
-  
-    <!-- CURSO:02 (Deriva generativa) -->
-    <Isla 
-      id="spatial-node-generativa"
-      code="CURSO:02"
-      headerTypeLabel="// GENERATIVA"
-      title="Gráfica generativa en p5js"
-      subtitle="Las abstracciones digitales también pueden producir fricción."
-      description="El código construye formas que escapan a la representación literal, pero que pueden cargar tensiones, conflictos y sentidos. Imágenes que, en apariencia, no dicen nada y, sin embargo, están diciendo algo. Imágenes que no ilustran consignas, sino que las infiltran."
-      tag="ALGORITMOS & TRAMAS"
-      accentColor="#16253D"
-      imageUrl="/curso02/imagenes/portada-generativa.gif"
-      derivaId="generativa"
-      coordinatesText={derivaCoordinates('generativa')}
-      categoryLabel="PROCESSING / P5.JS"
-      captionLabel="2024"
-      width={760}
-      height={730}
-      imageMaxHeight={440}
-    />
-    
-    <!-- CURSO:03 (ISLA: Deriva del pensamiento de diseño) -->
-    <Isla 
-      id="spatial-node-pensamiento"
-      code="CURSO:03"
-      headerTypeLabel="// DISEÑO"
-      title="Pensamiento & Diseño"
-      subtitle="El giro UX. Al encuentro de otro diseño"
-      tag="INTERFACES & INTERACCIONES INTELIGENTES"
-      accentColor="#002FA7"
-      imageUrl="/curso03/imagenes/curso03-inicio.jpg"
-      markdownHtml={curso03MarkdownHtml}
-      derivaId="pensamiento"
-      coordinatesText={derivaCoordinates('pensamiento')}
-      categoryLabel="REFLEXIÓN / ENSAYO"
-      captionLabel="2026"
-      width={760}
-      height={730}
-      imageMaxHeight={440}
-    />
+    <!-- Ínsulas: los cursos de primer nivel en el lienzo principal -->
+    {INSULA_CARDS.map((insula) => (
+      <Insula
+        id={`spatial-node-${insula.id}`}
+        code={insula.code}
+        headerTypeLabel={insula.headerTypeLabel}
+        title={insula.title}
+        subtitle={insula.subtitle}
+        description={insula.description}
+        tag={insula.tag}
+        accentColor={insula.accentColor}
+        imageUrl={insula.imageUrl}
+        imageBackgroundColor={insula.imageBackgroundColor}
+        markdownFile={insula.markdownFile}
+        derivaId={insula.id}
+        coordinatesText={formatCoordinates(insula)}
+        categoryLabel={insula.categoryLabel}
+        width={insula.width}
+        height={insula.height}
+        imageMaxHeight={insula.imageMaxHeight}
+      />
+    ))}
 
     <!-- Subderivas: islas HTML enriquecidas dentro de cada canvas local -->
-    {subcursoCards.map((subcurso) => (
+    {ISLA_CARDS.map((isla) => (
       <Isla
-        id={`spatial-subnode-${subcurso.itemId}`}
-        detailHref={subcurso.detailHref || subcurso.actionHref || pageHref(subcurso)}
-        isSubderiva={true}
-        code={subcurso.code}
-        headerTypeLabel={`// ${subcurso.captionLabel.toUpperCase()}`}
-        title={subcurso.title}
-        subtitle={subcurso.subtitle}
-        description={subcurso.description}
-        keywords={subcurso.keywords}
-        tag={subcurso.tag}
-        timeReference={subcurso.timeReference}
-        accentColor={subcurso.accentColor}
-        imageUrl={subcurso.imageUrl}
-        imageBackgroundColor={subcurso.imageBackgroundColor}
-        imageLoading="lazy"
-        markdownFile={subcurso.markdownFile}
-        pageMarkdownFile={subcurso.pageMarkdownFile}
-        showAction={subcurso.showAction ?? true}
-        derivaId={subcurso.itemId}
-        coordinatesText={subcurso.coordinatesText}
-        categoryLabel={subcurso.categoryLabel}
-        captionLabel={subcurso.captionLabel}
-        width={subcurso.cardWidth ?? 640}
-        height={subcurso.cardHeight ?? 660}
+        id={`spatial-subnode-${isla.id}`}
+        detailHref={isla.detailHref || isla.actionHref || isla.pageHref}
+        code={isla.code}
+        headerTypeLabel={`// ${isla.captionLabel.toUpperCase()}`}
+        title={isla.title}
+        subtitle={isla.subtitle}
+        description={isla.description}
+        keywords={isla.keywords}
+        tag={isla.tag}
+        timeReference={isla.timeReference}
+        accentColor={isla.accentColor}
+        imageUrl={isla.imageUrl}
+        imageBackgroundColor={isla.imageBackgroundColor}
+        markdownFile={isla.markdownFile}
+        pageMarkdownFile={isla.pageMarkdownFile}
+        showAction={isla.showAction ?? true}
+        coordinatesText={formatCoordinates(isla)}
+        categoryLabel={isla.categoryLabel}
+        width={isla.width}
+        height={isla.height}
         imageMaxHeight={360}
-        actionHref={subcurso.actionHref || pageHref(subcurso)}
+        actionHref={isla.actionHref || isla.pageHref}
         actionLabel="INCURSIONAR [ABRIR]"
       />
     ))}
 
     <!-- Islotes: pequeñas islas editoriales sin nivel de navegación propio -->
-    {isloteCards.map((islote) => islote.spatial && (
+    {ISLOTE_CARDS.map((islote) => (
       <Islote
-        id={`spatial-islote-${islote.itemId}`}
+        id={`spatial-islote-${islote.id}`}
         code={islote.code}
         title={islote.title}
         subtitle={islote.subtitle}
@@ -230,7 +102,7 @@ const isloteCards = ISLOTES.map((islote) => {
         accentColor={islote.accentColor}
         imageUrl={islote.imageUrl}
         markdownFile={islote.markdownFile}
-        actionHref={islote.actionHref || pageHref(islote)}
+        actionHref={islote.actionHref || islote.pageHref}
         actionLabel={islote.actionLabel}
         showAction={islote.showAction ?? true}
         categoryLabel={islote.categoryLabel}
@@ -238,8 +110,8 @@ const isloteCards = ISLOTES.map((islote) => {
         showHeader={islote.showHeader ?? true}
         imageMaxHeight={islote.imageMaxHeight}
         backgroundColor={islote.backgroundColor}
-        width={islote.spatial.width}
-        height={islote.spatial.height}
+        width={islote.width}
+        height={islote.height}
         imageLoading="lazy"
       />
     ))}
@@ -262,7 +134,7 @@ const isloteCards = ISLOTES.map((islote) => {
 
 <script>
   import { CanvasController, type TelemetryData } from '../engine/CanvasController';
-  import { SPATIAL_DERIVAS } from '../engine/Derivas';
+  import { CURSOS } from '../data';
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
@@ -316,7 +188,7 @@ const isloteCards = ISLOTES.map((islote) => {
         minimapCtx.stroke();
 
         // Deriva Nodes
-        for (const deriva of SPATIAL_DERIVAS) {
+        for (const deriva of CURSOS) {
           const zx = mcx + deriva.x * scale;
           const zy = mcy + deriva.y * scale;
 
@@ -508,7 +380,7 @@ const isloteCards = ISLOTES.map((islote) => {
     // Direct links from third-level pages restore CURSO:00 in its local
     // canvas, while the root URL continues to open the macro cartography.
     const requestedDeriva = new URLSearchParams(window.location.search).get('deriva');
-    if (requestedDeriva && SPATIAL_DERIVAS.some((deriva) => deriva.id === requestedDeriva)) {
+    if (requestedDeriva && CURSOS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);
     }
 

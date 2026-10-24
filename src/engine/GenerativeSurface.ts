@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva } from './Derivas';
+import { CURSOS, ISLOTES_SPATIAL, type Curso } from '../data';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();
@@ -37,8 +37,8 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    activeDeriva: SpatialDeriva | null = null,
-    hoveredDeriva: SpatialDeriva | null = null
+    activeDeriva: Curso | null = null,
+    hoveredDeriva: Curso | null = null
   ) {
     if (activeDeriva) {
       // LEVEL 2: DERIVA INTERIOR INFINITE CANVAS
@@ -59,7 +59,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: SpatialDeriva | null
+    hoveredDeriva: Curso | null
   ) {
     // 1. Base Dynamic Atmospheric Paper Tint
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -426,12 +426,12 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: SpatialDeriva | null
+    hoveredDeriva: Curso | null
   ) {
     const cx = width / 2;
     const cy = height / 2;
 
-    for (const deriva of SPATIAL_DERIVAS) {
+    for (const deriva of CURSOS) {
       const sx = (deriva.x - camX) * zoom + cx;
       const sy = (deriva.y - camY) * zoom + cy;
       const zw = deriva.width * zoom;
@@ -496,7 +496,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: SpatialDeriva
+    deriva: Curso
   ) {
     // 1. Dedicated Paper Base
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -561,7 +561,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: SpatialDeriva
+    deriva: Curso
   ) {
     ctx.save();
     const cx = width / 2;
@@ -629,7 +629,7 @@ export class GenerativeSurface {
     camY: number,
     zoom: number,
     level: 'macro' | 'deriva',
-    activeDeriva?: SpatialDeriva
+    activeDeriva?: Curso
   ) {
     const cx = width / 2;
     const cy = height / 2;
@@ -646,7 +646,7 @@ export class GenerativeSurface {
       let parent: { x: number; y: number; accentColor: string } | undefined;
 
       if (level === 'macro') {
-        const deriva = SPATIAL_DERIVAS.find((item) => item.id === islote.parentId);
+        const deriva = CURSOS.find((item) => item.id === islote.parentId);
         if (deriva) parent = deriva;
       } else if (activeDeriva) {
         const item = activeDeriva.items.find((entry) => entry.id === islote.parentId);

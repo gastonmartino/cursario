@@ -1,12 +1,14 @@
-export interface SubcursoDefinition {
-  course: 'curso00' | 'curso01' | 'curso02' | 'curso03';
-  parentDerivaId: 'en-curso' | 'untref' | 'generativa' | 'pensamiento';
-  subcurso: string;
-  itemId: string;
+/**
+ * ISLAS
+ * Contenido de las tarjetas de los subcursos: lo que se muestra en cada isla
+ * del lienzo de un curso y en su página. La estructura (a qué curso pertenece,
+ * su carpeta, su URL, su posición y su tamaño) se define en
+ * src/engine/Derivas.ts, y cada isla se vincula con su subcurso por el id.
+ */
+export interface IslaDefinition {
+  id: string;
   imageUrl?: string | null;
   imageBackgroundColor?: string | null;
-  cardWidth?: number;
-  cardHeight?: number;
   code: string;
   title?: string | null;
   subtitle?: string | null;
@@ -20,7 +22,7 @@ export interface SubcursoDefinition {
     
   // DETALLE DE LA SUBDERIVA
   // imageUrl, markdownFile y pageMarkdownFile se escriben solo con el nombre
-  // del archivo, que se busca en la carpeta del subcurso:
+  // del archivo, que se busca en la carpeta del subcurso (ver Derivas.ts):
   //   imageUrl      → /{course}/subcursos/{subcurso}/medios/
   //   *MarkdownFile → /{course}/subcursos/{subcurso}/contenidos/
   // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
@@ -31,16 +33,13 @@ export interface SubcursoDefinition {
   showAction?: boolean;
 }
 
-const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
+export const ISLAS: IslaDefinition[] = [
     
  //
  // CURSO:00 - EN CURSO... (BITÁCORA)
  //
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso001', 
-    itemId: 'bitacora-01',
+    id: 'bitacora-01',
     imageUrl: 'mapa-cuenca.jpg',
     description: 'La cuenca Matanza-Riachuelo: En una cuenca tan extensa, empezar por lo que está cerca.',
     code: 'TFIC:00', 
@@ -50,10 +49,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'INICIO BITÁCORA'
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso002', 
-    itemId: 'bitacora-02',
+    id: 'bitacora-02',
     imageUrl: 'portada-curso.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
@@ -65,10 +61,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'EJERCICIO #1 / CUESTIONARIO',
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso003', 
-    itemId: 'bitacora-03',
+    id: 'bitacora-03',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:02', 
@@ -80,10 +73,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'EJERCICIO #2 / STATEMENT',
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso004', 
-    itemId: 'bitacora-04',
+    id: 'bitacora-04',
     imageUrl: 'portada-curso.jpg',
     code: 'TFIC:03', 
     title: 'Camino de las Flores', 
@@ -95,10 +85,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'ARROYO DEL REY / REGISTRO DE CAMPO',
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso005', 
-    itemId: 'bitacora-05',
+    id: 'bitacora-05',
     imageUrl: 'portada-curso.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
@@ -112,10 +99,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     timeReference: '31 de agosto de 2026', 
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso006', 
-    itemId: 'bitacora-06',
+    id: 'bitacora-06',
     imageUrl: 'arroyo-macrofitas-v01.jpg',
     pageMarkdownFile: 'macrofitas.md',
     code: 'TFIC:05',
@@ -127,10 +111,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'REGISTRO DE CAMPO / GENERATIVA',
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso007', 
-    itemId: 'bitacora-07',
+    id: 'bitacora-07',
     imageUrl: 'collage-emergencia-01.jpg',
     pageMarkdownFile: 'emergencia.md',
     code: 'TFIC:06',
@@ -142,10 +123,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     captionLabel: 'REFLEXIÓN',
   },
   {
-    course: 'curso00', 
-    parentDerivaId: 'en-curso', 
-    subcurso: 'curso008', 
-    itemId: 'bitacora-08',
+    id: 'bitacora-08',
     imageUrl: 'stranger-visions.jpg',
     markdownFile: 'actividad-consigna.md',
     pageMarkdownFile: 'actividad-respuesta.md',
@@ -162,10 +140,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
  // CURSO:01 - MAE UNTREF
  //
   {
-    course: 'curso01', 
-    parentDerivaId: 'untref', 
-    subcurso: 'curso001', 
-    itemId: 'untref-obra-01',
+    id: 'untref-obra-01',
     imageUrl: 'portada-sos.gif',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:01', 
@@ -179,7 +154,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     timeReference: '1C 2025', 
   },
   {
-    course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso002', itemId: 'untref-obra-02',
+    id: 'untref-obra-02',
     imageUrl: 'portada-granja.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:02', 
@@ -193,7 +168,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     timeReference: '2C 2025', 
   },
   {
-    course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso003', itemId: 'untref-obra-03',
+    id: 'untref-obra-03',
     imageUrl: 'portada-curso.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:03', 
@@ -206,10 +181,9 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     timeReference: '1C 2026', 
   },
   {
-    course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso004', itemId: 'untref-obra-04',
+    id: 'untref-obra-04',
     imageUrl: 'portada-gps.jpg',
     pageMarkdownFile: 'pagina-curso.md',
-    cardWidth: 560, cardHeight: 580,
     code: 'OBRA:04', 
     title: 'GPS (Goce Positioning System)', 
     subtitle: 'Lenguaje de las Artes Electrónicas I - Primer cuatrimestre, 2025',
@@ -221,10 +195,9 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     timeReference: '1C 2025', 
   },
   {
-    course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso005', itemId: 'untref-obra-05',
+    id: 'untref-obra-05',
     imageUrl: 'portada-curso.jpg',
     pageMarkdownFile: 'pagina-curso.md',
-    cardWidth: 560, cardHeight: 580,
     code: 'OBRA:05', 
     title: 'Diálogos Desavenidos', 
     subtitle: 'Programación de Entornos Sensoriales II - Primer cuatrimestre, 2026',
@@ -240,7 +213,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
  // CURSO:02 - GENERATIVA
  //
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso001', itemId: 'gen-serie-01',
+    id: 'gen-serie-01',
     imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:01', 
     title: 'Sarandí Revelation', 
@@ -253,7 +226,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     keywords: 'agua, contaminación, polución, río, sarandí, avellaneda, residuos',
   },
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso002', itemId: 'gen-serie-02',
+    id: 'gen-serie-02',
     imageUrl: 'portada-curso.gif',
     code: 'GENERATIVA:02', 
     title: 'Meticulously Unplanned', 
@@ -266,7 +239,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     keywords: 'urbanización, degradación, urbanización no planificada, gentrificación, abandono',
   },
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso003', itemId: 'gen-serie-03',
+    id: 'gen-serie-03',
     imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:03', 
     title: 'Plastic Natianta', 
@@ -279,7 +252,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     keywords: 'microplásticos, mar, océanos, polución, krill, ecosistema, medioambiente',
   },
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso004', itemId: 'gen-serie-04',
+    id: 'gen-serie-04',
     imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:04', 
     title: 'Diasporas', 
@@ -292,7 +265,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     keywords: 'advertencia, alerta, liquen, medioambiente, polución',
   },
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso005', itemId: 'gen-serie-05',
+    id: 'gen-serie-05',
     imageUrl: 'portada-curso.gif',
     code: 'GENERATIVA:05', 
     title: 'Meanwhile, in the Southern Hemisphere, a lymphatic summer',
@@ -305,7 +278,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     keywords: 'decolonialidad , sur global, crisis de occidente, cooperación sur-sur',
   },
   {
-    course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso006', itemId: 'gen-serie-06',
+    id: 'gen-serie-06',
     imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:06', 
     title: 'Regolito fértil', 
@@ -322,7 +295,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
  // CURSO:03 - DISEÑO
  //
   {
-    course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso001', itemId: 'dis-ensayo-01',
+    id: 'dis-ensayo-01',
     imageUrl: 'portada-interaccion.jpg',
     code: 'NOTA:01', 
     title: '¿Qué sostiene la experiencia del usuario?', 
@@ -331,7 +304,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     accentColor: '#002FA7', categoryLabel: 'INTERFACES / DISEÑO UX', captionLabel: 'DIS#01',
   },
   {
-    course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso002', itemId: 'dis-ensayo-02',
+    id: 'dis-ensayo-02',
     imageUrl: 'portada-curso.jpg',
     code: 'NOTA:02', 
     title: 'Interacción: ¿cita entre dos?', 
@@ -341,7 +314,7 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     categoryLabel: 'DISEÑO DE INTERACCIÓN / IxD', captionLabel: 'DIS#02',
   },
   {
-    course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso003', itemId: 'dis-ensayo-03',
+    id: 'dis-ensayo-03',
     subtitle: 'Patrones de Diseño Agéntico',
     description: '¿Qué nuevos patrones de diseño emergen al integrar la inteligencia artificial en las experiencias?',
     imageUrl: 'portada-experiencia.jpg',
@@ -351,18 +324,3 @@ const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     categoryLabel: 'AL ENCUENTRO DE OTRO DISEÑO', captionLabel: 'DIS#03',
   },
 ];
-
-const resolveFile = (folder: string, file?: string | null) =>
-  file && !file.startsWith('/') ? `${folder}/${file}` : file;
-
-// Los subcursos con las rutas de sus archivos ya completas.
-export const SUBCURSOS: SubcursoDefinition[] = SUBCURSOS_DEFINITIONS.map((subcurso) => {
-  const folder = `/${subcurso.course}/subcursos/${subcurso.subcurso}`;
-
-  return {
-    ...subcurso,
-    imageUrl: resolveFile(`${folder}/medios`, subcurso.imageUrl),
-    markdownFile: resolveFile(`${folder}/contenidos`, subcurso.markdownFile),
-    pageMarkdownFile: resolveFile(`${folder}/contenidos`, subcurso.pageMarkdownFile),
-  };
-});

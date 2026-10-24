@@ -1,15 +1,14 @@
 ---
-import { SPATIAL_DERIVAS } from '../engine/Derivas';
-import { SUBCURSOS } from '../data/subcursos';
-import { pageHref, withBase } from '../utils/paths';
+import { CURSOS, ISLA_CARDS, type IslaCard } from '../data';
+import { withBase } from '../utils/paths';
 
-const getSubcursoHref = (subcurso: (typeof SUBCURSOS)[number]) =>
-  subcurso.actionHref || subcurso.detailHref || pageHref(subcurso) || null;
+const getSubcursoHref = (subcurso: IslaCard) =>
+  subcurso.actionHref || subcurso.detailHref || subcurso.pageHref || null;
 
-const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
+const navigationSections = CURSOS.map((deriva) => ({
   ...deriva,
-  subcursos: SUBCURSOS.filter(
-    (subcurso) => subcurso.parentDerivaId === deriva.id && Boolean(getSubcursoHref(subcurso))
+  subcursos: ISLA_CARDS.filter(
+    (subcurso) => subcurso.derivaId === deriva.id && Boolean(getSubcursoHref(subcurso))
   ).map((subcurso) => ({
     ...subcurso,
     href: getSubcursoHref(subcurso),

@@ -1,20 +1,21 @@
+/**
+ * ISLOTES
+ * Contenido de las tarjetas de los islotes. La estructura (a qué curso o
+ * subcurso pertenece, su URL, su posición y su tamaño) se define en
+ * ISLOTES_SPATIAL, en src/engine/Derivas.ts, y cada islote se vincula con
+ * su definición espacial por el id.
+ */
 export interface IsloteDefinition {
-  course: 'curso00' | 'curso01' | 'curso02' | 'curso03';
-  parentDerivaId: string;
-  subcurso: string;
-  itemId: string;
+  id: string;
   imageUrl?: string | null;
   markdownFile?: string | null;
   pageMarkdownFile?: string | null;
   actionHref?: string | null;
-  detailHref?: string | null;
   showAction?: boolean;
   actionLabel?: string;
   showHeader?: boolean;
   imageMaxHeight?: number;
   backgroundColor?: string | null;
-  cardWidth?: number;
-  cardHeight?: number;
   code: string;
   title?: string | null;
   subtitle?: string | null;
@@ -33,10 +34,7 @@ export const ISLOTES: IsloteDefinition[] = [
   // Se muestra junto con los cursos del nivel superior
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
-    course: 'curso00',
-    parentDerivaId: 'en-curso',
-    subcurso: 'islote001',
-    itemId: 'islote-en-curso-01',
+    id: 'islote-en-curso-01',
     showHeader: false,
     imageUrl: '/curso00/imagenes/islote00-inicio.jpg',
     markdownFile: '/curso00/contenidos/islote-01.md',
@@ -56,10 +54,7 @@ export const ISLOTES: IsloteDefinition[] = [
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-01',
-    subcurso: 'islote006',
-    itemId: 'islote-bitacora-01-01',
+    id: 'islote-bitacora-01-01',
     imageUrl: '/curso00/imagenes/cursario-cartografia.svg',
     markdownFile: '/curso00/contenidos/islote-cursario.md',
     showHeader: false,
@@ -79,10 +74,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     captionLabel: 'EXCURSO 04',
   },
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-01',
-    subcurso: 'islote013',
-    itemId: 'islote-bitacora-01-02',
+    id: 'islote-bitacora-01-02',
     imageUrl: '/curso00/subcursos/curso001/medios/arroyo.del.rey-mapa.jpg',
     showHeader: false,
     code: 'CURSARIO:00.1',
@@ -94,10 +86,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     captionLabel: 'EXCURSO 04',
   },
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-05',
-    subcurso: 'islote003',
-    itemId: 'islote-bitacora-05-01',
+    id: 'islote-bitacora-05-01',
     showHeader: false,
     imageUrl: '/curso00/subcursos/curso005/medios/naturaleza-muerta-01.jpg',
     code: 'ISLOTE:00.3',
@@ -110,10 +99,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     timeReference: '1-SEP-2026', 
   },
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-05',
-    subcurso: 'islote004',
-    itemId: 'islote-bitacora-05-02',
+    id: 'islote-bitacora-05-02',
     showHeader: false,
     imageUrl: '/curso00/subcursos/curso005/medios/naturaleza-muerta-02.jpg',
     code: 'ISLOTE:00.4',
@@ -126,10 +112,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     timeReference: '1-SEP-2026', 
   },
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-05',
-    subcurso: 'islote005',
-    itemId: 'islote-bitacora-05-03',
+    id: 'islote-bitacora-05-03',
     showHeader: false,
     imageUrl: '/curso00/subcursos/curso005/medios/naturaleza-muerta-03.jpg',
     code: 'ISLOTE:00.5',
@@ -142,10 +125,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     timeReference: '1-SEP-2026', 
   },
   {
-    course: 'curso00',
-    parentDerivaId: 'bitacora-08',
-    subcurso: 'islote014',
-    itemId: 'islote-bitacora-08-01',
+    id: 'islote-bitacora-08-01',
     showHeader: false ,
     imageUrl: '/curso00/subcursos/curso008/medios/marca-de-agua.jpg',
     code: 'ISLOTE:00.8',
@@ -164,10 +144,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-01',
-    subcurso: 'islote007',
-    itemId: 'islote-obra-00',
+    id: 'islote-obra-00',
     showHeader: true,
     imageUrl: '/curso01/imagenes/instructivo-dominion.jpg',
     markdownFile: '/curso01/contenidos/dominion.md',
@@ -181,10 +158,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageMaxHeight: 800,
   },    
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-01',
-    subcurso: 'islote008',
-    itemId: 'islote-obra-01',
+    id: 'islote-obra-01',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-sos-azul.png',
     code: 'SEAMOS TODOS ARROBADOS POR LA NUBE',
@@ -195,10 +169,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: false,
   },
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-02',
-    subcurso: 'islote009',
-    itemId: 'islote-obra-02',
+    id: 'islote-obra-02',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-turbio-azul.png',
     code: 'TURBIO',
@@ -209,10 +180,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: false,
   },
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-03',
-    subcurso: 'islote010',
-    itemId: 'islote-obra-03',
+    id: 'islote-obra-03',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-hamatus-azul.png',
     code: 'HOMO HAMATUS',
@@ -223,10 +191,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: false,
   }, 
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-04',
-    subcurso: 'islote011',
-    itemId: 'islote-obra-04',
+    id: 'islote-obra-04',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-gps-azul.png',
     code: 'GPS',
@@ -237,10 +202,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: false,
   },
   {
-    course: 'curso01',
-    parentDerivaId: 'untref-obra-05',
-    subcurso: 'islote012',
-    itemId: 'islote-obra-05',
+    id: 'islote-obra-05',
     showHeader: false,
     imageUrl: '/curso01/imagenes/curso01-haptica-azul.png',
     code: 'HAPTICA',
@@ -257,10 +219,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   // es decir, en la carta de navegación de segundo nivel (subcurso).
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
-    course: 'curso02',
-    parentDerivaId: 'gen-serie-01',
-    subcurso: 'islote002',
-    itemId: 'islote-generativa-01',
+    id: 'islote-generativa-01',
     showHeader: true,
     imageUrl: '/curso02/imagenes/serie-generativa-01.jpg',
     markdownFile: '/curso02/contenidos/islote-01.md',
