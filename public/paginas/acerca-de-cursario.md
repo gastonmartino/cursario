@@ -1,5 +1,5 @@
 ---
-carta: cartulario
+carta: cursario
 titulo: Cursario
 codigo: ACERCA DE
 etiqueta: MANIFIESTO V1.0
@@ -8,7 +8,12 @@ descripcion: Acerca del proyecto CURSARIO.
 ---
 # Acerca del Cursario
 
-![Cursario](/medios/cursario-01.jpg)
+![Velero en grabado tramado](/paginas/acerca-de-cursario/medios/barco-grabado.png) *LÁMINA I*
+![Juncos a orillas del arroyo](/paginas/acerca-de-cursario/medios/juncos-bitono.png) *LÁMINA II*
+![Cartografía con interferencias](/paginas/acerca-de-cursario/medios/mapa-glitch.png) *LÁMINA III*
+![Relieve ocre y curvas de agua](/paginas/acerca-de-cursario/medios/ocre-posterizado.png) *LÁMINA IV*
+![Curvas de nivel](/paginas/acerca-de-cursario/medios/relieve-curvas.png) *LÁMINA V*
+![Cauce y meandros del río](/paginas/acerca-de-cursario/medios/rio-plano.png) *LÁMINA VI*
 
 Cursar es abrir cauce, atravesar un medio, persistir en un proceso, dejarse llevar y a la vez intervenir en la corriente. Ser un cursor no es solo señalar un píxel en la pantalla: es ser un surcador de materias, un incursionista de ideas, un mareante de desviaciones y excursos.
 

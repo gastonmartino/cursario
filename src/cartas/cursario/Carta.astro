@@ -1,0 +1,467 @@
+---
+// CURSARIO
+// Carta experimental con forma de carta náutica: marco graduado, sondeos,
+// curvas de profundidad, rosas de los vientos y recuadros negros escalonados,
+// con el contenido del Markdown repartido sobre la hoja. Pensada para pantallas
+// de escritorio.
+import LayoutCarta from '../../layouts/LayoutCarta.astro';
+import Volver from '../../components/navegacion/Volver.astro';
+import BotonMenu from '../../components/navegacion/BotonMenu.astro';
+import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
+import { withBase } from '../../utils/paths';
+import type { PropsCarta } from '../index';
+import {
+  HOJA, LUGAR_CARTUCHO, LUGAR_TITULO, LUGARES_IMAGEN, LUGARES_NOTA, LUGARES_TOPONIMO, RECUADROS, ROSAS,
+} from './composicion';
+import { generarGrafica, PALETA } from './grafica';
+
+type Props = PropsCarta;
+
+const { pagina, documento, volver } = Astro.props;
+
+// --- Reparto del contenido ---
+// Antes del primer "##": título, imágenes y notas. Cada "##" se escribe sobre
+// una rosa, y los ítems de sus listas (o sus párrafos) son topónimos. Lo que
+// sigue a un separador, después de alguna sección, va al cartucho.
+type Imagen = Extract<BloqueMimo, { tipo: 'imagen' }>;
+const titulo = documento.bloques.find((b) => b.tipo === 'titulo' && b.nivel === 1);
+const imagenes: Imagen[] = [];
+const notas: string[] = [];
+const encabezados: string[] = [];
+const toponimos: Array<{ termino: string; texto: string }> = [];
+const colofon: string[] = [];
+
+const comoToponimo = (texto: string) => {
+  const conTermino = texto.match(/^\*\*(.+?)\*\*\s*(.*)$/);
+  return conTermino ? { termino: conTermino[1], texto: conTermino[2] } : { termino: '', texto };
+};
+
+let enSecciones = false;
+let enColofon = false;
+for (const bloque of documento.bloques) {
+  if (bloque.tipo === 'imagen') imagenes.push(bloque);
+  else if (bloque.tipo === 'titulo' && bloque.nivel === 2) { encabezados.push(bloque.texto); enSecciones = true; enColofon = false; }
+  else if (bloque.tipo === 'separador' && enSecciones) enColofon = true;
+  else if (bloque.tipo === 'lista') toponimos.push(...bloque.items.map(comoToponimo));
+  else if (bloque.tipo === 'parrafo') {
+    if (enColofon) colofon.push(bloque.texto);
+    else if (enSecciones) toponimos.push(comoToponimo(bloque.texto));
+    else notas.push(bloque.texto);
+  }
+}
+
+// Un lugar reservado para cada elemento; los que sobran, más abajo.
+const lugar = <T extends { y: number }>(lugares: T[], i: number, salto: number): T => {
+  const base = lugares[i % lugares.length];
+  return { ...base, y: base.y + Math.floor(i / lugares.length) * salto };
+};
+
+const enLinea = (texto: string) => renderizarEnLinea(texto);
+// Texto sin marcas de Markdown, para los rótulos curvos del SVG.
+const textoPlano = (texto: string) => texto.replace(/[*_`]/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+const grafica = generarGrafica();
+const px = (valor: number) => `${valor}px`;
+const [tx, ty, ta] = LUGAR_TITULO;
+const [cx, cy, ca, ch] = LUGAR_CARTUCHO;
+
+// Miniatura de los recuadros para el índice del cartucho.
+const escalaIndice = 70 / HOJA.alto;
+const indice = RECUADROS.flat().map(([x, y, a, h]) => ({ x: x * escalaIndice, y: y * escalaIndice, a: a * escalaIndice, h: h * escalaIndice }));
+
+const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+---
+
+<LayoutCarta
+  title={`${pagina.codigo} · ${titulo ? titulo.texto : pagina.titulo} — Cursario`}
+  description={documento.datos.descripcion}
+  claseCuerpo="cuerpo-cursario"
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </Fragment>
+
+  <div class="hoja" style={`width: ${px(HOJA.ancho)}; height: ${px(HOJA.alto)};`}>
+    <div class="grafica"><Fragment set:html={grafica} /></div>
+
+    {/* Encabezados "##" escritos alrededor de las rosas */}
+    <svg class="rotulos-curvos" viewBox={`0 0 ${HOJA.ancho} ${HOJA.alto}`} width={HOJA.ancho} height={HOJA.alto} aria-hidden="true">
+      <defs>
+        {ROSAS.map(({ x, y, r }, i) => (
+          <path id={`curva-rosa-${i}`} d={`M${x - r - 30},${y} a${r + 30},${r + 30} 0 1,1 ${2 * (r + 30)},0 a${r + 30},${r + 30} 0 1,1 ${-2 * (r + 30)},0`} />
+        ))}
+      </defs>
+      {encabezados.map((texto, i) => (
+        <text class="rotulo-curvo"><textPath href={`#curva-rosa-${(i + 1) % ROSAS.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
+      ))}
+      <text class="rotulo-curvo rotulo-curvo--fino"><textPath href="#curva-rosa-0" startOffset="54%">{pagina.etiqueta}</textPath></text>
+    </svg>
+
+    {/* Título */}
+    <header class="titulo" style={`left: ${px(tx)}; top: ${px(ty)}; width: ${px(ta)};`}>
+      <p class="titulo__antetitulo">{pagina.codigo}</p>
+      <p class="titulo__antetitulo titulo__antetitulo--chico">Carta de derivas · CUR&nbsp;001</p>
+      {titulo && <h1 set:html={enLinea(titulo.texto)} />}
+      <p class="titulo__subtitulo">{pagina.etiqueta}</p>
+    </header>
+
+    {/* Navegación */}
+    <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
+    <BotonMenu class="nav nav--menu" />
+
+    {/* Rótulos al borde, como "PROFUNDIDADES EN METROS" */}
+    <p class="rotulo-borde" style="right: 70px; top: 230px;">Profundidades en derivas</p>
+    <p class="rotulo-borde" style="left: 70px; bottom: 76px;">Profundidades en derivas</p>
+
+    {/* Imágenes */}
+    {imagenes.map((imagen, i) => {
+      const { x, y, ancho, alto, modo } = lugar(LUGARES_IMAGEN, i, 700);
+      return (
+        <figure class={`lamina lamina--${modo}`} style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
+          <img src={withBase(imagen.src)} alt={imagen.alt} style={`height: ${px(alto)};`} loading="lazy" decoding="async" />
+          <figcaption>{imagen.pie ?? `Lámina ${romanos[i] ?? i + 1}`}</figcaption>
+        </figure>
+      );
+    })}
+
+    {/* Notas */}
+    {notas.map((texto, i) => {
+      const { x, y, ancho, enRecuadro } = lugar(LUGARES_NOTA, i, 700);
+      return (
+        <div class:list={['nota', { 'nota--recuadro': enRecuadro }]} style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
+          <p class="nota__numero">Nota {romanos[i] ?? i + 1}</p>
+          <p set:html={enLinea(texto)} />
+        </div>
+      );
+    })}
+
+    {/* Topónimos */}
+    {toponimos.map(({ termino, texto }, i) => {
+      const { x, y, ancho } = lugar(LUGARES_TOPONIMO, i, 700);
+      return (
+        <div class="toponimo" style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
+          {termino && <p class="toponimo__nombre" set:html={enLinea(termino)} />}
+          <p class="toponimo__texto" set:html={enLinea(texto)} />
+        </div>
+      );
+    })}
+
+    {/* Cartucho de la leyenda */}
+    <aside class="cartucho" style={`left: ${px(cx)}; top: ${px(cy)}; width: ${px(ca)}; height: ${px(ch)};`}>
+      <div class="cartucho__fila cartucho__fila--doble">
+        <span>{pagina.codigo}</span><span>{pagina.etiqueta}</span>
+      </div>
+      <div class="cartucho__cuerpo">
+        <svg class="cartucho__indice" viewBox={`0 0 ${HOJA.ancho * escalaIndice} ${70}`} width={HOJA.ancho * escalaIndice} height="70" aria-hidden="true">
+          <rect x="0.5" y="0.5" width={HOJA.ancho * escalaIndice - 1} height="69" fill="none" stroke={PALETA.tinta} stroke-width="0.6" />
+          {indice.map(({ x, y, a, h }) => <rect x={x} y={y} width={a} height={h} fill="none" stroke={PALETA.bermellon} stroke-width="0.6" />)}
+        </svg>
+        <div class="cartucho__texto">
+          {colofon.map((texto) => <p set:html={enLinea(texto)} />)}
+        </div>
+      </div>
+      <div class="cartucho__fila"><span>Escala 1 : ∞</span><span>Proyección Mercator de las derivas</span></div>
+      <div class="cartucho__fila"><span>CUR 001</span><span>Edición {new Date().getFullYear()}</span></div>
+    </aside>
+  </div>
+</LayoutCarta>
+
+<style is:global>
+  :root {
+    --papel: #efe9dc;
+    --papel-oscuro: #e3dccd;
+    --tinta: #141416;
+    --ultramar: #1f3797;
+    --bermellon: #e2472b;
+    --ocre: #c8934a;
+    --serif: Tinos, 'Times New Roman', serif;
+    --condensada: 'Archivo Narrow', 'Arial Narrow', sans-serif;
+  }
+
+  body.cuerpo-cursario {
+    margin: 0;
+    background: var(--papel-oscuro);
+    color: var(--tinta);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #page-transition {
+    background: var(--papel-oscuro);
+  }
+
+  ::selection {
+    background: var(--bermellon);
+    color: var(--papel);
+  }
+</style>
+
+<style>
+  .hoja {
+    position: relative;
+    margin: 32px auto 64px;
+    background: var(--papel);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
+    overflow: hidden;
+  }
+
+  .grafica,
+  .rotulos-curvos {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .rotulo-curvo {
+    fill: var(--bermellon);
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.32em;
+  }
+
+  .rotulo-curvo--fino {
+    font-family: var(--condensada);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+  }
+
+  /* Título */
+  .titulo {
+    position: absolute;
+    text-align: center;
+  }
+
+  .titulo__antetitulo {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .titulo__antetitulo--chico {
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+  }
+
+  .titulo h1 {
+    margin: 10px 0 6px;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .titulo__subtitulo {
+    margin: 0;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Navegación */
+  :global(.nav) {
+    position: absolute;
+    z-index: 2;
+    top: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tinta);
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--condensada);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  :global(.nav:hover) {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+
+  :global(.nav--volver) {
+    left: 66px;
+    padding: 6px 10px;
+  }
+
+  :global(.nav--menu) {
+    right: 66px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+
+  .rotulo-borde {
+    position: absolute;
+    margin: 0;
+    padding: 2px 6px;
+    border: 1px solid var(--bermellon);
+    color: var(--bermellon);
+    font-family: var(--condensada);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  /* Láminas */
+  .lamina {
+    position: absolute;
+    margin: 0;
+  }
+
+  .lamina img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .lamina figcaption {
+    margin-top: 4px;
+    font-family: var(--condensada);
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .lamina--recuadro figcaption {
+    color: var(--papel);
+  }
+
+  .lamina--papel {
+    padding: 6px;
+    border: 1px solid var(--tinta);
+    background: var(--papel);
+    transform: rotate(-1.6deg);
+  }
+
+  .lamina--papel figcaption {
+    color: var(--bermellon);
+  }
+
+  .lamina--transparencia img {
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+  }
+
+  .lamina--transparencia figcaption {
+    color: var(--ultramar);
+  }
+
+  /* Notas */
+  .nota {
+    position: absolute;
+    font-family: var(--serif);
+    font-size: 12.5px;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .nota p {
+    margin: 0;
+  }
+
+  .nota__numero {
+    margin-bottom: 6px !important;
+    font-family: var(--condensada);
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bermellon);
+  }
+
+  .nota--recuadro {
+    color: var(--papel);
+  }
+
+  /* Topónimos */
+  .toponimo {
+    position: absolute;
+  }
+
+  .toponimo p {
+    margin: 0;
+  }
+
+  .toponimo__nombre {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .toponimo__nombre :global(strong) {
+    font-weight: 700;
+  }
+
+  .toponimo__texto {
+    margin-top: 4px !important;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11.5px;
+    line-height: 1.35;
+  }
+
+  /* Cartucho */
+  .cartucho {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid var(--tinta);
+    background: var(--papel);
+    font-family: var(--condensada);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .cartucho__fila {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 8px;
+    border-top: 1px solid var(--tinta);
+  }
+
+  .cartucho__fila--doble {
+    border-top: none;
+    border-bottom: 1px solid var(--tinta);
+    font-weight: 700;
+    color: var(--bermellon);
+  }
+
+  .cartucho__cuerpo {
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 8px;
+  }
+
+  .cartucho__texto {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .cartucho__texto p {
+    margin: 0;
+  }
+</style>

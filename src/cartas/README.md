@@ -136,3 +136,19 @@ La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
 superior con VOLVER, INICIO, la etiqueta del curso y el botón del menú, y el
 contenido en una hoja blanca centrada. Las clases con que muestra cada elemento
 del Markdown están en `cartulario/clases.ts`.
+
+## Cursario
+
+Una carta experimental con forma de carta náutica, para pantallas de
+escritorio. La gráfica vectorial (marco graduado, sondeos, curvas de
+profundidad, rosas de los vientos, recuadros negros) se genera en cada build
+(`cursario/grafica.ts`), y la composición de la hoja está en
+`cursario/composicion.ts`. El contenido del Markdown se reparte así:
+
+- el título `#`, en la cabecera;
+- las imágenes, en los lugares de `LUGARES_IMAGEN`, en orden (el texto en
+  itálica que sigue a cada una es su pie);
+- los párrafos anteriores al primer `##`, como notas en los recuadros;
+- cada `##`, escrito en curva alrededor de una rosa;
+- los ítems de las listas, como topónimos (la parte en negrita es el nombre);
+- los párrafos después de un `---`, en el cartucho.
