@@ -62,7 +62,7 @@ const ocultoFuera = (nombres: NombreComposicion[]) =>
   VARIANTES.filter(([nombre]) => !nombres.includes(nombre)).map(([nombre]) => `oculto-${nombre}`);
 
 // Clase y estilo de un elemento con un lugar en cada composición: su posición va
-// en variables (--x-amplia, --y-amplia, --a-amplia, --h-amplia…) que el CSS usa
+// en variables (--x-xl, --y-xl, --a-xl, --h-xl…) que el CSS usa
 // según el ancho de la ventana. Donde no tiene lugar, no se muestra.
 type Posicion = { x: number; y: number; ancho: number; alto?: number } | null | undefined;
 const ubicado = (posicion: (composicion: Composicion, nombre: NombreComposicion) => Posicion, ...clases: string[]) => {
@@ -90,7 +90,7 @@ const modoImagen = (i: number) => {
 const estiloHoja = VARIANTES.flatMap(([nombre, { hoja, navegacion }]) => [
   `--ancho-${nombre}: ${hoja.ancho}px`, `--alto-${nombre}: ${hoja.alto}px`,
   `--nav-arriba-${nombre}: ${navegacion.arriba}px`, `--nav-izquierda-${nombre}: ${navegacion.izquierda}px`,
-  `--nav-derecha-${nombre}: ${navegacion.derecha}px`,
+  `--nav-derecha-${nombre}: ${navegacion.derecha}px`, `--nav-posicion-${nombre}: ${navegacion.fija ? 'fixed' : 'absolute'}`,
 ]).join('; ');
 
 const enLinea = (texto: string) => renderizarEnLinea(texto);
@@ -243,7 +243,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     color: var(--papel);
   }
 
-  /* Composición media: el papel es el fondo de la página. */
+  /* Composición lg: el papel es el fondo de la página. */
   @media (max-width: 1279.98px) {
     body.cuerpo-cursario,
     html.html-cursario #page-transition {
@@ -254,8 +254,8 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 <style>
   /* Composiciones. Cada una se usa en un rango de ancho de ventana:
-       amplia: desde 1280 px
-       media:  hasta 1279 px
+       xl: desde 1280 px
+       lg: hasta 1279 px (pensada para llegar hasta 930 px)
      Los elementos con lugar en la hoja (.ubicado) toman su posición de las
      variables de la composición que corresponde; los que no tienen lugar en
      ella llevan la clase oculto-{composición}. */
@@ -266,9 +266,9 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
      lados: a la izquierda en el borde de la ventana, a la derecha bajo la barra. */
   .hoja {
     position: relative;
-    width: var(--ancho-amplia);
-    height: var(--alto-amplia);
-    margin: 32px 0 64px calc(50vw - var(--ancho-amplia) / 2);
+    width: var(--ancho-xl);
+    height: var(--alto-xl);
+    margin: 32px 0 64px calc(50vw - var(--ancho-xl) / 2);
     background: var(--papel);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
     overflow: hidden;
@@ -276,70 +276,72 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   .ubicado {
     position: absolute;
-    left: var(--x-amplia);
-    top: var(--y-amplia);
-    width: var(--a-amplia);
+    left: var(--x-xl);
+    top: var(--y-xl);
+    width: var(--a-xl);
   }
 
   .lamina img,
   .cartucho {
-    height: var(--h-amplia);
+    height: var(--h-xl);
   }
 
   :global(.nav) {
-    top: var(--nav-arriba-amplia);
+    position: var(--nav-posicion-xl);
+    top: var(--nav-arriba-xl);
   }
 
   :global(.nav--volver) {
-    left: var(--nav-izquierda-amplia);
+    left: var(--nav-izquierda-xl);
   }
 
   :global(.nav--menu) {
-    right: var(--nav-derecha-amplia);
+    right: var(--nav-derecha-xl);
   }
 
   @media (min-width: 1280px) {
-    .oculto-amplia {
+    .oculto-xl {
       display: none !important;
     }
   }
 
   @media (max-width: 1279.98px) {
     .hoja {
-      width: var(--ancho-media);
-      height: var(--alto-media);
-      margin: 0 0 0 calc(50vw - var(--ancho-media) / 2);
+      width: var(--ancho-lg);
+      height: var(--alto-lg);
+      margin: 0 0 0 calc(50vw - var(--ancho-lg) / 2);
       box-shadow: none;
     }
 
     .ubicado {
-      left: var(--x-media);
-      top: var(--y-media);
-      width: var(--a-media);
+      left: var(--x-lg);
+      top: var(--y-lg);
+      width: var(--a-lg);
     }
 
     .lamina img,
     .cartucho {
-      height: var(--h-media);
+      height: var(--h-lg);
     }
 
     :global(.nav) {
-      top: var(--nav-arriba-media);
+      position: var(--nav-posicion-lg);
+      top: var(--nav-arriba-lg);
     }
 
     :global(.nav--volver) {
-      left: var(--nav-izquierda-media);
+      left: var(--nav-izquierda-lg);
     }
 
     :global(.nav--menu) {
-      right: var(--nav-derecha-media);
+      right: var(--nav-derecha-lg);
     }
 
     .titulo h1 {
       font-size: 34px;
     }
 
-    .oculto-media {
+    .oculto-lg {
       display: none !important;
     }
   }
@@ -406,7 +408,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   /* Navegación */
   :global(.nav) {
-    position: absolute;
     z-index: 2;
     display: flex;
     align-items: center;

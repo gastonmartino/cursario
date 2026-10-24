@@ -180,10 +180,13 @@ recuadros negros) se genera en cada build (`cursario/grafica.ts`).
 Tiene una composición por rango de ancho de ventana, en
 `cursario/composicion.ts`:
 
-- **amplia** (desde 1280 px): la hoja con marco sobre un fondo más oscuro;
-- **media** (hasta 1279 px): el papel como fondo, sin marco, con textos,
-  láminas y controles en una columna central de 920 px que entra completa
-  desde los 960 px. Muestra solo algunas láminas (las que tienen lugar).
+- **xl** (desde 1280 px): la hoja con marco sobre un fondo más oscuro;
+- **lg** (de 930 a 1279 px): el papel como fondo, sin marco, con textos y
+  láminas en una columna central de 920 px y VOLVER y el menú fijos en la
+  ventana. Muestra solo algunas láminas (las que tienen lugar).
+
+Los nombres siguen la escala de Bootstrap y Tailwind (xl, lg, md, sm, xs),
+pero los cortes son los de la carta.
 
 El contenido se escribe una sola vez en el HTML, con su lugar en cada
 composición, y el CSS de `Carta.astro` elige cuál usar; la gráfica sí se

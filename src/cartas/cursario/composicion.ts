@@ -14,8 +14,9 @@ export type ModoImagen = 'recuadro' | 'papel' | 'transparencia';
 export interface Composicion {
   // marco: el borde graduado con franjas y coordenadas.
   hoja: { ancho: number; alto: number; margen: number; banda: number; marco: boolean };
-  // Posición de VOLVER (desde la izquierda) y del menú (desde la derecha).
-  navegacion: { arriba: number; izquierda: number; derecha: number };
+  // Posición de VOLVER (desde la izquierda) y del menú (desde la derecha): en
+  // la hoja o, si son fijos, en la ventana (siempre visibles).
+  navegacion: { arriba: number; izquierda: number; derecha: number; fija: boolean };
   // Recuadros negros escalonados; cada uno es la unión de varios rectángulos.
   recuadros: Rect[][];
   rosas: Circulo[];
@@ -35,9 +36,9 @@ export interface Composicion {
 }
 
 // Ventanas de 1280 px o más: la hoja con marco, sobre un fondo más oscuro.
-const AMPLIA: Composicion = {
+const XL: Composicion = {
   hoja: { ancho: 1400, alto: 2400, margen: 44, banda: 8, marco: true },
-  navegacion: { arriba: 66, izquierda: 74, derecha: 76 },
+  navegacion: { arriba: 66, izquierda: 74, derecha: 76, fija: false },
   recuadros: [
     [[760, 250, 540, 250], [700, 500, 600, 240], [860, 740, 300, 60]],
     [[150, 930, 560, 300], [150, 1230, 430, 230], [580, 1230, 180, 90]],
@@ -94,13 +95,13 @@ const AMPLIA: Composicion = {
   rotulos: [{ derecha: 70, arriba: 230 }, { izquierda: 70, arriba: 2304 }],
 };
 
-// Ventanas de 960 a 1279 px: el papel es el fondo de la página, sin marco. La
-// gráfica ocupa 1280 px y se recorta a los costados; textos, láminas y
-// controles quedan en la columna central, de x = 180 a x = 1100 (920 px), que
-// entra completa desde los 960 px de ancho.
-const MEDIA: Composicion = {
+// Ventanas de 930 a 1279 px: el papel es el fondo de la página, sin marco. La
+// gráfica ocupa 1280 px y se recorta a los costados; textos y láminas quedan en
+// la columna central, de x = 180 a x = 1100 (920 px), que entra completa desde
+// los 930 px de ancho. VOLVER y el menú quedan fijos en la ventana.
+const LG: Composicion = {
   hoja: { ancho: 1280, alto: 2360, margen: 0, banda: 0, marco: false },
-  navegacion: { arriba: 40, izquierda: 196, derecha: 196 },
+  navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
   recuadros: [
     [[640, 240, 460, 260], [600, 500, 500, 280]],
     [[180, 830, 460, 280], [180, 1110, 380, 210]],
@@ -156,7 +157,9 @@ const MEDIA: Composicion = {
   rotulos: [{ derecha: 180, arriba: 196 }, { izquierda: 200, arriba: 2300 }],
 };
 
-export const COMPOSICIONES = { amplia: AMPLIA, media: MEDIA };
+// Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
+// sm, xs), pero los cortes son los de esta carta.
+export const COMPOSICIONES = { xl: XL, lg: LG };
 export type NombreComposicion = keyof typeof COMPOSICIONES;
 
 // Zonas donde no se dibujan sondeos, para que el texto se lea.
