@@ -63,11 +63,11 @@ De esta forma, el código del software escrito para la obra profetiza inexorable
 
 ## Estrategias de Comunicación
 Como parte del trabajo se plantea una **estrategia transmedia de comunicación** que busca no sólo dar a conocer la obra y compartir sus argumentaciones conceptuales, sino también enriquecer la experiencia mística creada en torno al proyecto, siempre con un tono entre solemne e irónico, entremezclando datos reales de la propuesta con las ficciones creadas en torno al imaginario representado y haciendo uso de las siguientes iniciativas.
-> [Ver el PDF con el detalle de la estragegia de comunicación de la obra](/documentos/sos-comunicación.pdf)
+> [Ver el PDF con el detalle de la estrategia de comunicación de la obra](/documentos/sos-comunicación.pdf)
 
 ![Imágenes para la estrategia de comunicación de la obra](/curso01/subcursos/curso001/medios/sos-012.jpg)
 
-Estas estragegias incluyen:
+Estas estrategias incluyen:
 1. **Sitio web**: difusión del mensaje oficial de la obra.
 2. **Ceremonias de iniciación**: *"Mi primer arrobamiento"*.
 3. **Corto documental**: *"Anales de la obnubilación"*.
