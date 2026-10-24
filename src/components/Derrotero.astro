@@ -1,18 +1,23 @@
 ---
-import { CURSOS, ISLA_CARDS, type IslaCard } from '../data';
+import { INSULAS } from '../data/insulas';
+import { ISLAS } from '../data/islas';
+import { ubicar } from '../engine/Derivas';
 import { withBase } from '../utils/paths';
 
-const getSubcursoHref = (subcurso: IslaCard) =>
-  subcurso.actionHref || subcurso.detailHref || subcurso.pageHref || null;
+const islas = ISLAS.map((isla) => {
+  const ubicacion = ubicar(isla.id);
+  return {
+    ...isla,
+    derivaId: ubicacion.derivaId,
+    subcurso: ubicacion.subcurso,
+    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.pageUrl : null) || null,
+  };
+});
 
-const navigationSections = CURSOS.map((deriva) => ({
+// Una sección por curso, con los subcursos que tienen página o enlace propio.
+const navigationSections = INSULAS.map((deriva) => ({
   ...deriva,
-  subcursos: ISLA_CARDS.filter(
-    (subcurso) => subcurso.derivaId === deriva.id && Boolean(getSubcursoHref(subcurso))
-  ).map((subcurso) => ({
-    ...subcurso,
-    href: getSubcursoHref(subcurso),
-  })),
+  subcursos: islas.filter((subcurso) => subcurso.derivaId === deriva.id && Boolean(subcurso.href)),
 }));
 ---
 

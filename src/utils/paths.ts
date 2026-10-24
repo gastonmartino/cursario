@@ -10,9 +10,8 @@ export function withBase<T extends string | null | undefined>(path: T): T {
   return `${BASE}${path}` as T;
 }
 
-// URL de la página de un subcurso o islote. Tiene que coincidir con la ruta
-// que genera src/pages/[curso]/[subcurso].astro: una página por cada ítem
-// que tiene pageMarkdownFile.
-export function pageHref(item: { course: string; subcurso: string; pageMarkdownFile?: string | null }) {
-  return item.pageMarkdownFile ? `/${item.course}/${item.subcurso}/` : undefined;
+// Completa la ruta de un archivo escrito solo con su nombre, buscándolo en la
+// carpeta indicada. Una ruta que empieza con "/" se devuelve tal cual.
+export function resolveFile(folder: string, file?: string | null) {
+  return file && !file.startsWith('/') ? `${folder}/${file}` : file;
 }

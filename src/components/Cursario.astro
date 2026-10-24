@@ -5,7 +5,11 @@ import Derrotero from './Derrotero.astro';
 import Insula from './Insula.astro';
 import Isla from './Isla.astro';
 import Islote from './Islote.astro';
-import { INSULA_CARDS, ISLA_CARDS, ISLOTE_CARDS } from '../data';
+import { INSULAS } from '../data/insulas';
+import { ISLAS } from '../data/islas';
+import { ISLOTES } from '../data/islotes';
+import { ubicar } from '../engine/Derivas';
+import { resolveFile } from '../utils/paths';
 import { version } from '../../package.json';
 
 const displayVersion = version.split('.').slice(0, 2).join('.');
@@ -13,6 +17,41 @@ const displayVersion = version.split('.').slice(0, 2).join('.');
 const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
 const formatCoordinates = (point: { x: number; y: number }) =>
   `X: ${formatCoordinate(point.x)}  Y: ${formatCoordinate(point.y)}`;
+
+// Cada tarjeta combina su contenido (src/data/) con su ubicación en la
+// estructura (src/engine/Derivas.ts): posición, tamaño, carpeta y URL.
+const insulas = INSULAS.map((insula) => {
+  const ubicacion = ubicar(insula.id);
+  return {
+    ...insula,
+    ...ubicacion,
+    imageUrl: resolveFile(ubicacion.mediaFolder, insula.imageUrl),
+    markdownFile: resolveFile(ubicacion.contentFolder, insula.markdownFile),
+  };
+});
+
+const islas = ISLAS.map((isla) => {
+  const ubicacion = ubicar(isla.id);
+  return {
+    ...isla,
+    ...ubicacion,
+    imageUrl: resolveFile(ubicacion.mediaFolder, isla.imageUrl),
+    markdownFile: resolveFile(ubicacion.contentFolder, isla.markdownFile),
+    pageMarkdownFile: resolveFile(ubicacion.contentFolder, isla.pageMarkdownFile),
+    pageHref: isla.pageMarkdownFile ? ubicacion.pageUrl : undefined,
+  };
+});
+
+const islotes = ISLOTES.map((islote) => {
+  const ubicacion = ubicar(islote.id);
+  return {
+    ...islote,
+    ...ubicacion,
+    imageUrl: resolveFile(ubicacion.mediaFolder, islote.imageUrl),
+    markdownFile: resolveFile(ubicacion.contentFolder, islote.markdownFile),
+    pageHref: islote.pageMarkdownFile ? ubicacion.pageUrl : undefined,
+  };
+});
 ---
 
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
@@ -37,7 +76,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
   <div id="spatial-nodes-layer" class="absolute inset-0 pointer-events-none z-[20] overflow-hidden">
     
     <!-- Ínsulas: los cursos de primer nivel en el lienzo principal -->
-    {INSULA_CARDS.map((insula) => (
+    {insulas.map((insula) => (
       <Insula
         id={`spatial-node-${insula.id}`}
         code={insula.code}
@@ -60,7 +99,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
     ))}
 
     <!-- Subderivas: islas HTML enriquecidas dentro de cada canvas local -->
-    {ISLA_CARDS.map((isla) => (
+    {islas.map((isla) => (
       <Isla
         id={`spatial-subnode-${isla.id}`}
         detailHref={isla.detailHref || isla.actionHref || isla.pageHref}
@@ -89,7 +128,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
     ))}
 
     <!-- Islotes: pequeñas islas editoriales sin nivel de navegación propio -->
-    {ISLOTE_CARDS.map((islote) => (
+    {islotes.map((islote) => (
       <Islote
         id={`spatial-islote-${islote.id}`}
         code={islote.code}
@@ -134,7 +173,19 @@ const formatCoordinates = (point: { x: number; y: number }) =>
 
 <script>
   import { CanvasController, type TelemetryData } from '../engine/CanvasController';
-  import { CURSOS } from '../data';
+  import { SPATIAL_DERIVAS } from '../engine/Derivas';
+  import { INSULAS } from '../data/insulas';
+  import { ISLAS } from '../data/islas';
+
+  // El motor solo conoce ids. El código, el nombre y el color de cada curso
+  // o subcurso, para el HUD, el minimapa y el cursor, se buscan acá.
+  const contenidoPorId = new Map<string, { code: string; label: string; accentColor: string }>([
+    ...INSULAS.map((insula) => [insula.id, { code: insula.code, label: insula.name, accentColor: insula.accentColor }] as const),
+    ...ISLAS.map((isla) => [isla.id, { code: isla.code, label: isla.title || isla.captionLabel, accentColor: isla.accentColor }] as const),
+  ]);
+  const describir = (id: string) =>
+    contenidoPorId.get(id) ?? { code: id, label: '', accentColor: '#0038A8' };
+  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id);
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
@@ -188,11 +239,11 @@ const formatCoordinates = (point: { x: number; y: number }) =>
         minimapCtx.stroke();
 
         // Deriva Nodes
-        for (const deriva of CURSOS) {
+        for (const deriva of SPATIAL_DERIVAS) {
           const zx = mcx + deriva.x * scale;
           const zy = mcy + deriva.y * scale;
 
-          minimapCtx.fillStyle = deriva.accentColor;
+          minimapCtx.fillStyle = describir(deriva.id).accentColor;
           minimapCtx.beginPath();
           minimapCtx.arc(zx, zy, 4, 0, Math.PI * 2);
           minimapCtx.fill();
@@ -200,7 +251,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
           minimapCtx.font = '8px "Geist Mono", monospace';
           minimapCtx.fillStyle = '#16253D';
           minimapCtx.textAlign = 'center';
-          minimapCtx.fillText(deriva.code, zx, zy - 6);
+          minimapCtx.fillText(describir(deriva.id).code, zx, zy - 6);
         }
 
         // Camera Frustum Box
@@ -256,7 +307,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
           const ix = mapX(item.x);
           const iy = mapY(item.y);
 
-          minimapCtx.fillStyle = item.accentColor;
+          minimapCtx.fillStyle = describir(item.id).accentColor;
           minimapCtx.beginPath();
           minimapCtx.arc(ix, iy, 4, 0, Math.PI * 2);
           minimapCtx.fill();
@@ -264,7 +315,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
           minimapCtx.font = '8px "Geist Mono", monospace';
           minimapCtx.fillStyle = '#16253D';
           minimapCtx.textAlign = 'center';
-          minimapCtx.fillText(item.code, ix, iy - 6);
+          minimapCtx.fillText(describir(item.id).code, ix, iy - 6);
         }
 
         // Camera Frustum in local space
@@ -273,7 +324,7 @@ const formatCoordinates = (point: { x: number; y: number }) =>
         const camX = mapX(data.worldX) - viewportW / 2;
         const camY = mapY(data.worldY) - viewportH / 2;
 
-        minimapCtx.strokeStyle = data.activeDeriva.accentColor;
+        minimapCtx.strokeStyle = describir(data.activeDeriva.id).accentColor;
         minimapCtx.lineWidth = 1.5;
         minimapCtx.fillStyle = 'rgba(0, 56, 168, 0.1)';
         minimapCtx.fillRect(camX, camY, viewportW, viewportH);
@@ -329,37 +380,42 @@ const formatCoordinates = (point: { x: number; y: number }) =>
 
           if (zoneEl) {
             if (data.hoveredDeriva) {
-              zoneEl.textContent = `[${data.hoveredDeriva.code}] INCURSIONAR`;
-              zoneEl.style.color = data.hoveredDeriva.accentColor;
+              const hovered = describir(data.hoveredDeriva.id);
+              zoneEl.textContent = `[${hovered.code}] INCURSIONAR`;
+              zoneEl.style.color = hovered.accentColor;
             } else if (data.activeDeriva) {
-              zoneEl.textContent = `[${data.activeDeriva.code}] ${data.activeDeriva.name.toUpperCase()}`;
-              zoneEl.style.color = data.activeDeriva.accentColor;
+              const active = describir(data.activeDeriva.id);
+              zoneEl.textContent = `[${active.code}] ${active.label.toUpperCase()}`;
+              zoneEl.style.color = active.accentColor;
             } else {
               zoneEl.textContent = `[SURCANDO] CURSOS`;
               zoneEl.style.color = '#0038A8';
             }
           }
         } else if (data.level === 'deriva' && data.activeDeriva) {
+          const active = describir(data.activeDeriva.id);
+
           macroIdentity?.classList.add('hidden');
           macroIdentity?.classList.remove('flex');
           derivaIdentity?.classList.remove('hidden');
           derivaIdentity?.classList.add('flex');
 
           if (activeDerivaName) {
-            activeDerivaName.textContent = `[${data.activeDeriva.code}] ${data.activeDeriva.name.toUpperCase()}`;
-            activeDerivaName.style.color = data.activeDeriva.accentColor;
+            activeDerivaName.textContent = `[${active.code}] ${active.label.toUpperCase()}`;
+            activeDerivaName.style.color = active.accentColor;
           }
 
-          if (radarBadge) radarBadge.textContent = `DERIVA: ${data.activeDeriva.code}`;
+          if (radarBadge) radarBadge.textContent = `DERIVA: ${active.code}`;
           if (radarInstruction) radarInstruction.textContent = 'Arrastrar para recorrer • ESC para volver';
 
           if (zoneEl) {
             if (data.hoveredItem) {
-              zoneEl.textContent = `[${data.hoveredItem.code}] ${data.hoveredItem.title.toUpperCase()}`;
-              zoneEl.style.color = data.hoveredItem.accentColor;
+              const hovered = describir(data.hoveredItem.id);
+              zoneEl.textContent = `[${hovered.code}] ${hovered.label.toUpperCase()}`;
+              zoneEl.style.color = hovered.accentColor;
             } else {
-              zoneEl.textContent = `[DERIVA ACTIVA] ${data.activeDeriva.name.toUpperCase()}`;
-              zoneEl.style.color = data.activeDeriva.accentColor;
+              zoneEl.textContent = `[DERIVA ACTIVA] ${active.label.toUpperCase()}`;
+              zoneEl.style.color = active.accentColor;
             }
           }
         }
@@ -374,13 +430,21 @@ const formatCoordinates = (point: { x: number; y: number }) =>
         renderMinimap(data);
       },
       () => triggerCurtainTransition(),
-      cursorCanvas
+      cursorCanvas,
+      {
+        accentColor: (id) => describir(id).accentColor,
+        cursorLabel: (id, action) => {
+          const { code, label } = describir(id);
+          if (action === 'select') return `[REGISTRO ACTIVO] ${label}`;
+          return esCurso(id) ? `[${code}] INCURSIONAR [CLICK]` : `[${code}] ${label}`;
+        },
+      }
     );
 
     // Direct links from third-level pages restore CURSO:00 in its local
     // canvas, while the root URL continues to open the macro cartography.
     const requestedDeriva = new URLSearchParams(window.location.search).get('deriva');
-    if (requestedDeriva && CURSOS.some((deriva) => deriva.id === requestedDeriva)) {
+    if (requestedDeriva && SPATIAL_DERIVAS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);
     }
 

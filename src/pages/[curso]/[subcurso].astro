@@ -1,36 +1,48 @@
 ---
+import type { InferGetStaticPropsType } from 'astro';
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import Derrotero from '../../components/Derrotero.astro';
-import { ISLA_CARDS, ISLOTE_CARDS, type IslaCard, type IsloteCard } from '../../data';
+import { ISLAS } from '../../data/islas';
+import { ISLOTES } from '../../data/islotes';
+import { ubicar } from '../../engine/Derivas';
 import { renderMarkdownToHtml } from '../../utils/markdown';
-import { withBase } from '../../utils/paths';
+import { resolveFile, withBase } from '../../utils/paths';
 
-// Solo se generan páginas para los ítems que tienen un archivo de página.
-// La URL coincide con pageHref (src/utils/paths.ts).
+// Solo se generan páginas para los subcursos e islotes que tienen un archivo
+// de página. La URL es la pageUrl de su ubicación (src/engine/Derivas.ts).
 export function getStaticPaths() {
-  return [...ISLA_CARDS, ...ISLOTE_CARDS].filter((data) => data.pageHref).map((data) => ({
-    params: { curso: data.course, subcurso: data.subcurso },
-    props: { data },
-  }));
+  return [...ISLAS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => {
+    const ubicacion = ubicar(data.id);
+    return {
+      params: { curso: ubicacion.course, subcurso: ubicacion.subcurso },
+      props: {
+        data,
+        derivaId: ubicacion.derivaId,
+        pageMarkdownFile: resolveFile(ubicacion.contentFolder, data.pageMarkdownFile),
+      },
+    };
+  });
 }
 
 const { curso, subcurso } = Astro.params;
-const { data } = Astro.props as { data: IslaCard | IsloteCard };
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { data, derivaId, pageMarkdownFile } = Astro.props;
 const displayTitle = data.title ?? '';
 const displaySubtitle = data.subtitle ?? '';
 
 // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-const backHref = withBase(`/?deriva=${data.derivaId}`);
+const backHref = withBase(`/?deriva=${derivaId}`);
 
 let markdownHtml = '';
 try {
-  if (data.pageMarkdownFile) {
+  if (pageMarkdownFile) {
     const markdownPath = path.join(
       process.cwd(),
       'public',
-      data.pageMarkdownFile.replace(/^\/+/, '')
+      pageMarkdownFile.replace(/^\/+/, '')
     );
     markdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'), 'page');
   }

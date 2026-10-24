@@ -59,6 +59,72 @@ export interface IsloteSpatial {
 }
 
 
+/**
+ * Ubicacion
+ * Dónde está un curso, subcurso o islote dentro de la estructura: el curso de
+ * primer nivel que lo contiene (o que es), su carpeta, la URL de su página y
+ * su posición y tamaño en el lienzo. Las rutas de imágenes y Markdown que no
+ * empiezan con "/" se buscan en mediaFolder y contentFolder:
+ *   curso    → /{course}/imagenes/ y /{course}/contenidos/
+ *   subcurso → /{course}/subcursos/{subcurso}/medios/ y .../contenidos/
+ *   islote   → las carpetas de su curso
+ */
+export interface Ubicacion {
+  derivaId: string;
+  course: string;
+  subcurso?: string;
+  mediaFolder: string;
+  contentFolder: string;
+  pageUrl?: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export function ubicar(id: string): Ubicacion {
+  for (const deriva of SPATIAL_DERIVAS) {
+    const base = { derivaId: deriva.id, course: deriva.course };
+
+    if (deriva.id === id) {
+      const { x, y, width, height } = deriva;
+      return { ...base, mediaFolder: `/${deriva.course}/imagenes`, contentFolder: `/${deriva.course}/contenidos`, x, y, width, height };
+    }
+
+    const item = deriva.items.find((entry) => entry.id === id);
+    if (item) {
+      const { x, y, width, height } = item;
+      const folder = `/${deriva.course}/subcursos/${item.subcurso}`;
+      return {
+        ...base,
+        subcurso: item.subcurso,
+        mediaFolder: `${folder}/medios`,
+        contentFolder: `${folder}/contenidos`,
+        pageUrl: `/${deriva.course}/${item.subcurso}/`,
+        x, y, width, height,
+      };
+    }
+  }
+
+  const islote = ISLOTES_SPATIAL.find((entry) => entry.id === id);
+  if (islote) {
+    const parent = ubicar(islote.parentId);
+    const { x, y, width, height } = islote;
+    return {
+      derivaId: parent.derivaId,
+      course: parent.course,
+      subcurso: islote.subcurso,
+      mediaFolder: `/${parent.course}/imagenes`,
+      contentFolder: `/${parent.course}/contenidos`,
+      pageUrl: `/${parent.course}/${islote.subcurso}/`,
+      x, y, width, height,
+    };
+  }
+
+  throw new Error(`No se encontró en Derivas.ts ningún curso, subcurso o islote con id "${id}"`);
+}
+
+
 // =====================================================================================
 //
 // DERIVAS

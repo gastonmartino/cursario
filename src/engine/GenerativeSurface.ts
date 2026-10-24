@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { CURSOS, ISLOTES_SPATIAL, type Curso } from '../data';
+import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva } from './Derivas';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();
@@ -7,7 +7,11 @@ export class GenerativeSurface {
   // Cached pattern canvas for paper grain
   private grainCanvas: HTMLCanvasElement | null = null;
 
-  constructor() {
+  // Color de acento de un curso o subcurso, por id (ver CanvasAppearance).
+  private accentColor: (id: string) => string;
+
+  constructor(accentColor: (id: string) => string) {
+    this.accentColor = accentColor;
     this.initGrain();
   }
 
@@ -37,8 +41,8 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    activeDeriva: Curso | null = null,
-    hoveredDeriva: Curso | null = null
+    activeDeriva: SpatialDeriva | null = null,
+    hoveredDeriva: SpatialDeriva | null = null
   ) {
     if (activeDeriva) {
       // LEVEL 2: DERIVA INTERIOR INFINITE CANVAS
@@ -59,7 +63,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: Curso | null
+    hoveredDeriva: SpatialDeriva | null
   ) {
     // 1. Base Dynamic Atmospheric Paper Tint
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -426,12 +430,12 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    hoveredDeriva: Curso | null
+    hoveredDeriva: SpatialDeriva | null
   ) {
     const cx = width / 2;
     const cy = height / 2;
 
-    for (const deriva of CURSOS) {
+    for (const deriva of SPATIAL_DERIVAS) {
       const sx = (deriva.x - camX) * zoom + cx;
       const sy = (deriva.y - camY) * zoom + cy;
       const zw = deriva.width * zoom;
@@ -450,7 +454,7 @@ export class GenerativeSurface {
 
       // Main Sheet (Papel Vegetal / Plano)
       ctx.fillStyle = isHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.94)';
-      ctx.strokeStyle = isHovered ? deriva.accentColor : '#D0D6E2';
+      ctx.strokeStyle = isHovered ? this.accentColor(deriva.id) : '#D0D6E2';
       ctx.lineWidth = Math.max(1, (isHovered ? 2 : 1.2) * zoom);
 
       ctx.fillRect(left, top, zw, zh);
@@ -458,7 +462,7 @@ export class GenerativeSurface {
 
       // Technical Drafting Corner Brackets
       const bracketLen = 16 * zoom;
-      ctx.strokeStyle = deriva.accentColor;
+      ctx.strokeStyle = this.accentColor(deriva.id);
       ctx.lineWidth = 2 * zoom;
 
       // Corners
@@ -496,7 +500,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: Curso
+    deriva: SpatialDeriva
   ) {
     // 1. Dedicated Paper Base
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -561,7 +565,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: Curso
+    deriva: SpatialDeriva
   ) {
     ctx.save();
     const cx = width / 2;
@@ -572,7 +576,7 @@ export class GenerativeSurface {
       // Connect items with a flowing meander line
       ctx.beginPath();
       ctx.lineWidth = 3 * zoom;
-      ctx.strokeStyle = deriva.accentColor;
+      ctx.strokeStyle = this.accentColor(deriva.id);
 
       const firstSx = (items[0].x - camX) * zoom + cx;
       const firstSy = (items[0].y - camY) * zoom + cy;
@@ -629,7 +633,7 @@ export class GenerativeSurface {
     camY: number,
     zoom: number,
     level: 'macro' | 'deriva',
-    activeDeriva?: Curso
+    activeDeriva?: SpatialDeriva
   ) {
     const cx = width / 2;
     const cy = height / 2;
@@ -643,10 +647,10 @@ export class GenerativeSurface {
     ctx.lineWidth = Math.max(1, 1.5 * zoom);
 
     for (const islote of ISLOTES_SPATIAL) {
-      let parent: { x: number; y: number; accentColor: string } | undefined;
+      let parent: { id: string; x: number; y: number } | undefined;
 
       if (level === 'macro') {
-        const deriva = CURSOS.find((item) => item.id === islote.parentId);
+        const deriva = SPATIAL_DERIVAS.find((item) => item.id === islote.parentId);
         if (deriva) parent = deriva;
       } else if (activeDeriva) {
         const item = activeDeriva.items.find((entry) => entry.id === islote.parentId);
@@ -681,14 +685,14 @@ export class GenerativeSurface {
       const edgeY = islotePoint.y + directionY * edgeFactor;
       const midY = (parentPoint.y + edgeY) / 2;
 
-      ctx.strokeStyle = `${parent.accentColor}99`;
+      ctx.strokeStyle = `${this.accentColor(parent.id)}99`;
       ctx.beginPath();
       ctx.moveTo(parentPoint.x, parentPoint.y);
       ctx.quadraticCurveTo(parentPoint.x, midY, edgeX, edgeY);
       ctx.stroke();
 
       ctx.setLineDash([]);
-      ctx.fillStyle = parent.accentColor;
+      ctx.fillStyle = this.accentColor(parent.id);
       ctx.beginPath();
       ctx.arc(parentPoint.x, parentPoint.y, Math.max(2, 3 * zoom), 0, Math.PI * 2);
       ctx.fill();
