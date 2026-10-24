@@ -45,7 +45,8 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
         } catch {}
       </script>
     )}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Sin bloquear el zoom: en las páginas de contenido se puede ampliar con los dedos. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
