@@ -173,7 +173,9 @@ VOLVER lleva a la portada.
 
 La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
 superior con VOLVER, INICIO, la etiqueta del curso y el botón del menú, y el
-contenido en una hoja blanca centrada. Las clases con que muestra cada elemento
+contenido en una hoja blanca centrada. En pantallas de menos de 768 px, el
+contenido va directo sobre un fondo blanco, sin el marco de la hoja, y la barra
+no muestra la etiqueta del curso, para quedar en una sola fila. Las clases con que muestra cada elemento
 del Markdown están en `cartulario/clases.ts`.
 
 ## Cursario
