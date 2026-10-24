@@ -137,7 +137,7 @@ export const ISLAS: IslaDefinition[] = [
   },
 
 //
- // CURSO:01 - MAE UNTREF
+ // CURSO:01 - ARTES ELECTRÓNICAS
  //
   {
     id: 'untref-obra-01',
@@ -145,12 +145,12 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:01', 
     title: 'Siervos del Obnubilante Scrolling (S.O.S)', 
-    subtitle: 'Trabajo final del primer cuatrimestre, 2025',
+    subtitle: 'Julio de 2025',
     description: 'Un culto a la obnubilación, con tecnoliturgias obscenas, maquinales actos de fe y profecías de autosatisfacción. Una historia apócrifa sobre el arrobamiento del Antropobsceno tardío',
-    tag: 'MAESTRÍA UNTREF', 
+    tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
     categoryLabel: 'EJE TIEMPO: METÁFORAS TECNOLÓGICAS / LA NUBE / ANTROPOBSCENO TARDÍO', 
-    captionLabel: 'MAE-SOS',
+    captionLabel: 'SOS',
     timeReference: '1C 2025', 
   },
   {
@@ -159,12 +159,12 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:02', 
     title: 'Rebelión en la Granja de Clics', 
-    subtitle: 'Trabajo final del segundo cuatrimestre, 2025',
+    subtitle: 'Noviembre de 2025',
     description: 'Realizado junto con Diego Flores',
-    tag: 'MAESTRÍA UNTREF', 
+    tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
     categoryLabel: 'EJE ESPACIO: ENTURBIAMIENTO / PANTALLAS EMPAÑADAS / MUNDOS DIGITALES', 
-    captionLabel: 'MAE-TURBIO',
+    captionLabel: 'TURBIO',
     timeReference: '2C 2025', 
   },
   {
@@ -173,11 +173,11 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:03', 
     title: 'Homo Hamatus. Fenomenología de la vulnerabilidad', 
-    subtitle: 'Trabajo final del primer cuatrimestre, 2026',
-    tag: 'MAESTRÍA UNTREF', 
+    subtitle: 'Julio de 2026',
+    tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
     categoryLabel: 'EJE MOVIMIENTO: REDES DE CUIDADO / IDENTIDADES ASIDERO', 
-    captionLabel: 'MAE-HAMATUS',
+    captionLabel: 'HAMATUS',
     timeReference: '1C 2026', 
   },
   {
@@ -186,12 +186,12 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:04', 
     title: 'GPS (Goce Positioning System)', 
-    subtitle: 'Lenguaje de las Artes Electrónicas I - Primer cuatrimestre, 2025',
+    subtitle: 'Mayo de 2025',
     description: 'Trabajo realizado con Germán Anido y Diego Flores', 
-    tag: 'MAESTRÍA UNTREF', 
+    tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
     categoryLabel: 'VIDEO / DISPOSITIVOS INSUMISOS / CARTOGRAFÍAS DEL DESEO', 
-    captionLabel: 'MAE-GPS',
+    captionLabel: 'GPS',
     timeReference: '1C 2025', 
   },
   {
@@ -200,11 +200,12 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:05', 
     title: 'Diálogos Desavenidos', 
-    subtitle: 'Programación de Entornos Sensoriales II - Primer cuatrimestre, 2026',
+    subtitle: 'Junio de 2026',
     description: 'Trabajo realizado con Diego Flores, Ángel Aberbach y Gianfranco Chiappe', 
-    tag: 'MAESTRÍA UNTREF', accentColor: '#0038A8', 
+    tag: 'ARTES ELECTRÓNICAS', 
+    accentColor: '#0038A8', 
     categoryLabel: 'HÁPTICA / PROXEMIA / AFFORDANCE', 
-    captionLabel: 'MAE-HÁPTICA',
+    captionLabel: 'HÁPTICA',
     timeReference: '1C 2026', 
   },
     

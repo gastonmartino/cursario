@@ -1,8 +1,11 @@
-# Motor del lienzo
+# Motor para la Cartografía del Cursario
 
 El motor dibuja y anima el lienzo infinito del Cursario: el fondo cartográfico,
 la cámara que se desplaza y hace zoom, el cursor entintado y la ubicación de
-las tarjetas HTML (ínsulas, islas e islotes) sobre ese fondo.
+las tarjetas HTML sobre el fondo:
+- **Ínsulas**: cada una de las tarjeta del nivel superior, los cursos principales.
+- **Islas**: cada una de las tarjetas que conforman un subcurso
+- **Islotes**: pequeñas piezas de información, a veces representadas como tarjetas o a veces simplemente enmarcadas y agrupadas con las islas o las ínsulas.
 
 Trabaja solo con la **estructura** del sitio (qué cursos, subcursos e islotes
 hay, dónde están y cómo se relacionan) y con **ids**. No conoce el contenido de
@@ -13,7 +16,7 @@ provee quien lo crea, la portada (`src/components/Cursario.astro`).
 
 | Archivo | Para qué se usa |
 |---|---|
-| `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
+| `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos (`DERIVAS_ISLAS`) y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
 | `ControladorLienzo.ts` | El motor propiamente dicho: recibe los eventos (puntero, rueda, toques, teclado), administra los dos niveles (lienzo principal y lienzo de un curso), mueve la cámara, ubica las tarjetas HTML, informa la telemetría al HUD y decide cuándo hay que dibujar. |
 | `Camara.ts` | Posición y zoom de la vista: conversión entre coordenadas de pantalla y del mundo, arrastre con inercia, zoom centrado en un punto y vuelos suaves hacia un destino. |
 | `SuperficieGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, ventanas de nubes, línea de recorrido de los subcursos y conexiones de los islotes. |
