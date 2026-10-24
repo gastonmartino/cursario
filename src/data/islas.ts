@@ -215,7 +215,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-01',
     imageUrl: 'portada-curso.jpg',
-    code: 'GENERATIVA:01', 
+    code: 'GEN:01', 
     title: 'Sarandí Revelation', 
     description: 'Entonces el ángel derramó su copa en el río y a la bestia se le permitió azotar a los pobres con dispensa.',
     tag: 'PROCESSING / P5JS', 
@@ -228,7 +228,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-02',
     imageUrl: 'portada-curso.gif',
-    code: 'GENERATIVA:02', 
+    code: 'GEN:02', 
     title: 'Meticulously Unplanned', 
     description: 'Temporada de floración de ciudades vulnerables.',
     tag: 'PROCESSING / P5JS', 
@@ -241,7 +241,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-03',
     imageUrl: 'portada-curso.jpg',
-    code: 'GENERATIVA:03', 
+    code: 'GEN:03', 
     title: 'Plastic Natianta', 
     description: 'Inevitablemente, los fondos marinos plastificados terminan abriéndose paso hacia la superficie por la cadena alimentaria.',
     tag: 'PROCESSING / P5JS',
@@ -254,7 +254,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-04',
     imageUrl: 'portada-curso.jpg',
-    code: 'GENERATIVA:04', 
+    code: 'GEN:04', 
     title: 'Diasporas', 
     description: 'La diáspora comienza justo después del grito vibrante de los líquenes.',
     tag: 'PROCESSING / P5JS',
@@ -267,7 +267,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-05',
     imageUrl: 'portada-curso.gif',
-    code: 'GENERATIVA:05', 
+    code: 'GEN:05', 
     title: 'Meanwhile, in the Southern Hemisphere, a lymphatic summer',
     description: 'Mientras los ojos del mundo están puestos en la sangre, la linfa fluye inadvertidamente, siempre en la misma dirección.',
     tag: 'PROCESSING / P5JS',
@@ -280,7 +280,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-06',
     imageUrl: 'portada-curso.jpg',
-    code: 'GENERATIVA:06', 
+    code: 'GEN:06', 
     title: 'Regolito fértil', 
     description: 'Sólo sesenta lunas más de cosecha por delante.',
     tag: 'PROCESSING / P5JS',
