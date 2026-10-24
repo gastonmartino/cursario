@@ -8,7 +8,7 @@ descripcion: Acerca del proyecto CURSARIO.
 ---
 # Acerca del Cursario
 
-![Velero en grabado tramado](/paginas/acerca-de-cursario/medios/barco-grabado.png) *LÁMINA I* {lectura}
+![Velero en grabado tramado](/paginas/acerca-de-cursario/medios/barco-grabado.png) *Derivario de cursos, excursos y desvaríos: una cartografía en movimiento para surcar territorios, provocar cruces e incursionar en aguas ajenas* {lectura}
 ![Juncos a orillas del arroyo](/paginas/acerca-de-cursario/medios/juncos-bitono.png) *LÁMINA II*
 ![Cartografía con interferencias](/paginas/acerca-de-cursario/medios/mapa-glitch.png) *LÁMINA III*
 ![Relieve ocre y curvas de agua](/paginas/acerca-de-cursario/medios/ocre-posterizado.png) *LÁMINA IV*
@@ -33,3 +33,4 @@ Cursario es un manifiesto de desvaríos intencionalmente traslapados para provoc
 ---
 
 Manifiesto v1.0
+

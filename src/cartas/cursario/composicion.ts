@@ -5,7 +5,7 @@
 
 export type Rect = [x: number, y: number, ancho: number, alto: number];
 
-export const HOJA = { ancho: 1400, alto: 2400, margen: 44, banda: 12 };
+export const HOJA = { ancho: 1400, alto: 2400, margen: 44, banda: 8 };
 
 // Recuadros negros escalonados, como los de las cartas náuticas recortadas.
 // Cada recuadro es la unión de varios rectángulos.
