@@ -1,0 +1,78 @@
+---
+// Capa que cubre la página mientras se navega entre páginas del sitio: se
+// desvanece al llegar y vuelve a cubrir antes de ir a otro enlace interno.
+// Una carta puede cambiar su aspecto redefiniendo #page-transition.
+---
+
+<div id="page-transition" class="page-transition-layer" aria-hidden="true"></div>
+
+<script>
+  const transitionLayer = document.getElementById('page-transition');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const transitionDuration = prefersReducedMotion ? 0 : 650;
+
+  const revealPage = () => {
+    requestAnimationFrame(() => transitionLayer?.classList.add('is-ready'));
+  };
+
+  revealPage();
+  window.addEventListener('pageshow', revealPage);
+
+  document.addEventListener('click', (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      !(event.target instanceof Element)
+    ) return;
+
+    const link = event.target.closest('a[href]') as HTMLAnchorElement | null;
+    if (!link || link.target || link.hasAttribute('download')) return;
+
+    const destination = new URL(link.href, window.location.href);
+    const current = new URL(window.location.href);
+    const isSameDocumentHash =
+      destination.pathname === current.pathname &&
+      destination.search === current.search &&
+      destination.hash;
+
+    if (destination.origin !== current.origin || isSameDocumentHash) return;
+
+    event.preventDefault();
+    transitionLayer?.classList.remove('is-ready');
+
+    window.setTimeout(() => {
+      window.location.assign(destination.href);
+    }, transitionDuration);
+  }, true);
+</script>
+
+<style is:global>
+  .page-transition-layer {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    pointer-events: none;
+    opacity: 1;
+    background-color: #F5F7FA;
+    background-image:
+      radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
+      radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
+    background-position: 0 0, 3px 3px;
+    background-size: 7px 7px, 11px 11px;
+    transition: opacity 650ms ease-in-out;
+  }
+
+  .page-transition-layer.is-ready {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-transition-layer {
+      transition-duration: 0ms;
+    }
+  }
+</style>

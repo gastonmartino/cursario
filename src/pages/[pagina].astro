@@ -1,0 +1,34 @@
+---
+// Páginas sueltas del sitio (como "Acerca de"): cada archivo .md de
+// public/paginas/ se publica en /{nombre-del-archivo}/. Sus datos (título,
+// código, etiqueta, color, descripción) van en el encabezado del archivo, y
+// lo arma la carta que elige (ver src/cartas/index.ts).
+import fs from 'node:fs';
+import path from 'node:path';
+import type { InferGetStaticPropsType } from 'astro';
+import { cargarDocumento, obtenerCarta, type PropsCarta } from '../cartas';
+
+export function getStaticPaths() {
+  const carpeta = path.join(process.cwd(), 'public', 'paginas');
+  return fs.readdirSync(carpeta)
+    .filter((archivo) => archivo.endsWith('.md'))
+    .map((archivo) => ({
+      params: { pagina: archivo.replace(/\.md$/, '') },
+      props: { markdownFile: `/paginas/${archivo}` },
+    }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const documento = cargarDocumento(Astro.props.markdownFile);
+const Carta = obtenerCarta(documento.datos.carta);
+const { titulo = '', subtitulo = '', codigo = '', etiqueta = '', color = '#0038A8' } = documento.datos;
+
+const props: PropsCarta = {
+  pagina: { titulo, subtitulo, codigo, etiqueta, color },
+  documento,
+  volver: '/',
+};
+---
+
+<Carta {...props} />

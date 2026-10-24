@@ -1,0 +1,39 @@
+---
+import Derrotero from '../components/Derrotero.astro';
+import TransicionPagina from '../components/TransicionPagina.astro';
+import { withBase } from '../utils/paths';
+
+// Documento base de las cartas (las páginas de contenido). No impone fondo,
+// tipografías ni colores: cada carta define los suyos. Solo aporta lo común a
+// todas las páginas: los metadatos, el menú de navegación (que cada carta abre
+// con su BotonMenu) y la transición entre páginas.
+//
+// La carta puede agregar elementos al <head> (por ejemplo, sus tipografías)
+// con <Fragment slot="head">, y clases a <html> y <body>.
+interface Props {
+  title: string;
+  description?: string;
+  claseHtml?: string;
+  claseCuerpo?: string;
+}
+
+const { title, description, claseHtml, claseCuerpo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class={claseHtml}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <slot name="head" />
+  </head>
+  <body class={claseCuerpo}>
+    <slot />
+    <Derrotero />
+    <TransicionPagina />
+  </body>
+</html>

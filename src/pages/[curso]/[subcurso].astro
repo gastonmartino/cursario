@@ -1,14 +1,12 @@
 ---
+// Página de un subcurso o islote con pageMarkdownFile. La arma la carta que
+// elige su archivo Markdown (ver src/cartas/index.ts).
 import type { InferGetStaticPropsType } from 'astro';
-import fs from 'node:fs';
-import path from 'node:path';
-import Layout from '../../layouts/Layout.astro';
-import Derrotero from '../../components/Derrotero.astro';
 import { ISLAS } from '../../data/islas';
 import { ISLOTES } from '../../data/islotes';
 import { ubicar } from '../../motor/Derivas';
-import { renderMarkdownToHtml } from '../../utils/markdown';
-import { resolveFile, withBase } from '../../utils/paths';
+import { cargarDocumento, obtenerCarta, type PropsCarta } from '../../cartas';
+import { resolveFile } from '../../utils/paths';
 
 // Solo se generan páginas para los subcursos e islotes que tienen un archivo
 // de página. La URL es la urlPagina de su ubicación (src/motor/Derivas.ts).
@@ -20,112 +18,30 @@ export function getStaticPaths() {
       props: {
         data,
         idDeriva: ubicacion.idDeriva,
-        pageMarkdownFile: resolveFile(ubicacion.carpetaContenidos, data.pageMarkdownFile),
+        pageMarkdownFile: resolveFile(ubicacion.carpetaContenidos, data.pageMarkdownFile)!,
       },
     };
   });
 }
 
-const { curso, subcurso } = Astro.params;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { data, idDeriva, pageMarkdownFile } = Astro.props;
-const displayTitle = data.title ?? '';
-const displaySubtitle = data.subtitle ?? '';
+const documento = cargarDocumento(pageMarkdownFile);
+const Carta = obtenerCarta(documento.datos.carta);
 
-// VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-const backHref = withBase(`/?deriva=${idDeriva}`);
-
-let markdownHtml = '';
-try {
-  if (pageMarkdownFile) {
-    const markdownPath = path.join(
-      process.cwd(),
-      'public',
-      pageMarkdownFile.replace(/^\/+/, '')
-    );
-    markdownHtml = renderMarkdownToHtml(fs.readFileSync(markdownPath, 'utf-8'), 'page');
-  }
-} catch (error) {
-  console.error(`Error al leer la página de ${curso}/${subcurso}:`, error);
-}
+const props: PropsCarta = {
+  pagina: {
+    titulo: data.title ?? '',
+    subtitulo: data.subtitle ?? '',
+    codigo: data.code,
+    etiqueta: data.tag,
+    color: data.accentColor,
+  },
+  documento,
+  // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
+  volver: `/?deriva=${idDeriva}`,
+};
 ---
 
-<Layout
-  title={`GASTÓN MARTINO // ${data.code} • ${displayTitle}`}
-  description={`${displaySubtitle}. Bitácora de Derivas de Gastón Martino.`}
-  scrollable={true}
->
-  <div class="paper-texture min-h-screen">
-    <header class="sticky top-0 z-30 border-b border-ink-border/70 bg-paper-base/90 px-4 py-3 backdrop-blur-md md:px-6 md:py-4">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-        <nav class="order-1 flex items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
-          <a
-            href={backHref}
-            class="border-r border-ink-border/60 px-3 py-2 font-mono text-xs font-bold transition-colors hover:bg-river-mist md:px-4"
-            style={`color: ${data.accentColor};`}
-          >
-            ← VOLVER
-          </a>
-          <a
-            href={withBase('/')}
-            class="px-3 py-2 font-mono text-xs font-bold text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt md:px-4"
-          >
-            INICIO
-          </a>
-        </nav>
-
-        <div class="order-3 w-full flex items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-3.5 py-2 shadow-sm font-mono text-xs text-ink-primary md:order-2 md:w-auto md:px-4">
-          <span class="h-2 w-2 rounded-full animate-pulse" style={`background-color: ${data.accentColor};`}></span>
-          <span class="text-ink-faint">DERIVA:</span>
-          <span class="font-bold" style={`color: ${data.accentColor};`}>[{data.code}] {displayTitle.toUpperCase()}</span>
-        </div>
-
-        <button
-          id="btn-open-menu"
-          type="button"
-          class="order-2 flex h-9 w-9 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt md:order-3"
-          title="Abrir navegación"
-          aria-label="Abrir navegación"
-          aria-controls="navigation-drawer"
-          aria-expanded="false"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="4" y1="12" x2="20" y2="12" />
-            <line x1="4" y1="18" x2="20" y2="18" />
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <Derrotero />
-
-    <main class="mx-auto max-w-4xl px-5 py-7 md:px-8 md:py-10">
-      <article class="border border-ink-border/80 bg-white/80 p-6 shadow-sm md:p-12">
-        <div class="mb-10 border-b border-ink-border/60 pb-6">
-          <div class="mb-4 flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest" style={`color: ${data.accentColor};`}>
-            <span class="h-2 w-2 rounded-full" style={`background-color: ${data.accentColor};`}></span>
-            {data.code} // {data.tag}
-          </div>
-          <p class="font-sans text-lg font-semibold" style={`color: ${data.accentColor};`}>{displaySubtitle}</p>
-        </div>
-
-        <div class="markdown-page-content">
-          <Fragment set:html={markdownHtml} />
-        </div>
-      </article>
-    </main>
-  </div>
-</Layout>
-
-<style>
-  .paper-texture {
-    background-color: #F5F7FA;
-    background-image:
-      radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
-      radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
-    background-position: 0 0, 3px 3px;
-    background-size: 7px 7px, 11px 11px;
-  }
-</style>
+<Carta {...props} />

@@ -1,0 +1,138 @@
+# Cartas
+
+Las **cartas** son las plantillas con las que se arman las páginas de contenido
+del Cursario: las de los subcursos e islotes que tienen `pageMarkdownFile` y las
+páginas sueltas (como "Acerca de"). Cada carta decide por completo cómo se
+muestra el contenido de su archivo Markdown: su estructura, sus estilos, sus
+tipografías y sus scripts. Varias páginas pueden compartir una misma carta.
+
+## Cómo elige una página su carta
+
+En el encabezado de datos del archivo Markdown, entre dos líneas `---` al
+comienzo:
+
+```markdown
+---
+carta: cartulario
+---
+# Título
+
+Texto…
+```
+
+Sin encabezado, o sin el dato `carta`, se usa el **cartulario**, la carta
+estándar. Si el nombre no corresponde a ninguna carta, el build falla con un
+mensaje que lista las disponibles.
+
+El encabezado puede tener otros datos (una línea `clave: valor` por dato), que
+la carta recibe y puede usar como opciones propias: un color de fondo, una
+cantidad de columnas, una variante…
+
+## Estructura
+
+```
+src/cartas/
+├── index.ts            ← registro de cartas y tipos (PropsCarta)
+├── README.md
+└── cartulario/         ← una carpeta por carta; su nombre es el de la carta
+    ├── Carta.astro     ← componente principal (obligatorio)
+    └── clases.ts       ← archivos propios de la carta (opcionales)
+```
+
+Para crear una carta nueva alcanza con crear su carpeta con un `Carta.astro`:
+`src/cartas/index.ts` las encuentra solas. Dentro de la carpeta puede haber
+todo lo que la carta necesite: subcomponentes, hojas de estilo, scripts,
+datos.
+
+## Qué recibe una carta (`PropsCarta`)
+
+- **`pagina`**: `titulo`, `subtitulo`, `codigo`, `etiqueta` y `color`. En los
+  subcursos e islotes salen de `src/data/islas.ts` o `islotes.ts`; en las
+  páginas sueltas, del encabezado de datos.
+- **`documento`**: el Markdown interpretado por MIMO (`src/utils/markdown.ts`):
+  - `datos`: el encabezado de datos, incluidas las opciones de la carta.
+  - `bloques`: la lista de bloques en orden (`titulo`, `parrafo`, `lista`,
+    `cita`, `imagen`, `video`, `separador`).
+  - `secciones`: los bloques agrupados en secciones, una por cada título `##`.
+- **`volver`**: la ruta a la que lleva VOLVER.
+
+Con los bloques y las secciones una carta puede recomponer el contenido: usar
+la primera imagen como portada, reunir todas las imágenes en una galería,
+mostrar cada sección como una columna o una lámina, sacar las citas al margen…
+Para convertir bloques en HTML, MIMO ofrece:
+
+- `renderizarBloques(bloques, clases?)` y `renderizarBloque(bloque, clases?)`.
+- `renderizarEnLinea(texto, clases?)`, para el texto de un bloque (negritas,
+  itálicas, enlaces, código).
+
+El parámetro `clases` (`ClasesMimo`) indica la clase CSS de cada elemento. Sin
+él, el HTML sale limpio, sin clases, para estilizarlo con el CSS de la carta.
+
+## Lo común a todas las cartas
+
+Toda carta usa `src/layouts/LayoutCarta.astro`, que aporta solo lo
+indispensable y no impone fondo, tipografías ni colores:
+
+- los metadatos de la página (`title`, `description`);
+- el **menú de navegación** (Derrotero);
+- la **transición** entre páginas.
+
+La carta ubica y estiliza los dos elementos de navegación obligatorios:
+
+- `Volver` (`src/components/navegacion/Volver.astro`): el enlace para volver.
+- `BotonMenu` (`src/components/navegacion/BotonMenu.astro`): el botón que abre
+  el menú.
+
+Los dos aceptan `class` (y `Volver`, también `style`), y su contenido se puede
+reemplazar: otro texto para VOLVER, otro ícono para el menú.
+
+## Estilos de cada carta
+
+Los estilos de una carta se escriben dentro de su carpeta y no afectan al resto
+del sitio:
+
+- **Un `<style>` en `Carta.astro`** (o en sus subcomponentes): Astro lo limita
+  automáticamente a ese componente.
+- **Una hoja de estilos propia** (por ejemplo `estilos.css`) importada desde
+  `Carta.astro`: se incluye solo en las páginas que usan esa carta.
+- **Estilos globales de la página** (el `body`, el HTML que genera MIMO, la
+  barra de desplazamiento): un `<style is:global>` en `Carta.astro`. También se
+  incluye solo en las páginas de esa carta.
+- **Tipografías**: la carta las carga en el `<head>` con
+  `<Fragment slot="head">…</Fragment>` dentro de `LayoutCarta`.
+- **Scripts**: un `<script>` en la carta se incluye solo en sus páginas.
+- **Transición**: para cambiar su aspecto, la carta redefine `#page-transition`
+  en sus estilos globales.
+
+Del sitio, a toda página llegan dos cosas, que la carta puede usar o pisar:
+
+- **Tailwind**: sus clases solo se aplican donde se usan, y su restablecimiento
+  de estilos base (márgenes en cero, títulos sin tamaño propio, listas sin
+  viñetas…) se aplica a todas las páginas. Una carta que quiera otros estilos
+  base los declara en su CSS.
+- **El menú de navegación**, que conserva el aspecto del sitio.
+
+## Páginas sueltas
+
+Cada archivo `.md` de `public/paginas/` se publica en `/{nombre-del-archivo}/`
+(lo hace `src/pages/[pagina].astro`). Sus datos van en el encabezado:
+
+```markdown
+---
+carta: cartulario
+titulo: Gastón Martino
+codigo: ACERCA DE
+etiqueta: BIO
+color: #0038A8
+descripcion: Acerca de Gastón Martino.
+---
+```
+
+VOLVER lleva a la portada.
+
+## El cartulario
+
+La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
+superior con VOLVER, INICIO, la etiqueta del curso y el botón del menú, y el
+contenido en una hoja blanca centrada. Las clases con que muestra cada elemento
+del Markdown están en `cartulario/clases.ts`.

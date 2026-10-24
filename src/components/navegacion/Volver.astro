@@ -1,0 +1,17 @@
+---
+// Enlace para volver desde una carta. Cada carta lo ubica y le da estilo con
+// `class` y `style`; el texto se puede cambiar con el contenido del componente.
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  href: string;
+  class?: string;
+  style?: string;
+}
+
+const { href, class: clase, style } = Astro.props;
+---
+
+<a href={withBase(href)} class={clase} style={style}>
+  <slot>← VOLVER</slot>
+</a>
