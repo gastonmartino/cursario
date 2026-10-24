@@ -31,8 +31,10 @@ const {
     <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body class="h-full w-full overflow-hidden font-sans text-ink-primary antialiased bg-paper-base">
-    <slot />
+    {/* La capa de transición va primero, para que cubra la página desde el
+        primer cuadro aunque el resto del HTML tarde en llegar. */}
     <TransicionPagina />
+    <slot />
   </body>
 </html>
 

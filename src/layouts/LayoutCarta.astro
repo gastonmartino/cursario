@@ -56,9 +56,11 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
     <slot name="head" />
   </head>
   <body class={claseCuerpo}>
+    {/* La capa de transición va primero, para que cubra la página desde el
+        primer cuadro aunque el resto del HTML tarde en llegar. */}
+    <TransicionPagina />
     <slot />
     <Derrotero />
     {vistas && <CambioVista vistas={vistas} />}
-    <TransicionPagina />
   </body>
 </html>
