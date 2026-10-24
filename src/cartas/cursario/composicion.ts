@@ -161,38 +161,37 @@ const LG: Composicion = {
 // (de x = 165 a x = 765) y el texto siempre de un solo lado: en cada franja, si
 // hay texto a la derecha, a la izquierda van gráficos, y al revés.
 const MD: Composicion = {
-  hoja: { ancho: 930, alto: 2680, margen: 0, banda: 0, marco: false },
+  hoja: { ancho: 930, alto: 2940, margen: 0, banda: 0, marco: false },
   navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
   recuadros: [
     [[465, 240, 300, 250], [405, 490, 360, 230]],
     [[165, 1010, 380, 220], [165, 1230, 350, 240]],
     [[540, 1640, 225, 120], [610, 1760, 155, 50]],
+    [[470, 1920, 295, 215]],
     // píxeles sueltos
     [[200, 900, 44, 44]], [[790, 640, 40, 40]], [[260, 1880, 36, 36]], [[110, 1300, 40, 40]],
   ],
   rosas: [
     { x: 280, y: 400, r: 95 },
     { x: 650, y: 1240, r: 85 },
-    { x: 290, y: 2450, r: 55 },
+    { x: 290, y: 2700, r: 55 },
   ],
   aguas: [
     { x: 120, y: 640, r: 55 },
     { x: 650, y: 810, r: 55 },
-    { x: 660, y: 1990, r: 55 },
-    { x: 250, y: 2110, r: 55 },
-    { x: 820, y: 2200, r: 60 },
+    { x: 800, y: 2480, r: 60 },
   ],
   islas: [
     { x: 690, y: 1700, r: 26 },
   ],
   sondeos: 900,
-  // Quedan tres láminas: el velero, los juncos y el relieve ocre.
+  // Quedan cinco láminas: todas menos el río.
   imagenes: [
     { x: 485, y: 260, ancho: 260, alto: 210, modo: 'recuadro' },
     { x: 185, y: 1030, ancho: 300, alto: 186, modo: 'recuadro' },
-    null,
+    { x: 490, y: 1940, ancho: 255, alto: 160, modo: 'recuadro' },
     { x: 180, y: 1495, ancho: 250, alto: 136, modo: 'papel' },
-    null,
+    { x: 175, y: 2150, ancho: 250, alto: 220, modo: 'transparencia' },
     null,
   ],
   notas: [
@@ -207,12 +206,12 @@ const MD: Composicion = {
     { x: 175, y: 1700, ancho: 300 },
     { x: 455, y: 1830, ancho: 300 },
     { x: 175, y: 1950, ancho: 300 },
-    { x: 455, y: 2070, ancho: 300 },
-    { x: 175, y: 2190, ancho: 300 },
+    { x: 455, y: 2170, ancho: 300 },
+    { x: 175, y: 2440, ancho: 300 },
   ],
   titulo: [215, 60, 500, 130],
-  cartucho: [435, 2320, 330, 250],
-  rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2620 }],
+  cartucho: [435, 2580, 330, 250],
+  rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2880 }],
 };
 
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
