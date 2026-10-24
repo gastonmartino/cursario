@@ -102,6 +102,7 @@ const islotes = ISLOTES.map((islote) => {
     {islas.map((isla) => (
       <Isla
         id={`spatial-subnode-${isla.id}`}
+        idTarjeta={isla.id}
         detailHref={isla.detailHref || isla.actionHref || isla.pageHref}
         code={isla.code}
         headerTypeLabel={`// ${isla.captionLabel.toUpperCase()}`}
@@ -447,6 +448,20 @@ const islotes = ISLOTES.map((islote) => {
     if (requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);
     }
+
+    // Las tarjetas detectan cuándo el puntero está encima (el navegador
+    // conoce su tamaño real) y se lo avisan al motor. Con el dedo, el motor
+    // quita la marca al terminar el toque: se ignora pointerleave, que llega
+    // antes del touchend y borraría la marca antes de procesar el toque.
+    document.querySelectorAll<HTMLElement>('[data-id-tarjeta]').forEach((tarjeta) => {
+      const idTarjeta = tarjeta.dataset.idTarjeta;
+      if (!idTarjeta) return;
+
+      tarjeta.addEventListener('pointerenter', () => controller.marcarSobrevuelo(idTarjeta));
+      tarjeta.addEventListener('pointerleave', (event) => {
+        if (event.pointerType !== 'touch') controller.desmarcarSobrevuelo(idTarjeta);
+      });
+    });
 
     // Bind Back / Exit Button
     if (btnExitDeriva) {

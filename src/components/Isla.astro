@@ -9,6 +9,9 @@ import EsquinasPlano from './EsquinasPlano.astro';
 
 interface Props {
   id: string;
+  // Id del subcurso en Derivas.ts, para avisarle al motor cuando el puntero
+  // está sobre la tarjeta.
+  idTarjeta: string;
   code: string;
   title?: string | null;
   subtitle?: string | null;
@@ -44,6 +47,7 @@ interface Props {
 
 const {
   id,
+  idTarjeta,
   code,
   title,
   subtitle,
@@ -121,6 +125,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
 
 <article 
   id={id}
+  data-id-tarjeta={idTarjeta}
   data-detail-href={withBase(navigableHref)}
   class="absolute top-0 left-0 shadow-xl rounded-sm flex flex-col justify-between select-none pointer-events-auto transition-opacity duration-200"
   style={`

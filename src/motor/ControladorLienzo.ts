@@ -195,13 +195,6 @@ export class ControladorLienzo {
     );
 
     this.cursor.setPosition(e.clientX, e.clientY, worldPos.x, worldPos.y);
-
-    // Hit testing
-    if (this.level === 'macro') {
-      this.checkMacroHover(worldPos.x, worldPos.y);
-    } else if (this.activeDeriva) {
-      this.checkDerivaItemHover(worldPos.x, worldPos.y);
-    }
   }
 
   public onMouseUp(e: MouseEvent) {
@@ -288,12 +281,6 @@ export class ControladorLienzo {
         window.innerHeight
       );
       this.cursor.setPosition(t.clientX, t.clientY, worldPos.x, worldPos.y);
-
-      if (this.level === 'macro') {
-        this.checkMacroHover(worldPos.x, worldPos.y);
-      } else {
-        this.checkDerivaItemHover(worldPos.x, worldPos.y);
-      }
     } else if (this.touches.size === 2 && e.touches.length === 2) {
       const [t1, t2] = [e.touches[0], e.touches[1]];
       const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
@@ -330,6 +317,9 @@ export class ControladorLienzo {
         time: performance.now(),
       };
     } else if (this.touches.size === 0) {
+      // En una pantalla táctil no hay "mouse encima": al levantar el dedo,
+      // después de procesar el toque, ninguna tarjeta queda marcada.
+      this.marcarSobrevuelo(null);
       this.camera.endDrag();
       this.isPinching = false;
       this.initialPinchDist = 0;
@@ -400,49 +390,28 @@ export class ControladorLienzo {
     }
   }
 
-  private checkMacroHover(worldX: number, worldY: number) {
-    let found: DerivaInsula | null = null;
-
-    for (const d of DERIVAS_INSULAS) {
-      const hw = d.ancho / 2;
-      const hh = d.alto / 2;
-      if (
-        worldX >= d.x - hw &&
-        worldX <= d.x + hw &&
-        worldY >= d.y - hh &&
-        worldY <= d.y + hh
-      ) {
-        found = d;
-        break;
-      }
+  /* -------------------------------------------------------------
+     SOBREVUELO: QUÉ CURSO O SUBCURSO TIENE EL PUNTERO ENCIMA
+     Lo detectan las tarjetas HTML, que conocen su tamaño real, y lo
+     informan por id. Un id que no corresponde al nivel actual se ignora.
+  ------------------------------------------------------------- */
+  public marcarSobrevuelo(id: string | null) {
+    if (this.level === 'macro') {
+      this.hoveredDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === id) ?? null;
+    } else {
+      this.hoveredItem = this.activeDeriva?.subcursos.find((isla) => isla.id === id) ?? null;
     }
 
-    this.hoveredDeriva = found;
-    this.cursor.isHovering = !!found;
-    this.cursor.hoverLabel = found ? this.appearance.cursorLabel(found.id, 'hover') : '';
+    const marcado = this.level === 'macro' ? this.hoveredDeriva : this.hoveredItem;
+    this.cursor.isHovering = !!marcado;
+    this.cursor.hoverLabel = marcado ? this.appearance.cursorLabel(marcado.id, 'hover') : '';
   }
 
-  private checkDerivaItemHover(worldX: number, worldY: number) {
-    if (!this.activeDeriva) return;
-
-    let found: DerivaIsla | null = null;
-    for (const item of this.activeDeriva.subcursos) {
-      const hw = item.ancho / 2;
-      const hh = item.alto / 2;
-      if (
-        worldX >= item.x - hw &&
-        worldX <= item.x + hw &&
-        worldY >= item.y - hh &&
-        worldY <= item.y + hh
-      ) {
-        found = item;
-        break;
-      }
-    }
-
-    this.hoveredItem = found;
-    this.cursor.isHovering = !!found;
-    this.cursor.hoverLabel = found ? this.appearance.cursorLabel(found.id, 'hover') : '';
+  // Quita la marca solo si sigue marcado este id (otra tarjeta pudo haberla
+  // tomado mientras tanto).
+  public desmarcarSobrevuelo(id: string) {
+    const marcado = this.level === 'macro' ? this.hoveredDeriva : this.hoveredItem;
+    if (marcado?.id === id) this.marcarSobrevuelo(null);
   }
 
   /* -------------------------------------------------------------
