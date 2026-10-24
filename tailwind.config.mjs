@@ -8,8 +8,6 @@ export default {
           light: '#FAFBFD',
           base: '#F5F7FA',
           sheet: '#EDF1F5',
-          warm: '#F2EFEB',
-          dark: '#E0E5EC',
         },
         ink: {
           primary: '#1A1C20',
@@ -18,25 +16,19 @@ export default {
           border: '#D0D6E2',
         },
         cobalt: {
-          light: '#2D6BFF',
           DEFAULT: '#0038A8',
           vibrant: '#002FA7',
           dark: '#002270',
         },
         cyanotype: {
-          light: '#365377',
           DEFAULT: '#16253D',
-          deep: '#0D1726',
         },
         river: {
           mist: '#D8E5F3',
           sky: '#7EA8CE',
-          deep: '#3A688C',
         },
         accent: {
           vermilion: '#E03E2D',
-          ochre: '#E5C887',
-          copper: '#D97736',
         }
       },
       fontFamily: {
