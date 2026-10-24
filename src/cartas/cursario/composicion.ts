@@ -29,6 +29,9 @@ export interface Composicion {
   imagenes: Array<{ x: number; y: number; ancho: number; alto: number; modo: ModoImagen } | null>;
   notas: Array<{ x: number; y: number; ancho: number; enRecuadro: boolean }>;
   toponimos: Array<{ x: number; y: number; ancho: number }>;
+  // Lugares para los encabezados "##" como títulos rectos. Sin ellos, cada
+  // encabezado se escribe en curva alrededor de una rosa.
+  encabezados?: Array<{ x: number; y: number; ancho: number }>;
   titulo: Rect;
   cartucho: Rect;
   // Rótulos sueltos, como "PROFUNDIDADES EN METROS".
@@ -221,57 +224,59 @@ const MD: Composicion = {
 // quiebran, y los textos alternan entre más a la izquierda y más a la derecha.
 // VOLVER y el menú, fijos en las esquinas de la ventana.
 const SM: Composicion = {
-  hoja: { ancho: 620, alto: 3800, margen: 0, banda: 0, marco: false },
+  hoja: { ancho: 620, alto: 3600, margen: 0, banda: 0, marco: false },
   navegacion: { arriba: 12, izquierda: 12, derecha: 12, fija: true },
   recuadros: [
-    [[110, 470, 330, 220], [110, 690, 400, 210]],
-    [[170, 1200, 340, 210], [130, 1410, 380, 220]],
-    [[110, 2380, 380, 200]],
+    [[110, 400, 330, 220], [110, 620, 400, 210]],
+    [[170, 1130, 340, 210], [130, 1340, 380, 220]],
+    [[110, 2180, 380, 200]],
     // píxeles sueltos
-    [[450, 960, 36, 36]], [[120, 1250, 30, 30]], [[460, 2290, 30, 30]],
+    [[450, 890, 36, 36]], [[120, 1180, 30, 30]], [[460, 2090, 30, 30]],
   ],
+  // Una sola rosa, en parte debajo del rótulo de arriba.
   rosas: [
-    { x: 400, y: 340, r: 75 },
-    { x: 300, y: 1780, r: 80 },
+    { x: 400, y: 285, r: 75 },
   ],
   aguas: [
-    { x: 180, y: 360, r: 50 },
-    { x: 560, y: 1000, r: 45 },
-    { x: 90, y: 2160, r: 45 },
+    { x: 170, y: 300, r: 45 },
+    { x: 560, y: 930, r: 45 },
+    { x: 90, y: 1960, r: 45 },
   ],
   islas: [
-    { x: 450, y: 2470, r: 22 },
+    { x: 450, y: 2270, r: 22 },
   ],
   sondeos: 900,
   // Cinco láminas, como en md; las curvas de relieve, al corte por la izquierda
   // (así la frase de la imagen queda dentro de la ventana).
   imagenes: [
-    { x: 130, y: 490, ancho: 290, alto: 200, modo: 'recuadro' },
-    { x: 190, y: 1220, ancho: 300, alto: 186, modo: 'recuadro' },
-    { x: 125, y: 2395, ancho: 270, alto: 150, modo: 'recuadro' },
-    { x: 250, y: 2050, ancho: 250, alto: 136, modo: 'papel' },
-    { x: 0, y: 2850, ancho: 420, alto: 300, modo: 'transparencia' },
+    { x: 130, y: 420, ancho: 290, alto: 200, modo: 'recuadro' },
+    { x: 190, y: 1150, ancho: 300, alto: 186, modo: 'recuadro' },
+    { x: 125, y: 2195, ancho: 270, alto: 150, modo: 'recuadro' },
+    { x: 250, y: 1850, ancho: 250, alto: 136, modo: 'papel' },
+    { x: 0, y: 2650, ancho: 420, alto: 300, modo: 'transparencia' },
     null,
   ],
   notas: [
-    { x: 130, y: 770, ancho: 360, enRecuadro: true },
-    { x: 150, y: 1450, ancho: 340, enRecuadro: true },
-    { x: 130, y: 2400, ancho: 300, enRecuadro: true },
+    { x: 130, y: 700, ancho: 360, enRecuadro: true },
+    { x: 150, y: 1380, ancho: 340, enRecuadro: true },
+    { x: 130, y: 2200, ancho: 300, enRecuadro: true },
   ],
   toponimos: [
-    { x: 110, y: 940, ancho: 290 },
-    { x: 210, y: 1060, ancho: 300 },
-    { x: 110, y: 1920, ancho: 290 },
-    { x: 110, y: 2260, ancho: 300 },
-    { x: 210, y: 2620, ancho: 300 },
-    { x: 110, y: 2740, ancho: 300 },
-    { x: 110, y: 3190, ancho: 300 },
-    { x: 210, y: 3310, ancho: 300 },
+    { x: 110, y: 870, ancho: 290 },
+    { x: 210, y: 990, ancho: 300 },
+    { x: 110, y: 1720, ancho: 290 },
+    { x: 110, y: 2060, ancho: 300 },
+    { x: 210, y: 2420, ancho: 300 },
+    { x: 110, y: 2540, ancho: 300 },
+    { x: 110, y: 2990, ancho: 300 },
+    { x: 210, y: 3110, ancho: 300 },
   ],
+  encabezados: [{ x: 110, y: 1610, ancho: 400 }],
   titulo: [110, 64, 400, 120],
-  cartucho: [145, 3450, 330, 250],
-  rotulos: [{ derecha: 110, arriba: 200 }, { izquierda: 110, arriba: 3740 }],
+  cartucho: [145, 3250, 330, 250],
+  rotulos: [{ derecha: 110, arriba: 200 }, { izquierda: 110, arriba: 3540 }],
 };
+
 
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
 // sm, xs), pero los cortes son los de esta carta.
@@ -285,5 +290,6 @@ export function zonasDespejadas(composicion: Composicion): Rect[] {
     composicion.cartucho,
     ...composicion.toponimos.map(({ x, y, ancho }): Rect => [x - 8, y - 8, ancho + 16, 120]),
     ...composicion.notas.map(({ x, y, ancho }): Rect => [x - 8, y - 8, ancho + 16, 250]),
+    ...(composicion.encabezados ?? []).map(({ x, y, ancho }): Rect => [x - 8, y - 12, ancho + 16, 90]),
   ];
 }

@@ -202,6 +202,7 @@ genera una vez por composición. El contenido del Markdown se reparte así:
 - las imágenes, en los lugares de `imagenes` de cada composición, en orden (el texto en
   itálica que sigue a cada una es su pie);
 - los párrafos anteriores al primer `##`, como notas en los recuadros;
-- cada `##`, escrito en curva alrededor de una rosa;
+- cada `##`, escrito en curva alrededor de una rosa, o como título recto en
+  bermellón en las composiciones que le dan lugar (`encabezados`);
 - los ítems de las listas, como topónimos (la parte en negrita es el nombre);
 - los párrafos después de un `---`, en el cartucho.

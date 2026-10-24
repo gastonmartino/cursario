@@ -135,7 +135,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
               <path id={`curva-${nombre}-${i}`} d={`M${x - r - 30},${y} a${r + 30},${r + 30} 0 1,1 ${2 * (r + 30)},0 a${r + 30},${r + 30} 0 1,1 ${-2 * (r + 30)},0`} />
             ))}
           </defs>
-          {encabezados.map((texto, i) => (
+          {!composicion.encabezados && encabezados.map((texto, i) => (
             <text class="rotulo-curvo"><textPath href={`#curva-${nombre}-${(i + 1) % composicion.rosas.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
           ))}
           <text class="rotulo-curvo rotulo-curvo--fino"><textPath href={`#curva-${nombre}-0`} startOffset="54%">{pagina.etiqueta}</textPath></text>
@@ -158,6 +158,19 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     {/* Navegación */}
     <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
     <BotonMenu class="nav nav--menu" />
+
+    {/* Encabezados "##" como títulos rectos, en las composiciones que les dan lugar */}
+    {encabezados.map((texto, i) => (
+      <div {...ubicado((c) => c.encabezados?.[i], 'encabezado')}>
+        <div class="encabezado__filete" aria-hidden="true">
+          <span></span>
+          <svg width="18" height="18" viewBox="-9 -9 18 18"><path d="M0,-9L2,-2L9,0L2,2L0,9L-2,2L-9,0L-2,-2Z" /></svg>
+          <span></span>
+        </div>
+        <h2 set:html={enLinea(texto)} />
+        <div class="encabezado__escala" aria-hidden="true"></div>
+      </div>
+    ))}
 
     {/* Imágenes */}
     {imagenes.map((imagen, i) => (
@@ -531,6 +544,45 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     font-size: 11px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
+  }
+
+  /* Encabezados rectos: en bermellón, entre un filete con una estrella de rosa
+     y una escala graduada. */
+  .encabezado {
+    color: var(--bermellon);
+    text-align: center;
+  }
+
+  .encabezado__filete {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .encabezado__filete span {
+    flex: 1;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    height: 3px;
+  }
+
+  .encabezado__filete svg {
+    fill: currentColor;
+  }
+
+  .encabezado h2 {
+    margin: 8px 0 7px;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .encabezado__escala {
+    height: 6px;
+    border-top: 1px solid currentColor;
+    background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 10px);
   }
 
   /* Láminas */
