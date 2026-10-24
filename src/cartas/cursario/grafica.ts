@@ -2,7 +2,7 @@
 // Se genera en el servidor, al construir el sitio, a partir de una semilla al
 // azar, así que cambia en cada build (igual que los ríos del lienzo).
 import { createNoise2D } from 'simplex-noise';
-import { AGUAS, HOJA, ISLAS, RECUADROS, ROSAS, zonasDespejadas, type Rect } from './composicion';
+import { zonasDespejadas, type Composicion, type Rect } from './composicion';
 
 export const PALETA = {
   papel: '#efe9dc',
@@ -29,13 +29,15 @@ function crearAzar(semilla: number) {
 const n1 = (v: number) => v.toFixed(1);
 const dentro = (x: number, y: number, [rx, ry, ra, rh]: Rect) => x >= rx && x <= rx + ra && y >= ry && y <= ry + rh;
 
-export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): string {
+// `prefijo` distingue los id del SVG cuando hay más de una gráfica en la página.
+export function generarGrafica(composicion: Composicion, prefijo: string, semilla = Math.floor(Math.random() * 1e9)): string {
   const azar = crearAzar(semilla);
   const ruido = createNoise2D(azar);
-  const { ancho, alto, margen, banda } = HOJA;
-  const recuadros = RECUADROS.flat();
+  const { ancho, alto, margen, banda, marco: conMarco } = composicion.hoja;
+  const { aguas, islas, rosas } = composicion;
+  const recuadros = composicion.recuadros.flat();
   const enRecuadro = (x: number, y: number) => recuadros.some((r) => dentro(x, y, r));
-  const despejadas = zonasDespejadas();
+  const despejadas = zonasDespejadas(composicion);
   const capas: string[] = [];
 
   // Contorno irregular y suave alrededor de un centro (aguas, islas, curvas).
@@ -69,15 +71,15 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
 
   // --- aguas poco profundas, con curvas de profundidad punteadas ---
   capas.push(`<defs>
-    <pattern id="punteado" width="7" height="7" patternUnits="userSpaceOnUse">
+    <pattern id="${prefijo}-punteado" width="7" height="7" patternUnits="userSpaceOnUse">
       <circle cx="1.5" cy="1.5" r="0.7" fill="${PALETA.ultramar}" opacity="0.35"/>
     </pattern>
   </defs>`);
-  AGUAS.forEach(({ x, y, r }, i) => {
+  aguas.forEach(({ x, y, r }, i) => {
     const d = i * 3.7 + azar() * 10;
     capas.push(`<path d="${mancha(x, y, r * 1.35, d)}" fill="${PALETA.celeste}"/>`);
     capas.push(`<path d="${mancha(x, y, r * 0.9, d + 1.3)}" fill="${PALETA.celesteMedio}"/>`);
-    capas.push(`<path d="${mancha(x, y, r * 0.9, d + 1.3)}" fill="url(#punteado)"/>`);
+    capas.push(`<path d="${mancha(x, y, r * 0.9, d + 1.3)}" fill="url(#${prefijo}-punteado)"/>`);
     [1.6, 1.95, 2.4].forEach((escala, j) => {
       capas.push(`<path d="${mancha(x, y, r * escala, d + j * 0.4, 0.38)}" fill="none" stroke="${PALETA.tinta}" stroke-width="0.7" stroke-dasharray="${['1 3', '4 3', '1 2 6 2'][j]}" opacity="0.7"/>`);
     });
@@ -85,7 +87,7 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
 
   // --- recuadros negros e islas dentro de ellos ---
   capas.push(`<g fill="${PALETA.tinta}">${recuadros.map(([x, y, a, h]) => `<rect x="${x}" y="${y}" width="${a}" height="${h}"/>`).join('')}</g>`);
-  ISLAS.forEach(({ x, y, r }, i) => {
+  islas.forEach(({ x, y, r }, i) => {
     const d = 40 + i * 2.9;
     [2.3, 1.8].forEach((escala, j) => {
       capas.push(`<path d="${mancha(x, y, r * escala, d + j, 0.4)}" fill="none" stroke="${PALETA.papel}" stroke-width="0.7" stroke-dasharray="${j ? '4 3' : '1 3'}" opacity="0.8"/>`);
@@ -96,7 +98,7 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
 
   // --- sondeos: profundidades en itálica, como en las cartas náuticas ---
   let sondeos = '';
-  for (let i = 0; i < 1500; i++) {
+  for (let i = 0; i < composicion.sondeos; i++) {
     const x = margen + banda + 6 + azar() * (ancho - 2 * (margen + banda) - 20);
     const y = margen + banda + 12 + azar() * (alto - 2 * (margen + banda) - 20);
     if (despejadas.some((zona) => dentro(x, y, zona))) continue;
@@ -109,8 +111,8 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
 
   // --- rumbos entre las rosas y hacia los bordes ---
   let rumbos = '';
-  ROSAS.forEach((a, i) => {
-    ROSAS.slice(i + 1).forEach((b) => {
+  rosas.forEach((a, i) => {
+    rosas.slice(i + 1).forEach((b) => {
       rumbos += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke-width="0.9"/>`;
     });
     for (let k = 0; k < 3; k++) {
@@ -122,13 +124,13 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
   capas.push(`<g stroke="${PALETA.bermellon}" opacity="0.75">${rumbos}</g>`);
 
   // --- rosas de los vientos ---
-  for (const { x, y, r } of ROSAS) capas.push(rosa(x, y, r));
+  for (const { x, y, r } of rosas) capas.push(rosa(x, y, r));
 
   // --- símbolos: cruces, triángulos, rocas, oleaje ---
   let simbolos = '';
   for (let i = 0; i < 7; i++) {
-    const x = 120 + azar() * 1160;
-    const y = 300 + azar() * 1900;
+    const x = 120 + azar() * (ancho - 240);
+    const y = 300 + azar() * (alto - 500);
     if (despejadas.some((zona) => dentro(x, y, zona))) continue;
     const tipo = i % 4;
     if (tipo === 0) {
@@ -152,7 +154,7 @@ export function generarGrafica(semilla = Math.floor(Math.random() * 1e9)): strin
   capas.push(`<g>${simbolos}</g>`);
 
   // --- marco graduado ---
-  capas.push(marco(ancho, alto, margen, banda));
+  if (conMarco) capas.push(marco(ancho, alto, margen, banda));
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${ancho} ${alto}" width="${ancho}" height="${alto}" aria-hidden="true">${capas.join('')}</svg>`;
 }

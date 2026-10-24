@@ -173,14 +173,24 @@ del Markdown están en `cartulario/clases.ts`.
 
 ## Cursario
 
-Una carta experimental con forma de carta náutica, para pantallas de
-escritorio. La gráfica vectorial (marco graduado, sondeos, curvas de
-profundidad, rosas de los vientos, recuadros negros) se genera en cada build
-(`cursario/grafica.ts`), y la composición de la hoja está en
-`cursario/composicion.ts`. El contenido del Markdown se reparte así:
+Una carta experimental con forma de carta náutica. La gráfica vectorial
+(marco graduado, sondeos, curvas de profundidad, rosas de los vientos,
+recuadros negros) se genera en cada build (`cursario/grafica.ts`).
+
+Tiene una composición por rango de ancho de ventana, en
+`cursario/composicion.ts`:
+
+- **amplia** (desde 1280 px): la hoja con marco sobre un fondo más oscuro;
+- **media** (hasta 1279 px): el papel como fondo, sin marco, con textos,
+  láminas y controles en una columna central de 920 px que entra completa
+  desde los 960 px. Muestra solo algunas láminas (las que tienen lugar).
+
+El contenido se escribe una sola vez en el HTML, con su lugar en cada
+composición, y el CSS de `Carta.astro` elige cuál usar; la gráfica sí se
+genera una vez por composición. El contenido del Markdown se reparte así:
 
 - el título `#`, en la cabecera;
-- las imágenes, en los lugares de `LUGARES_IMAGEN`, en orden (el texto en
+- las imágenes, en los lugares de `imagenes` de cada composición, en orden (el texto en
   itálica que sigue a cada una es su pie);
 - los párrafos anteriores al primer `##`, como notas en los recuadros;
 - cada `##`, escrito en curva alrededor de una rosa;

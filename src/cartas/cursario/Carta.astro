@@ -2,17 +2,16 @@
 // CURSARIO
 // Carta experimental con forma de carta náutica: marco graduado, sondeos,
 // curvas de profundidad, rosas de los vientos y recuadros negros escalonados,
-// con el contenido del Markdown repartido sobre la hoja. Pensada para pantallas
-// de escritorio.
+// con el contenido del Markdown repartido sobre la hoja. Tiene una composición
+// por rango de ancho de ventana (ver composicion.ts); el contenido se escribe una
+// sola vez, con su lugar en cada una, y el CSS elige cuál usar.
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
 import BotonMenu from '../../components/navegacion/BotonMenu.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
-import {
-  HOJA, LUGAR_CARTUCHO, LUGAR_TITULO, LUGARES_IMAGEN, LUGARES_NOTA, LUGARES_TOPONIMO, RECUADROS, ROSAS,
-} from './composicion';
+import { COMPOSICIONES, type Composicion, type NombreComposicion } from './composicion';
 import { generarGrafica, PALETA } from './grafica';
 
 type Props = PropsCarta;
@@ -50,23 +49,64 @@ for (const bloque of documento.bloques) {
   }
 }
 
+const VARIANTES = Object.entries(COMPOSICIONES) as Array<[NombreComposicion, Composicion]>;
+
 // Un lugar reservado para cada elemento; los que sobran, más abajo.
 const lugar = <T extends { y: number }>(lugares: T[], i: number, salto: number): T => {
   const base = lugares[i % lugares.length];
   return { ...base, y: base.y + Math.floor(i / lugares.length) * salto };
 };
 
+// Clases para mostrar un elemento solo en algunas composiciones.
+const ocultoFuera = (nombres: NombreComposicion[]) =>
+  VARIANTES.filter(([nombre]) => !nombres.includes(nombre)).map(([nombre]) => `oculto-${nombre}`);
+
+// Clase y estilo de un elemento con un lugar en cada composición: su posición va
+// en variables (--x-amplia, --y-amplia, --a-amplia, --h-amplia…) que el CSS usa
+// según el ancho de la ventana. Donde no tiene lugar, no se muestra.
+type Posicion = { x: number; y: number; ancho: number; alto?: number } | null | undefined;
+const ubicado = (posicion: (composicion: Composicion, nombre: NombreComposicion) => Posicion, ...clases: string[]) => {
+  const estilo: string[] = [];
+  const con: NombreComposicion[] = [];
+  for (const [nombre, composicion] of VARIANTES) {
+    const p = posicion(composicion, nombre);
+    if (!p) continue;
+    con.push(nombre);
+    estilo.push(`--x-${nombre}: ${p.x}px`, `--y-${nombre}: ${p.y}px`, `--a-${nombre}: ${p.ancho}px`);
+    if (p.alto !== undefined) estilo.push(`--h-${nombre}: ${p.alto}px`);
+  }
+  return { class: ['ubicado', ...clases, ...ocultoFuera(con)].filter(Boolean).join(' '), style: estilo.join('; ') };
+};
+
+// El modo de una lámina (recuadro, papel, transparencia) es el mismo en todas
+// las composiciones donde aparece.
+const modoImagen = (i: number) => {
+  const modos = new Set(VARIANTES.map(([, c]) => c.imagenes[i]?.modo).filter(Boolean));
+  if (modos.size > 1) throw new Error(`La imagen ${i + 1} de la carta "cursario" tiene distintos modos según la composición.`);
+  return [...modos][0] ?? 'recuadro';
+};
+
+// Medidas de la hoja y de la navegación en cada composición.
+const estiloHoja = VARIANTES.flatMap(([nombre, { hoja, navegacion }]) => [
+  `--ancho-${nombre}: ${hoja.ancho}px`, `--alto-${nombre}: ${hoja.alto}px`,
+  `--nav-arriba-${nombre}: ${navegacion.arriba}px`, `--nav-izquierda-${nombre}: ${navegacion.izquierda}px`,
+  `--nav-derecha-${nombre}: ${navegacion.derecha}px`,
+]).join('; ');
+
 const enLinea = (texto: string) => renderizarEnLinea(texto);
 // Texto sin marcas de Markdown, para los rótulos curvos del SVG.
 const textoPlano = (texto: string) => texto.replace(/[*_`]/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
-const grafica = generarGrafica();
 const px = (valor: number) => `${valor}px`;
-const [tx, ty, ta] = LUGAR_TITULO;
-const [cx, cy, ca, ch] = LUGAR_CARTUCHO;
+const rect = ([x, y, ancho, alto]: number[]) => ({ x, y, ancho, alto });
 
 // Miniatura de los recuadros para el índice del cartucho.
-const escalaIndice = 70 / HOJA.alto;
-const indice = RECUADROS.flat().map(([x, y, a, h]) => ({ x: x * escalaIndice, y: y * escalaIndice, a: a * escalaIndice, h: h * escalaIndice }));
+const indice = ({ hoja, recuadros }: Composicion) => {
+  const escala = 70 / hoja.alto;
+  return {
+    ancho: hoja.ancho * escala,
+    rectangulos: recuadros.flat().map(([x, y, a, h]) => ({ x: x * escala, y: y * escala, a: a * escala, h: h * escala })),
+  };
+};
 
 const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 ---
@@ -84,24 +124,31 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </Fragment>
 
-  <div class="hoja" style={`width: ${px(HOJA.ancho)}; height: ${px(HOJA.alto)}; --medio-ancho: ${px(HOJA.ancho / 2)};`}>
-    <div class="grafica"><Fragment set:html={grafica} /></div>
-
-    {/* Encabezados "##" escritos alrededor de las rosas */}
-    <svg class="rotulos-curvos" viewBox={`0 0 ${HOJA.ancho} ${HOJA.alto}`} width={HOJA.ancho} height={HOJA.alto} aria-hidden="true">
-      <defs>
-        {ROSAS.map(({ x, y, r }, i) => (
-          <path id={`curva-rosa-${i}`} d={`M${x - r - 30},${y} a${r + 30},${r + 30} 0 1,1 ${2 * (r + 30)},0 a${r + 30},${r + 30} 0 1,1 ${-2 * (r + 30)},0`} />
+  <div class="hoja" style={estiloHoja}>
+    {/* Gráfica de cada composición, con los encabezados "##" escritos alrededor de las rosas */}
+    {VARIANTES.map(([nombre, composicion]) => (
+      <div class:list={['grafica', ...ocultoFuera([nombre])]}>
+        <Fragment set:html={generarGrafica(composicion, nombre)} />
+        <svg class="rotulos-curvos" viewBox={`0 0 ${composicion.hoja.ancho} ${composicion.hoja.alto}`} width={composicion.hoja.ancho} height={composicion.hoja.alto} aria-hidden="true">
+          <defs>
+            {composicion.rosas.map(({ x, y, r }, i) => (
+              <path id={`curva-${nombre}-${i}`} d={`M${x - r - 30},${y} a${r + 30},${r + 30} 0 1,1 ${2 * (r + 30)},0 a${r + 30},${r + 30} 0 1,1 ${-2 * (r + 30)},0`} />
+            ))}
+          </defs>
+          {encabezados.map((texto, i) => (
+            <text class="rotulo-curvo"><textPath href={`#curva-${nombre}-${(i + 1) % composicion.rosas.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
+          ))}
+          <text class="rotulo-curvo rotulo-curvo--fino"><textPath href={`#curva-${nombre}-0`} startOffset="54%">{pagina.etiqueta}</textPath></text>
+        </svg>
+        {/* Rótulos sueltos, como "PROFUNDIDADES EN METROS" */}
+        {composicion.rotulos.map(({ arriba, izquierda, derecha }) => (
+          <p class="rotulo-borde" style={[`top: ${px(arriba)}`, izquierda !== undefined && `left: ${px(izquierda)}`, derecha !== undefined && `right: ${px(derecha)}`].filter(Boolean).join('; ')}>Profundidades en derivas</p>
         ))}
-      </defs>
-      {encabezados.map((texto, i) => (
-        <text class="rotulo-curvo"><textPath href={`#curva-rosa-${(i + 1) % ROSAS.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
-      ))}
-      <text class="rotulo-curvo rotulo-curvo--fino"><textPath href="#curva-rosa-0" startOffset="54%">{pagina.etiqueta}</textPath></text>
-    </svg>
+      </div>
+    ))}
 
     {/* Título */}
-    <header class="titulo" style={`left: ${px(tx)}; top: ${px(ty)}; width: ${px(ta)};`}>
+    <header {...ubicado((c) => rect(c.titulo), 'titulo')}>
       <p class="titulo__antetitulo">{pagina.codigo}</p>
       <p class="titulo__antetitulo titulo__antetitulo--chico">Carta de derivas · CUR&nbsp;001</p>
       {titulo && <h1 set:html={enLinea(titulo.texto)} />}
@@ -112,26 +159,19 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
     <BotonMenu class="nav nav--menu" />
 
-    {/* Rótulos al borde, como "PROFUNDIDADES EN METROS" */}
-    <p class="rotulo-borde" style="right: 70px; top: 230px;">Profundidades en derivas</p>
-    <p class="rotulo-borde" style="left: 70px; bottom: 76px;">Profundidades en derivas</p>
-
     {/* Imágenes */}
-    {imagenes.map((imagen, i) => {
-      const { x, y, ancho, alto, modo } = lugar(LUGARES_IMAGEN, i, 700);
-      return (
-        <figure class={`lamina lamina--${modo}`} style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
-          <img src={withBase(imagen.src)} alt={imagen.alt} style={`height: ${px(alto)};`} loading="lazy" decoding="async" />
-          <figcaption>{imagen.pie ?? `Lámina ${romanos[i] ?? i + 1}`}</figcaption>
-        </figure>
-      );
-    })}
+    {imagenes.map((imagen, i) => (
+      <figure {...ubicado((c) => c.imagenes[i], 'lamina', `lamina--${modoImagen(i)}`)}>
+        <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
+        <figcaption>{imagen.pie ?? `Lámina ${romanos[i] ?? i + 1}`}</figcaption>
+      </figure>
+    ))}
 
     {/* Notas */}
     {notas.map((texto, i) => {
-      const { x, y, ancho, enRecuadro } = lugar(LUGARES_NOTA, i, 700);
+      const enRecuadro = VARIANTES.some(([, c]) => lugar(c.notas, i, 700).enRecuadro);
       return (
-        <div class:list={['nota', { 'nota--recuadro': enRecuadro }]} style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
+        <div {...ubicado((c) => lugar(c.notas, i, 700), 'nota', enRecuadro ? 'nota--recuadro' : '')}>
           <p class="nota__numero">Nota {romanos[i] ?? i + 1}</p>
           <p set:html={enLinea(texto)} />
         </div>
@@ -139,26 +179,28 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     })}
 
     {/* Topónimos */}
-    {toponimos.map(({ termino, texto }, i) => {
-      const { x, y, ancho } = lugar(LUGARES_TOPONIMO, i, 700);
-      return (
-        <div class="toponimo" style={`left: ${px(x)}; top: ${px(y)}; width: ${px(ancho)};`}>
-          {termino && <p class="toponimo__nombre" set:html={enLinea(termino)} />}
-          <p class="toponimo__texto" set:html={enLinea(texto)} />
-        </div>
-      );
-    })}
+    {toponimos.map(({ termino, texto }, i) => (
+      <div {...ubicado((c) => lugar(c.toponimos, i, 700), 'toponimo')}>
+        {termino && <p class="toponimo__nombre" set:html={enLinea(termino)} />}
+        <p class="toponimo__texto" set:html={enLinea(texto)} />
+      </div>
+    ))}
 
     {/* Cartucho de la leyenda */}
-    <aside class="cartucho" style={`left: ${px(cx)}; top: ${px(cy)}; width: ${px(ca)}; height: ${px(ch)};`}>
+    <aside {...ubicado((c) => rect(c.cartucho), 'cartucho')}>
       <div class="cartucho__fila cartucho__fila--doble">
         <span>{pagina.codigo}</span><span>{pagina.etiqueta}</span>
       </div>
       <div class="cartucho__cuerpo">
-        <svg class="cartucho__indice" viewBox={`0 0 ${HOJA.ancho * escalaIndice} ${70}`} width={HOJA.ancho * escalaIndice} height="70" aria-hidden="true">
-          <rect x="0.5" y="0.5" width={HOJA.ancho * escalaIndice - 1} height="69" fill="none" stroke={PALETA.tinta} stroke-width="0.6" />
-          {indice.map(({ x, y, a, h }) => <rect x={x} y={y} width={a} height={h} fill="none" stroke={PALETA.bermellon} stroke-width="0.6" />)}
-        </svg>
+        {VARIANTES.map(([nombre, composicion]) => {
+          const { ancho, rectangulos } = indice(composicion);
+          return (
+            <svg class:list={['cartucho__indice', ...ocultoFuera([nombre])]} viewBox={`0 0 ${ancho} 70`} width={ancho} height="70" aria-hidden="true">
+              <rect x="0.5" y="0.5" width={ancho - 1} height="69" fill="none" stroke={PALETA.tinta} stroke-width="0.6" />
+              {rectangulos.map(({ x, y, a, h }) => <rect x={x} y={y} width={a} height={h} fill="none" stroke={PALETA.bermellon} stroke-width="0.6" />)}
+            </svg>
+          );
+        })}
         <div class="cartucho__texto">
           {colofon.map((texto) => <p set:html={enLinea(texto)} />)}
         </div>
@@ -200,19 +242,106 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     background: var(--bermellon);
     color: var(--papel);
   }
+
+  /* Composición media: el papel es el fondo de la página. */
+  @media (max-width: 1279.98px) {
+    body.cuerpo-cursario,
+    html.html-cursario #page-transition {
+      background: var(--papel);
+    }
+  }
 </style>
 
 <style>
-  /* Siempre centrada respecto del ancho total de la ventana (100vw incluye la
-     barra de desplazamiento). En ventanas más angostas que la hoja, el margen
-     izquierdo se vuelve negativo y la hoja se recorta igual de los dos lados:
-     a la izquierda en el borde de la ventana, a la derecha bajo la barra. */
+  /* Composiciones. Cada una se usa en un rango de ancho de ventana:
+       amplia: desde 1280 px
+       media:  hasta 1279 px
+     Los elementos con lugar en la hoja (.ubicado) toman su posición de las
+     variables de la composición que corresponde; los que no tienen lugar en
+     ella llevan la clase oculto-{composición}. */
+
+  /* La hoja, siempre centrada respecto del ancho total de la ventana (100vw
+     incluye la barra de desplazamiento). En ventanas más angostas que la hoja,
+     el margen izquierdo se vuelve negativo y la hoja se recorta igual de los dos
+     lados: a la izquierda en el borde de la ventana, a la derecha bajo la barra. */
   .hoja {
     position: relative;
-    margin: 32px 0 64px calc(50vw - var(--medio-ancho));
+    width: var(--ancho-amplia);
+    height: var(--alto-amplia);
+    margin: 32px 0 64px calc(50vw - var(--ancho-amplia) / 2);
     background: var(--papel);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
     overflow: hidden;
+  }
+
+  .ubicado {
+    position: absolute;
+    left: var(--x-amplia);
+    top: var(--y-amplia);
+    width: var(--a-amplia);
+  }
+
+  .lamina img,
+  .cartucho {
+    height: var(--h-amplia);
+  }
+
+  :global(.nav) {
+    top: var(--nav-arriba-amplia);
+  }
+
+  :global(.nav--volver) {
+    left: var(--nav-izquierda-amplia);
+  }
+
+  :global(.nav--menu) {
+    right: var(--nav-derecha-amplia);
+  }
+
+  @media (min-width: 1280px) {
+    .oculto-amplia {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 1279.98px) {
+    .hoja {
+      width: var(--ancho-media);
+      height: var(--alto-media);
+      margin: 0 0 0 calc(50vw - var(--ancho-media) / 2);
+      box-shadow: none;
+    }
+
+    .ubicado {
+      left: var(--x-media);
+      top: var(--y-media);
+      width: var(--a-media);
+    }
+
+    .lamina img,
+    .cartucho {
+      height: var(--h-media);
+    }
+
+    :global(.nav) {
+      top: var(--nav-arriba-media);
+    }
+
+    :global(.nav--volver) {
+      left: var(--nav-izquierda-media);
+    }
+
+    :global(.nav--menu) {
+      right: var(--nav-derecha-media);
+    }
+
+    .titulo h1 {
+      font-size: 34px;
+    }
+
+    .oculto-media {
+      display: none !important;
+    }
   }
 
   .grafica,
@@ -239,7 +368,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   /* Título */
   .titulo {
-    position: absolute;
     text-align: center;
   }
 
@@ -280,7 +408,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   :global(.nav) {
     position: absolute;
     z-index: 2;
-    top: 66px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -301,12 +428,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   }
 
   :global(.nav--volver) {
-    left: 74px;
     padding: 6px 10px;
   }
 
   :global(.nav--menu) {
-    right: 76px;
     width: 32px;
     height: 32px;
     padding: 0;
@@ -327,7 +452,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   /* Láminas */
   .lamina {
-    position: absolute;
     margin: 0;
   }
 
@@ -372,7 +496,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   /* Notas */
   .nota {
-    position: absolute;
     font-family: var(--serif);
     font-size: 12.5px;
     line-height: 1.5;
@@ -399,10 +522,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   }
 
   /* Topónimos */
-  .toponimo {
-    position: absolute;
-  }
-
   .toponimo p {
     margin: 0;
   }
@@ -429,7 +548,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   /* Cartucho */
   .cartucho {
-    position: absolute;
     display: flex;
     flex-direction: column;
     border: 1.5px solid var(--tinta);
