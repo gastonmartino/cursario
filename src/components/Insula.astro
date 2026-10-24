@@ -90,6 +90,9 @@ if (markdownFile) {
 const hasMarkdown = Boolean(resolvedMarkdownHtml);
 ---
 
+{/* La tarjeta empieza oculta (display: none) hasta que el motor la ubique:
+    así sus imágenes, que son lazy, no se descargan si no pertenece al lienzo
+    que se está viendo. */}
 <article 
   id={id}
   data-id-tarjeta={derivaId}
@@ -107,6 +110,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
     padding-right: ${paddingXCss}; 
     transform-origin: center center; 
     opacity: 1; 
+    display: none;
     z-index: ${zIndex};
   `}
 >
@@ -198,7 +202,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
               hasMarkdown ? 'w-auto max-w-full' : 'w-full max-w-full',
             ]}
             style={`max-height: ${hasMarkdown ? imageMaxHeightCss : 'none'}; -webkit-user-drag: none;`}
-            loading="eager"
+            loading="lazy"
             decoding="async"
             draggable="false"
           />

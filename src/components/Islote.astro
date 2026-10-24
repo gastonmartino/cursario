@@ -78,10 +78,13 @@ const hasMarkdown = Boolean(markdownHtml);
 const hasMetadata = Boolean(categoryLabel || timeReference);
 ---
 
+{/* El islote empieza oculto (display: none) hasta que el motor lo ubique:
+    así sus imágenes, que son lazy, no se descargan si no pertenece al lienzo
+    que se está viendo. */}
 <article
   id={id}
   class="absolute left-0 top-0 flex select-none flex-col justify-between overflow-hidden rounded-lg border border-dotted border-ink-border/70 bg-transparent p-3 shadow-md pointer-events-auto"
-  style={`width: ${widthCss}; min-height: ${heightCss}; border-color: ${accentColor}99;${backgroundColor ? ` background-color: ${backgroundColor};` : ''}`}
+  style={`display: none; width: ${widthCss}; min-height: ${heightCss}; border-color: ${accentColor}99;${backgroundColor ? ` background-color: ${backgroundColor};` : ''}`}
 >
   <div>
     {showHeader && (

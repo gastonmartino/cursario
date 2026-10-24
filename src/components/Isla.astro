@@ -123,6 +123,9 @@ const navigableHref = detailHref || (pageMarkdownFile ? actionHref : undefined);
 const canShowAction = showAction && Boolean(pageMarkdownFile);
 ---
 
+{/* La tarjeta empieza oculta (display: none) hasta que el motor la ubique:
+    así sus imágenes, que son lazy, no se descargan si no pertenece al lienzo
+    que se está viendo. */}
 <article 
   id={id}
   data-id-tarjeta={idTarjeta}
@@ -141,6 +144,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
     padding-right: ${paddingXCss}; 
     transform-origin: center center; 
     opacity: 1; 
+    display: none;
     z-index: ${zIndex};
   `}
 >
