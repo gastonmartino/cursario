@@ -4,14 +4,11 @@ export interface DerivaItem {
   id: string;
   code: string;
   title: string;
-  subtitle: string;
-  summary: string;
   x: number;
   y: number;
   width: number;
   height: number;
   accentColor: string;
-  tag: string;
 }
 
 export interface SpatialDeriva {
@@ -49,9 +46,6 @@ const withSubcursoContent = (item: DerivaItemPosition): DerivaItem => {
     ...item,
     code: subcurso?.code ?? item.id,
     title: subcurso?.title || subcurso?.captionLabel || '',
-    subtitle: subcurso?.subtitle ?? '',
-    summary: subcurso?.description ?? '',
-    tag: subcurso?.tag ?? '',
     accentColor: subcurso?.accentColor ?? '#0038A8',
   };
 };

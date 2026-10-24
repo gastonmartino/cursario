@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva, type DerivaItem } from './Derivas';
+import { ISLOTES_SPATIAL, SPATIAL_DERIVAS, type SpatialDeriva } from './Derivas';
 
 export class GenerativeSurface {
   private noise2D = createNoise2D();
@@ -38,12 +38,11 @@ export class GenerativeSurface {
     camY: number,
     zoom: number,
     activeDeriva: SpatialDeriva | null = null,
-    hoveredDeriva: SpatialDeriva | null = null,
-    hoveredItem: DerivaItem | null = null
+    hoveredDeriva: SpatialDeriva | null = null
   ) {
     if (activeDeriva) {
       // LEVEL 2: DERIVA INTERIOR INFINITE CANVAS
-      this.drawDerivaLevel(ctx, width, height, camX, camY, zoom, activeDeriva, hoveredItem);
+      this.drawDerivaLevel(ctx, width, height, camX, camY, zoom, activeDeriva);
     } else {
       // LEVEL 1: MACRO CARTOGRAPHY
       this.drawMacroLevel(ctx, width, height, camX, camY, zoom, hoveredDeriva);
@@ -497,8 +496,7 @@ export class GenerativeSurface {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: SpatialDeriva,
-    hoveredItem: DerivaItem | null
+    deriva: SpatialDeriva
   ) {
     // 1. Dedicated Paper Base
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -515,8 +513,6 @@ export class GenerativeSurface {
     // 5. Background Watermark Banner
     this.drawDerivaHeaderWatermark(ctx, height, deriva);
 
-    // 6. Render Placeholder Cards along the Course
-    this.drawDerivaItems(ctx, width, height, camX, camY, zoom, deriva, hoveredItem);
   }
 
   private drawLocalGrid(
@@ -717,148 +713,5 @@ export class GenerativeSurface {
     ctx.textAlign = 'left';
     ctx.fillText(`DERIVA ACTIVA // [${deriva.code}] ${deriva.name.toUpperCase()} • RECORRIDO EN CURSO`, 24, height - 24);
     ctx.restore();
-  }
-
-  private drawDerivaItems(
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-    camX: number,
-    camY: number,
-    zoom: number,
-    deriva: SpatialDeriva,
-    hoveredItem: DerivaItem | null
-  ) {
-    // Rich HTML islands above the canvas keep all subderiva media and
-    // Markdown readable at every zoom level.
-    if (deriva.items.length > 0) return;
-
-    const cx = width / 2;
-    const cy = height / 2;
-
-    for (const item of deriva.items) {
-      const sx = (item.x - camX) * zoom + cx;
-      const sy = (item.y - camY) * zoom + cy;
-      const iw = item.width * zoom;
-      const ih = item.height * zoom;
-
-      const left = sx - iw / 2;
-      const top = sy - ih / 2;
-
-      const isHovered = hoveredItem?.id === item.id;
-
-      ctx.save();
-
-      // Drop shadow
-      ctx.fillStyle = isHovered ? 'rgba(0, 56, 168, 0.12)' : 'rgba(22, 37, 61, 0.05)';
-      ctx.fillRect(left + 6 * zoom, top + 6 * zoom, iw, ih);
-
-      // Card Body
-      ctx.fillStyle = isHovered ? 'rgba(255, 255, 255, 0.99)' : 'rgba(255, 255, 255, 0.95)';
-      ctx.strokeStyle = isHovered ? item.accentColor : '#D0D6E2';
-      ctx.lineWidth = Math.max(1, (isHovered ? 2 : 1.2) * zoom);
-
-      ctx.fillRect(left, top, iw, ih);
-      ctx.strokeRect(left, top, iw, ih);
-
-      // Corner drafting brackets
-      const bLen = 14 * zoom;
-      ctx.strokeStyle = item.accentColor;
-      ctx.lineWidth = 1.8 * zoom;
-
-      ctx.beginPath();
-      ctx.moveTo(left - 3 * zoom, top + bLen); ctx.lineTo(left - 3 * zoom, top - 3 * zoom); ctx.lineTo(left + bLen, top - 3 * zoom);
-      ctx.moveTo(left + iw + 3 * zoom, top + bLen); ctx.lineTo(left + iw + 3 * zoom, top - 3 * zoom); ctx.lineTo(left + iw - bLen, top - 3 * zoom);
-      ctx.moveTo(left - 3 * zoom, top + ih - bLen); ctx.lineTo(left - 3 * zoom, top + ih + 3 * zoom); ctx.lineTo(left + bLen, top + ih + 3 * zoom);
-      ctx.moveTo(left + iw + 3 * zoom, top + ih - bLen); ctx.lineTo(left + iw + 3 * zoom, top + ih + 3 * zoom); ctx.lineTo(left + iw - bLen, top + ih + 3 * zoom);
-      ctx.stroke();
-
-      // Top Bar
-      ctx.fillStyle = 'rgba(240, 244, 249, 0.95)';
-      ctx.fillRect(left, top, iw, 30 * zoom);
-      ctx.strokeStyle = 'rgba(22, 37, 61, 0.1)';
-      ctx.lineWidth = 1 * zoom;
-      ctx.beginPath();
-      ctx.moveTo(left, top + 30 * zoom);
-      ctx.lineTo(left + iw, top + 30 * zoom);
-      ctx.stroke();
-
-      // Code & Tag
-      ctx.font = `bold ${Math.max(8, 10 * zoom)}px "Geist Mono", monospace`;
-      ctx.fillStyle = item.accentColor;
-      ctx.textAlign = 'left';
-      ctx.fillText(item.code, left + 14 * zoom, top + 19 * zoom);
-
-      ctx.font = `${Math.max(7, 9 * zoom)}px "Geist Mono", monospace`;
-      ctx.fillStyle = '#16253D';
-      ctx.textAlign = 'right';
-      ctx.fillText(item.tag, left + iw - 14 * zoom, top + 19 * zoom);
-
-      // Title
-      ctx.font = `bold ${Math.max(11, 16 * zoom)}px "Geist Sans", sans-serif`;
-      ctx.fillStyle = '#1A1C20';
-      ctx.textAlign = 'left';
-      ctx.fillText(item.title, left + 18 * zoom, top + 58 * zoom);
-
-      // Subtitle
-      ctx.font = `${Math.max(9, 12 * zoom)}px "Geist Sans", sans-serif`;
-      ctx.fillStyle = '#0038A8';
-      ctx.fillText(item.subtitle, left + 18 * zoom, top + 78 * zoom);
-
-      // Summary
-      if (zoom > 0.5) {
-        ctx.font = `${Math.max(8, 11 * zoom)}px "Geist Sans", sans-serif`;
-        ctx.fillStyle = '#4A505C';
-        this.wrapText(ctx, item.summary, left + 18 * zoom, top + 104 * zoom, iw - 36 * zoom, 16 * zoom);
-      }
-
-      // Bottom Trigger
-      if (zoom > 0.5) {
-        const bH = 28 * zoom;
-        const bY = top + ih - bH - 12 * zoom;
-        const bX = left + 18 * zoom;
-        const bW = iw - 36 * zoom;
-
-        ctx.fillStyle = isHovered ? '#0038A8' : 'rgba(0, 56, 168, 0.06)';
-        ctx.fillRect(bX, bY, bW, bH);
-        ctx.strokeStyle = isHovered ? '#002270' : 'rgba(0, 56, 168, 0.3)';
-        ctx.lineWidth = 1 * zoom;
-        ctx.strokeRect(bX, bY, bW, bH);
-
-        ctx.font = `bold ${Math.max(7, 9 * zoom)}px "Geist Mono", monospace`;
-        ctx.fillStyle = isHovered ? '#FFFFFF' : '#0038A8';
-        ctx.textAlign = 'center';
-        ctx.fillText('VER REGISTRO / DETALLE [PRÓXIMAMENTE]', bX + bW / 2, bY + bH / 2 + 3 * zoom);
-      }
-
-      ctx.restore();
-    }
-  }
-
-  private wrapText(
-    ctx: CanvasRenderingContext2D,
-    text: string,
-    x: number,
-    y: number,
-    maxWidth: number,
-    lineHeight: number
-  ) {
-    const words = text.split(' ');
-    let line = '';
-    let curY = y;
-
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = ctx.measureText(testLine);
-      const testWidth = metrics.width;
-      if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, curY);
-        line = words[n] + ' ';
-        curY += lineHeight;
-      } else {
-        line = testLine;
-      }
-    }
-    ctx.fillText(line, x, curY);
   }
 }

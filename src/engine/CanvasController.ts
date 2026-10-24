@@ -628,8 +628,7 @@ export class CanvasController {
       this.camera.y,
       this.camera.zoom,
       this.activeDeriva,
-      this.hoveredDeriva,
-      this.hoveredItem
+      this.hoveredDeriva
     );
 
     this.ctx.restore();
