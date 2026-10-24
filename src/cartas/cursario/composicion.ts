@@ -93,7 +93,7 @@ const XL: Composicion = {
     { x: 800, y: 1420, ancho: 220 },
     { x: 560, y: 1460, ancho: 220 },
     { x: 600, y: 1790, ancho: 230 },
-    { x: 880, y: 1980, ancho: 220 },
+    { x: 880, y: 1960, ancho: 220 },
   ],
   titulo: [300, 78, 800, 150],
   cartucho: [990, 2060, 330, 250],
