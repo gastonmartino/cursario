@@ -136,5 +136,18 @@ export class Camara {
     this.x += (this.targetX - this.x) * lerpFactor;
     this.y += (this.targetY - this.y) * lerpFactor;
     this.zoom += (this.targetZoom - this.zoom) * lerpFactor;
+
+    // Al llegar (a menos de una fracción de píxel) se fija el valor final,
+    // para que la cámara quede quieta en lugar de acercarse para siempre.
+    if (Math.abs(this.targetX - this.x) < 0.01) this.x = this.targetX;
+    if (Math.abs(this.targetY - this.y) < 0.01) this.y = this.targetY;
+    if (Math.abs(this.targetZoom - this.zoom) < 0.0001) this.zoom = this.targetZoom;
+  }
+
+  // Si la cámara todavía se está desplazando sola (inercia o vuelo hacia un
+  // destino). Mientras se arrastra, solo se mueve con los eventos del puntero.
+  public estaEnMovimiento(): boolean {
+    const conInercia = !this.isDragging && (this.vx !== 0 || this.vy !== 0);
+    return conInercia || this.x !== this.targetX || this.y !== this.targetY || this.zoom !== this.targetZoom;
   }
 }

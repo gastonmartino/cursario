@@ -46,8 +46,18 @@ export class ControladorLienzo {
   public hoveredDeriva: DerivaInsula | null = null;
   public hoveredItem: DerivaIsla | null = null;
 
-  private isRunning: boolean = false;
+  // Bucle de dibujo bajo demanda: solo se pide un cuadro al navegador cuando
+  // algo cambió o hay una animación en curso (cámara en movimiento, estela
+  // del cursor). Con todo quieto, el motor no hace nada.
+  private cuadroPendiente: number = 0;
   private lastTime: number = 0;
+  // La escena (lienzo principal, tarjetas HTML y HUD) cambió por algo que no
+  // es la cámara: nivel, sobrevuelo, tamaño de la ventana, fuentes o islotes.
+  private escenaPendiente: boolean = true;
+  // El lienzo del cursor necesita redibujarse aunque no esté animando.
+  private cursorPendiente: boolean = true;
+  // Cámara con la que se dibujó la escena por última vez.
+  private ultimaCamara = { x: NaN, y: NaN, zoom: NaN };
   private dpr: number = 1;
 
   private telemetryCallback: AlActualizarTelemetria | null = null;
@@ -105,7 +115,40 @@ export class ControladorLienzo {
   private init() {
     this.handleResize();
     this.bindEvents();
-    this.start();
+    this.observarCambiosExternos();
+    this.despertar(true, true);
+  }
+
+  /**
+   * Cambios que afectan el dibujo sin pasar por el motor: las fuentes
+   * terminan de cargarse (textos del lienzo) y los islotes cambian de tamaño
+   * al cargar sus imágenes (las líneas de conexión usan su tamaño real).
+   */
+  private observarCambiosExternos() {
+    document.fonts?.ready.then(() => this.despertar(true, true));
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observador = new ResizeObserver(() => this.despertar(true));
+      for (const islote of DERIVAS_ISLOTES) {
+        const nodo = document.getElementById(`spatial-islote-${islote.id}`);
+        if (nodo) observador.observe(nodo);
+      }
+    }
+  }
+
+  /**
+   * Pide un cuadro al navegador, si no hay uno pendiente. `escena` y `cursor`
+   * marcan qué hay que redibujar aunque la cámara no se haya movido.
+   */
+  private despertar(escena = false, cursor = false) {
+    if (escena) this.escenaPendiente = true;
+    if (cursor) this.cursorPendiente = true;
+    if (this.cuadroPendiente) return;
+
+    // Al salir del reposo, el primer cuadro avanza como si hubiera pasado un
+    // solo cuadro (y no todo el tiempo de reposo), para no dar un salto.
+    this.lastTime = performance.now() - 1000 / 60;
+    this.cuadroPendiente = requestAnimationFrame(this.loop);
   }
 
   /**
@@ -174,6 +217,8 @@ export class ControladorLienzo {
       this.cursorCanvas.style.width = `${w}px`;
       this.cursorCanvas.style.height = `${h}px`;
     }
+
+    this.despertar(true, true);
   }
 
   public onMouseDown(e: MouseEvent) {
@@ -182,6 +227,7 @@ export class ControladorLienzo {
       this.cursor.isDragging = true;
       this.mouseDownPos = { x: e.clientX, y: e.clientY, time: performance.now() };
     }
+    this.despertar();
   }
 
   public onMouseMove(e: MouseEvent) {
@@ -195,6 +241,7 @@ export class ControladorLienzo {
     );
 
     this.cursor.setPosition(e.clientX, e.clientY, worldPos.x, worldPos.y);
+    this.despertar(false, true);
   }
 
   public onMouseUp(e: MouseEvent) {
@@ -208,6 +255,7 @@ export class ControladorLienzo {
     if (dist < 6 && duration < 300) {
       this.handleClick();
     }
+    this.despertar();
   }
 
   private handleClick() {
@@ -218,6 +266,7 @@ export class ControladorLienzo {
     } else if (this.level === 'deriva' && this.hoveredItem) {
       // In the future: open deep-reading modal/drawer
       this.cursor.hoverLabel = this.appearance.cursorLabel(this.hoveredItem.id, 'select');
+      this.despertar(false, true);
     }
   }
 
@@ -238,6 +287,7 @@ export class ControladorLienzo {
       window.innerHeight
     );
     this.cursor.setPosition(e.clientX, e.clientY, worldPos.x, worldPos.y);
+    this.despertar(false, true);
   }
 
   public onTouchStart(e: TouchEvent) {
@@ -266,6 +316,7 @@ export class ControladorLienzo {
       this.initialPinchDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
       this.initialPinchZoom = this.camera.zoom;
     }
+    this.despertar(false, true);
   }
 
   public onTouchMove(e: TouchEvent) {
@@ -291,6 +342,7 @@ export class ControladorLienzo {
         this.camera.zoomAt(factor / (this.camera.zoom / this.initialPinchZoom), midX, midY, window.innerWidth, window.innerHeight);
       }
     }
+    this.despertar(false, true);
   }
 
   public onTouchEnd(e: TouchEvent) {
@@ -324,6 +376,7 @@ export class ControladorLienzo {
       this.isPinching = false;
       this.initialPinchDist = 0;
     }
+    this.despertar();
   }
 
   private onKeyDown(e: KeyboardEvent) {
@@ -377,6 +430,7 @@ export class ControladorLienzo {
         case 'r':
         case 'R':
           this.camera.flyTo(0, 0, this.activeDeriva ? this.getDerivaZoom(this.activeDeriva) : 0.95);
+          this.despertar();
           break;
         case '+':
         case '=':
@@ -405,6 +459,7 @@ export class ControladorLienzo {
     const marcado = this.level === 'macro' ? this.hoveredDeriva : this.hoveredItem;
     this.cursor.isHovering = !!marcado;
     this.cursor.hoverLabel = marcado ? this.appearance.cursorLabel(marcado.id, 'hover') : '';
+    this.despertar(true, true);
   }
 
   // Quita la marca solo si sigue marcado este id (otra tarjeta pudo haberla
@@ -439,6 +494,7 @@ export class ControladorLienzo {
     const derivaZoom = this.getDerivaZoom(targetDeriva);
     this.camera.zoom = Math.min(0.5, derivaZoom); // Start slightly zoomed out for cinematic entrance
     this.camera.flyTo(0, 0, derivaZoom);
+    this.despertar(true, true);
   }
 
   public exitDeriva() {
@@ -460,6 +516,7 @@ export class ControladorLienzo {
     const macroZoom = this.getMacroZoom(exitingDeriva, 0.85);
     this.camera.zoom = macroZoom;
     this.camera.flyTo(exitingDeriva.x, exitingDeriva.y, macroZoom);
+    this.despertar(true, true);
   }
 
   public flyToDeriva(derivaId: string) {
@@ -467,6 +524,7 @@ export class ControladorLienzo {
       const d = DERIVAS_INSULAS.find((item) => item.id === derivaId);
       if (d) {
         this.camera.flyTo(d.x, d.y, this.getMacroZoom(d));
+        this.despertar();
       }
     } else {
       // If in Level 2, switch directly to that Deriva
@@ -481,44 +539,61 @@ export class ControladorLienzo {
     } else {
       this.camera.flyTo(0, 0, this.activeDeriva ? this.getDerivaZoom(this.activeDeriva) : 0.95);
     }
+    this.despertar();
   }
 
   public zoomIn() {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.camera.zoomAt(1.25, w / 2, h / 2, w, h);
+    this.despertar();
   }
 
   public zoomOut() {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.camera.zoomAt(0.8, w / 2, h / 2, w, h);
-  }
-
-  public start() {
-    if (this.isRunning) return;
-    this.isRunning = true;
-    this.lastTime = performance.now();
-    this.loop();
+    this.despertar();
   }
 
   private loop = () => {
-    if (!this.isRunning) return;
+    this.cuadroPendiente = 0;
 
     const now = performance.now();
     const dt = Math.min(0.1, (now - this.lastTime) / 1000);
     this.lastTime = now;
 
-    this.update(dt);
-    this.render();
-
-    requestAnimationFrame(this.loop);
-  };
-
-  private update(dt: number) {
+    const cursorAnimaba = this.cursor.estaAnimando();
     this.camera.update(dt);
     this.cursor.update(dt);
 
+    const camara = this.ultimaCamara;
+    const camaraCambio =
+      this.camera.x !== camara.x || this.camera.y !== camara.y || this.camera.zoom !== camara.zoom;
+
+    if (camaraCambio || this.escenaPendiente) {
+      this.escenaPendiente = false;
+      this.ultimaCamara = { x: this.camera.x, y: this.camera.y, zoom: this.camera.zoom };
+      this.notifyTelemetry();
+      this.syncSpatialDomNodes();
+      this.renderSurface();
+    }
+
+    // Se redibuja también el cuadro en que la estela termina, para borrarla.
+    if (this.cursorPendiente || cursorAnimaba || this.cursor.estaAnimando()) {
+      this.cursorPendiente = false;
+      this.renderCursor();
+    }
+
+    // Mientras haya animación se sigue pidiendo cuadros, sin reiniciar el
+    // reloj (eso solo lo hace despertar() al salir del reposo).
+    const animando = this.camera.estaEnMovimiento() || this.cursor.estaAnimando();
+    if (animando && !this.cuadroPendiente) {
+      this.cuadroPendiente = requestAnimationFrame(this.loop);
+    }
+  };
+
+  private notifyTelemetry() {
     if (this.telemetryCallback) {
       this.telemetryCallback({
         worldX: Math.round(this.camera.x * 10) / 10,
@@ -530,8 +605,6 @@ export class ControladorLienzo {
         hoveredItem: this.hoveredItem
       });
     }
-
-    this.syncSpatialDomNodes();
   }
 
   private syncSpatialDomNodes() {
@@ -602,14 +675,12 @@ export class ControladorLienzo {
     }
   }
 
-  private render() {
+  private renderSurface() {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
     this.ctx.save();
     this.ctx.scale(this.dpr, this.dpr);
-
-    // Render background surface on main canvas (z-10)
     this.surface.draw(
       this.ctx,
       w,
@@ -619,21 +690,17 @@ export class ControladorLienzo {
       this.camera.zoom,
       this.activeDeriva
     );
-
     this.ctx.restore();
+  }
 
-    // Render ink trail and reticle cursor on top-layer cursor canvas (z-40) if available
-    if (this.cursorCtx && this.cursorCanvas) {
-      this.cursorCtx.save();
-      this.cursorCtx.clearRect(0, 0, this.cursorCanvas.width, this.cursorCanvas.height);
-      this.cursorCtx.scale(this.dpr, this.dpr);
-      this.cursor.draw(this.cursorCtx);
-      this.cursorCtx.restore();
-    } else {
-      this.ctx.save();
-      this.ctx.scale(this.dpr, this.dpr);
-      this.cursor.draw(this.ctx);
-      this.ctx.restore();
-    }
+  // Mira, estela y etiqueta del cursor, en su propio lienzo (encima de todo).
+  private renderCursor() {
+    if (!this.cursorCtx || !this.cursorCanvas) return;
+
+    this.cursorCtx.save();
+    this.cursorCtx.clearRect(0, 0, this.cursorCanvas.width, this.cursorCanvas.height);
+    this.cursorCtx.scale(this.dpr, this.dpr);
+    this.cursor.draw(this.cursorCtx);
+    this.cursorCtx.restore();
   }
 }

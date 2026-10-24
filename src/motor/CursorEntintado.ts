@@ -116,6 +116,11 @@ export class CursorEntintado {
     }
   }
 
+  // Si quedan estela o gotas desvaneciéndose (hay que seguir redibujando).
+  public estaAnimando(): boolean {
+    return this.trail.length > 0 || this.particles.length > 0;
+  }
+
   public draw(ctx: CanvasRenderingContext2D) {
     if (this.screenX < 0 || this.screenY < 0) return;
 
