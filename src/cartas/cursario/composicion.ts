@@ -112,7 +112,6 @@ const LG: Composicion = {
   rosas: [
     { x: 370, y: 450, r: 130 },
     { x: 880, y: 1060, r: 150 },
-    { x: 380, y: 1790, r: 110 },
     { x: 330, y: 2240, r: 50 },
   ],
   aguas: [
@@ -128,13 +127,15 @@ const LG: Composicion = {
     { x: 930, y: 1745, r: 30 },
   ],
   sondeos: 1200,
-  // Quedan tres de las seis láminas: el velero, los juncos y el relieve ocre.
+  // Quedan cuatro de las seis láminas: el velero, los juncos, el relieve ocre
+  // y las curvas de relieve, que funcionan como textura de fondo: van grandes,
+  // al corte, y pueden quedar recortadas por la ventana.
   imagenes: [
     { x: 660, y: 260, ancho: 290, alto: 230, modo: 'recuadro' },
     { x: 200, y: 850, ancho: 330, alto: 205, modo: 'recuadro' },
     null,
     { x: 200, y: 1360, ancho: 300, alto: 163, modo: 'papel' },
-    null,
+    { x: 0, y: 1620, ancho: 560, alto: 360, modo: 'transparencia' },
     null,
   ],
   notas: [
@@ -161,7 +162,7 @@ const LG: Composicion = {
 // (de x = 165 a x = 765) y el texto siempre de un solo lado: en cada franja, si
 // hay texto a la derecha, a la izquierda van gráficos, y al revés.
 const MD: Composicion = {
-  hoja: { ancho: 930, alto: 2940, margen: 0, banda: 0, marco: false },
+  hoja: { ancho: 930, alto: 2860, margen: 0, banda: 0, marco: false },
   navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
   recuadros: [
     [[465, 240, 300, 250], [405, 490, 360, 230]],
@@ -179,19 +180,20 @@ const MD: Composicion = {
   aguas: [
     { x: 120, y: 640, r: 55 },
     { x: 650, y: 810, r: 55 },
-    { x: 800, y: 2480, r: 60 },
+    { x: 800, y: 2700, r: 60 },
   ],
   islas: [
     { x: 690, y: 1700, r: 26 },
   ],
   sondeos: 900,
-  // Quedan cinco láminas: todas menos el río.
+  // Quedan cinco láminas: todas menos el río. Las curvas de relieve funcionan
+  // como textura de fondo: van grandes, al corte, y pueden quedar recortadas.
   imagenes: [
     { x: 485, y: 260, ancho: 260, alto: 210, modo: 'recuadro' },
     { x: 185, y: 1030, ancho: 300, alto: 186, modo: 'recuadro' },
     { x: 490, y: 1940, ancho: 255, alto: 160, modo: 'recuadro' },
     { x: 180, y: 1495, ancho: 250, alto: 136, modo: 'papel' },
-    { x: 175, y: 2150, ancho: 250, alto: 220, modo: 'transparencia' },
+    { x: 0, y: 2120, ancho: 450, alto: 408, modo: 'transparencia' },
     null,
   ],
   notas: [
@@ -207,11 +209,11 @@ const MD: Composicion = {
     { x: 455, y: 1830, ancho: 300 },
     { x: 175, y: 1950, ancho: 300 },
     { x: 455, y: 2170, ancho: 300 },
-    { x: 175, y: 2440, ancho: 300 },
+    { x: 455, y: 2310, ancho: 300 },
   ],
   titulo: [215, 60, 500, 130],
-  cartucho: [435, 2580, 330, 250],
-  rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2880 }],
+  cartucho: [435, 2470, 330, 250],
+  rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2800 }],
 };
 
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
