@@ -361,6 +361,10 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
   }
 ];
 
+// Todos los subcursos (islas) de todos los cursos, en una sola lista. Cada uno
+// se define dentro de su curso, en el campo `subcursos` de DERIVAS_INSULAS.
+export const DERIVAS_ISLAS: DerivaIsla[] = DERIVAS_INSULAS.flatMap((deriva) => deriva.subcursos);
+
 
 // =====================================================================================
 //

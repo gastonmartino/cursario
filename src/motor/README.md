@@ -16,7 +16,7 @@ provee quien lo crea, la portada (`src/components/Cursario.astro`).
 
 | Archivo | Para qué se usa |
 |---|---|
-| `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos (`DERIVAS_ISLAS`) y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
+| `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos (definidos dentro de cada curso y reunidos en `DERIVAS_ISLAS`) y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
 | `MotorCursario.ts` | El motor propiamente dicho: recibe los eventos (puntero, rueda, toques, teclado), administra los dos niveles (lienzo principal y lienzo de un curso), mueve la cámara, ubica las tarjetas HTML, informa la telemetría al HUD y decide cuándo hay que dibujar. |
 | `Camara.ts` | Posición y zoom de la vista: conversión entre coordenadas de pantalla y del mundo, arrastre con inercia, zoom centrado en un punto y vuelos suaves hacia un destino. |
 | `CartografiaGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, ventanas de nubes, línea de recorrido de los subcursos y conexiones de los islotes. |
