@@ -1,6 +1,8 @@
 ---
 import Derrotero from '../components/Derrotero.astro';
 import TransicionPagina from '../components/TransicionPagina.astro';
+import CambioVista from '../components/navegacion/CambioVista.astro';
+import type { VistasPagina } from '../cartas';
 import { withBase } from '../utils/paths';
 
 // Documento base de las cartas (las páginas de contenido). No impone fondo,
@@ -10,30 +12,52 @@ import { withBase } from '../utils/paths';
 //
 // La carta puede agregar elementos al <head> (por ejemplo, sus tipografías)
 // con <Fragment slot="head">, y clases a <html> y <body>.
+//
+// En las páginas con modo lectura (las que reciben `vistas`), agrega además el
+// control para cambiar de versión y, en la versión original, lleva al modo
+// lectura a quien lo eligió antes para esa página.
 interface Props {
   title: string;
   description?: string;
   claseHtml?: string;
   claseCuerpo?: string;
+  vistas?: VistasPagina;
 }
 
-const { title, description, claseHtml, claseCuerpo } = Astro.props;
+const { title, description, claseHtml, claseCuerpo, vistas } = Astro.props;
+const clavePreferencia = vistas && `cursario:modo-lectura:${vistas.original}`;
+const destinoLectura = vistas && withBase(vistas.lectura);
+const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), Astro.site).href : undefined;
 ---
 
 <!doctype html>
 <html lang="es" class={claseHtml}>
   <head>
     <meta charset="UTF-8" />
+    {vistas?.actual === 'original' && (
+      // Antes de dibujar nada; no al volver con "atrás", para no atrapar el historial.
+      <script is:inline define:vars={{ clavePreferencia, destinoLectura }}>
+        try {
+          const navegacion = performance.getEntriesByType('navigation')[0];
+          if (localStorage.getItem(clavePreferencia) === 'lectura' && navegacion?.type !== 'back_forward') {
+            location.replace(destinoLectura + location.hash);
+          }
+        } catch {}
+      </script>
+    )}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {vistas?.actual === 'lectura' && urlOriginal && <link rel="canonical" href={urlOriginal} />}
+    {vistas && <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&display=swap" rel="stylesheet" />}
     <slot name="head" />
   </head>
   <body class={claseCuerpo}>
     <slot />
     <Derrotero />
+    {vistas && <CambioVista vistas={vistas} />}
     <TransicionPagina />
   </body>
 </html>

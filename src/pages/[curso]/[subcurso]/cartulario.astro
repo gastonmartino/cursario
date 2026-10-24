@@ -1,0 +1,14 @@
+---
+// Versión de modo lectura de los subcursos e islotes con carta propia: el
+// mismo contenido, armado con el cartulario (ver src/cartas/rutas.ts).
+import { obtenerCarta, type PropsCarta } from '../../../cartas';
+import { rutasDeLectura, rutasSubcursos } from '../../../cartas/rutas';
+
+export const getStaticPaths = () => rutasDeLectura(rutasSubcursos());
+
+type Props = PropsCarta;
+
+const Carta = obtenerCarta();
+---
+
+<Carta {...Astro.props} />

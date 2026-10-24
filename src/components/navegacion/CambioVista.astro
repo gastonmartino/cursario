@@ -1,0 +1,131 @@
+---
+// Control flotante para pasar de la versión original de una página al modo
+// lectura (el cartulario) y volver. Lo incluye LayoutCarta en las páginas que
+// tienen las dos versiones; tiene siempre el aspecto del sitio Cursario, sea
+// cual sea la carta.
+//
+// La elección se recuerda por página en el navegador: quien eligió el modo
+// lectura en una página vuelve a verla así (ver la redirección en LayoutCarta).
+import type { VistasPagina } from '../../cartas';
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  vistas: VistasPagina;
+}
+
+const { vistas } = Astro.props;
+const enLectura = vistas.actual === 'lectura';
+const destino = withBase(enLectura ? vistas.original : vistas.lectura);
+const texto = enLectura ? 'Ver la carta original' : 'Ver en modo lectura';
+---
+
+<a
+  href={destino}
+  class="cambio-vista"
+  aria-label={texto}
+  data-clave={`cursario:modo-lectura:${vistas.original}`}
+  data-modo={enLectura ? 'original' : 'lectura'}
+>
+  {enLectura ? (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+      <path d="M15 5.764v15" />
+      <path d="M9 3.236v15" />
+    </svg>
+  ) : (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 7v14" />
+      <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
+    </svg>
+  )}
+  <span class="cambio-vista__ayuda" aria-hidden="true">{texto}</span>
+</a>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('.cambio-vista').forEach((enlace) => {
+    enlace.addEventListener('click', () => {
+      const { clave, modo } = enlace.dataset;
+      if (!clave) return;
+      try {
+        if (modo === 'lectura') localStorage.setItem(clave, 'lectura');
+        else localStorage.removeItem(clave);
+      } catch {
+        // Sin almacenamiento disponible, el control solo cambia de versión.
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Estilos completos, sin depender de la carta ni de Tailwind. */
+  .cambio-vista {
+    position: fixed;
+    z-index: 55;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(208, 214, 226, 0.9);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 2px rgba(22, 37, 61, 0.08);
+    color: #0038A8;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .cambio-vista:hover,
+  .cambio-vista:focus-visible {
+    background: #EDF1F5;
+    color: #002270;
+  }
+
+  .cambio-vista:focus-visible {
+    outline: 2px solid #0038A8;
+    outline-offset: 2px;
+  }
+
+  .cambio-vista__ayuda {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    padding: 6px 9px;
+    border: 1px solid rgba(208, 214, 226, 0.9);
+    border-radius: 2px;
+    background: #FAFBFD;
+    box-shadow: 0 1px 2px rgba(22, 37, 61, 0.08);
+    color: #1A1C20;
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(4px, -50%);
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+
+  .cambio-vista:hover .cambio-vista__ayuda,
+  .cambio-vista:focus-visible .cambio-vista__ayuda {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cambio-vista,
+    .cambio-vista__ayuda {
+      transition: none;
+    }
+  }
+</style>

@@ -17,7 +17,7 @@ import { generarGrafica, PALETA } from './grafica';
 
 type Props = PropsCarta;
 
-const { pagina, documento, volver } = Astro.props;
+const { pagina, documento, volver, vistas } = Astro.props;
 
 // --- Reparto del contenido ---
 // Antes del primer "##": título, imágenes y notas. Cada "##" se escribe sobre
@@ -72,6 +72,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 ---
 
 <LayoutCarta
+  vistas={vistas}
   title={`${pagina.codigo} · ${titulo ? titulo.texto : pagina.titulo} — Cursario`}
   description={documento.datos.descripcion}
   claseCuerpo="cuerpo-cursario"

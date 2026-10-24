@@ -25,12 +25,14 @@ export type BloqueMimo =
   | { tipo: 'parrafo'; texto: string }
   | { tipo: 'lista'; items: string[] }
   | { tipo: 'cita'; partes: Array<{ tipo: 'texto'; texto: string } | { tipo: 'separador'; marca: MarcaSeparador }> }
-  | { tipo: 'imagen'; src: string; alt: string; pie?: string }
+  | { tipo: 'imagen'; src: string; alt: string; pie?: string; lectura?: boolean }
   | { tipo: 'video'; youtube: string }
   | { tipo: 'separador'; marca: MarcaSeparador };
 
 // Los textos de los bloques conservan su Markdown en línea (negritas,
 // itálicas, enlaces, código); renderizarEnLinea los convierte en HTML.
+// Una imagen con la marca {lectura} al final de su línea es una de las que se
+// muestran en el modo lectura (ver src/cartas/index.ts).
 
 export interface SeccionMimo {
   // El título "##" que abre la sección (la primera sección puede no tenerlo).
@@ -145,14 +147,14 @@ export function interpretarBloques(markdown: string): BloqueMimo[] {
     cerrarLista();
 
     const youtube = linea.match(/^\[youtube:([A-Za-z0-9_-]{11})\]$/i);
-    const imagen = linea.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)(?:\s+\*([^*]+)\*)?$/);
+    const imagen = linea.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)(?:\s+\*([^*]+)\*)?(\s+\{lectura\})?$/);
 
     if (esMarca(linea)) {
       bloques.push({ tipo: 'separador', marca: linea });
     } else if (youtube) {
       bloques.push({ tipo: 'video', youtube: youtube[1] });
     } else if (imagen) {
-      bloques.push({ tipo: 'imagen', alt: imagen[1], src: imagen[2], pie: imagen[3]?.trim() });
+      bloques.push({ tipo: 'imagen', alt: imagen[1], src: imagen[2], pie: imagen[3]?.trim(), ...(imagen[4] && { lectura: true }) });
     } else if (linea.startsWith('# ')) {
       bloques.push({ tipo: 'titulo', nivel: 1, texto: linea.slice(2) });
     } else if (linea.startsWith('## ')) {

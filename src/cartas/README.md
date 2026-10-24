@@ -55,6 +55,8 @@ datos.
     `cita`, `imagen`, `video`, `separador`).
   - `secciones`: los bloques agrupados en secciones, una por cada título `##`.
 - **`volver`**: la ruta a la que lleva VOLVER.
+- **`vistas`**: solo en las páginas con modo lectura (ver más abajo). La carta
+  se lo pasa a `LayoutCarta` (`<LayoutCarta vistas={vistas} …>`).
 
 Con los bloques y las secciones una carta puede recomponer el contenido: usar
 la primera imagen como portada, reunir todas las imágenes en una galería,
@@ -111,6 +113,34 @@ Del sitio, a toda página llegan dos cosas, que la carta puede usar o pisar:
   viñetas…) se aplica a todas las páginas. Una carta que quiera otros estilos
   base los declara en su CSS.
 - **El menú de navegación**, que conserva el aspecto del sitio.
+
+## Modo lectura
+
+Toda página que usa una carta distinta del cartulario tiene una segunda
+versión, armada con el cartulario, en `{URL de la página}cartulario/` (por
+ejemplo `/acerca-de-cursario/cartulario/`). Las genera
+`src/cartas/rutas.ts`.
+
+- `LayoutCarta` agrega en las dos versiones un control flotante, abajo a la
+  derecha, para pasar de una a otra (`src/components/navegacion/CambioVista.astro`).
+  Su aspecto es siempre el del sitio, sea cual sea la carta.
+- La elección se recuerda por página en el navegador: quien eligió el modo
+  lectura en una página entra directamente a esa versión la próxima vez, hasta
+  que elija "Ver la carta original".
+
+En el Markdown se indica qué imágenes aparecen en modo lectura (la carta
+original las usa siempre todas):
+
+- Sin marcas, se muestran todas.
+- Si alguna imagen tiene la marca `{lectura}` al final de su línea, se
+  muestran solo las marcadas:
+
+  ```markdown
+  ![Velero](/paginas/acerca-de-cursario/medios/barco-grabado.png) *LÁMINA I* {lectura}
+  ```
+
+- Con `lectura-imagenes: ninguna` en el encabezado de datos, no se muestra
+  ninguna.
 
 ## Páginas sueltas
 

@@ -8,7 +8,7 @@ descripcion: Acerca del proyecto CURSARIO.
 ---
 # Acerca del Cursario
 
-![Velero en grabado tramado](/paginas/acerca-de-cursario/medios/barco-grabado.png) *LÁMINA I*
+![Velero en grabado tramado](/paginas/acerca-de-cursario/medios/barco-grabado.png) *LÁMINA I* {lectura}
 ![Juncos a orillas del arroyo](/paginas/acerca-de-cursario/medios/juncos-bitono.png) *LÁMINA II*
 ![Cartografía con interferencias](/paginas/acerca-de-cursario/medios/mapa-glitch.png) *LÁMINA III*
 ![Relieve ocre y curvas de agua](/paginas/acerca-de-cursario/medios/ocre-posterizado.png) *LÁMINA IV*

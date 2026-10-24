@@ -1,47 +1,14 @@
 ---
 // Página de un subcurso o islote con pageMarkdownFile. La arma la carta que
 // elige su archivo Markdown (ver src/cartas/index.ts).
-import type { InferGetStaticPropsType } from 'astro';
-import { ISLAS } from '../../data/islas';
-import { ISLOTES } from '../../data/islotes';
-import { ubicar } from '../../motor/Derivas';
-import { cargarDocumento, obtenerCarta, type PropsCarta } from '../../cartas';
-import { resolveFile } from '../../utils/paths';
+import { obtenerCarta, type PropsCarta } from '../../cartas';
+import { rutasSubcursos } from '../../cartas/rutas';
 
-// Solo se generan páginas para los subcursos e islotes que tienen un archivo
-// de página. La URL es la urlPagina de su ubicación (src/motor/Derivas.ts).
-export function getStaticPaths() {
-  return [...ISLAS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => {
-    const ubicacion = ubicar(data.id);
-    return {
-      params: { curso: ubicacion.curso, subcurso: ubicacion.subcurso },
-      props: {
-        data,
-        idDeriva: ubicacion.idDeriva,
-        pageMarkdownFile: resolveFile(ubicacion.carpetaContenidos, data.pageMarkdownFile)!,
-      },
-    };
-  });
-}
+export const getStaticPaths = rutasSubcursos;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Props = PropsCarta;
 
-const { data, idDeriva, pageMarkdownFile } = Astro.props;
-const documento = cargarDocumento(pageMarkdownFile);
-const Carta = obtenerCarta(documento.datos.carta);
-
-const props: PropsCarta = {
-  pagina: {
-    titulo: data.title ?? '',
-    subtitulo: data.subtitle ?? '',
-    codigo: data.code,
-    etiqueta: data.tag,
-    color: data.accentColor,
-  },
-  documento,
-  // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-  volver: `/?deriva=${idDeriva}`,
-};
+const Carta = obtenerCarta(Astro.props.documento.datos.carta);
 ---
 
-<Carta {...props} />
+<Carta {...Astro.props} />

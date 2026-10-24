@@ -1,0 +1,14 @@
+---
+// Versión de modo lectura de las páginas sueltas con carta propia: el mismo
+// contenido, armado con el cartulario (ver src/cartas/rutas.ts).
+import { obtenerCarta, type PropsCarta } from '../../cartas';
+import { rutasDeLectura, rutasPaginasSueltas } from '../../cartas/rutas';
+
+export const getStaticPaths = () => rutasDeLectura(rutasPaginasSueltas());
+
+type Props = PropsCarta;
+
+const Carta = obtenerCarta();
+---
+
+<Carta {...Astro.props} />

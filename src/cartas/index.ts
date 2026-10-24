@@ -17,7 +17,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { leerDocumento, type DocumentoMimo } from '../utils/markdown';
+import { agruparSecciones, leerDocumento, type DocumentoMimo } from '../utils/markdown';
 
 export const CARTA_PREDETERMINADA = 'cartulario';
 
@@ -37,6 +37,18 @@ export interface PropsCarta {
   documento: DocumentoMimo;
   // Ruta a la que lleva VOLVER (sin el prefijo del sitio; ver Volver.astro).
   volver: string;
+  // Las dos versiones de la página, si tiene modo lectura. La carta se las
+  // pasa a LayoutCarta, que muestra el control para cambiar de versión.
+  vistas?: VistasPagina;
+}
+
+// Una página con una carta distinta del cartulario tiene dos versiones: la
+// original, en su URL, y la de modo lectura, armada con el cartulario en
+// {URL}cartulario/. Las rutas van sin el prefijo del sitio.
+export interface VistasPagina {
+  original: string;
+  lectura: string;
+  actual: 'original' | 'lectura';
 }
 
 type ComponenteCarta = (props: PropsCarta) => unknown;
@@ -59,4 +71,23 @@ export function obtenerCarta(nombre: string = CARTA_PREDETERMINADA): ComponenteC
 export function cargarDocumento(rutaPublica: string): DocumentoMimo {
   const ruta = path.join(process.cwd(), 'public', rutaPublica.replace(/^\/+/, ''));
   return leerDocumento(fs.readFileSync(ruta, 'utf-8'));
+}
+
+// --- Modo lectura ---
+
+export const tieneModoLectura = (documento: DocumentoMimo) =>
+  (documento.datos.carta ?? CARTA_PREDETERMINADA) !== CARTA_PREDETERMINADA;
+
+// El documento que se muestra en modo lectura. De sus imágenes quedan:
+//  - ninguna, si el encabezado de datos dice "lectura-imagenes: ninguna";
+//  - solo las marcadas con {lectura}, si hay alguna marcada;
+//  - todas, si no hay ninguna marcada.
+export function documentoDeLectura(documento: DocumentoMimo): DocumentoMimo {
+  const imagenes = documento.bloques.filter((bloque) => bloque.tipo === 'imagen');
+  const ninguna = documento.datos['lectura-imagenes'] === 'ninguna';
+  const marcadas = imagenes.some((imagen) => imagen.lectura);
+  const bloques = documento.bloques.filter((bloque) =>
+    bloque.tipo !== 'imagen' || (!ninguna && (!marcadas || bloque.lectura))
+  );
+  return { datos: { ...documento.datos, carta: CARTA_PREDETERMINADA }, bloques, secciones: agruparSecciones(bloques) };
 }
