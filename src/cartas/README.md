@@ -187,9 +187,15 @@ Tiene una composición por rango de ancho de ventana, en
 - **md** (de 620 a 929 px): como lg, con una columna de
   600 px y el texto siempre de un solo lado en cada franja (del otro lado,
   gráficos).
-- **sm** (hasta 619 px, pensada hasta 420 px): una sola columna de 400 px,
+- **sm** (de 420 a 619 px): una sola columna de 400 px,
   quebrada por las láminas y los recuadros, con los textos alternando entre
   izquierda y derecha; VOLVER y el menú en las esquinas de la ventana.
+- **xs** (hasta 419 px): una columna de 300 px que entra completa desde los
+  320 px, con varias láminas y recuadros al corte a un lado o al otro.
+
+Las láminas al corte pueden quedar recortadas por la ventana, pero los textos
+no: si una va al corte por la izquierda, `sangriaPie` corre su pie hacia
+adentro.
 
 Los nombres siguen la escala de Bootstrap y Tailwind (xl, lg, md, sm, xs),
 pero los cortes son los de la carta.

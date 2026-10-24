@@ -26,7 +26,9 @@ export interface Composicion {
   sondeos: number;
   // Lugares para el contenido del Markdown, en orden de aparición. Las
   // imágenes que no tienen lugar no se muestran en esta composición.
-  imagenes: Array<{ x: number; y: number; ancho: number; alto: number; modo: ModoImagen } | null>;
+  // sangriaPie: corre el pie hacia adentro, para una lámina al corte por la
+  // izquierda cuyo pie no debe quedar fuera de la ventana.
+  imagenes: Array<{ x: number; y: number; ancho: number; alto: number; modo: ModoImagen; sangriaPie?: number } | null>;
   notas: Array<{ x: number; y: number; ancho: number; enRecuadro: boolean }>;
   toponimos: Array<{ x: number; y: number; ancho: number }>;
   // Lugares para los encabezados "##" como títulos rectos. Sin ellos, cada
@@ -138,7 +140,7 @@ const LG: Composicion = {
     { x: 200, y: 850, ancho: 330, alto: 205, modo: 'recuadro' },
     null,
     { x: 200, y: 1360, ancho: 300, alto: 163, modo: 'papel' },
-    { x: 0, y: 1620, ancho: 560, alto: 360, modo: 'transparencia' },
+    { x: 0, y: 1620, ancho: 560, alto: 360, modo: 'transparencia', sangriaPie: 200 },
     null,
   ],
   notas: [
@@ -196,7 +198,7 @@ const MD: Composicion = {
     { x: 185, y: 1030, ancho: 300, alto: 186, modo: 'recuadro' },
     { x: 490, y: 1940, ancho: 255, alto: 160, modo: 'recuadro' },
     { x: 180, y: 1495, ancho: 250, alto: 136, modo: 'papel' },
-    { x: 0, y: 2120, ancho: 450, alto: 408, modo: 'transparencia' },
+    { x: 0, y: 2120, ancho: 450, alto: 408, modo: 'transparencia', sangriaPie: 175 },
     null,
   ],
   notas: [
@@ -253,7 +255,7 @@ const SM: Composicion = {
     { x: 190, y: 1150, ancho: 300, alto: 186, modo: 'recuadro' },
     { x: 125, y: 2195, ancho: 270, alto: 150, modo: 'recuadro' },
     { x: 250, y: 1850, ancho: 250, alto: 136, modo: 'papel' },
-    { x: 0, y: 2650, ancho: 420, alto: 300, modo: 'transparencia' },
+    { x: 0, y: 2650, ancho: 420, alto: 300, modo: 'transparencia', sangriaPie: 120 },
     null,
   ],
   notas: [
@@ -278,9 +280,65 @@ const SM: Composicion = {
 };
 
 
+// Ventanas de menos de 420 px (la mayoría de los celulares): una columna de
+// 300 px (de x = 70 a x = 370), que entra completa desde los 320 px. Varias
+// láminas y recuadros van al corte, a un lado o al otro, para que no todo
+// quede apilado; las dos rosas son solo gráfica.
+const XS: Composicion = {
+  hoja: { ancho: 440, alto: 3480, margen: 0, banda: 0, marco: false },
+  navegacion: { arriba: 12, izquierda: 12, derecha: 12, fija: true },
+  recuadros: [
+    [[0, 380, 370, 240], [0, 620, 380, 250]],
+    [[130, 985, 310, 225]],
+    [[0, 1330, 380, 210]],
+    [[0, 2110, 340, 200]],
+    // píxeles sueltos
+    [[80, 1050, 36, 36]], [[400, 1760, 30, 30]], [[360, 2330, 26, 26]],
+  ],
+  rosas: [
+    { x: 290, y: 285, r: 48 },
+    { x: 100, y: 1880, r: 35 },
+  ],
+  aguas: [
+    { x: 110, y: 300, r: 40 },
+    { x: 410, y: 930, r: 40 },
+    { x: 30, y: 2440, r: 45 },
+    { x: 410, y: 3330, r: 40 },
+  ],
+  islas: [],
+  sondeos: 600,
+  imagenes: [
+    { x: 80, y: 400, ancho: 270, alto: 200, modo: 'recuadro' },
+    { x: 150, y: 1000, ancho: 290, alto: 180, modo: 'recuadro' },
+    { x: 0, y: 2125, ancho: 320, alto: 155, modo: 'recuadro', sangriaPie: 80 },
+    { x: 170, y: 1800, ancho: 270, alto: 147, modo: 'papel' },
+    { x: 0, y: 2560, ancho: 350, alto: 280, modo: 'transparencia', sangriaPie: 80 },
+    null,
+  ],
+  notas: [
+    { x: 80, y: 690, ancho: 280, enRecuadro: true },
+    { x: 80, y: 1350, ancho: 280, enRecuadro: true },
+    { x: 80, y: 2130, ancho: 220, enRecuadro: true },
+  ],
+  toponimos: [
+    { x: 70, y: 900, ancho: 300 },
+    { x: 70, y: 1230, ancho: 300 },
+    { x: 70, y: 1680, ancho: 300 },
+    { x: 70, y: 2010, ancho: 300 },
+    { x: 70, y: 2340, ancho: 300 },
+    { x: 90, y: 2450, ancho: 280 },
+    { x: 70, y: 2870, ancho: 300 },
+    { x: 90, y: 2980, ancho: 280 },
+  ],
+  encabezados: [{ x: 70, y: 1575, ancho: 300 }],
+  titulo: [70, 56, 300, 150],
+  cartucho: [70, 3110, 300, 280],
+  rotulos: [{ derecha: 70, arriba: 210 }, { izquierda: 70, arriba: 3430 }],
+};
+
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
 // sm, xs), pero los cortes son los de esta carta.
-export const COMPOSICIONES = { xl: XL, lg: LG, md: MD, sm: SM };
+export const COMPOSICIONES = { xl: XL, lg: LG, md: MD, sm: SM, xs: XS };
 export type NombreComposicion = keyof typeof COMPOSICIONES;
 
 // Zonas donde no se dibujan sondeos, para que el texto se lea.
