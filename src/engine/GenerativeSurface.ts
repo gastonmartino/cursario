@@ -509,10 +509,6 @@ export class GenerativeSurface {
 
     // 4. Secondary islands connected to subderivas in this local course
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'deriva', deriva);
-
-    // 5. Background Watermark Banner
-    this.drawDerivaHeaderWatermark(ctx, height, deriva);
-
   }
 
   private drawLocalGrid(
@@ -699,19 +695,6 @@ export class GenerativeSurface {
       ctx.setLineDash([6 * zoom, 5 * zoom]);
     }
 
-    ctx.restore();
-  }
-
-  private drawDerivaHeaderWatermark(
-    ctx: CanvasRenderingContext2D,
-    height: number,
-    deriva: SpatialDeriva
-  ) {
-    ctx.save();
-    ctx.font = 'bold 10px "Geist Mono", monospace';
-    ctx.fillStyle = 'rgba(22, 37, 61, 0.25)';
-    ctx.textAlign = 'left';
-    ctx.fillText(`DERIVA ACTIVA // [${deriva.code}] ${deriva.name.toUpperCase()} • RECORRIDO EN CURSO`, 24, height - 24);
     ctx.restore();
   }
 }

@@ -366,10 +366,3 @@ export const SUBCURSOS: SubcursoDefinition[] = SUBCURSOS_DEFINITIONS.map((subcur
     pageMarkdownFile: resolveFile(`${folder}/contenidos`, subcurso.pageMarkdownFile),
   };
 });
-
-export const getSubcursosByDeriva = (derivaId: SubcursoDefinition['parentDerivaId']) =>
-  SUBCURSOS.filter((subcurso) => subcurso.parentDerivaId === derivaId);
-
-
-
-
