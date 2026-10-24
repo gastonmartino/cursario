@@ -90,21 +90,25 @@ reemplazar: otro texto para VOLVER, otro ícono para el menú.
 
 ## Estilos de cada carta
 
-Los estilos de una carta se escriben dentro de su carpeta y no afectan al resto
-del sitio:
+Los estilos de una carta se escriben dentro de su carpeta. Como el registro
+de cartas importa todas las cartas, **el CSS de todas llega a todas las páginas
+de cartas**: lo que evita que una carta afecte a las demás es cómo se escriben
+sus reglas.
 
 - **Un `<style>` en `Carta.astro`** (o en sus subcomponentes): Astro lo limita
-  automáticamente a ese componente.
-- **Una hoja de estilos propia** (por ejemplo `estilos.css`) importada desde
-  `Carta.astro`: se incluye solo en las páginas que usan esa carta.
+  automáticamente a ese componente, así que no afecta a otras cartas.
 - **Estilos globales de la página** (el `body`, el HTML que genera MIMO, la
-  barra de desplazamiento): un `<style is:global>` en `Carta.astro`. También se
-  incluye solo en las páginas de esa carta.
+  barra de desplazamiento, `#page-transition`): un `<style is:global>` en
+  `Carta.astro`, con **cada regla bajo una clase propia de la carta** en
+  `<html>` o `<body>` (las que la carta pasa a `LayoutCarta` como `claseHtml` y
+  `claseCuerpo`). Por ejemplo, `html.html-cursario ::selection { … }`, nunca
+  `::selection { … }` solo. Lo mismo vale para una hoja de estilos propia
+  importada desde `Carta.astro`.
 - **Tipografías**: la carta las carga en el `<head>` con
   `<Fragment slot="head">…</Fragment>` dentro de `LayoutCarta`.
 - **Scripts**: un `<script>` en la carta se incluye solo en sus páginas.
 - **Transición**: para cambiar su aspecto, la carta redefine `#page-transition`
-  en sus estilos globales.
+  en sus estilos globales, bajo su clase (`html.html-cursario #page-transition`).
 
 Del sitio, a toda página llegan dos cosas, que la carta puede usar o pisar:
 

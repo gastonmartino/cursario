@@ -20,7 +20,7 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
   vistas={vistas}
   title={`GASTÓN MARTINO // ${pagina.codigo} • ${pagina.titulo}`}
   description={documento.datos.descripcion ?? `${pagina.subtitulo}. Bitácora de Derivas de Gastón Martino.`}
-  claseHtml="min-h-full bg-paper-base"
+  claseHtml="html-cartulario min-h-full bg-paper-base"
   claseCuerpo="min-h-full w-full overflow-x-hidden font-sans text-ink-primary antialiased bg-paper-base"
 >
   <Fragment slot="head">
@@ -87,14 +87,16 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
 </style>
 
 <style is:global>
-  ::-webkit-scrollbar {
+  /* Los estilos globales del bundle llegan a todas las páginas de cartas: cada
+     regla va bajo la clase de la carta en <html>. */
+  html.html-cartulario ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
-  ::-webkit-scrollbar-track {
+  html.html-cartulario ::-webkit-scrollbar-track {
     background: #F5F7FA;
   }
-  ::-webkit-scrollbar-thumb {
+  html.html-cartulario ::-webkit-scrollbar-thumb {
     background: #D0D6E2;
     border-radius: 2px;
   }

@@ -75,6 +75,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   vistas={vistas}
   title={`${pagina.codigo} · ${titulo ? titulo.texto : pagina.titulo} — Cursario`}
   description={documento.datos.descripcion}
+  claseHtml="html-cursario"
   claseCuerpo="cuerpo-cursario"
 >
   <Fragment slot="head">
@@ -168,8 +169,24 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   </div>
 </LayoutCarta>
 
+<script>
+  // Si la ventana es más angosta que la hoja, la página empieza desplazada
+  // hasta el centro de la hoja (sin JavaScript, empieza por el borde izquierdo).
+  const hoja = document.querySelector('.hoja');
+  if (hoja && window.scrollX === 0) {
+    const { left, width } = hoja.getBoundingClientRect();
+    const desplazamiento = left + width / 2 - window.innerWidth / 2;
+    if (desplazamiento > 0) window.scrollTo({ left: desplazamiento });
+  }
+</script>
+
 <style is:global>
-  :root {
+  /* Los estilos globales del bundle llegan a todas las páginas de cartas: cada
+     regla va bajo la clase de la carta en <html> o <body>. */
+  html.html-cursario {
+    /* La barra de desplazamiento reserva el mismo espacio a los dos lados,
+       para que la hoja quede centrada respecto de la ventana. */
+    scrollbar-gutter: stable both-edges;
     --papel: #efe9dc;
     --papel-oscuro: #e3dccd;
     --tinta: #141416;
@@ -188,11 +205,11 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     -webkit-font-smoothing: antialiased;
   }
 
-  #page-transition {
+  html.html-cursario #page-transition {
     background: var(--papel-oscuro);
   }
 
-  ::selection {
+  html.html-cursario ::selection {
     background: var(--bermellon);
     color: var(--papel);
   }
