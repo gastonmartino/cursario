@@ -9,10 +9,12 @@
     <div id="hud-macro-identity" class="flex items-center gap-3 bg-white/85 backdrop-blur-md px-4 py-2.5 border border-ink-border/60 shadow-sm rounded-sm">
       <div class="w-2.5 h-2.5 bg-cobalt rounded-full animate-pulse"></div>
       <div>
+        <!-- Donde el cuadro queda apretado se ocultan las "//" y CURSARIO pasa
+             a una segunda línea (mismos cortes que "BITÁCORA DE DERIVAS"). -->
         <h1 class="text-xs font-mono font-bold tracking-widest text-ink-primary">
           GASTÓN MARTINO 
-            <span class="text-ink-faint font-normal text-[11px]">//</span>
-          <span class="text-ink-faint font-normal text-[10.4px]"
+            <span class="hidden sm:inline md:hidden xl:inline text-ink-faint font-normal text-[11px]">//</span>
+          <span class="block sm:inline md:block xl:inline text-ink-faint font-normal text-[10.4px]"
                 style="position: relative; top: 1px;">CURSARIO</span>
         </h1>
         <!-- Se oculta donde el cuadro queda apretado: en pantallas angostas y
@@ -42,15 +44,19 @@
   </div>
 
   <!-- Center: Live Telemetry Display -->
+  <!-- A medida que se angosta la pantalla, para que los controles de la
+       derecha no queden fuera de la vista, se oculta primero POS (debajo de
+       1100px), luego ESTADO (debajo de 900px) y luego toda la barra (debajo
+       de md). Los cortes contemplan el texto de ESTADO más largo posible. -->
   <div class="pointer-events-auto hidden md:flex items-center gap-4 bg-white/85 backdrop-blur-md px-5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs">
-    <div class="flex items-center gap-2">
+    <div class="hidden min-[1100px]:flex items-center gap-2">
       <span class="text-ink-faint">POS:</span>
       <span id="telemetry-coords" class="font-semibold text-cobalt min-w-[140px]">
         X: +0.0  Y: +0.0
       </span>
     </div>
     
-    <div class="w-px h-3.5 bg-ink-border"></div>
+    <div class="hidden min-[1100px]:block w-px h-3.5 bg-ink-border"></div>
 
     <div class="flex items-center gap-2">
       <span class="text-ink-faint">ESCALA:</span>
@@ -59,9 +65,9 @@
       </span>
     </div>
 
-    <div class="w-px h-3.5 bg-ink-border"></div>
+    <div class="hidden min-[900px]:block w-px h-3.5 bg-ink-border"></div>
 
-    <div class="flex items-center gap-2">
+    <div class="hidden min-[900px]:flex items-center gap-2">
       <span class="text-ink-faint">ESTADO:</span>
       <span id="telemetry-zone" class="font-bold text-accent-vermilion">
         [00:CURSO] EN PROGRESO
