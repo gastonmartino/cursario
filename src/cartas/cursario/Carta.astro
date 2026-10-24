@@ -84,7 +84,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </Fragment>
 
-  <div class="hoja" style={`width: ${px(HOJA.ancho)}; height: ${px(HOJA.alto)};`}>
+  <div class="hoja" style={`width: ${px(HOJA.ancho)}; height: ${px(HOJA.alto)}; --medio-ancho: ${px(HOJA.ancho / 2)};`}>
     <div class="grafica"><Fragment set:html={grafica} /></div>
 
     {/* Encabezados "##" escritos alrededor de las rosas */}
@@ -169,17 +169,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   </div>
 </LayoutCarta>
 
-<script>
-  // Si la ventana es más angosta que la hoja, la página empieza desplazada
-  // hasta el centro de la hoja (sin JavaScript, empieza por el borde izquierdo).
-  const hoja = document.querySelector('.hoja');
-  if (hoja && window.scrollX === 0) {
-    const { left, width } = hoja.getBoundingClientRect();
-    const desplazamiento = left + width / 2 - window.innerWidth / 2;
-    if (desplazamiento > 0) window.scrollTo({ left: desplazamiento });
-  }
-</script>
-
 <style is:global>
   /* Los estilos globales del bundle llegan a todas las páginas de cartas: cada
      regla va bajo la clase de la carta en <html> o <body>. */
@@ -199,6 +188,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   body.cuerpo-cursario {
     margin: 0;
+    overflow-x: clip;
     background: var(--papel-oscuro);
     color: var(--tinta);
     font-family: var(--serif);
@@ -216,9 +206,11 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 </style>
 
 <style>
+  /* Siempre centrada: en ventanas más angostas que la hoja, los márgenes
+     laterales se vuelven negativos y la hoja se recorta igual de los dos lados. */
   .hoja {
     position: relative;
-    margin: 32px auto 64px;
+    margin: 32px calc(50% - var(--medio-ancho)) 64px;
     background: var(--papel);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
     overflow: hidden;
