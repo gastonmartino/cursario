@@ -5,10 +5,12 @@ import Layout from '../../layouts/Layout.astro';
 import Derrotero from '../../components/Derrotero.astro';
 import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
 import { ISLOTES, type IsloteDefinition } from '../../data/islotes';
+import { SPATIAL_DERIVAS } from '../../engine/Derivas';
 import { renderMarkdownToHtml } from '../../utils/markdown';
 
+// Solo se generan páginas para los ítems que tienen un archivo de página.
 export function getStaticPaths() {
-  return [...SUBCURSOS, ...ISLOTES].map((data) => ({
+  return [...SUBCURSOS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => ({
     params: { curso: data.course, subcurso: data.subcurso },
     props: { data },
   }));
@@ -18,6 +20,13 @@ const { curso, subcurso } = Astro.params;
 const { data } = Astro.props as { data: SubcursoDefinition | IsloteDefinition };
 const displayTitle = data.title ?? '';
 const displaySubtitle = data.subtitle ?? '';
+
+// VOLVER abre el lienzo de la deriva de primer nivel. Un islote puede
+// depender de una subderiva, en cuyo caso se vuelve a la deriva que la contiene.
+const backDerivaId =
+  SPATIAL_DERIVAS.find((deriva) => deriva.id === data.parentDerivaId)?.id ??
+  SPATIAL_DERIVAS.find((deriva) => deriva.items.some((item) => item.id === data.parentDerivaId))?.id;
+const backHref = backDerivaId ? `/?deriva=${backDerivaId}` : '/';
 
 let markdownHtml = '';
 try {
@@ -44,7 +53,7 @@ try {
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
         <nav class="order-1 flex items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
           <a
-            href={`/?deriva=${data.parentDerivaId}`}
+            href={backHref}
             class="border-r border-ink-border/60 px-3 py-2 font-mono text-xs font-bold transition-colors hover:bg-river-mist md:px-4"
             style={`color: ${data.accentColor};`}
           >

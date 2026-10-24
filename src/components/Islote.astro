@@ -119,7 +119,7 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
     {(hasImage || hasMarkdown) && (
       <div class="grid grid-cols-1 gap-2">
         {hasImage && <img src={imageUrl} alt={title || captionLabel} class="h-auto w-full rounded-sm object-contain" style={`max-height: ${imageMaxHeightCss};`} loading={imageLoading} decoding="async" draggable="false" />}
-        {hasMarkdown && <div class="prose prose-xs min-w-0 text-[10px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
+        {hasMarkdown && <div class="min-w-0 text-[10px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
       </div>
     )}
   </div>
@@ -130,7 +130,7 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
     <div class="mt-3 border-t border-ink-border/40 pt-2">
       <a
         href={navigableHref}
-        class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[10px] font-bold text-white shadow-xs transition-all hover:scale-102"
+        class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[10px] font-bold text-white shadow-sm transition-all hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
         {actionLabel}

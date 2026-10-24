@@ -51,16 +51,20 @@ try {
   console.error('Error al leer curso03-inicio.md:', e);
 }
 
+const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
+const formatCoordinates = (point?: { x: number; y: number }) => point
+  ? `X: ${formatCoordinate(point.x)}  Y: ${formatCoordinate(point.y)}`
+  : 'X: +0.0  Y: +0.0';
+const derivaCoordinates = (derivaId: string) =>
+  formatCoordinates(SPATIAL_DERIVAS.find((deriva) => deriva.id === derivaId));
+
 const subcursoCards = SUBCURSOS.map((subcurso) => {
   const deriva = SPATIAL_DERIVAS.find((item) => item.id === subcurso.parentDerivaId);
   const item = deriva?.items.find((entry) => entry.id === subcurso.itemId);
-  const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
 
   return {
     ...subcurso,
-    coordinatesText: item
-      ? `X: ${formatCoordinate(item.x)}  Y: ${formatCoordinate(item.y)}`
-      : 'X: +0.0  Y: +0.0',
+    coordinatesText: formatCoordinates(item),
   };
 });
 
@@ -109,7 +113,7 @@ const isloteCards = ISLOTES.map((islote) => {
       imageUrl="/curso00/imagenes/curso00-inicio.jpg"
       markdownHtml={curso00MarkdownHtml}
       derivaId="en-curso"
-      coordinatesText="X: +0.0  Y: +0.0"
+      coordinatesText={derivaCoordinates('en-curso')}
       categoryLabel="BITÁCORA / TFIC"
       captionLabel="INVESTIGACIÓN SITUADA"
       width={740}
@@ -129,7 +133,7 @@ const isloteCards = ISLOTES.map((islote) => {
       imageUrl="/curso01/imagenes/curso01-inicio.jpg"
       markdownHtml={curso01MarkdownHtml}
       derivaId="untref"
-      coordinatesText="X: +0.0  Y: -1400.0"
+      coordinatesText={derivaCoordinates('untref')}
       categoryLabel="EJES: TIEMPO / ESPACIO / MOVIMIENTO"
       captionLabel="2025-2026"
       width={760}
@@ -150,7 +154,7 @@ const isloteCards = ISLOTES.map((islote) => {
       accentColor="#16253D"
       imageUrl="/curso02/imagenes/portada-generativa.gif"
       derivaId="generativa"
-      coordinatesText="X: -1600.0  Y: +0.0"
+      coordinatesText={derivaCoordinates('generativa')}
       categoryLabel="PROCESSING / P5.JS"
       captionLabel="2024"
       width={760}
@@ -170,7 +174,7 @@ const isloteCards = ISLOTES.map((islote) => {
       imageUrl="/curso03/imagenes/curso03-inicio.jpg"
       markdownHtml={curso03MarkdownHtml}
       derivaId="pensamiento"
-      coordinatesText="X: +1600.0  Y: +0.0"
+      coordinatesText={derivaCoordinates('pensamiento')}
       categoryLabel="REFLEXIÓN / ENSAYO"
       captionLabel="2026"
       width={760}

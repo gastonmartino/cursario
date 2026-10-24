@@ -20,6 +20,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
         h2: 'font-sans font-bold text-2xl md:text-3xl text-ink-primary tracking-tight mt-10 mb-4',
         h3: 'font-sans font-semibold text-xl text-ink-primary mt-8 mb-3',
         paragraph: 'text-base md:text-lg text-ink-muted leading-relaxed my-4 font-sans',
+        list: 'list-disc pl-6 my-4 space-y-2 text-base md:text-lg text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
         caption: 'mt-2 text-sm text-ink-faint italic leading-relaxed font-sans',
       }
     : {
@@ -31,6 +32,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
         h2: 'font-sans font-bold text-xs text-ink-primary mt-2 mb-1',
         h3: 'font-sans font-semibold text-xs text-ink-primary mt-1 mb-1',
         paragraph: 'text-xs text-ink-muted leading-relaxed my-1 font-sans',
+        list: 'list-disc pl-4 my-1 space-y-0.5 text-xs text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
         caption: 'mt-1 text-[10px] text-ink-faint italic leading-relaxed font-sans',
       };
 
@@ -38,6 +40,15 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
   const htmlLines: string[] = [];
   let inBlockquote = false;
   let blockquoteBuffer: Array<{ type: 'text' | 'html'; value: string }> = [];
+  let listBuffer: string[] = [];
+
+  const flushList = () => {
+    if (listBuffer.length > 0) {
+      const items = listBuffer.map((item) => `<li>${parseInline(item)}</li>`).join('');
+      htmlLines.push(`<ul class="${styles.list}">${items}</ul>`);
+      listBuffer = [];
+    }
+  };
 
   const flushBlockquote = () => {
     if (blockquoteBuffer.length > 0) {
@@ -91,6 +102,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     );
 
     return withBareLinks
+      .replace(/\*\*\*(.+?)\*\*\*/g, `<strong class="${styles.strong}"><em class="italic">$1</em></strong>`)
       .replace(/\*\*(.*?)\*\*/g, `<strong class="${styles.strong}">$1</strong>`)
       .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
       .replace(/`([^`]+)`/g, `<code class="${styles.code}">$1</code>`)
@@ -101,6 +113,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     const line = rawLine.trim();
 
     if (line.startsWith('>')) {
+      flushList();
       inBlockquote = true;
       const quotedLine = line.replace(/^>\s*/, '').trim();
       const quotedStructuralLine = renderStructuralLine(quotedLine, true);
@@ -118,6 +131,15 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     if (!line) {
       continue;
     }
+
+    // Una línea que empieza con "- " o "* " es un ítem de lista sin orden.
+    // Las líneas en blanco no cortan la lista; cualquier otro bloque sí.
+    const listItemMatch = line.match(/^[-*]\s+(.+)$/);
+    if (listItemMatch && !renderStructuralLine(line)) {
+      listBuffer.push(listItemMatch[1]);
+      continue;
+    }
+    flushList();
 
     const structuralLine = renderStructuralLine(line);
     if (structuralLine) {
@@ -172,6 +194,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
   if (inBlockquote) {
     flushBlockquote();
   }
+  flushList();
 
   return htmlLines.join('\n');
 }

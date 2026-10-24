@@ -243,7 +243,7 @@ const canShowAction = isSubderiva
             src={imageUrl} 
             alt={title} 
             class:list={[
-              'relative z-10 h-auto object-contain rounded-xs opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105',
+              'relative z-10 h-auto object-contain rounded-sm opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105',
               hasMarkdown ? 'w-auto max-w-full' : 'w-full max-w-full',
             ]}
             style={`max-height: ${hasMarkdown ? imageMaxHeightCss : 'none'}; -webkit-user-drag: none;`}
@@ -270,7 +270,7 @@ const canShowAction = isSubderiva
         'flex flex-col justify-between h-full bg-white/70 p-4 border border-ink-border/30 rounded-sm',
         hasImage ? 'md:col-span-7' : 'w-full',
       ]}>
-        <div class="prose prose-sm font-sans text-ink-primary text-xs leading-relaxed space-y-2">
+        <div class="font-sans text-ink-primary text-xs leading-relaxed space-y-2">
           <Fragment set:html={resolvedMarkdownHtml} />
         </div>
       </div>
@@ -286,7 +286,7 @@ const canShowAction = isSubderiva
     {canShowAction && actionHref && (
       <a
         href={actionHref}
-        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-xs flex items-center gap-2 cursor-pointer border hover:scale-102"
+        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
         {actionLabel}
@@ -296,7 +296,7 @@ const canShowAction = isSubderiva
       <button
         data-incursionar={derivaId}
         data-fly-to={derivaId}
-        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-xs flex items-center gap-2 cursor-pointer border hover:scale-102"
+        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
         {actionLabel}

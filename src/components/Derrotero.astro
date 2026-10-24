@@ -126,8 +126,14 @@ const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
   closeButton?.addEventListener('click', () => setDrawerOpen(false));
   drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
 
+  // Mientras el menú está abierto, el teclado le pertenece: se corta la
+  // propagación para que los atajos del lienzo (que escucha en window)
+  // no reaccionen detrás, por ejemplo Escape saliendo de la deriva.
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && drawerRoot?.getAttribute('aria-hidden') === 'false') {
+    if (drawerRoot?.getAttribute('aria-hidden') !== 'false') return;
+
+    event.stopPropagation();
+    if (event.key === 'Escape') {
       setDrawerOpen(false);
     }
   });
