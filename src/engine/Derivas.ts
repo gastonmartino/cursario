@@ -89,7 +89,6 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     accentColor: '#E03E2D', // Vermilion
     tag: 'EN PROGRESO',
     type: 'inprogress',
-    image: '/curso00/imagenes/curso00-inicio.png',
     items: [
       {
         id: 'bitacora-01',
@@ -213,7 +212,6 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     accentColor: '#16253D', // Cyanotype
     tag: 'ALGORITMOS & TRAMAS',
     type: 'generative',
-    image: '/curso02/imagenes/sarandi-revelation.jpg',
 
     items: [
       {
