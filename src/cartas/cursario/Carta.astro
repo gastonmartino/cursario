@@ -527,7 +527,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     color: var(--bermellon);
   }
 
+  /* Al recortar la imagen se conserva su parte de arriba (en las curvas de
+     relieve, la frase "el agua también se desvía"). */
   .lamina--transparencia img {
+    object-position: top;
     mix-blend-mode: multiply;
     opacity: 0.85;
   }
