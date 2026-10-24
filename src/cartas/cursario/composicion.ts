@@ -140,7 +140,7 @@ const LG: Composicion = {
     { x: 200, y: 850, ancho: 330, alto: 205, modo: 'recuadro' },
     null,
     { x: 200, y: 1360, ancho: 300, alto: 163, modo: 'papel' },
-    { x: 0, y: 1620, ancho: 560, alto: 360, modo: 'transparencia', sangriaPie: 200 },
+    { x: 0, y: 1620, ancho: 560, alto: 340, modo: 'transparencia', sangriaPie: 200 },
     null,
   ],
   notas: [
