@@ -9,3 +9,10 @@ export function withBase<T extends string | null | undefined>(path: T): T {
   if (BASE && (path === BASE || path.startsWith(`${BASE}/`))) return path;
   return `${BASE}${path}` as T;
 }
+
+// URL de la página de un subcurso o islote. Tiene que coincidir con la ruta
+// que genera src/pages/[curso]/[subcurso].astro: una página por cada ítem
+// que tiene pageMarkdownFile.
+export function pageHref(item: { course: string; subcurso: string; pageMarkdownFile?: string | null }) {
+  return item.pageMarkdownFile ? `/${item.course}/${item.subcurso}/` : undefined;
+}

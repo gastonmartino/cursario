@@ -6,8 +6,6 @@ import { withBase } from '../utils/paths';
 
 interface Props {
   id: string;
-  course?: string;
-  subcurso?: string;
   code: string;
   title?: string | null;
   subtitle?: string | null;
@@ -18,7 +16,6 @@ interface Props {
   accentColor?: string;
   imageUrl?: string | null;
   markdownFile?: string | null;
-  pageMarkdownFile?: string | null;
   actionHref?: string | null;
   actionLabel?: string;
   showAction?: boolean;
@@ -34,8 +31,6 @@ interface Props {
 
 const {
   id,
-  course,
-  subcurso,
   code,
   title,
   subtitle,
@@ -46,7 +41,6 @@ const {
   accentColor = '#0038A8',
   imageUrl,
   markdownFile = null,
-  pageMarkdownFile = null,
   actionHref,
   actionLabel = 'INCURSIONAR [ABRIR]',
   showAction = true,
@@ -69,8 +63,6 @@ const hasSubtitle = Boolean(subtitle);
 const descriptionHtml = description ? renderMarkdownToHtml(description) : '';
 const hasDescription = Boolean(descriptionHtml);
 const keywordsList = keywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) ?? [];
-const pageHref = pageMarkdownFile && course && subcurso ? `/${course}/${subcurso}/` : undefined;
-const navigableHref = actionHref || pageHref;
 let markdownHtml = '';
 
 if (markdownFile) {
@@ -127,10 +119,10 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
 
   {hasMetadata && <div class="mt-2 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{categoryLabel}</span><span>{timeReference}</span></div>}
 
-  {showAction && navigableHref && (
+  {showAction && actionHref && (
     <div class="mt-3 border-t border-ink-border/40 pt-2">
       <a
-        href={withBase(navigableHref)}
+        href={withBase(actionHref)}
         class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[10px] font-bold text-white shadow-sm transition-all hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >

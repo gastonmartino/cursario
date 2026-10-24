@@ -19,6 +19,11 @@ export interface SubcursoDefinition {
   captionLabel: string;
     
   // DETALLE DE LA SUBDERIVA
+  // imageUrl, markdownFile y pageMarkdownFile se escriben solo con el nombre
+  // del archivo, que se busca en la carpeta del subcurso:
+  //   imageUrl      → /{course}/subcursos/{subcurso}/medios/
+  //   *MarkdownFile → /{course}/subcursos/{subcurso}/contenidos/
+  // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
   markdownFile?: string | null;
   pageMarkdownFile?: string | null;
   actionHref?: string | null;
@@ -26,7 +31,7 @@ export interface SubcursoDefinition {
   showAction?: boolean;
 }
 
-export const SUBCURSOS: SubcursoDefinition[] = [
+const SUBCURSOS_DEFINITIONS: SubcursoDefinition[] = [
     
  //
  // CURSO:00 - EN CURSO... (BITÁCORA)
@@ -36,7 +41,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso001', 
     itemId: 'bitacora-01',
-    imageUrl: '/curso00/subcursos/curso001/medios/mapa-cuenca.jpg',
+    imageUrl: 'mapa-cuenca.jpg',
     description: 'La cuenca Matanza-Riachuelo: En una cuenca tan extensa, empezar por lo que está cerca.',
     code: 'TFIC:00', 
     tag: '04:AGOSTO:26', 
@@ -49,9 +54,9 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso002', 
     itemId: 'bitacora-02',
-    imageUrl: '/curso00/subcursos/curso003/medios/portada-curso.jpg', 
-    markdownFile: '/curso00/subcursos/curso003/contenidos/contenido-curso.md', 
-    pageMarkdownFile: '/curso00/subcursos/curso003/contenidos/pagina-curso.md',
+    imageUrl: 'portada-curso.jpg',
+    markdownFile: 'contenido-curso.md',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:01', 
     title: 'Intereses, objetos, amuletos y miedos',
     tag: '04:AGOSTO:26', 
@@ -64,8 +69,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso003', 
     itemId: 'bitacora-03',
-    markdownFile: '/curso00/subcursos/curso002/contenidos/contenido-curso.md', 
-    pageMarkdownFile: '/curso00/subcursos/curso002/contenidos/pagina-curso.md',
+    markdownFile: 'contenido-curso.md',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:02', 
     title: 'Statement de Artista', 
     subtitle: 'Por Diego Flores',
@@ -79,7 +84,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso004', 
     itemId: 'bitacora-04',
-    imageUrl: '/curso00/subcursos/curso004/medios/portada-curso.jpg',
+    imageUrl: 'portada-curso.jpg',
     code: 'TFIC:03', 
     title: 'Camino de las Flores', 
     subtitle: 'Un área protegida al sur del conurbano bonaerense',
@@ -94,9 +99,9 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso005', 
     itemId: 'bitacora-05',
-    imageUrl: '/curso00/subcursos/curso005/medios/portada-curso.jpg', 
-    markdownFile: '/curso00/subcursos/curso005/contenidos/contenido-curso.md', 
-    pageMarkdownFile: '/curso00/subcursos/curso005/contenidos/pagina-curso.md',
+    imageUrl: 'portada-curso.jpg',
+    markdownFile: 'contenido-curso.md',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:04', 
     title: 'Ejercicio de Recorrido', 
     subtitle: 'Visital al Arroyo del Rey / Rayo de Sol / Longchamps',
@@ -111,8 +116,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso006', 
     itemId: 'bitacora-06',
-    imageUrl: '/curso00/subcursos/curso006/medios/arroyo-macrofitas-v01.jpg',
-    pageMarkdownFile: '/curso00/subcursos/curso006/contenidos/macrofitas.md',
+    imageUrl: 'arroyo-macrofitas-v01.jpg',
+    pageMarkdownFile: 'macrofitas.md',
     code: 'TFIC:05',
     title: 'Macrófitas - Visualización de un territorio generativo',
     subtitle: 'Escalas visibles (MACRO) e invisibles (MICRO)',
@@ -126,8 +131,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso007', 
     itemId: 'bitacora-07',
-    imageUrl: '/curso00/subcursos/curso007/medios/collage-emergencia-01.jpg',
-    pageMarkdownFile: '/curso00/subcursos/curso007/contenidos/emergencia.md',
+    imageUrl: 'collage-emergencia-01.jpg',
+    pageMarkdownFile: 'emergencia.md',
     code: 'TFIC:06',
     title: 'Emergencias del Territorio',
     subtitle: 'El territorio produce formas inesperadas. Las formas producen territorio',
@@ -141,9 +146,9 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'en-curso', 
     subcurso: 'curso008', 
     itemId: 'bitacora-08',
-    imageUrl: '/curso00/subcursos/curso008/medios/stranger-visions.jpg',
-    markdownFile: '/curso00/subcursos/curso008/contenidos/actividad-consigna.md',
-    pageMarkdownFile: '/curso00/subcursos/curso008/contenidos/actividad-respuesta.md',
+    imageUrl: 'stranger-visions.jpg',
+    markdownFile: 'actividad-consigna.md',
+    pageMarkdownFile: 'actividad-respuesta.md',
     code: 'TFIC:07',
     title: 'Estrategias estéticas, cruces y agrupamientos',
     subtitle: 'Actividad - Primer acercamiento al cuerpo de obra',
@@ -161,8 +166,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     parentDerivaId: 'untref', 
     subcurso: 'curso001', 
     itemId: 'untref-obra-01',
-    imageUrl: '/curso01/subcursos/curso001/medios/portada-sos.gif', 
-    pageMarkdownFile: '/curso01/subcursos/curso001/contenidos/pagina-curso.md',
+    imageUrl: 'portada-sos.gif',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:01', 
     title: 'Siervos del Obnubilante Scrolling (S.O.S)', 
     subtitle: 'Trabajo final del primer cuatrimestre, 2025',
@@ -175,8 +180,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso002', itemId: 'untref-obra-02',
-    imageUrl: '/curso01/subcursos/curso002/medios/portada-granja.jpg', 
-    pageMarkdownFile: '/curso01/subcursos/curso002/contenidos/pagina-curso.md',
+    imageUrl: 'portada-granja.jpg',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:02', 
     title: 'Rebelión en la Granja de Clics', 
     subtitle: 'Trabajo final del segundo cuatrimestre, 2025',
@@ -189,8 +194,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso003', itemId: 'untref-obra-03',
-    imageUrl: '/curso01/subcursos/curso003/medios/portada-curso.jpg', 
-    pageMarkdownFile: '/curso01/subcursos/curso003/contenidos/pagina-curso.md',
+    imageUrl: 'portada-curso.jpg',
+    pageMarkdownFile: 'pagina-curso.md',
     code: 'OBRA:03', 
     title: 'Homo Hamatus. Fenomenología de la vulnerabilidad', 
     subtitle: 'Trabajo final del primer cuatrimestre, 2026',
@@ -202,8 +207,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso004', itemId: 'untref-obra-04',
-    imageUrl: '/curso01/subcursos/curso004/medios/portada-gps.jpg', 
-    pageMarkdownFile: '/curso01/subcursos/curso004/contenidos/pagina-curso.md',
+    imageUrl: 'portada-gps.jpg',
+    pageMarkdownFile: 'pagina-curso.md',
     cardWidth: 560, cardHeight: 580,
     code: 'OBRA:04', 
     title: 'GPS (Goce Positioning System)', 
@@ -217,8 +222,8 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso01', parentDerivaId: 'untref', subcurso: 'curso005', itemId: 'untref-obra-05',
-    imageUrl: '/curso01/subcursos/curso005/medios/portada-curso.jpg', 
-    pageMarkdownFile: '/curso01/subcursos/curso005/contenidos/pagina-curso.md',
+    imageUrl: 'portada-curso.jpg',
+    pageMarkdownFile: 'pagina-curso.md',
     cardWidth: 560, cardHeight: 580,
     code: 'OBRA:05', 
     title: 'Diálogos Desavenidos', 
@@ -236,7 +241,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
  //
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso001', itemId: 'gen-serie-01',
-    imageUrl: '/curso02/subcursos/curso001/medios/portada-curso.jpg',
+    imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:01', 
     title: 'Sarandí Revelation', 
     description: 'Entonces el ángel derramó su copa en el río y a la bestia se le permitió azotar a los pobres con dispensa.',
@@ -249,7 +254,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso002', itemId: 'gen-serie-02',
-    imageUrl: '/curso02/subcursos/curso002/medios/portada-curso.gif', 
+    imageUrl: 'portada-curso.gif',
     code: 'GENERATIVA:02', 
     title: 'Meticulously Unplanned', 
     description: 'Temporada de floración de ciudades vulnerables.',
@@ -262,7 +267,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso003', itemId: 'gen-serie-03',
-    imageUrl: '/curso02/subcursos/curso003/medios/portada-curso.jpg', 
+    imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:03', 
     title: 'Plastic Natianta', 
     description: 'Inevitablemente, los fondos marinos plastificados terminan abriéndose paso hacia la superficie por la cadena alimentaria.',
@@ -275,7 +280,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso004', itemId: 'gen-serie-04',
-    imageUrl: '/curso02/subcursos/curso004/medios/portada-curso.jpg', 
+    imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:04', 
     title: 'Diasporas', 
     description: 'La diáspora comienza justo después del grito vibrante de los líquenes.',
@@ -288,7 +293,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso005', itemId: 'gen-serie-05',
-    imageUrl: '/curso02/subcursos/curso005/medios/portada-curso.gif', 
+    imageUrl: 'portada-curso.gif',
     code: 'GENERATIVA:05', 
     title: 'Meanwhile, in the Southern Hemisphere, a lymphatic summer',
     description: 'Mientras los ojos del mundo están puestos en la sangre, la linfa fluye inadvertidamente, siempre en la misma dirección.',
@@ -301,7 +306,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso02', parentDerivaId: 'generativa', subcurso: 'curso006', itemId: 'gen-serie-06',
-    imageUrl: '/curso02/subcursos/curso006/medios/portada-curso.jpg', 
+    imageUrl: 'portada-curso.jpg',
     code: 'GENERATIVA:06', 
     title: 'Regolito fértil', 
     description: 'Sólo sesenta lunas más de cosecha por delante.',
@@ -318,7 +323,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
  //
   {
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso001', itemId: 'dis-ensayo-01',
-    imageUrl: '/curso03/subcursos/curso001/medios/portada-interaccion.jpg', 
+    imageUrl: 'portada-interaccion.jpg',
     code: 'NOTA:01', 
     title: '¿Qué sostiene la experiencia del usuario?', 
     description: '¿Qué hay debajo de cada interacción que hace posible que ésta tenga lugar. El teléfono celular no es más que la extremidad visible (y táctil) de una descomunal infrastrucutra a nivel planetario.',
@@ -327,7 +332,7 @@ export const SUBCURSOS: SubcursoDefinition[] = [
   },
   {
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso002', itemId: 'dis-ensayo-02',
-    imageUrl: '/curso03/subcursos/curso002/medios/portada-curso.jpg', 
+    imageUrl: 'portada-curso.jpg',
     code: 'NOTA:02', 
     title: 'Interacción: ¿cita entre dos?', 
     description: '¿Cuántas voces y agencias están presentes en cada encuentro digital?',
@@ -339,13 +344,28 @@ export const SUBCURSOS: SubcursoDefinition[] = [
     course: 'curso03', parentDerivaId: 'pensamiento', subcurso: 'curso003', itemId: 'dis-ensayo-03',
     subtitle: 'Patrones de Diseño Agéntico',
     description: '¿Qué nuevos patrones de diseño emergen al integrar la inteligencia artificial en las experiencias?',
-    imageUrl: '/curso03/subcursos/curso003/medios/portada-experiencia.jpg', 
+    imageUrl: 'portada-experiencia.jpg',
     code: 'NOTA:03', 
     tag: 'GIRO UX',
     accentColor: '#002FA7', 
     categoryLabel: 'AL ENCUENTRO DE OTRO DISEÑO', captionLabel: 'DIS#03',
   },
 ];
+
+const resolveFile = (folder: string, file?: string | null) =>
+  file && !file.startsWith('/') ? `${folder}/${file}` : file;
+
+// Los subcursos con las rutas de sus archivos ya completas.
+export const SUBCURSOS: SubcursoDefinition[] = SUBCURSOS_DEFINITIONS.map((subcurso) => {
+  const folder = `/${subcurso.course}/subcursos/${subcurso.subcurso}`;
+
+  return {
+    ...subcurso,
+    imageUrl: resolveFile(`${folder}/medios`, subcurso.imageUrl),
+    markdownFile: resolveFile(`${folder}/contenidos`, subcurso.markdownFile),
+    pageMarkdownFile: resolveFile(`${folder}/contenidos`, subcurso.pageMarkdownFile),
+  };
+});
 
 export const getSubcursosByDeriva = (derivaId: SubcursoDefinition['parentDerivaId']) =>
   SUBCURSOS.filter((subcurso) => subcurso.parentDerivaId === derivaId);

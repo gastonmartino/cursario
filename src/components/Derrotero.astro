@@ -1,12 +1,10 @@
 ---
 import { SPATIAL_DERIVAS } from '../engine/Derivas';
 import { SUBCURSOS } from '../data/subcursos';
-import { withBase } from '../utils/paths';
+import { pageHref, withBase } from '../utils/paths';
 
 const getSubcursoHref = (subcurso: (typeof SUBCURSOS)[number]) =>
-  subcurso.actionHref || subcurso.detailHref || (subcurso.pageMarkdownFile
-    ? `/${subcurso.course}/${subcurso.subcurso}/`
-    : null);
+  subcurso.actionHref || subcurso.detailHref || pageHref(subcurso) || null;
 
 const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
   ...deriva,
