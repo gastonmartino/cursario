@@ -1,16 +1,10 @@
 import { SUBCURSOS } from '../data/subcursos';
 
-export interface DerivaItem {
-  id: string;
-  code: string;
-  title: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  accentColor: string;
-}
-
+/**
+ * SpatialDeriva
+ * Son las derivas del nivel superior, es decir, cada uno
+ * de los cursos que se muestran en el canvas principal.
+ */
 export interface SpatialDeriva {
   id: string;
   code: string;
@@ -23,6 +17,31 @@ export interface SpatialDeriva {
   items: DerivaItem[];
 }
 
+/**
+ * DerivaItem
+ * Son las derivas de segundo nivel, es decir, cada uno
+ * de los subcursos que se muestran al navegar dentro de
+ * alguna de las derivas principales.
+ */
+export interface DerivaItem {
+  id: string;
+  code: string;
+  title: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  accentColor: string;
+}
+
+/**
+ * IsloteSpatial
+ * Son un tipo especial de derivas, similares al "DerivaItem" pero
+ * con una representación más simple y aislada (un islote). 
+ * Pueden asociarse a una deriva del primer nivel o a una subderiva
+ * (a un curso principal o a un subcurso), pero se dibujan en el 
+ * mismo lienzo que estos, no abren nuevos subcursos o lienzos. 
+ */
 export interface IsloteSpatial {
   id: string;
   parentId: string;
@@ -423,5 +442,6 @@ export const ISLOTES_SPATIAL: IsloteSpatial[] = [
     height: 320,
   },
 ];
+
 
 
