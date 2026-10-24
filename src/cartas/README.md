@@ -184,6 +184,9 @@ Tiene una composición por rango de ancho de ventana, en
 - **lg** (de 930 a 1279 px): el papel como fondo, sin marco, con textos y
   láminas en una columna central de 920 px y VOLVER y el menú fijos en la
   ventana. Muestra solo algunas láminas (las que tienen lugar).
+- **md** (hasta 929 px, pensada hasta 620 px): como lg, con una columna de
+  600 px y el texto siempre de un solo lado en cada franja (del otro lado,
+  gráficos).
 
 Los nombres siguen la escala de Bootstrap y Tailwind (xl, lg, md, sm, xs),
 pero los cortes son los de la carta.

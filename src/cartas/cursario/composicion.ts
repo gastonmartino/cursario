@@ -157,9 +157,67 @@ const LG: Composicion = {
   rotulos: [{ derecha: 180, arriba: 196 }, { izquierda: 200, arriba: 2300 }],
 };
 
+// Ventanas de 620 a 929 px: como lg, pero con una columna central de 600 px
+// (de x = 165 a x = 765) y el texto siempre de un solo lado: en cada franja, si
+// hay texto a la derecha, a la izquierda van gráficos, y al revés.
+const MD: Composicion = {
+  hoja: { ancho: 930, alto: 2680, margen: 0, banda: 0, marco: false },
+  navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
+  recuadros: [
+    [[465, 240, 300, 250], [405, 490, 360, 230]],
+    [[165, 1010, 380, 220], [165, 1230, 350, 240]],
+    [[540, 1640, 225, 120], [610, 1760, 155, 50]],
+    // píxeles sueltos
+    [[200, 900, 44, 44]], [[790, 640, 40, 40]], [[260, 1880, 36, 36]], [[110, 1300, 40, 40]],
+  ],
+  rosas: [
+    { x: 280, y: 400, r: 95 },
+    { x: 650, y: 1240, r: 85 },
+    { x: 290, y: 2450, r: 55 },
+  ],
+  aguas: [
+    { x: 120, y: 640, r: 55 },
+    { x: 650, y: 810, r: 55 },
+    { x: 660, y: 1990, r: 55 },
+    { x: 250, y: 2110, r: 55 },
+    { x: 820, y: 2200, r: 60 },
+  ],
+  islas: [
+    { x: 690, y: 1700, r: 26 },
+  ],
+  sondeos: 900,
+  // Quedan tres láminas: el velero, los juncos y el relieve ocre.
+  imagenes: [
+    { x: 485, y: 260, ancho: 260, alto: 210, modo: 'recuadro' },
+    { x: 185, y: 1030, ancho: 300, alto: 186, modo: 'recuadro' },
+    null,
+    { x: 180, y: 1495, ancho: 250, alto: 136, modo: 'papel' },
+    null,
+    null,
+  ],
+  notas: [
+    { x: 425, y: 565, ancho: 320, enRecuadro: true },
+    { x: 185, y: 1265, ancho: 320, enRecuadro: true },
+    { x: 560, y: 1655, ancho: 190, enRecuadro: true },
+  ],
+  toponimos: [
+    { x: 175, y: 760, ancho: 300 },
+    { x: 455, y: 880, ancho: 300 },
+    { x: 455, y: 1500, ancho: 300 },
+    { x: 175, y: 1700, ancho: 300 },
+    { x: 455, y: 1830, ancho: 300 },
+    { x: 175, y: 1950, ancho: 300 },
+    { x: 455, y: 2070, ancho: 300 },
+    { x: 175, y: 2190, ancho: 300 },
+  ],
+  titulo: [215, 60, 500, 130],
+  cartucho: [435, 2320, 330, 250],
+  rotulos: [{ derecha: 165, arriba: 196 }, { izquierda: 175, arriba: 2620 }],
+};
+
 // Los nombres siguen la escala de tamaños de Bootstrap y Tailwind (xl, lg, md,
 // sm, xs), pero los cortes son los de esta carta.
-export const COMPOSICIONES = { xl: XL, lg: LG };
+export const COMPOSICIONES = { xl: XL, lg: LG, md: MD };
 export type NombreComposicion = keyof typeof COMPOSICIONES;
 
 // Zonas donde no se dibujan sondeos, para que el texto se lea.
