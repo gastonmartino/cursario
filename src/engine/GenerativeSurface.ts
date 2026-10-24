@@ -481,82 +481,8 @@ export class GenerativeSurface {
       ctx.lineTo(left + zw - bracketLen, top + zh + 4 * zoom);
       ctx.stroke();
 
-      // Skip inner canvas text rendering for islands rendered via HTML DOM cards
-      if (deriva.id === 'en-curso' || deriva.id === 'generativa' || deriva.id === 'untref' || deriva.id === 'pensamiento') {
-        ctx.restore();
-        continue;
-      }
-
-      // Header Banner
-      ctx.fillStyle = 'rgba(240, 244, 249, 0.9)';
-      ctx.fillRect(left, top, zw, 36 * zoom);
-      ctx.strokeStyle = 'rgba(22, 37, 61, 0.12)';
-      ctx.lineWidth = 1 * zoom;
-      ctx.beginPath();
-      ctx.moveTo(left, top + 36 * zoom);
-      ctx.lineTo(left + zw, top + 36 * zoom);
-      ctx.stroke();
-
-      // Tag Badge
-      ctx.fillStyle = deriva.accentColor;
-      ctx.fillRect(left + 16 * zoom, top + 10 * zoom, 8 * zoom, 16 * zoom);
-
-      // Code & Tag Text
-      ctx.font = `bold ${Math.max(9, 11 * zoom)}px "Geist Mono", monospace`;
-      ctx.fillStyle = '#16253D';
-      ctx.textAlign = 'left';
-      ctx.fillText(deriva.code, left + 32 * zoom, top + 22 * zoom);
-
-      ctx.font = `${Math.max(8, 10 * zoom)}px "Geist Mono", monospace`;
-      ctx.fillStyle = deriva.accentColor;
-      ctx.textAlign = 'right';
-      ctx.fillText(deriva.tag, left + zw - 16 * zoom, top + 22 * zoom);
-
-      // Main Title
-      ctx.font = `bold ${Math.max(12, 22 * zoom)}px "Geist Sans", "PP Neue Montreal", sans-serif`;
-      ctx.fillStyle = '#1A1C20';
-      ctx.textAlign = 'left';
-      ctx.fillText(deriva.name, left + 24 * zoom, top + 72 * zoom);
-
-      // Subtitle
-      ctx.font = `${Math.max(10, 14 * zoom)}px "Geist Sans", sans-serif`;
-      ctx.fillStyle = '#0038A8';
-      ctx.fillText(deriva.subtitle, left + 24 * zoom, top + 98 * zoom);
-
-      // Divider line
-      ctx.strokeStyle = 'rgba(0, 56, 168, 0.15)';
-      ctx.beginPath();
-      ctx.moveTo(left + 24 * zoom, top + 114 * zoom);
-      ctx.lineTo(left + zw - 24 * zoom, top + 114 * zoom);
-      ctx.stroke();
-
-      // Description text
-      if (zoom > 0.45) {
-        ctx.font = `${Math.max(9, 13 * zoom)}px "Geist Sans", sans-serif`;
-        ctx.fillStyle = '#4A505C';
-        this.wrapText(ctx, deriva.description, left + 24 * zoom, top + 140 * zoom, zw - 48 * zoom, 20 * zoom);
-      }
-
-      // Action Button: "INCURSIONAR [ENTER / CLICK]"
-      if (zoom > 0.48) {
-        const btnHeight = 36 * zoom;
-        const btnY = top + zh - btnHeight - 16 * zoom;
-        const btnX = left + 24 * zoom;
-        const btnW = zw - 48 * zoom;
-
-        ctx.fillStyle = isHovered ? '#0038A8' : 'rgba(0, 56, 168, 0.07)';
-        ctx.fillRect(btnX, btnY, btnW, btnHeight);
-
-        ctx.strokeStyle = isHovered ? '#002270' : 'rgba(0, 56, 168, 0.35)';
-        ctx.lineWidth = 1.2 * zoom;
-        ctx.strokeRect(btnX, btnY, btnW, btnHeight);
-
-        ctx.font = `bold ${Math.max(9, 11 * zoom)}px "Geist Mono", monospace`;
-        ctx.fillStyle = isHovered ? '#FFFFFF' : '#0038A8';
-        ctx.textAlign = 'center';
-        ctx.fillText('INCURSIONAR [ENTER / CLICK]', btnX + btnW / 2, btnY + btnHeight / 2 + 4 * zoom);
-      }
-
+      // El contenido de cada isla es la tarjeta HTML que se superpone a este
+      // marco (ver Isla.astro); el lienzo solo dibuja la hoja y las esquinas.
       ctx.restore();
     }
   }

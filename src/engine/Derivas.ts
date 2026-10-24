@@ -18,15 +18,11 @@ export interface SpatialDeriva {
   id: string;
   code: string;
   name: string;
-  subtitle: string;
-  description: string;
   x: number;
   y: number;
   width: number;
   height: number;
   accentColor: string;
-  tag: string;
-  type: 'inprogress' | 'electronics' | 'generative' | 'discourse';
   items: DerivaItem[];
 }
 
@@ -77,15 +73,11 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     id: 'en-curso',
     code: 'CURSO:00',
     name: 'En Curso...',
-    subtitle: 'Bitácora y exploraciones vivas',
-    description: 'Espacio de trabajo activo. Registro continuo de investigaciones en desarrollo, bocetos de taller y derivas en proceso.',
     x: 200,
     y: 20,
     width: 740,
     height: 730,
     accentColor: '#E03E2D', // Vermilion
-    tag: 'EN PROGRESO',
-    type: 'inprogress',
     items: [
       {
         id: 'bitacora-01',
@@ -149,15 +141,11 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     id: 'untref',
     code: 'CURSO:01',
     name: 'Artes Electrónicas',
-    subtitle: 'Maestría UNTREF • Producción',
-    description: 'Dispositivos, instalaciones sensibles, circuitos y espacialidad física. Hibridación de hardware, materia y poética electromagnética.',
     x: -641,
     y: -270,
     width: 760,
     height: 730,
     accentColor: '#0038A8', // Cobalt
-    tag: 'ARTES ELECTRÓNICAS',
-    type: 'electronics',
     items: [
       {
         id: 'untref-obra-01',
@@ -200,15 +188,11 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     id: 'generativa',
     code: 'CURSO:02',
     name: 'Gráfica Generativa',
-    subtitle: 'Gráfica Generativa con p5js',
-    description: 'Exploraciones algorítmicas, campos de flujo, sistemas de partículas y morfologías computacionales autónomas.',
     x: -1511,
     y: -11,
     width: 760,
     height: 730,
     accentColor: '#16253D', // Cyanotype
-    tag: 'ALGORITMOS & TRAMAS',
-    type: 'generative',
 
     items: [
       {
@@ -259,15 +243,11 @@ const DERIVAS_DEFINITIONS: SpatialDerivaDefinition[] = [
     id: 'pensamiento',
     code: 'CURSO:03',
     name: 'Pensamiento & Diseño',
-    subtitle: 'Al Encuentro de Otro Diseño',
-    description: 'Ensayos, notas críticas, pedagogía proyectual y apuntes teóricos sobre técnica, materia e interfaces.',
     x: 1041,
     y: -110,
     width: 760,
     height: 730,
     accentColor: '#002FA7', // Klein blue
-    tag: 'INTERFACES & INTERACCIONES INTELIGENTES',
-    type: 'discourse',
     items: [
       {
         id: 'dis-ensayo-01',
