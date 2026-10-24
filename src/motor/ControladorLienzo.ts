@@ -648,8 +648,7 @@ export class ControladorLienzo {
       this.camera.x,
       this.camera.y,
       this.camera.zoom,
-      this.activeDeriva,
-      this.hoveredDeriva
+      this.activeDeriva
     );
 
     this.ctx.restore();

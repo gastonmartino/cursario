@@ -41,15 +41,14 @@ export class SuperficieGenerativa {
     camX: number,
     camY: number,
     zoom: number,
-    activeDeriva: DerivaInsula | null = null,
-    hoveredDeriva: DerivaInsula | null = null
+    activeDeriva: DerivaInsula | null = null
   ) {
     if (activeDeriva) {
       // LEVEL 2: DERIVA INTERIOR INFINITE CANVAS
       this.drawDerivaLevel(ctx, width, height, camX, camY, zoom, activeDeriva);
     } else {
       // LEVEL 1: MACRO CARTOGRAPHY
-      this.drawMacroLevel(ctx, width, height, camX, camY, zoom, hoveredDeriva);
+      this.drawMacroLevel(ctx, width, height, camX, camY, zoom);
     }
   }
 
@@ -62,8 +61,7 @@ export class SuperficieGenerativa {
     height: number,
     camX: number,
     camY: number,
-    zoom: number,
-    hoveredDeriva: DerivaInsula | null
+    zoom: number
   ) {
     // 1. Base Dynamic Atmospheric Paper Tint
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
@@ -80,10 +78,8 @@ export class SuperficieGenerativa {
     // 5. Cloud Windows & Halftone Textures
     this.drawAtmosphericWindows(ctx, width, height, camX, camY, zoom);
 
-    // 6. The 4 Spatial Derivas Archipelago
-    this.drawDerivaLandmarks(ctx, width, height, camX, camY, zoom, hoveredDeriva);
-
-    // 7. Secondary islands connected to top-level courses
+    // 6. Secondary islands connected to top-level courses
+    // (las ínsulas son tarjetas HTML: el lienzo no dibuja nada debajo de ellas)
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
 
@@ -423,76 +419,6 @@ export class SuperficieGenerativa {
     ctx.restore();
   }
 
-  private drawDerivaLandmarks(
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-    camX: number,
-    camY: number,
-    zoom: number,
-    hoveredDeriva: DerivaInsula | null
-  ) {
-    const cx = width / 2;
-    const cy = height / 2;
-
-    for (const deriva of DERIVAS_INSULAS) {
-      const sx = (deriva.x - camX) * zoom + cx;
-      const sy = (deriva.y - camY) * zoom + cy;
-      const zw = deriva.ancho * zoom;
-      const zh = deriva.alto * zoom;
-
-      const left = sx - zw / 2;
-      const top = sy - zh / 2;
-
-      const isHovered = hoveredDeriva?.id === deriva.id;
-
-      ctx.save();
-
-      // Drop shadow simulation
-      ctx.fillStyle = isHovered ? 'rgba(0, 56, 168, 0.08)' : 'rgba(22, 37, 61, 0.04)';
-      ctx.fillRect(left + (isHovered ? 8 : 6) * zoom, top + (isHovered ? 8 : 6) * zoom, zw, zh);
-
-      // Main Sheet (Papel Vegetal / Plano)
-      ctx.fillStyle = isHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.94)';
-      ctx.strokeStyle = isHovered ? this.accentColor(deriva.id) : '#D0D6E2';
-      ctx.lineWidth = Math.max(1, (isHovered ? 2 : 1.2) * zoom);
-
-      ctx.fillRect(left, top, zw, zh);
-      ctx.strokeRect(left, top, zw, zh);
-
-      // Technical Drafting Corner Brackets
-      const bracketLen = 16 * zoom;
-      ctx.strokeStyle = this.accentColor(deriva.id);
-      ctx.lineWidth = 2 * zoom;
-
-      // Corners
-      ctx.beginPath();
-      ctx.moveTo(left - 4 * zoom, top + bracketLen);
-      ctx.lineTo(left - 4 * zoom, top - 4 * zoom);
-      ctx.lineTo(left + bracketLen, top - 4 * zoom);
-
-      ctx.moveTo(left + zw + 4 * zoom, top + bracketLen);
-      ctx.lineTo(left + zw + 4 * zoom, top - 4 * zoom);
-      ctx.lineTo(left + zw - bracketLen, top - 4 * zoom);
-
-      ctx.moveTo(left - 4 * zoom, top + zh - bracketLen);
-      ctx.lineTo(left - 4 * zoom, top + zh + 4 * zoom);
-      ctx.lineTo(left + bracketLen, top + zh + 4 * zoom);
-
-      ctx.moveTo(left + zw + 4 * zoom, top + zh - bracketLen);
-      ctx.lineTo(left + zw + 4 * zoom, top + zh + 4 * zoom);
-      ctx.lineTo(left + zw - bracketLen, top + zh + 4 * zoom);
-      ctx.stroke();
-
-      // El contenido de cada isla es la tarjeta HTML que se superpone a este
-      // marco (ver Isla.astro); el lienzo solo dibuja la hoja y las esquinas.
-      ctx.restore();
-    }
-  }
-
-  /* -------------------------------------------------------------
-     LEVEL 2: LOCAL DERIVA CANVAS
-  ------------------------------------------------------------- */
   private drawDerivaLevel(
     ctx: CanvasRenderingContext2D,
     width: number,

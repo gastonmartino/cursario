@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { renderMarkdownToHtml } from '../utils/markdown';
 import { withBase } from '../utils/paths';
+import EsquinasPlano from './EsquinasPlano.astro';
 
 interface Props {
   id: string;
@@ -238,5 +239,6 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
       {actionLabel}
     </button>
   </div>
+  <EsquinasPlano color={accentColor} />
 </article>
 

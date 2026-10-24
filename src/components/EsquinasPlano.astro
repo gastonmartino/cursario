@@ -1,0 +1,27 @@
+---
+// Cuatro esquinas de plano técnico por fuera del borde de una tarjeta.
+// Se ubican respecto de la tarjeta que las contiene (que debe tener
+// position: absolute o relative), así que siempre coinciden con su tamaño
+// real y se escalan junto con ella.
+interface Props {
+  color: string;
+}
+
+const { color } = Astro.props;
+// Distancia desde el borde exterior de la tarjeta (incluye su borde de 2px).
+const fuera = '-7px';
+const esquinas = [
+  { top: fuera, left: fuera, bordes: 'border-t-2 border-l-2' },
+  { top: fuera, right: fuera, bordes: 'border-t-2 border-r-2' },
+  { bottom: fuera, left: fuera, bordes: 'border-b-2 border-l-2' },
+  { bottom: fuera, right: fuera, bordes: 'border-b-2 border-r-2' },
+];
+---
+
+{esquinas.map(({ bordes, ...posicion }) => (
+  <span
+    aria-hidden="true"
+    class:list={['pointer-events-none absolute h-5 w-5', bordes]}
+    style={{ ...posicion, borderColor: color }}
+  ></span>
+))}
