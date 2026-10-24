@@ -10,6 +10,9 @@ import { SUBCURSOS } from '../data/subcursos';
 import { ISLOTES_SPATIAL, SPATIAL_DERIVAS } from '../engine/Derivas';
 import { ISLOTES } from '../data/islotes';
 import { renderMarkdownToHtml } from '../utils/markdown';
+import { version } from '../../package.json';
+
+const displayVersion = version.split('.').slice(0, 2).join('.');
 
 // Read Markdown contents server-side
 let curso00MarkdownHtml = '';
@@ -251,7 +254,7 @@ const isloteCards = ISLOTES.map((islote) => {
 
   <!-- Subtitle Watermark bottom right -->
   <div class="pointer-events-none fixed bottom-4 right-4 md:bottom-6 md:right-6 z-20 font-mono text-[9px] text-ink-faint tracking-widest uppercase">
-    GASTÓN MARTINO • CURSARIO v0.1
+    GASTÓN MARTINO • CURSARIO v{displayVersion}
   </div>
 </div>
 
