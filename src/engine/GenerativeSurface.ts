@@ -574,14 +574,11 @@ export class GenerativeSurface {
     deriva: SpatialDeriva,
     hoveredItem: DerivaItem | null
   ) {
-    const cx = width / 2;
-    const cy = height / 2;
-
     // 1. Dedicated Paper Base
     this.drawAtmosphericPaper(ctx, width, height, camX, camY);
 
     // 2. Fine Local Grid
-    this.drawLocalGrid(ctx, width, height, camX, camY, zoom, deriva.accentColor);
+    this.drawLocalGrid(ctx, width, height, camX, camY, zoom);
 
     // 3. Local River Course Connecting the Deriva Items
     this.drawDerivaStream(ctx, width, height, camX, camY, zoom, deriva);
@@ -590,7 +587,7 @@ export class GenerativeSurface {
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'deriva', deriva);
 
     // 5. Background Watermark Banner
-    this.drawDerivaHeaderWatermark(ctx, width, height, deriva);
+    this.drawDerivaHeaderWatermark(ctx, height, deriva);
 
     // 6. Render Placeholder Cards along the Course
     this.drawDerivaItems(ctx, width, height, camX, camY, zoom, deriva, hoveredItem);
@@ -602,8 +599,7 @@ export class GenerativeSurface {
     height: number,
     camX: number,
     camY: number,
-    zoom: number,
-    accentColor: string
+    zoom: number
   ) {
     ctx.save();
     const cx = width / 2;
@@ -786,7 +782,6 @@ export class GenerativeSurface {
 
   private drawDerivaHeaderWatermark(
     ctx: CanvasRenderingContext2D,
-    width: number,
     height: number,
     deriva: SpatialDeriva
   ) {

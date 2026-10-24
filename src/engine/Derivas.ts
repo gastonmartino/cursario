@@ -27,8 +27,6 @@ export interface SpatialDeriva {
   accentColor: string;
   tag: string;
   type: 'inprogress' | 'electronics' | 'generative' | 'discourse';
-  image?: string;
-  customHtml?: string;
   items: DerivaItem[];
 }
 
@@ -41,7 +39,6 @@ export interface IsloteSpatial {
   height: number;
 }
 
-export type Derivas = SpatialDeriva; // Alias for backward compatibility
 
 // Posición y tamaño de una subderiva en el lienzo local de su deriva.
 // Los textos y el color se toman de SUBCURSOS (src/data/subcursos.ts),

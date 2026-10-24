@@ -29,9 +29,6 @@ export class CanvasController {
   public hoveredDeriva: SpatialDeriva | null = null;
   public hoveredItem: DerivaItem | null = null;
 
-  // Stash macro camera state to restore upon exiting
-  private macroCameraState = { x: 0, y: 0, zoom: 0.9 };
-
   private isRunning: boolean = false;
   private lastTime: number = 0;
   private dpr: number = 1;
@@ -436,13 +433,6 @@ export class CanvasController {
 
     if (!targetDeriva) return;
 
-    // Save macro state
-    this.macroCameraState = {
-      x: this.camera.x,
-      y: this.camera.y,
-      zoom: this.camera.zoom
-    };
-
     if (this.transitionCallback) {
       this.transitionCallback('enter', targetDeriva);
     }
@@ -494,11 +484,6 @@ export class CanvasController {
     }
   }
 
-  // Alias for backward compatibility
-  public flyToZone(derivaId: string) {
-    this.flyToDeriva(derivaId);
-  }
-
   public resetView() {
     if (this.level === 'macro') {
       const initialDeriva = SPATIAL_DERIVAS.find((deriva) => deriva.id === 'en-curso');
@@ -525,10 +510,6 @@ export class CanvasController {
     this.isRunning = true;
     this.lastTime = performance.now();
     this.loop();
-  }
-
-  public stop() {
-    this.isRunning = false;
   }
 
   private loop = () => {

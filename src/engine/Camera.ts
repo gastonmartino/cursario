@@ -1,8 +1,3 @@
-export interface CameraState {
-  x: number;
-  y: number;
-  zoom: number;
-}
 
 export class Camera {
   public x: number = 0;

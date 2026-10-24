@@ -26,7 +26,6 @@ export class InkCursor {
 
   private lastX: number = -100;
   private lastY: number = -100;
-  private velocity: number = 0;
 
   private trail: TrailPoint[] = [];
   private particles: InkParticle[] = [];
@@ -37,7 +36,6 @@ export class InkCursor {
   private readonly maxTrailLength = 40;
   private readonly cobaltInk = 'rgba(0, 56, 168, '; // #0038A8
   private readonly cyanotypeInk = 'rgba(22, 37, 61, '; // #16253D
-  private readonly vermilionInk = 'rgba(224, 62, 45, '; // #E03E2D
 
   constructor() {}
 
@@ -46,7 +44,6 @@ export class InkCursor {
     const dy = screenY - this.lastY;
     const dist = Math.hypot(dx, dy);
 
-    this.velocity = dist;
     this.screenX = screenX;
     this.screenY = screenY;
     this.worldX = worldX;

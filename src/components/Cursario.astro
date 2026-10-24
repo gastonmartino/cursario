@@ -264,7 +264,7 @@ const isloteCards = ISLOTES.map((islote) => {
 
 <script>
   import { CanvasController, type TelemetryData } from '../engine/CanvasController';
-  import { SPATIAL_DERIVAS, type SpatialDeriva } from '../engine/Derivas';
+  import { SPATIAL_DERIVAS } from '../engine/Derivas';
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
@@ -503,9 +503,7 @@ const isloteCards = ISLOTES.map((islote) => {
         // Update minimap radar
         renderMinimap(data);
       },
-      (type: 'enter' | 'exit', deriva: SpatialDeriva | null) => {
-        triggerCurtainTransition();
-      },
+      () => triggerCurtainTransition(),
       cursorCanvas
     );
 
@@ -537,7 +535,7 @@ const isloteCards = ISLOTES.map((islote) => {
     // Bind Quick Navigation Buttons
     const derivaButtons = document.querySelectorAll('[data-fly-to]');
     derivaButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         // If button has data-incursionar, incursionar() handles level entry instead
         if (btn.hasAttribute('data-incursionar')) return;
         const targetDeriva = btn.getAttribute('data-fly-to');
