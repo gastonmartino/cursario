@@ -110,6 +110,11 @@ sus reglas.
 - **Transición**: para cambiar su aspecto, la carta redefine `#page-transition`
   en sus estilos globales, bajo su clase (`html.html-cursario #page-transition`).
 
+**Tamaños de letra**: los textos de lectura (párrafos, descripciones) van en
+cuerpos de más de 12 px, también en escritorio, y nunca por debajo de 12 px en
+el celular. Los rótulos breves en mayúsculas y en una tipografía condensada
+(pies, filas de un cartucho) pueden ir más chicos.
+
 Del sitio, a toda página llegan dos cosas, que la carta puede usar o pisar:
 
 - **Tailwind**: sus clases solo se aplican donde se usan, y su restablecimiento
