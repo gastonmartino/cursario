@@ -1,3 +1,5 @@
+import { withBase } from './paths';
+
 /** 
  * 
  * MIMO - Markdown In. Markup Out
@@ -84,7 +86,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
     const linkTokens: string[] = [];
     const linkToken = (label: string, href: string) => {
       const token = `__CURSARIO_LINK_${linkTokens.length}__`;
-      linkTokens.push(`<a href="${href}" class="${styles.link}" target="_blank" rel="noopener noreferrer">${label}</a>`);
+      linkTokens.push(`<a href="${withBase(href)}" class="${styles.link}" target="_blank" rel="noopener noreferrer">${label}</a>`);
       return token;
     };
 
@@ -172,7 +174,7 @@ export function renderMarkdownToHtml(markdown: string, variant: 'island' | 'page
       htmlLines.push(`
         <figure class="my-8 w-full">
           <img
-            src="${imageSrc}"
+            src="${withBase(imageSrc)}"
             alt="${altText}"
             loading="lazy"
             decoding="async"

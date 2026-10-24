@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { renderMarkdownToHtml } from '../utils/markdown';
+import { withBase } from '../utils/paths';
 
 interface Props {
   id: string;
@@ -131,7 +132,7 @@ const canShowAction = isSubderiva
 
 <article 
   id={id}
-  data-detail-href={navigableHref}
+  data-detail-href={withBase(navigableHref)}
   class="absolute top-0 left-0 shadow-xl rounded-sm flex flex-col justify-between select-none pointer-events-auto transition-opacity duration-200"
   style={`
     width: ${widthCss}; 
@@ -240,7 +241,7 @@ const canShowAction = isSubderiva
           </div>
           <img 
             data-island-image
-            src={imageUrl} 
+            src={withBase(imageUrl)} 
             alt={title} 
             class:list={[
               'relative z-10 h-auto object-contain rounded-sm opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-105',
@@ -285,7 +286,7 @@ const canShowAction = isSubderiva
     </div>
     {canShowAction && actionHref && (
       <a
-        href={actionHref}
+        href={withBase(actionHref)}
         class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >

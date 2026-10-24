@@ -7,6 +7,7 @@ import { SUBCURSOS, type SubcursoDefinition } from '../../data/subcursos';
 import { ISLOTES, type IsloteDefinition } from '../../data/islotes';
 import { SPATIAL_DERIVAS } from '../../engine/Derivas';
 import { renderMarkdownToHtml } from '../../utils/markdown';
+import { withBase } from '../../utils/paths';
 
 // Solo se generan páginas para los ítems que tienen un archivo de página.
 export function getStaticPaths() {
@@ -26,7 +27,7 @@ const displaySubtitle = data.subtitle ?? '';
 const backDerivaId =
   SPATIAL_DERIVAS.find((deriva) => deriva.id === data.parentDerivaId)?.id ??
   SPATIAL_DERIVAS.find((deriva) => deriva.items.some((item) => item.id === data.parentDerivaId))?.id;
-const backHref = backDerivaId ? `/?deriva=${backDerivaId}` : '/';
+const backHref = withBase(backDerivaId ? `/?deriva=${backDerivaId}` : '/');
 
 let markdownHtml = '';
 try {
@@ -60,7 +61,7 @@ try {
             ← VOLVER
           </a>
           <a
-            href="/"
+            href={withBase('/')}
             class="px-3 py-2 font-mono text-xs font-bold text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt md:px-4"
           >
             INICIO

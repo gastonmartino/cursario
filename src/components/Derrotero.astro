@@ -1,6 +1,7 @@
 ---
 import { SPATIAL_DERIVAS } from '../engine/Derivas';
 import { SUBCURSOS } from '../data/subcursos';
+import { withBase } from '../utils/paths';
 
 const getSubcursoHref = (subcurso: (typeof SUBCURSOS)[number]) =>
   subcurso.actionHref || subcurso.detailHref || (subcurso.pageMarkdownFile
@@ -47,10 +48,10 @@ const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
 
     <nav class="flex-1 overflow-y-auto px-5 py-6 md:px-6" aria-label="Índice del sitio">
       <div class="space-y-1">
-        <a href="/acerca-de-cursario/" class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+        <a href={withBase('/acerca-de-cursario/')} class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
           Acerca del Cursario
         </a>
-        <a href="/acerca-de-mi/" class="block py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+        <a href={withBase('/acerca-de-mi/')} class="block py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
           Acerca de mí
         </a>
       </div>
@@ -79,7 +80,7 @@ const navigationSections = SPATIAL_DERIVAS.map((deriva) => ({
                   <div class="space-y-1 border-l border-cobalt/25 pl-3">
                     {deriva.subcursos.map((subcurso) => (
                       <a
-                        href={subcurso.href ?? undefined}
+                        href={withBase(subcurso.href) ?? undefined}
                         title={subcurso.title || subcurso.subcurso}
                         class="flex min-w-0 items-center gap-1 py-2 font-sans text-sm leading-snug text-ink-muted transition-colors hover:text-cobalt"
                       >
