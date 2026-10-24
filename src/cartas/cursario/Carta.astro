@@ -173,9 +173,6 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   /* Los estilos globales del bundle llegan a todas las páginas de cartas: cada
      regla va bajo la clase de la carta en <html> o <body>. */
   html.html-cursario {
-    /* La barra de desplazamiento reserva el mismo espacio a los dos lados,
-       para que la hoja quede centrada respecto de la ventana. */
-    scrollbar-gutter: stable both-edges;
     --papel: #efe9dc;
     --papel-oscuro: #e3dccd;
     --tinta: #141416;
@@ -206,11 +203,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 </style>
 
 <style>
-  /* Siempre centrada: en ventanas más angostas que la hoja, los márgenes
-     laterales se vuelven negativos y la hoja se recorta igual de los dos lados. */
+  /* Siempre centrada respecto del ancho total de la ventana (100vw incluye la
+     barra de desplazamiento). En ventanas más angostas que la hoja, el margen
+     izquierdo se vuelve negativo y la hoja se recorta igual de los dos lados:
+     a la izquierda en el borde de la ventana, a la derecha bajo la barra. */
   .hoja {
     position: relative;
-    margin: 32px calc(50% - var(--medio-ancho)) 64px;
+    margin: 32px 0 64px calc(50vw - var(--medio-ancho));
     background: var(--papel);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
     overflow: hidden;
