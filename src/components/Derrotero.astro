@@ -30,7 +30,7 @@ import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
 import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
-import { withBase } from '../utils/paths';
+import { resolveFile, withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
 // En las páginas de contenido (LayoutCarta), lo que se ve al otro lado de la
@@ -71,6 +71,7 @@ const piezas = ISLAS.map((isla) => {
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
+    miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
     textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
       .filter(Boolean).join(' '),
@@ -244,13 +245,13 @@ const secciones = [
               <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
                 {obra.href ? (
                   <a href={obra.href} class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
                   </a>
                 ) : (
                   <div class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
                   </div>
@@ -267,13 +268,13 @@ const secciones = [
               <li data-pieza data-busqueda={entrada.textoBusqueda}>
                 {entrada.href ? (
                   <a href={entrada.href} class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
                   </a>
                 ) : (
                   <div class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
                   </div>
@@ -910,6 +911,18 @@ const secciones = [
     font-family: 'Geist Mono', monospace;
     font-size: 9px;
     color: #4A505C;
+  }
+
+  /* La miniatura (thumbnailImageUrl) llena el recuadro, recortada al cuadrado. */
+  .derrotero-imagen:has(img) {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .derrotero-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .derrotero-obra-titulo {

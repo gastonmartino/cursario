@@ -27,6 +27,14 @@ export interface InsulaDefinition {
   // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
   imageUrl?: string | null;
   markdownFile?: string | null;
+
+  // Imágenes del curso fuera del lienzo, con la misma regla de rutas que
+  // imageUrl (/{curso}/imagenes/):
+  //   coverImageUrl     → la portada, la imagen grande que lo representa;
+  //   thumbnailImageUrl → la miniatura, para las grillas (como la del
+  //                       Derrotero). Conviene una imagen liviana y cuadrada.
+  coverImageUrl?: string | null;
+  thumbnailImageUrl?: string | null;
 }
 
 export const INSULAS: InsulaDefinition[] = [

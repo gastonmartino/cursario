@@ -31,6 +31,15 @@ export interface IslaDefinition {
   actionHref?: string | null;
   detailHref?: string | null;
   showAction?: boolean;
+
+  // Imágenes del subcurso fuera del lienzo, con la misma regla de rutas que
+  // imageUrl (/{curso}/subcursos/{subcurso}/medios/):
+  //   coverImageUrl     → la portada, la imagen grande que lo representa;
+  //   thumbnailImageUrl → la miniatura, para las grillas (como la del
+  //                       Derrotero). Conviene una imagen liviana y cuadrada.
+  // Sin miniatura, el Derrotero muestra un recuadro gris con el código.
+  coverImageUrl?: string | null;
+  thumbnailImageUrl?: string | null;
 }
 
 export const ISLAS: IslaDefinition[] = [
