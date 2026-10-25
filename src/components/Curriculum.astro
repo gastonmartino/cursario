@@ -9,8 +9,10 @@
 //   cerrado  → solo el lienzo;
 //   mitad    → mitad y mitad (la posición inicial);
 //   completo → el Currículum cubre el lienzo.
-// Un clic en la manija recorre las posiciones en ciclo: de la mitad a un
-// extremo, de vuelta a la mitad, al otro extremo, y así.
+// En la manija: la flecha izquierda despliega el Currículum completo, la
+// derecha lo cierra, y un doble clic en el resto recorre las posiciones en
+// ciclo (de la mitad a un extremo, de vuelta a la mitad, al otro extremo…).
+// Arrastrarla desde cualquier parte mueve la costura.
 // La posición elegida se recuerda en el navegador. El ancho del panel es la
 // variable --ancho-curriculum, que el lienzo (Cursario.astro) también usa para
 // ocupar solo el resto de la ventana.
@@ -103,11 +105,11 @@ const secciones = [
     aria-valuenow="1"
     aria-valuetext="Mitad y mitad"
   >
-    <button type="button" class="costura-flecha" data-costura-paso="1" aria-label="Más Currículum" tabindex="-1">
+    <button type="button" class="costura-flecha" data-costura-destino="completo" aria-label="Currículum completo" tabindex="-1">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
     </button>
     <span class="costura-agarre" aria-hidden="true"></span>
-    <button type="button" class="costura-flecha" data-costura-paso="-1" aria-label="Más Cursario" tabindex="-1">
+    <button type="button" class="costura-flecha" data-costura-destino="cerrado" aria-label="Cerrar el Currículum" tabindex="-1">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
     </button>
   </div>
@@ -300,7 +302,7 @@ const secciones = [
     fijarPosicion(POSICIONES[Math.max(0, Math.min(POSICIONES.length - 1, indice))]);
   };
 
-  // Ciclo del clic: mitad → completo → mitad → cerrado → mitad…
+  // Ciclo del doble clic: mitad → completo → mitad → cerrado → mitad…
   const ciclar = () => {
     if (posicionActual() !== 'mitad') fijarPosicion('mitad');
     else fijarPosicion(ultimoExtremo === 'completo' ? 'cerrado' : 'completo');
@@ -308,16 +310,28 @@ const secciones = [
 
   fijarPosicion(posicionActual());
 
-  // Arrastre de la manija: la costura sigue al puntero y, al soltar, se imanta
-  // en la posición más cercana. Si el puntero casi no se movió, es un clic.
+  // Arrastre de la manija, desde cualquier parte (también desde las flechas):
+  // la costura sigue al puntero y, al soltar, se imanta en la posición más
+  // cercana. Si el puntero casi no se movió, es un clic: en una flecha, lleva
+  // a su extremo; en el resto de la manija no hace nada (el ciclo es con
+  // doble clic).
   let presionada = false;
   let arrastrando = false;
   let inicioX = 0;
+  let anchoInicial = 0;
+  let destino: Posicion | null = null;
+
+  const anchoArrastrado = (x: number) =>
+    Math.max(0, Math.min(window.innerWidth - RESTO_LIENZO, anchoInicial - (x - inicioX)));
+
   manija?.addEventListener('pointerdown', (event) => {
-    if (event.button !== 0 || (event.target as Element).closest('button')) return;
+    if (event.button !== 0) return;
     presionada = true;
     arrastrando = false;
     inicioX = event.clientX;
+    anchoInicial = panel?.offsetWidth ?? 0;
+    const flecha = (event.target as Element).closest<HTMLElement>('[data-costura-destino]');
+    destino = (flecha?.dataset.costuraDestino as Posicion | undefined) ?? null;
     manija.setPointerCapture(event.pointerId);
   });
 
@@ -326,8 +340,7 @@ const secciones = [
     if (!arrastrando && Math.abs(event.clientX - inicioX) < UMBRAL_ARRASTRE) return;
     arrastrando = true;
     raiz.classList.add('costura-en-movimiento');
-    const ancho = Math.max(0, Math.min(window.innerWidth - RESTO_LIENZO, window.innerWidth - event.clientX));
-    raiz.style.setProperty('--ancho-curriculum', `${ancho}px`);
+    raiz.style.setProperty('--ancho-curriculum', `${anchoArrastrado(event.clientX)}px`);
   });
 
   const soltar = (event: PointerEvent) => {
@@ -336,10 +349,10 @@ const secciones = [
     raiz.classList.remove('costura-en-movimiento');
     if (manija?.hasPointerCapture(event.pointerId)) manija.releasePointerCapture(event.pointerId);
     if (!arrastrando) {
-      if (event.type === 'pointerup') ciclar();
+      if (event.type === 'pointerup' && destino) fijarPosicion(destino);
       return;
     }
-    const ancho = window.innerWidth - event.clientX;
+    const ancho = anchoArrastrado(event.clientX);
     const masCercana = POSICIONES.reduce((mejor, posicion) =>
       Math.abs(anchoDe(posicion) - ancho) < Math.abs(anchoDe(mejor) - ancho) ? posicion : mejor);
     fijarPosicion(masCercana);
@@ -347,8 +360,9 @@ const secciones = [
   manija?.addEventListener('pointerup', soltar);
   manija?.addEventListener('pointercancel', soltar);
 
-  manija?.querySelectorAll<HTMLButtonElement>('[data-costura-paso]').forEach((boton) => {
-    boton.addEventListener('click', () => mover(Number(boton.dataset.costuraPaso)));
+  manija?.addEventListener('dblclick', (event) => {
+    if ((event.target as Element).closest('[data-costura-destino]')) return;
+    ciclar();
   });
 
   // Teclado: las flechas mueven la costura y Enter o espacio hacen el ciclo
