@@ -126,8 +126,8 @@ const secciones = [
     <!-- Encabezado: el nombre a la izquierda, el menú a la derecha. El nombre
          y la bajada se ven igual que su opuesto en el HUD del lienzo. -->
     <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
-      <!-- Un clic en el nombre despliega el Currículum completo. -->
-      <div data-ir-a-posicion="completo" role="button" tabindex="0" aria-label="Gastón Martino // Currículum: ver el Currículum completo" class="curriculum-identidad flex min-w-0 cursor-pointer flex-col">
+      <!-- Un clic en el nombre despliega el Currículum completo, o vuelve a la mitad. -->
+      <div data-ir-a-posicion="completo" role="button" tabindex="0" aria-label="Gastón Martino // Currículum: ver el Currículum completo, o volver a la pantalla dividida" class="curriculum-identidad flex min-w-0 cursor-pointer flex-col">
         <h2 class="whitespace-nowrap font-mono text-xs font-bold tracking-widest text-ink-primary">
           GASTÓN MARTINO <span class="font-normal text-[11px] text-ink-faint">//</span>
           <span class="font-normal text-[10.4px] text-ink-faint" style="position: relative; top: 1px;">CURRÍCULUM</span>
@@ -417,12 +417,14 @@ const secciones = [
 
   // Los nombres de cada lado ("Gastón Martino // Cursario" en el HUD del
   // lienzo y "Gastón Martino // Currículum" acá) llevan la costura a su
-  // extremo: el lienzo o el Currículum a pantalla completa.
+  // extremo: el lienzo o el Currículum a pantalla completa. Si ya está en
+  // ese extremo, la vuelven a la mitad.
   const pantallaChica = window.matchMedia('(max-width: 767.98px)');
   document.querySelectorAll<HTMLElement>('[data-ir-a-posicion]').forEach((bloque) => {
     const posicion = bloque.dataset.irAPosicion as Posicion;
     const ir = () => {
-      if (!pantallaChica.matches) fijarPosicion(posicion);
+      if (pantallaChica.matches) return;
+      fijarPosicion(posicionActual() === posicion ? 'mitad' : posicion);
     };
     bloque.addEventListener('click', ir);
     bloque.addEventListener('keydown', (event) => {
