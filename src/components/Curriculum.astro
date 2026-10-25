@@ -2,7 +2,8 @@
 // CURRÍCULUM
 // La otra mitad de la portada: frente al Cursario (el lienzo para explorar a
 // la deriva), una versión ordenada y esperable del sitio, como la de cualquier
-// portfolio de artista: obras, escritos, bio y contacto, con un buscador.
+// portfolio de artista: obras, bitácora, escritos, bio y contacto, con un
+// buscador.
 //
 // Una costura vertical separa las dos mitades. Su manija se arrastra, se
 // mueve con sus flechas o con el teclado, y se imanta en tres posiciones:
@@ -24,19 +25,20 @@ import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
 import { renderizarBloques } from '../utils/markdown';
 import { withBase } from '../utils/paths';
+import EsquinasPlano from './EsquinasPlano.astro';
 
-// Las islas de estos cursos son escritos; las demás, obras.
-const CURSOS_ESCRITOS = ['pensamiento'];
-// La bitácora (lo que está en curso) va al final: el Currículum muestra
-// primero las obras terminadas.
-const CURSOS_AL_FINAL = ['en-curso'];
+// La sección del Currículum en la que aparecen las islas de cada curso.
+const SECCION_DE_CURSO: Record<string, 'obras' | 'bitacora' | 'escritos'> = {
+  untref: 'obras',
+  generativa: 'obras',
+  'en-curso': 'bitacora',
+  pensamiento: 'escritos',
+};
 
 const anioDe = (...textos: Array<string | null | undefined>) =>
   textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
 
-const cursos = [...INSULAS].sort((a, b) =>
-  Number(CURSOS_AL_FINAL.includes(a.id)) - Number(CURSOS_AL_FINAL.includes(b.id)));
-const ordenCurso = (id: string) => cursos.findIndex((curso) => curso.id === id);
+const ordenCurso = (id: string) => INSULAS.findIndex((curso) => curso.id === id);
 
 const piezas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
@@ -59,10 +61,12 @@ const piezas = ISLAS.map((isla) => {
   };
 }).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));
 
-const obras = piezas.filter((pieza) => !CURSOS_ESCRITOS.includes(pieza.idCurso));
-const escritos = piezas.filter((pieza) => CURSOS_ESCRITOS.includes(pieza.idCurso));
+const deSeccion = (seccion: string) => piezas.filter((pieza) => SECCION_DE_CURSO[pieza.idCurso] === seccion);
+const obras = deSeccion('obras');
+const bitacora = deSeccion('bitacora');
+const escritos = deSeccion('escritos');
 
-const categorias = cursos.map((insula) => ({
+const categorias = INSULAS.map((insula) => ({
   id: insula.id,
   nombre: insula.name,
   cantidad: obras.filter((obra) => obra.idCurso === insula.id).length,
@@ -76,6 +80,7 @@ const bioHtml = renderizarBloques(
 
 const secciones = [
   { id: 'obras', nombre: 'OBRAS' },
+  { id: 'bitacora', nombre: 'BITÁCORA' },
   { id: 'escritos', nombre: 'ESCRITOS' },
   { id: 'bio', nombre: 'BIO' },
   { id: 'contacto', nombre: 'CONTACTO' },
@@ -209,7 +214,30 @@ const secciones = [
           </ul>
         </div>
 
-        <!-- Escritos: fichas apiladas, que sobresalen al pasar el puntero -->
+        <!-- Bitácora -->
+        <div data-solo-seccion="bitacora" hidden>
+          <ul class="curriculum-grilla">
+            {bitacora.map((entrada) => (
+              <li data-pieza data-busqueda={entrada.textoBusqueda}>
+                {entrada.href ? (
+                  <a href={entrada.href} class="curriculum-obra">
+                    <span class="curriculum-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="curriculum-obra-titulo">{entrada.titulo}</span>
+                    <span class="curriculum-obra-meta">{entrada.etiqueta}</span>
+                  </a>
+                ) : (
+                  <div class="curriculum-obra">
+                    <span class="curriculum-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="curriculum-obra-titulo">{entrada.titulo}</span>
+                    <span class="curriculum-obra-meta">{entrada.etiqueta}</span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Escritos: fichas apiladas, que se estiran hacia arriba al pasar el puntero -->
         <div data-solo-seccion="escritos" hidden>
           <ul class="curriculum-fichas">
             {escritos.map((escrito) => (
@@ -232,7 +260,11 @@ const secciones = [
 
         <!-- Bio -->
         <div data-solo-seccion="bio" hidden class="curriculum-bio max-w-xl">
-          <img src={withBase('/medios/retrato.jpg')} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="mb-6 h-56 w-56 bg-paper-sheet object-cover" />
+          <!-- Retrato con el borde y las esquinas de plano de las islas del lienzo -->
+          <div class="relative mb-8 ml-2 mt-2 h-56 w-56 border-2 border-cobalt">
+            <img src={withBase('/medios/retrato.jpg')} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="h-full w-full bg-paper-sheet object-cover" />
+            <EsquinasPlano color="#0038A8" />
+          </div>
           <Fragment set:html={bioHtml} />
         </div>
 
@@ -391,6 +423,7 @@ const secciones = [
   const botonesCategoria = panel?.querySelectorAll<HTMLButtonElement>('button[data-categoria]') ?? [];
   const SECCIONES_CON_BUSQUEDA: Record<string, { singular: string; plural: string; buscar: string }> = {
     obras: { singular: 'OBRA', plural: 'OBRAS', buscar: 'Buscar obras' },
+    bitacora: { singular: 'ENTRADA', plural: 'ENTRADAS', buscar: 'Buscar en la bitácora' },
     escritos: { singular: 'ESCRITO', plural: 'ESCRITOS', buscar: 'Buscar escritos' },
   };
   let seccion = 'obras';
@@ -676,13 +709,14 @@ const secciones = [
   }
 
   /* Fichas de escritos: apiladas como en un fichero, cada una tapa la parte
-     de abajo de la anterior. Al pasar el puntero, la ficha sube (sin pasar
-     por encima de la siguiente) y deja ver un poco más de su texto. */
+     de abajo de la anterior. Al pasar el puntero, la ficha se estira hacia
+     arriba (su borde de abajo queda quieto y sigue debajo de la siguiente),
+     como si se levantara, y deja ver más de su texto. */
   .curriculum-fichas {
     display: flex;
     flex-direction: column;
     max-width: 560px;
-    padding: 36px 0 24px;
+    padding: 64px 0 24px;
   }
 
   .curriculum-fichas > li + li {
@@ -694,20 +728,22 @@ const secciones = [
     display: flex;
     flex-direction: column;
     gap: 8px;
-    min-height: 170px;
+    height: 170px;
+    overflow: hidden;
     padding: 14px 18px 18px;
     border: 1px solid #D0D6E2;
     background: #FFFFFF;
     color: #1A1C20;
     text-decoration: none;
     box-shadow: 0 -1px 0 rgba(22, 37, 61, 0.04), 0 6px 14px -12px rgba(22, 37, 61, 0.35);
-    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    transition: height 240ms ease, margin-top 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
   }
 
   .curriculum-ficha:hover,
   .curriculum-ficha:focus-visible,
   [data-ficha].resaltada .curriculum-ficha {
-    transform: translateY(-32px);
+    height: 230px;
+    margin-top: -60px;
     border-color: #0038A8;
     box-shadow: 0 10px 24px -14px rgba(0, 56, 168, 0.5);
     outline: none;
