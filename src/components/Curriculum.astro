@@ -506,6 +506,8 @@ const secciones = [
     width: var(--ancho-curriculum);
     border-left: 3px solid #0038A8;
     background: #FFFFFF;
+    /* Sombra hacia el lienzo: el panel está por encima. */
+    box-shadow: -10px 0 24px -14px rgba(22, 37, 61, 0.45);
     transition: width 320ms ease-in-out;
   }
 
@@ -674,12 +676,13 @@ const secciones = [
   }
 
   /* Fichas de escritos: apiladas como en un fichero, cada una tapa la parte
-     de abajo de la anterior; al pasar el puntero, la ficha crece y sobresale. */
+     de abajo de la anterior. Al pasar el puntero, la ficha sube (sin pasar
+     por encima de la siguiente) y deja ver un poco más de su texto. */
   .curriculum-fichas {
     display: flex;
     flex-direction: column;
     max-width: 560px;
-    padding: 4px 0 24px;
+    padding: 36px 0 24px;
   }
 
   .curriculum-fichas > li + li {
@@ -704,10 +707,10 @@ const secciones = [
   .curriculum-ficha:hover,
   .curriculum-ficha:focus-visible,
   [data-ficha].resaltada .curriculum-ficha {
-    z-index: 2;
-    transform: translateX(-14px) scale(1.03);
+    transform: translateY(-32px);
     border-color: #0038A8;
-    box-shadow: 0 16px 32px -16px rgba(22, 37, 61, 0.45);
+    box-shadow: 0 10px 24px -14px rgba(0, 56, 168, 0.5);
+    outline: none;
   }
 
   .curriculum-ficha-cabecera {
