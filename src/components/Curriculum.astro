@@ -147,7 +147,7 @@ const secciones = [
 
     <div class="flex min-h-0 flex-1">
       <!-- Columna de navegación -->
-      <div class="flex w-56 shrink-0 flex-col gap-7 overflow-y-auto pb-8 pl-8 pt-7">
+      <div class="flex w-56 shrink-0 flex-col gap-7 overflow-y-auto pb-6 pl-8 pt-7">
         <nav aria-label="Secciones del Currículum" class="curriculum-secciones flex flex-col font-sans text-[30px] font-extrabold leading-none tracking-tight">
           {secciones.map((seccion, i) => (
             <button type="button" data-seccion={seccion.id} aria-pressed={String(i === 0)}>{seccion.nombre}</button>

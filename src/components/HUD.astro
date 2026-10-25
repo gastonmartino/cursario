@@ -99,31 +99,38 @@
   </div>
 </header>
 
-<!-- Zoom y centrar: abajo a la derecha del lienzo, sobre la firma -->
-<div class="hud-lienzo pointer-events-auto absolute bottom-11 right-4 md:bottom-14 md:right-6 z-30 flex items-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm overflow-hidden">
+<!-- Zoom y centrar: apilados abajo a la derecha del lienzo, sobre la firma -->
+<div class="hud-lienzo pointer-events-auto absolute bottom-11 right-4 md:bottom-14 md:right-6 z-30 flex flex-col items-stretch bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm overflow-hidden">
   <!-- Los botones de zoom se ocultan cuando falta espacio; en pantallas
        táctiles se puede hacer zoom con los dedos. -->
   <button 
     id="btn-zoom-in"
-    class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+    class="hidden min-[430px]:flex h-8 w-8 items-center justify-center text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-sm border-b border-ink-border/60"
     title="Acercar (+)"
+    aria-label="Acercar"
   >
     +
   </button>
   <button 
     id="btn-zoom-out"
-    class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+    class="hidden min-[430px]:flex h-8 w-8 items-center justify-center text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-sm border-b border-ink-border/60"
     title="Alejar (-)"
+    aria-label="Alejar"
   >
-    -
+    −
   </button>
   <button 
     id="btn-reset-view"
-    class="px-3.5 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs flex items-center gap-1.5"
+    class="flex h-8 w-8 items-center justify-center text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors"
     title="Centrar vista (R / 0)"
+    aria-label="Centrar vista"
   >
-    <span class="text-[10px] text-ink-faint">[R]</span> CENTRAR
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" />
+      <line x1="12" y1="2" x2="12" y2="6" />
+      <line x1="12" y1="18" x2="12" y2="22" />
+      <line x1="2" y1="12" x2="6" y2="12" />
+      <line x1="18" y1="12" x2="22" y2="12" />
+    </svg>
   </button>
 </div>
-
-
