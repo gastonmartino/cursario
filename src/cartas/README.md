@@ -77,7 +77,8 @@ indispensable y no impone fondo, tipografías ni colores:
 
 - los metadatos de la página (`title`, `description`);
 - la **transición** entre páginas;
-- el **Aparejo**: un panel, desde la derecha, con atajos a otras páginas
+- el **Aparejo**: un panel con atajos a otras páginas, que se abre desde el
+  borde derecho de la página, junto a la costura
   (`src/components/Aparejo.astro`);
 - el **Derrotero** (el panel "Gastón Martino // Currículum") y su manija, con
   el aspecto del sitio, fuera de la carta.

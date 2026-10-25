@@ -599,7 +599,9 @@ const secciones = [
 <style>
   .derrotero {
     position: fixed;
-    z-index: 50;
+    /* Por encima del Aparejo (z-index 60), que se abre del lado de la página:
+       así la manija nunca queda tapada. */
+    z-index: 70;
     top: 0;
     right: 0;
     bottom: 0;

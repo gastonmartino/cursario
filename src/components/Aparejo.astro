@@ -1,7 +1,7 @@
 ---
 // APAREJO
-// Atajos para ir directo a otra página: un panel que se abre desde la derecha
-// con el botón Aparejo (src/components/navegacion/BotonAparejo.astro), que
+// Atajos para ir directo a otra página: un panel que se abre desde el borde
+// derecho de la página con el botón Aparejo (src/components/navegacion/BotonAparejo.astro), que
 // cada carta ubica y estiliza. Lo incluye LayoutCarta en las páginas de
 // contenido.
 import { INSULAS } from '../data/insulas';
@@ -26,7 +26,9 @@ const navigationSections = INSULAS.map((deriva) => ({
 }));
 ---
 
-<div id="aparejo-raiz" class="pointer-events-none fixed inset-0 z-[60]" aria-hidden="true">
+<!-- Ocupa el lugar de la página: con vista compartida, se abre desde el borde
+     de la página, junto a la costura, y deja el Derrotero a la vista. -->
+<div id="aparejo-raiz" class="pointer-events-none fixed inset-0 z-[60] overflow-hidden" style="right: var(--derecha-pagina, 0px);" aria-hidden="true">
   <div
     id="aparejo-fondo"
     class="absolute inset-0 bg-cyanotype/25 opacity-0 transition-opacity duration-300"
