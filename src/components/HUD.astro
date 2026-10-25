@@ -9,18 +9,6 @@
        angosto que su texto; desde md no se achica, y lo que se recorta es la
        barra de telemetría. -->
   <div class="pointer-events-auto flex min-w-0 items-center gap-3 has-[#hud-macro-identity.flex]:min-w-min md:has-[#hud-macro-identity.flex]:shrink-0">
-    <!-- Sin vista compartida: botón para pasar al Derrotero (una grilla, como
-         una galería). Está en los dos niveles del Mapa. -->
-    <button
-      type="button"
-      data-alternar-vista="completo"
-      class="flex h-10 w-10 shrink-0 items-center justify-center self-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt lg:hidden"
-      title="Ver el Currículum"
-      aria-label="Ver el Currículum"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>
-    </button>
-
     <!-- Macro Identity Bar -->
     <!-- Un clic en la identidad muestra el Mapa a pantalla completa (cierra el
          Derrotero, ver Derrotero.astro), o vuelve a la pantalla dividida. -->
@@ -94,6 +82,19 @@
     </div>
   </div>
 
+  <div class="pointer-events-auto flex shrink-0 items-center">
+  <!-- Botón para ver el Derrotero (una grilla, como una galería), siempre en
+       el extremo derecho y en los dos niveles del Mapa. -->
+  <button
+    type="button"
+    data-alternar-vista="completo"
+    class="flex h-10 w-10 shrink-0 items-center justify-center self-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+    title="Ver el Currículum"
+    aria-label="Ver el Currículum"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>
+  </button>
+  </div>
 </header>
 
 <!-- Zoom y centrar: apilados abajo a la derecha del lienzo, sobre la firma -->

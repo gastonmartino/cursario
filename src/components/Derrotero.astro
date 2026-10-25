@@ -11,19 +11,19 @@
 //   cerrado  → solo el Mapa (o la página de contenido);
 //   mitad    → mitad y mitad (la posición inicial);
 //   completo → el Derrotero cubre el Mapa.
-// En la manija: la flecha izquierda despliega el Currículum completo, la
-// derecha lo cierra, y un doble clic en el resto recorre las posiciones en
-// ciclo (de la mitad a un extremo, de vuelta a la mitad, al otro extremo…).
-// Arrastrarla desde cualquier parte mueve la costura.
+// En la manija: cada flecha mueve la costura un paso hacia su lado (y se
+// deshabilita en su extremo), y un doble clic en el resto recorre las
+// posiciones en ciclo (de la mitad a un extremo, de vuelta a la mitad, al otro
+// extremo…). Arrastrarla desde cualquier parte mueve la costura.
 // La posición elegida se recuerda en el navegador (EstadoDerrotero.astro la
 // aplica antes de dibujar). El ancho del panel es la variable
 // --ancho-derrotero, que el Mapa (Mapa.astro) y las páginas de contenido
 // (LayoutCarta) también usan para ocupar solo el resto de la ventana.
 //
 // La costura existe solo con vista compartida (desde 1024 px). Por debajo, en
-// la portada se ve el Mapa o el Derrotero, y se pasa de uno a otro con un
-// botón arriba a la izquierda de cada uno (un mapa o una grilla); en las
-// páginas de contenido no hay Derrotero. Si el panel es
+// la portada se ve el Mapa o el Derrotero; en las páginas de contenido no hay
+// Derrotero. En cualquier ancho, un botón arriba a la derecha de cada vista
+// pasa a la otra (un mapa o una grilla). Si el panel es
 // angosto, su menú se pliega detrás de un botón.
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
@@ -107,11 +107,11 @@ const secciones = [
     aria-valuenow="1"
     aria-valuetext="Mitad y mitad"
   >
-    <button type="button" class="costura-flecha" data-costura-destino="completo" aria-label="Currículum completo" tabindex="-1">
+    <button type="button" class="costura-flecha" data-costura-paso="1" aria-label="Ensanchar el Currículum" tabindex="-1">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
     </button>
     <span class="costura-agarre" aria-hidden="true"></span>
-    <button type="button" class="costura-flecha" data-costura-destino="cerrado" aria-label="Cerrar el Currículum" tabindex="-1">
+    <button type="button" class="costura-flecha" data-costura-paso="-1" aria-label="Angostar el Currículum" tabindex="-1">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
     </button>
   </div>
@@ -120,21 +120,10 @@ const secciones = [
        angostarse, cuando el panel se cierra. -->
   <div class="derrotero-recorte">
   <div class="derrotero-contenido">
-    <!-- Encabezado: el nombre a la izquierda y, si el panel es angosto, el
-         botón de su menú a la derecha. El nombre y la bajada se ven igual que
-         su opuesto en el HUD del Mapa. -->
+    <!-- Encabezado: el nombre a la izquierda; a la derecha, el botón para ver
+         el Mapa y, si el panel es angosto, a su lado el de su menú. El nombre y
+         la bajada se ven igual que su opuesto en el HUD del Mapa. -->
     <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
-      <!-- Sin vista compartida: botón para volver al Mapa (un mapa plegado). -->
-      <div class="flex min-w-0 items-start gap-3">
-      <button
-        type="button"
-        data-alternar-vista="cerrado"
-        class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt lg:hidden"
-        title="Ver el Mapa"
-        aria-label="Ver el Mapa"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
-      </button>
       <!-- Un clic en el nombre despliega el Derrotero completo, o vuelve a la
            mitad (solo con vista compartida). -->
       <div data-ir-a-posicion="completo" role="button" tabindex="0" aria-label="Gastón Martino // Currículum: ver el Currículum completo, o volver a la pantalla dividida" class="derrotero-identidad flex min-w-0 cursor-pointer flex-col">
@@ -144,22 +133,34 @@ const secciones = [
         </h2>
         <p class="mt-0.5 font-sans text-xs text-ink-muted">Artista · Diseñador · Docente</p>
       </div>
+      <!-- A la derecha: el botón para ver el Mapa (un mapa plegado), en la
+           esquina, y a su lado, si el panel es angosto, el de su menú. -->
+      <div class="flex shrink-0 items-start gap-2">
+        <button
+          id="derrotero-menu-boton"
+          type="button"
+          class="derrotero-menu-boton h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+          title="Secciones del Currículum"
+          aria-label="Abrir las secciones del Currículum"
+          aria-controls="derrotero-menu"
+          aria-expanded="false"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-alternar-vista="cerrado"
+          class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+          title="Ver el Mapa"
+          aria-label="Ver el Mapa"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
+        </button>
       </div>
-      <button
-        id="derrotero-menu-boton"
-        type="button"
-        class="derrotero-menu-boton h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
-        title="Secciones del Currículum"
-        aria-label="Abrir las secciones del Currículum"
-        aria-controls="derrotero-menu"
-        aria-expanded="false"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="4" y1="6" x2="20" y2="6" />
-          <line x1="4" y1="12" x2="20" y2="12" />
-          <line x1="4" y1="18" x2="20" y2="18" />
-        </svg>
-      </button>
     </header>
 
     <div class="relative flex min-h-0 flex-1">
@@ -339,6 +340,11 @@ const secciones = [
     raiz.style.removeProperty('--ancho-derrotero');
     manija?.setAttribute('aria-valuenow', String(POSICIONES.indexOf(posicion)));
     manija?.setAttribute('aria-valuetext', TEXTOS[posicion]);
+    // Cada flecha se deshabilita en su extremo.
+    manija?.querySelectorAll<HTMLElement>('[data-costura-paso]').forEach((flecha) => {
+      const enElExtremo = flecha.dataset.costuraPaso === '1' ? posicion === 'completo' : posicion === 'cerrado';
+      flecha.setAttribute('aria-disabled', String(enElExtremo));
+    });
     try {
       localStorage.setItem('cursario:derrotero', posicion);
     } catch {
@@ -361,14 +367,14 @@ const secciones = [
 
   // Arrastre de la manija, desde cualquier parte (también desde las flechas):
   // la costura sigue al puntero y, al soltar, se imanta en la posición más
-  // cercana. Si el puntero casi no se movió, es un clic: en una flecha, lleva
-  // a su extremo; en el resto de la manija no hace nada (el ciclo es con
-  // doble clic).
+  // cercana. Si el puntero casi no se movió, es un clic: en una flecha, mueve
+  // un paso; en el resto de la manija no hace nada (el ciclo es con doble
+  // clic).
   let presionada = false;
   let arrastrando = false;
   let inicioX = 0;
   let anchoInicial = 0;
-  let destino: Posicion | null = null;
+  let paso = 0;
 
   const anchoArrastrado = (x: number) =>
     Math.max(0, Math.min(window.innerWidth - RESTO_LIENZO, anchoInicial - (x - inicioX)));
@@ -379,8 +385,8 @@ const secciones = [
     arrastrando = false;
     inicioX = event.clientX;
     anchoInicial = panel?.offsetWidth ?? 0;
-    const flecha = (event.target as Element).closest<HTMLElement>('[data-costura-destino]');
-    destino = (flecha?.dataset.costuraDestino as Posicion | undefined) ?? null;
+    const flecha = (event.target as Element).closest<HTMLElement>('[data-costura-paso]');
+    paso = flecha && flecha.getAttribute('aria-disabled') !== 'true' ? Number(flecha.dataset.costuraPaso) : 0;
     manija.setPointerCapture(event.pointerId);
   });
 
@@ -398,7 +404,7 @@ const secciones = [
     raiz.classList.remove('costura-en-movimiento');
     if (manija?.hasPointerCapture(event.pointerId)) manija.releasePointerCapture(event.pointerId);
     if (!arrastrando) {
-      if (event.type === 'pointerup' && destino) fijarPosicion(destino);
+      if (event.type === 'pointerup' && paso) mover(paso);
       return;
     }
     const ancho = anchoArrastrado(event.clientX);
@@ -410,7 +416,7 @@ const secciones = [
   manija?.addEventListener('pointercancel', soltar);
 
   manija?.addEventListener('dblclick', (event) => {
-    if ((event.target as Element).closest('[data-costura-destino]')) return;
+    if ((event.target as Element).closest('[data-costura-paso]')) return;
     ciclar();
   });
 
@@ -447,8 +453,8 @@ const secciones = [
     });
   });
 
-  // Sin vista compartida, se ve el Mapa o el Derrotero: un botón arriba a la
-  // izquierda de cada uno pasa al otro.
+  // Un botón arriba a la derecha de cada vista pasa a la otra: en el Mapa,
+  // despliega el Derrotero completo; en el Derrotero, lo cierra.
   document.querySelectorAll<HTMLElement>('[data-alternar-vista]').forEach((boton) => {
     boton.addEventListener('click', () => fijarPosicion(boton.dataset.alternarVista as Posicion));
   });
@@ -752,6 +758,16 @@ const secciones = [
 
   .costura-flecha:hover {
     background: #EDF1F5;
+  }
+
+  /* En su extremo, la flecha no hace nada (la manija igual se arrastra desde ahí). */
+  .costura-flecha[aria-disabled='true'] {
+    opacity: 0.3;
+    cursor: inherit;
+  }
+
+  .costura-flecha[aria-disabled='true']:hover {
+    background: transparent;
   }
 
   .costura-agarre {
