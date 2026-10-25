@@ -40,10 +40,7 @@ const navigationSections = INSULAS.map((deriva) => ({
     aria-label="Aparejo: atajos a otras páginas"
   >
     <header class="flex items-center justify-between border-b border-ink-border/60 px-5 py-4 md:px-6">
-      <div>
-        <p class="font-mono text-[10px] font-bold tracking-widest text-cobalt">APAREJO</p>
-        <h2 class="mt-1 font-sans text-xl font-bold text-ink-primary">Atajos a la Derrota</h2>
-      </div>
+      <h2 class="font-sans text-xl font-bold text-ink-primary">Atajos a la Derrota</h2>
       <button
         id="aparejo-cerrar"
         type="button"
@@ -57,25 +54,32 @@ const navigationSections = INSULAS.map((deriva) => ({
 
     <nav class="flex-1 overflow-y-auto px-5 py-6 md:px-6" aria-label="Índice del sitio">
       <div>
-        <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-ink-muted uppercase pb-1">Carta de cursos y derivas</p>
+        <!-- Inicio: la portada se abre en la última vista usada (el Mapa o el
+             Derrotero, según la posición de la costura que se recuerda). -->
+        <a href={withBase('/')} class="block border-b border-ink-border/50 py-3 font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt">
+          INICIO
+        </a>
 
-        <div class="space-y-1 border-t border-ink-border/70">
-          {navigationSections.map((deriva, index) => (
+        <!-- Los cursos con contenido se muestran desplegados. -->
+        <div class="space-y-1">
+          {navigationSections.map((deriva) => {
+            const desplegado = deriva.subcursos.length > 0;
+            return (
             <div class="border-b border-ink-border/50">
               <button
                 type="button"
                 class="aparejo-acordeon flex w-full items-center justify-between gap-3 py-3 text-left font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt"
-                aria-expanded="false"
+                aria-expanded={String(desplegado)}
                 aria-controls={`aparejo-curso-${deriva.id}`}
               >
                 <span class="flex items-center gap-2">
                   <span class="font-mono text-[10px]" style={`color: ${deriva.accentColor};`}>{deriva.code}</span>
                   <span>{deriva.name}</span>
                 </span>
-                <span class="aparejo-acordeon-icono font-mono text-lg text-cobalt transition-transform duration-200" aria-hidden="true">+</span>
+                <span class:list={['aparejo-acordeon-icono font-mono text-lg text-cobalt transition-transform duration-200', desplegado && 'rotate-45 text-cobalt-dark']} aria-hidden="true">+</span>
               </button>
 
-              <div id={`aparejo-curso-${deriva.id}`} class="hidden pb-3 pl-4" role="region">
+              <div id={`aparejo-curso-${deriva.id}`} class:list={['pb-3 pl-4', !desplegado && 'hidden']} role="region">
                 {deriva.subcursos.length > 0 ? (
                   <div class="space-y-1 border-l border-cobalt/25 pl-3">
                     {deriva.subcursos.map((subcurso) => (
@@ -94,7 +98,8 @@ const navigationSections = INSULAS.map((deriva) => ({
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </nav>
