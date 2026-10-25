@@ -114,6 +114,9 @@ const secciones = [
     </button>
   </div>
 
+  <!-- El contenido tiene un ancho mínimo y se recorta, en lugar de
+       angostarse, cuando el panel se cierra. -->
+  <div class="curriculum-recorte">
   <div class="curriculum-contenido">
     <!-- Encabezado: el nombre a la izquierda, el menú a la derecha. El nombre
          y la bajada se ven igual que su opuesto en el HUD del lienzo. -->
@@ -250,6 +253,7 @@ const secciones = [
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -514,12 +518,19 @@ const secciones = [
     display: none !important;
   }
 
+  .curriculum-recorte {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Nunca más angosto que a media pantalla (menos el borde de la costura). */
   .curriculum-contenido {
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: calc(50vw - 3px);
     height: 100%;
-    overflow: hidden;
   }
 
   @media (max-width: 767.98px) {
