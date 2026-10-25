@@ -27,8 +27,11 @@ const navigationSections = INSULAS.map((deriva) => ({
 ---
 
 <!-- Ocupa el lugar de la página: con vista compartida, se abre desde el borde
-     de la página, junto a la costura, y deja el Derrotero a la vista. -->
-<div id="aparejo-raiz" class="pointer-events-none fixed inset-0 z-[60] overflow-hidden" style="right: var(--derecha-pagina, 0px);" aria-hidden="true">
+     de la página, junto a la costura, y deja el Derrotero a la vista.
+     Recorta con overflow-clip y no overflow-hidden: un contenedor oculto se
+     puede desplazar, y el navegador lo desplaza para mostrar lo que recibe el
+     foco, con lo que el panel aparecía de golpe en lugar de deslizarse. -->
+<div id="aparejo-raiz" class="pointer-events-none fixed inset-0 z-[60] overflow-clip" style="right: var(--derecha-pagina, 0px);" aria-hidden="true">
   <div
     id="aparejo-fondo"
     class="absolute inset-0 bg-cyanotype/25 opacity-0 transition-opacity duration-300"
@@ -126,8 +129,10 @@ const navigationSections = INSULAS.map((deriva) => ({
     drawerBackdrop.classList.toggle('opacity-100', open);
     openButtons.forEach((button) => button.setAttribute('aria-expanded', String(open)));
 
-    if (open) closeButton?.focus();
-    else openedBy?.focus();
+    // Sin desplazar nada para mostrar el elemento enfocado: el panel todavía
+    // está entrando (o saliendo) con su transición.
+    if (open) closeButton?.focus({ preventScroll: true });
+    else openedBy?.focus({ preventScroll: true });
   };
 
   openButtons.forEach((button) => button.addEventListener('click', () => {
