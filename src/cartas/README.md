@@ -181,16 +181,21 @@ Cada archivo `.md` de `public/paginas/` se publica en `/{nombre-del-archivo}/`
 
 ```markdown
 ---
-carta: cartulario
-titulo: Gastón Martino
+carta: cursario
+titulo: Cursario
 codigo: ACERCA DE
-etiqueta: BIO
+etiqueta: MANIFIESTO V1.0
 color: #0038A8
-descripcion: Acerca de Gastón Martino.
+descripcion: Acerca del proyecto CURSARIO.
 ---
 ```
 
 VOLVER lleva a la portada.
+
+Un archivo con `publicar: no` en el encabezado no se publica como página. Así
+están `bio.md` y `contacto.md`, que usa el Derrotero para sus secciones Bio
+(el texto, y el retrato en `retrato:`) y Contacto (un dato por título `##`,
+con su valor debajo; un separador `---` pasa a la columna siguiente).
 
 ## El cartulario
 

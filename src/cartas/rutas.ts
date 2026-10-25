@@ -37,14 +37,17 @@ export function rutasDeLectura<P>(rutas: RutaCarta<P>[]): RutaCarta<P>[] {
 }
 
 // Páginas sueltas: cada archivo .md de public/paginas/ se publica en
-// /{nombre-del-archivo}/, con sus datos en el encabezado del archivo.
+// /{nombre-del-archivo}/, con sus datos en el encabezado del archivo. Los que
+// dicen "publicar: no" (como bio.md y contacto.md, que usa el Derrotero) no
+// se publican como página.
 export function rutasPaginasSueltas(): RutaCarta<{ pagina: string }>[] {
   const carpeta = path.join(process.cwd(), 'public', 'paginas');
   return fs.readdirSync(carpeta)
     .filter((archivo) => archivo.endsWith('.md'))
-    .map((archivo) => {
+    .map((archivo) => ({ archivo, documento: cargarDocumento(`/paginas/${archivo}`) }))
+    .filter(({ documento }) => documento.datos.publicar !== 'no')
+    .map(({ archivo, documento }) => {
       const pagina = archivo.replace(/\.md$/, '');
-      const documento = cargarDocumento(`/paginas/${archivo}`);
       const { titulo = '', subtitulo = '', codigo = '', etiqueta = '', color = '#0038A8' } = documento.datos;
       return conVistas({
         params: { pagina },

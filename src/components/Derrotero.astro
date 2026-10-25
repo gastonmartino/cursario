@@ -29,7 +29,7 @@ import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
-import { renderizarBloques } from '../utils/markdown';
+import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
 import { withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
@@ -78,11 +78,28 @@ const categorias = INSULAS.map((insula) => ({
   cantidad: obras.filter((obra) => obra.idCurso === insula.id).length,
 })).filter((categoria) => categoria.cantidad > 0);
 
-// Bio: el texto de "Acerca de mí", sin su título (el nombre ya está arriba).
-const acercaDeMi = cargarDocumento('/paginas/acerca-de-mi.md');
-const bioHtml = renderizarBloques(
-  acercaDeMi.bloques.filter((bloque) => !(bloque.tipo === 'titulo' && bloque.nivel === 1)),
-);
+// Bio y Contacto salen de dos archivos de public/paginas/ que no se publican
+// como página (dicen "publicar: no"):
+//   bio.md      → el texto, y el retrato en el encabezado (retrato: …);
+//   contacto.md → un dato por título "##" (el nombre) con su valor debajo; un
+//                 separador "---" pasa a la columna siguiente.
+const bio = cargarDocumento('/paginas/bio.md');
+const bioHtml = renderizarBloques(bio.bloques);
+const retrato = bio.datos.retrato ? withBase(bio.datos.retrato) : null;
+
+const columnasContacto = cargarDocumento('/paginas/contacto.md').bloques.reduce<Array<Array<{ nombre: string; valor: string }>>>(
+  (columnas, bloque) => {
+    const columna = columnas[columnas.length - 1];
+    if (bloque.tipo === 'separador') columnas.push([]);
+    else if (bloque.tipo === 'titulo') columna.push({ nombre: bloque.texto, valor: '' });
+    else if (bloque.tipo === 'parrafo' && columna.length > 0) {
+      const dato = columna[columna.length - 1];
+      dato.valor = [dato.valor, renderizarEnLinea(bloque.texto, { enlace: 'text-cobalt hover:underline' })].filter(Boolean).join('<br>');
+    }
+    return columnas;
+  },
+  [[]],
+).filter((columna) => columna.length > 0);
 
 const secciones = [
   { id: 'obras', nombre: 'OBRAS' },
@@ -280,39 +297,29 @@ const secciones = [
         <!-- Bio -->
         <div data-solo-seccion="bio" hidden class="derrotero-bio max-w-xl">
           <!-- Retrato con el borde y las esquinas de plano de las islas del lienzo -->
-          <div class="relative mb-8 ml-2 mt-2 h-56 w-56 border-2 border-cobalt">
-            <img src={withBase('/medios/retrato.jpg')} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="h-full w-full bg-paper-sheet object-cover" />
-            <EsquinasPlano color="#0038A8" />
-          </div>
+          {retrato && (
+            <div class="relative mb-8 ml-2 mt-2 h-56 w-56 border-2 border-cobalt">
+              <img src={retrato} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="h-full w-full bg-paper-sheet object-cover" />
+              <EsquinasPlano color="#0038A8" />
+            </div>
+          )}
           <Fragment set:html={bioHtml} />
         </div>
 
         <!-- Contacto -->
         <!-- Contacto: en dos columnas (en una sola, si el panel es angosto) -->
         <div data-solo-seccion="contacto" hidden class="derrotero-contacto max-w-xl font-sans text-sm">
-          <div class="flex flex-col gap-6">
-            <div class="flex flex-col gap-1.5">
-              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
-              <p><a href="mailto:arroba@gastonmartino.xyz" class="text-cobalt hover:underline">arroba@gastonmartino.xyz</a></p>
+          {columnasContacto.map((columna) => (
+            <div class="flex flex-col gap-6">
+              {columna.map(({ nombre, valor }) => (
+                <div class="flex flex-col gap-1.5">
+                  <h3 class="font-mono text-[10px] font-bold uppercase tracking-widest text-ink-muted">{nombre}</h3>
+                  <p set:html={valor} />
+                </div>
+              ))}
             </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">INSTAGRAM</h3>
-              <p><a href="https://www.instagram.com/gastonmartino/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastonmartino</a></p>
-            </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
-              <p>Buenos Aires, Argentina</p>
-            </div>
-          </div>
-          <div class="flex flex-col gap-6">
-            <div class="flex flex-col gap-1.5">
-              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">FIGMA</h3>
-              <p><a href="https://www.figma.com/@gastimo" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastimo</a></p>
-            </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">WEB3 (TEZOS)</h3>
-              <p><a href="https://gastimo.tez.page/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">gastimo.tez.page</a></p>
-            </div>
+          ))}
+        </div>
           </div>
         </div>
       </div>
