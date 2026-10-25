@@ -2,7 +2,7 @@
 // HUD Component - Telemetry bar & Controls for Macro & Deriva Levels
 ---
 
-<header class="pointer-events-none fixed top-0 left-0 right-0 z-30 flex items-center justify-between gap-3 p-4 md:p-6">
+<header class="pointer-events-none absolute top-0 left-0 right-0 z-30 flex items-center justify-between gap-3 p-4 md:p-6">
   <!-- Left: Identity & Level Indicator -->
   <!-- Dentro de una deriva puede achicarse, para recortar el nombre de la
        deriva. En la vista general, el cuadro del nombre nunca queda más
@@ -53,7 +53,7 @@
        derecha no queden fuera de la vista, se oculta primero POS (debajo de
        1100px), luego ESTADO (debajo de 900px) y luego toda la barra (debajo
        de md). ESTADO se recorta con "…" si no entra en una línea. -->
-  <div class="pointer-events-auto hidden md:flex min-w-0 items-center gap-4 bg-white/85 backdrop-blur-md px-5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs">
+  <div id="hud-telemetria" class="pointer-events-auto hidden md:flex min-w-0 items-center gap-4 bg-white/85 backdrop-blur-md px-5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs">
     <div class="hidden min-[1100px]:flex shrink-0 items-center gap-2">
       <span class="text-ink-faint">POS:</span>
       <span id="telemetry-coords" class="font-semibold text-cobalt min-w-[140px]">

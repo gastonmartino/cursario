@@ -107,8 +107,11 @@ const navigationSections = INSULAS.map((deriva) => ({
   const drawerRoot = document.getElementById('navigation-drawer-root');
   const drawer = document.getElementById('navigation-drawer');
   const drawerBackdrop = document.getElementById('navigation-drawer-backdrop');
-  const openButton = document.getElementById('btn-open-menu');
+  // El menú se abre con el botón de cada página (BotonMenu o el del HUD) y,
+  // en la portada, también con el del Currículum.
+  const openButtons = document.querySelectorAll<HTMLElement>('#btn-open-menu, [data-abrir-derrotero]');
   const closeButton = document.getElementById('navigation-drawer-close');
+  let openedBy: HTMLElement | null = null;
 
   const setDrawerOpen = (open: boolean) => {
     if (!drawerRoot || !drawer || !drawerBackdrop) return;
@@ -119,13 +122,16 @@ const navigationSections = INSULAS.map((deriva) => ({
     drawer.classList.toggle('translate-x-full', !open);
     drawerBackdrop.classList.toggle('opacity-0', !open);
     drawerBackdrop.classList.toggle('opacity-100', open);
-    openButton?.setAttribute('aria-expanded', String(open));
+    openButtons.forEach((button) => button.setAttribute('aria-expanded', String(open)));
 
     if (open) closeButton?.focus();
-    else openButton?.focus();
+    else openedBy?.focus();
   };
 
-  openButton?.addEventListener('click', () => setDrawerOpen(true));
+  openButtons.forEach((button) => button.addEventListener('click', () => {
+    openedBy = button;
+    setDrawerOpen(true);
+  }));
   closeButton?.addEventListener('click', () => setDrawerOpen(false));
   drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
 

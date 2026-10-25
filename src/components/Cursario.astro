@@ -2,6 +2,7 @@
 import HUD from './HUD.astro';
 import RadarMinimapa from './RadarMinimapa.astro';
 import Derrotero from './Derrotero.astro';
+import Curriculum from './Curriculum.astro';
 import Insula from './Insula.astro';
 import Isla from './Isla.astro';
 import Islote from './Islote.astro';
@@ -55,14 +56,19 @@ const islotes = ISLOTES.map((islote) => {
 ---
 
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
+  <Derrotero />
+  <Curriculum />
+
+  <!-- El lienzo (el Cursario) ocupa la ventana menos el ancho del Currículum,
+       al otro lado de la costura (ver Curriculum.astro). -->
+  <div id="lienzo" class="lienzo absolute inset-y-0 left-0 overflow-hidden">
   <!-- HUD Telemetry & Navigation Controls -->
   <HUD />
-  <Derrotero />
 
   <!-- Smooth Level Transition Curtain -->
   <div 
     id="transition-curtain" 
-    class="pointer-events-none fixed inset-0 backdrop-blur-md opacity-0 z-20"
+    class="pointer-events-none absolute inset-0 backdrop-blur-md opacity-0 z-20"
     style="opacity: 0;"
   ></div>
 
@@ -163,12 +169,13 @@ const islotes = ISLOTES.map((islote) => {
   <!-- Foreground Cursor Canvas for Ink Trail & Reticle (z-40) -->
   <canvas 
     id="cursor-canvas" 
-    class="pointer-events-none fixed inset-0 w-full h-full block touch-none z-[40]"
+    class="pointer-events-none absolute inset-0 w-full h-full block touch-none z-[40]"
   ></canvas>
 
   <!-- Subtitle Watermark bottom right -->
-  <div class="pointer-events-none fixed bottom-4 right-4 md:bottom-6 md:right-6 z-20 font-mono text-[9px] text-ink-faint tracking-widest uppercase">
+  <div class="pointer-events-none absolute bottom-4 right-4 md:bottom-6 md:right-6 z-20 font-mono text-[9px] text-ink-faint tracking-widest uppercase">
     GASTÓN MARTINO • CURSARIO v{displayVersion}
+  </div>
   </div>
 </div>
 
@@ -256,8 +263,8 @@ const islotes = ISLOTES.map((islote) => {
         }
 
         // Encuadre de la cámara
-        const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
-        const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
+        const viewportW = (mainCanvas.clientWidth / (data.zoom / 100)) * scale;
+        const viewportH = (mainCanvas.clientHeight / (data.zoom / 100)) * scale;
         const camX = mcx + data.worldX * scale - viewportW / 2;
         const camY = mcy + data.worldY * scale - viewportH / 2;
 
@@ -320,8 +327,8 @@ const islotes = ISLOTES.map((islote) => {
         }
 
         // Encuadre de la cámara en el lienzo local
-        const viewportW = (window.innerWidth / (data.zoom / 100)) * scale;
-        const viewportH = (window.innerHeight / (data.zoom / 100)) * scale;
+        const viewportW = (mainCanvas.clientWidth / (data.zoom / 100)) * scale;
+        const viewportH = (mainCanvas.clientHeight / (data.zoom / 100)) * scale;
         const camX = mapX(data.worldX) - viewportW / 2;
         const camY = mapY(data.worldY) - viewportH / 2;
 
@@ -694,6 +701,21 @@ const islotes = ISLOTES.map((islote) => {
 </script>
 
 <style>
+  .lienzo {
+    right: var(--ancho-curriculum, 0px);
+    transition: right 320ms ease-in-out;
+  }
+
+  :global(html.costura-en-movimiento) .lienzo {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lienzo {
+      transition: none;
+    }
+  }
+
   #transition-curtain {
     background-color: rgba(245, 247, 250, 0.97);
     background-image:

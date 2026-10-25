@@ -158,8 +158,8 @@ export class MotorCursario {
    */
   private getZoomToFit(contentWidth: number, contentHeight: number, preferredZoom: number) {
     const viewportPadding = 24;
-    const availableWidth = Math.max(1, window.innerWidth - viewportPadding * 2);
-    const availableHeight = Math.max(1, window.innerHeight - viewportPadding * 2);
+    const availableWidth = Math.max(1, this.anchoVista() - viewportPadding * 2);
+    const availableHeight = Math.max(1, this.altoVista() - viewportPadding * 2);
     const fitZoom = Math.min(availableWidth / contentWidth, availableHeight / contentHeight);
 
     return Math.max(0.25, Math.min(preferredZoom, fitZoom, 2.5));
@@ -183,7 +183,9 @@ export class MotorCursario {
   }
 
   private bindEvents() {
-    window.addEventListener('resize', () => this.handleResize());
+    // El lienzo cambia de tamaño con la ventana y también cuando se mueve la
+    // costura con el panel Currículum.
+    new ResizeObserver(() => this.handleResize()).observe(this.canvas);
 
     // Mouse events
     this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
@@ -201,21 +203,28 @@ export class MotorCursario {
     window.addEventListener('keydown', (e) => this.onKeyDown(e));
   }
 
+  // Tamaño del lienzo en pantalla. Es el del elemento canvas, que su CSS
+  // dimensiona: puede ocupar solo una parte de la ventana (por ejemplo, con
+  // el panel Currículum abierto al costado).
+  private anchoVista() {
+    return Math.max(1, this.canvas.clientWidth);
+  }
+
+  private altoVista() {
+    return Math.max(1, this.canvas.clientHeight);
+  }
+
   public handleResize() {
     this.dpr = window.devicePixelRatio || 1;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = this.anchoVista();
+    const h = this.altoVista();
 
     this.canvas.width = Math.floor(w * this.dpr);
     this.canvas.height = Math.floor(h * this.dpr);
-    this.canvas.style.width = `${w}px`;
-    this.canvas.style.height = `${h}px`;
 
     if (this.cursorCanvas) {
       this.cursorCanvas.width = Math.floor(w * this.dpr);
       this.cursorCanvas.height = Math.floor(h * this.dpr);
-      this.cursorCanvas.style.width = `${w}px`;
-      this.cursorCanvas.style.height = `${h}px`;
     }
 
     this.despertar(true, true);
@@ -236,8 +245,8 @@ export class MotorCursario {
     const worldPos = this.camera.screenToWorld(
       e.clientX,
       e.clientY,
-      window.innerWidth,
-      window.innerHeight
+      this.anchoVista(),
+      this.altoVista()
     );
 
     this.cursor.setPosition(e.clientX, e.clientY, worldPos.x, worldPos.y);
@@ -275,7 +284,7 @@ export class MotorCursario {
 
     if (e.ctrlKey || Math.abs(e.deltaY) > 50) {
       const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-      this.camera.zoomAt(zoomFactor, e.clientX, e.clientY, window.innerWidth, window.innerHeight);
+      this.camera.zoomAt(zoomFactor, e.clientX, e.clientY, this.anchoVista(), this.altoVista());
     } else {
       this.camera.panBy(e.deltaX * 0.9, e.deltaY * 0.9);
     }
@@ -283,8 +292,8 @@ export class MotorCursario {
     const worldPos = this.camera.screenToWorld(
       e.clientX,
       e.clientY,
-      window.innerWidth,
-      window.innerHeight
+      this.anchoVista(),
+      this.altoVista()
     );
     this.cursor.setPosition(e.clientX, e.clientY, worldPos.x, worldPos.y);
     this.despertar(false, true);
@@ -328,8 +337,8 @@ export class MotorCursario {
       const worldPos = this.camera.screenToWorld(
         t.clientX,
         t.clientY,
-        window.innerWidth,
-        window.innerHeight
+        this.anchoVista(),
+        this.altoVista()
       );
       this.cursor.setPosition(t.clientX, t.clientY, worldPos.x, worldPos.y);
     } else if (this.touches.size === 2 && e.touches.length === 2) {
@@ -339,7 +348,7 @@ export class MotorCursario {
         const factor = dist / this.initialPinchDist;
         const midX = (t1.clientX + t2.clientX) / 2;
         const midY = (t1.clientY + t2.clientY) / 2;
-        this.camera.zoomAt(factor / (this.camera.zoom / this.initialPinchZoom), midX, midY, window.innerWidth, window.innerHeight);
+        this.camera.zoomAt(factor / (this.camera.zoom / this.initialPinchZoom), midX, midY, this.anchoVista(), this.altoVista());
       }
     }
     this.despertar(false, true);
@@ -543,15 +552,15 @@ export class MotorCursario {
   }
 
   public zoomIn() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = this.anchoVista();
+    const h = this.altoVista();
     this.camera.zoomAt(1.25, w / 2, h / 2, w, h);
     this.despertar();
   }
 
   public zoomOut() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = this.anchoVista();
+    const h = this.altoVista();
     this.camera.zoomAt(0.8, w / 2, h / 2, w, h);
     this.despertar();
   }
@@ -608,8 +617,8 @@ export class MotorCursario {
   }
 
   private syncSpatialDomNodes() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = this.anchoVista();
+    const h = this.altoVista();
 
     for (const d of DERIVAS_INSULAS) {
       const node = document.getElementById(`spatial-node-${d.id}`);
@@ -676,8 +685,8 @@ export class MotorCursario {
   }
 
   private renderSurface() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = this.anchoVista();
+    const h = this.altoVista();
 
     this.ctx.save();
     this.ctx.scale(this.dpr, this.dpr);
