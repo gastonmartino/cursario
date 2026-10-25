@@ -33,6 +33,16 @@ import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
 import { withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
+// En las páginas de contenido (LayoutCarta), lo que se ve al otro lado de la
+// costura es la página y no el Mapa: el botón para ver el Mapa lleva a la
+// portada.
+interface Props {
+  enPagina?: boolean;
+}
+
+const { enPagina = false } = Astro.props;
+const BotonVista = enPagina ? 'a' : 'button';
+
 // La sección del Currículum en la que aparecen las islas de cada curso.
 const SECCION_DE_CURSO: Record<string, 'obras' | 'bitacora' | 'escritos'> = {
   untref: 'obras',
@@ -156,15 +166,15 @@ const secciones = [
       <!-- A la derecha: el botón para ver el Mapa (un mapa plegado) y, si el
            panel es angosto, el de su menú, que por convención va en la esquina. -->
       <div class="flex shrink-0 items-start gap-2">
-        <button
-          type="button"
+        <BotonVista
+          {...(enPagina ? { href: withBase('/'), 'data-ir-al-mapa': '' } : { type: 'button' })}
           data-alternar-vista="cerrado"
           class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
           title="Ver el Mapa"
           aria-label="Ver el Mapa"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
-        </button>
+        </BotonVista>
         <button
           id="derrotero-menu-boton"
           type="button"
@@ -480,8 +490,21 @@ const secciones = [
 
   // Un botón arriba a la derecha de cada vista pasa a la otra: en el Mapa,
   // despliega el Derrotero completo; en el Derrotero, lo cierra.
+  //
+  // En una página de contenido, el del Derrotero es un enlace a la portada: la
+  // página se reemplaza por el Mapa (la navegación sigue su curso, con la
+  // transición entre páginas). Antes cierra el Aparejo, si está abierto, y deja
+  // la costura donde está, salvo que el Derrotero cubra todo: entonces se
+  // cierra, para que el Mapa se vea.
   document.querySelectorAll<HTMLElement>('[data-alternar-vista]').forEach((boton) => {
-    boton.addEventListener('click', () => fijarPosicion(boton.dataset.alternarVista as Posicion));
+    boton.addEventListener('click', () => {
+      if (boton.hasAttribute('data-ir-al-mapa')) {
+        document.dispatchEvent(new CustomEvent('cursario:cerrar-aparejo'));
+        if (posicionActual() === 'completo') fijarPosicion('cerrado');
+        return;
+      }
+      fijarPosicion(boton.dataset.alternarVista as Posicion);
+    });
   });
 
   // Los enlaces del menú a otras páginas (CURSARIO), con vista compartida,

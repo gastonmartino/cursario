@@ -57,7 +57,7 @@ const navigationSections = INSULAS.map((deriva) => ({
         <!-- Inicio: la portada se abre en la última vista usada (el Mapa o el
              Derrotero, según la posición de la costura que se recuerda). -->
         <a href={withBase('/')} class="block border-b border-ink-border/50 py-3 font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt">
-          INICIO
+          Inicio
         </a>
 
         <!-- Los cursos con contenido se muestran desplegados. -->
@@ -135,6 +135,10 @@ const navigationSections = INSULAS.map((deriva) => ({
     setDrawerOpen(true);
   }));
   closeButton?.addEventListener('click', () => setDrawerOpen(false));
+  // Otro componente puede cerrarlo, por ejemplo el Derrotero al volver al Mapa.
+  document.addEventListener('cursario:cerrar-aparejo', () => {
+    if (drawerRoot?.getAttribute('aria-hidden') === 'false') setDrawerOpen(false);
+  });
   drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
 
   // Mientras el aparejo está abierto, el teclado le pertenece: se corta la

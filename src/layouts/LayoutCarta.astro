@@ -75,7 +75,7 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
     <div class="vista-pagina">
       <slot />
     </div>
-    <Derrotero />
+    <Derrotero enPagina />
     <Aparejo />
     {vistas && <CambioVista vistas={vistas} />}
   </body>
