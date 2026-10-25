@@ -2,7 +2,7 @@
 // HUD Component - Telemetry bar & Controls for Macro & Deriva Levels
 ---
 
-<header class="pointer-events-none absolute top-0 left-0 right-0 z-30 flex items-center justify-between gap-3 p-4 md:p-6">
+<header class="hud-lienzo pointer-events-none absolute top-0 left-0 right-0 z-30 flex items-center justify-between gap-3 p-4 md:p-6">
   <!-- Left: Identity & Level Indicator -->
   <!-- Dentro de una deriva puede achicarse, para recortar el nombre de la
        deriva. En la vista general, el cuadro del nombre nunca queda más
@@ -23,8 +23,8 @@
         </h1>
         <!-- Se oculta donde el cuadro queda apretado: en pantallas angostas y
              entre md y xl, donde también se muestra la barra de telemetría. -->
-        <p class="hidden sm:block md:hidden xl:block text-[10px] font-mono text-ink-muted">
-          BITÁCORA DE DERIVAS
+        <p class="hidden sm:block md:hidden xl:block mt-0.5 font-sans text-xs text-ink-muted">
+          Bitácora de derivas
         </p>
       </div>
     </div>
@@ -54,14 +54,14 @@
        1100px), luego ESTADO (debajo de 900px) y luego toda la barra (debajo
        de md). ESTADO se recorta con "…" si no entra en una línea. -->
   <div id="hud-telemetria" class="pointer-events-auto hidden md:flex min-w-0 items-center gap-4 bg-white/85 backdrop-blur-md px-5 py-2.5 border border-ink-border/60 shadow-sm rounded-sm font-mono text-xs">
-    <div class="hidden min-[1100px]:flex shrink-0 items-center gap-2">
+    <div class="hud-pos hidden min-[1100px]:flex shrink-0 items-center gap-2">
       <span class="text-ink-faint">POS:</span>
       <span id="telemetry-coords" class="font-semibold text-cobalt min-w-[140px]">
         X: +0.0  Y: +0.0
       </span>
     </div>
     
-    <div class="hidden min-[1100px]:block w-px h-3.5 bg-ink-border"></div>
+    <div class="hud-pos hidden min-[1100px]:block w-px h-3.5 bg-ink-border"></div>
 
     <div class="flex shrink-0 items-center gap-2">
       <span class="text-ink-faint">ESCALA:</span>
@@ -80,47 +80,50 @@
     </div>
   </div>
 
-  <!-- Right: Navigation Controls & Shortcuts -->
-  <div class="pointer-events-auto flex shrink-0 items-center gap-2">
-    <div class="flex items-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm overflow-hidden">
-      <!-- Los botones de zoom se ocultan cuando falta espacio, aun sin la barra
-           de telemetría; en pantallas táctiles se puede hacer zoom con los dedos. -->
-      <button 
-        id="btn-zoom-in"
-        class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
-        title="Acercar (+)"
-      >
-        +
-      </button>
-      <button 
-        id="btn-zoom-out"
-        class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
-        title="Alejar (-)"
-      >
-        -
-      </button>
-      <button 
-        id="btn-reset-view"
-        class="px-3.5 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs flex items-center gap-1.5"
-        title="Centrar vista (R / 0)"
-      >
-        <span class="text-[10px] text-ink-faint">[R]</span> CENTRAR
-      </button>
-      <button
-        id="btn-open-menu"
-        class="flex items-center justify-center border-l border-ink-border/60 px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors"
-        title="Abrir navegación"
-        aria-label="Abrir navegación"
-        aria-controls="navigation-drawer"
-        aria-expanded="false"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="4" y1="6" x2="20" y2="6" />
-          <line x1="4" y1="12" x2="20" y2="12" />
-          <line x1="4" y1="18" x2="20" y2="18" />
-        </svg>
-      </button>
-    </div>
+  <!-- Derecha: el menú (con el Currículum a la vista, se usa el suyo) -->
+  <div class="pointer-events-auto flex shrink-0 items-center">
+    <button
+      id="btn-open-menu"
+      class="flex items-center justify-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors"
+      title="Abrir navegación"
+      aria-label="Abrir navegación"
+      aria-controls="navigation-drawer"
+      aria-expanded="false"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+      </svg>
+    </button>
   </div>
 </header>
+
+<!-- Zoom y centrar: abajo a la derecha del lienzo, sobre la firma -->
+<div class="hud-lienzo pointer-events-auto absolute bottom-11 right-4 md:bottom-14 md:right-6 z-30 flex items-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm overflow-hidden">
+  <!-- Los botones de zoom se ocultan cuando falta espacio; en pantallas
+       táctiles se puede hacer zoom con los dedos. -->
+  <button 
+    id="btn-zoom-in"
+    class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+    title="Acercar (+)"
+  >
+    +
+  </button>
+  <button 
+    id="btn-zoom-out"
+    class="hidden min-[430px]:block px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs border-r border-ink-border/60"
+    title="Alejar (-)"
+  >
+    -
+  </button>
+  <button 
+    id="btn-reset-view"
+    class="px-3.5 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors font-mono text-xs flex items-center gap-1.5"
+    title="Centrar vista (R / 0)"
+  >
+    <span class="text-[10px] text-ink-faint">[R]</span> CENTRAR
+  </button>
+</div>
+
 

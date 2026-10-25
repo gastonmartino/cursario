@@ -2,13 +2,15 @@
 // CURRÍCULUM
 // La otra mitad de la portada: frente al Cursario (el lienzo para explorar a
 // la deriva), una versión ordenada y esperable del sitio, como la de cualquier
-// portfolio de artista: obras, bio y contacto, con un buscador.
+// portfolio de artista: obras, escritos, bio y contacto, con un buscador.
 //
-// Una costura vertical separa las dos mitades. Su manija se arrastra (o se
-// mueve con sus flechas o con el teclado) y se imanta en tres posiciones:
+// Una costura vertical separa las dos mitades. Su manija se arrastra, se
+// mueve con sus flechas o con el teclado, y se imanta en tres posiciones:
 //   cerrado  → solo el lienzo;
 //   mitad    → mitad y mitad (la posición inicial);
 //   completo → el Currículum cubre el lienzo.
+// Un clic en la manija recorre las posiciones en ciclo: de la mitad a un
+// extremo, de vuelta a la mitad, al otro extremo, y así.
 // La posición elegida se recuerda en el navegador. El ancho del panel es la
 // variable --ancho-curriculum, que el lienzo (Cursario.astro) también usa para
 // ocupar solo el resto de la ventana.
@@ -21,18 +23,20 @@ import { cargarDocumento } from '../cartas';
 import { renderizarBloques } from '../utils/markdown';
 import { withBase } from '../utils/paths';
 
-// Obras: cada isla del lienzo, con el curso al que pertenece como categoría.
-const anioDe = (...textos: Array<string | null | undefined>) =>
-  textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
-
+// Las islas de estos cursos son escritos; las demás, obras.
+const CURSOS_ESCRITOS = ['pensamiento'];
 // La bitácora (lo que está en curso) va al final: el Currículum muestra
 // primero las obras terminadas.
 const CURSOS_AL_FINAL = ['en-curso'];
+
+const anioDe = (...textos: Array<string | null | undefined>) =>
+  textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
+
 const cursos = [...INSULAS].sort((a, b) =>
   Number(CURSOS_AL_FINAL.includes(a.id)) - Number(CURSOS_AL_FINAL.includes(b.id)));
 const ordenCurso = (id: string) => cursos.findIndex((curso) => curso.id === id);
 
-const obras = ISLAS.map((isla) => {
+const piezas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
   const curso = INSULAS.find((insula) => insula.id === ubicacion.idDeriva);
   const href = isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null);
@@ -41,15 +45,20 @@ const obras = ISLAS.map((isla) => {
     id: isla.id,
     codigo: isla.code,
     titulo,
+    descripcion: isla.description ?? isla.subtitle ?? '',
+    etiqueta: isla.tag,
     anio: anioDe(isla.subtitle, isla.tag, isla.timeReference),
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
     // Texto en el que busca el buscador.
-    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
+    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
       .filter(Boolean).join(' '),
   };
 }).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));
+
+const obras = piezas.filter((pieza) => !CURSOS_ESCRITOS.includes(pieza.idCurso));
+const escritos = piezas.filter((pieza) => CURSOS_ESCRITOS.includes(pieza.idCurso));
 
 const categorias = cursos.map((insula) => ({
   id: insula.id,
@@ -62,6 +71,13 @@ const acercaDeMi = cargarDocumento('/paginas/acerca-de-mi.md');
 const bioHtml = renderizarBloques(
   acercaDeMi.bloques.filter((bloque) => !(bloque.tipo === 'titulo' && bloque.nivel === 1)),
 );
+
+const secciones = [
+  { id: 'obras', nombre: 'OBRAS' },
+  { id: 'escritos', nombre: 'ESCRITOS' },
+  { id: 'bio', nombre: 'BIO' },
+  { id: 'contacto', nombre: 'CONTACTO' },
+];
 ---
 
 <script is:inline>
@@ -97,14 +113,15 @@ const bioHtml = renderizarBloques(
   </div>
 
   <div class="curriculum-contenido">
-    <!-- Encabezado: el nombre a la izquierda, el menú a la derecha -->
+    <!-- Encabezado: el nombre a la izquierda, el menú a la derecha. El nombre
+         y la bajada se ven igual que su opuesto en el HUD del lienzo. -->
     <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
-      <div class="flex min-w-0 flex-col gap-1">
+      <div class="flex min-w-0 flex-col">
         <h2 class="whitespace-nowrap font-mono text-xs font-bold tracking-widest text-ink-primary">
-          GASTÓN MARTINO <span class="font-normal text-ink-faint">//</span>
-          <span class="font-normal text-ink-faint">CURRÍCULUM</span>
+          GASTÓN MARTINO <span class="font-normal text-[11px] text-ink-faint">//</span>
+          <span class="font-normal text-[10.4px] text-ink-faint" style="position: relative; top: 1px;">CURRÍCULUM</span>
         </h2>
-        <p class="font-sans text-xs text-ink-muted">Artista · Diseñador · Docente</p>
+        <p class="mt-0.5 font-sans text-xs text-ink-muted">Artista · Diseñador · Docente</p>
       </div>
       <button
         type="button"
@@ -124,82 +141,112 @@ const bioHtml = renderizarBloques(
     </header>
 
     <div class="flex min-h-0 flex-1">
-    <!-- Columna de navegación -->
-    <div class="flex w-56 shrink-0 flex-col gap-7 pb-8 pl-8 pt-7">
-
-      <nav aria-label="Secciones del Currículum" class="curriculum-secciones flex flex-col font-sans text-[30px] font-extrabold leading-none tracking-tight">
-        <button type="button" data-seccion="obras" aria-pressed="true">OBRAS</button>
-        <button type="button" data-seccion="bio" aria-pressed="false">BIO</button>
-        <button type="button" data-seccion="contacto" aria-pressed="false">CONTACTO</button>
-      </nav>
-
-      <div data-solo-seccion="obras" class="flex flex-col gap-3.5 border-t border-ink-primary pt-4">
-        <label class="flex h-10 items-center gap-2 border border-ink-border px-2.5 focus-within:border-cobalt">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A505C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-          <span class="sr-only">Buscar obras</span>
-          <input id="curriculum-busqueda" type="search" placeholder="Buscar obras" autocomplete="off" class="min-w-0 flex-1 border-0 bg-transparent font-sans text-[13px] text-ink-primary outline-none placeholder:text-ink-faint" />
-        </label>
-        <ul class="curriculum-categorias flex flex-col gap-1.5 font-sans text-[13px]">
-          <li><button type="button" data-categoria="" aria-pressed="true">Todas las obras</button></li>
-          {categorias.map((categoria) => (
-            <li><button type="button" data-categoria={categoria.id} aria-pressed="false">{categoria.nombre}</button></li>
+      <!-- Columna de navegación -->
+      <div class="flex w-56 shrink-0 flex-col gap-7 overflow-y-auto pb-8 pl-8 pt-7">
+        <nav aria-label="Secciones del Currículum" class="curriculum-secciones flex flex-col font-sans text-[30px] font-extrabold leading-none tracking-tight">
+          {secciones.map((seccion, i) => (
+            <button type="button" data-seccion={seccion.id} aria-pressed={String(i === 0)}>{seccion.nombre}</button>
           ))}
-        </ul>
+        </nav>
+
+        <div data-con-busqueda class="flex flex-col gap-3.5 border-t border-ink-primary pt-4">
+          <label class="flex h-10 items-center gap-2 border border-ink-border px-2.5 focus-within:border-cobalt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A505C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+            <span id="curriculum-busqueda-etiqueta" class="sr-only">Buscar obras</span>
+            <input id="curriculum-busqueda" type="search" placeholder="Buscar obras" autocomplete="off" aria-labelledby="curriculum-busqueda-etiqueta" class="min-w-0 flex-1 border-0 bg-transparent font-sans text-[13px] text-ink-primary outline-none placeholder:text-ink-faint" />
+          </label>
+
+          <!-- Obras: categorías -->
+          <ul data-solo-seccion="obras" class="curriculum-categorias flex flex-col gap-1.5 font-sans text-[13px]">
+            <li><button type="button" data-categoria="" aria-pressed="true">Todas las obras</button></li>
+            {categorias.map((categoria) => (
+              <li><button type="button" data-categoria={categoria.id} aria-pressed="false">{categoria.nombre}</button></li>
+            ))}
+          </ul>
+
+          <!-- Escritos: índice -->
+          <ol data-solo-seccion="escritos" hidden class="curriculum-indice flex flex-col gap-2 font-sans text-[13px] leading-snug">
+            {escritos.map((escrito) => (
+              <li data-pieza data-busqueda={escrito.textoBusqueda}>
+                <a href={escrito.href ?? `#escrito-${escrito.id}`} data-indice-de={escrito.id}>{escrito.titulo}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <p class="mt-auto font-mono text-[10px] text-ink-faint">© {new Date().getFullYear()} · GASTÓN MARTINO</p>
       </div>
 
-      <p class="mt-auto font-mono text-[10px] text-ink-faint">© {new Date().getFullYear()} · GASTÓN MARTINO</p>
-    </div>
+      <!-- Contenido -->
+      <div class="flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto pb-8 pl-6 pr-8 pt-8">
+        <p id="curriculum-resumen" data-con-busqueda class="font-mono text-[11px] text-ink-muted">{obras.length} OBRAS</p>
 
-    <!-- Contenido -->
-    <div class="flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto pb-8 pl-6 pr-8 pt-8">
-      <p id="curriculum-resumen" class="font-mono text-[11px] text-ink-muted" data-solo-seccion="obras">{obras.length} OBRAS</p>
+        <!-- Obras -->
+        <div data-solo-seccion="obras">
+          <ul class="curriculum-grilla">
+            {obras.map((obra) => (
+              <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
+                {obra.href ? (
+                  <a href={obra.href} class="curriculum-obra">
+                    <span class="curriculum-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="curriculum-obra-titulo">{obra.titulo}</span>
+                    <span class="curriculum-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                  </a>
+                ) : (
+                  <div class="curriculum-obra">
+                    <span class="curriculum-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="curriculum-obra-titulo">{obra.titulo}</span>
+                    <span class="curriculum-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <!-- Obras -->
-      <div data-solo-seccion="obras">
-        <ul class="curriculum-grilla">
-          {obras.map((obra) => (
-            <li data-obra data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
-              {obra.href ? (
-                <a href={obra.href} class="curriculum-obra">
-                  <span class="curriculum-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
-                  <span class="curriculum-obra-titulo">{obra.titulo}</span>
-                  <span class="curriculum-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+        <!-- Escritos: fichas apiladas, que sobresalen al pasar el puntero -->
+        <div data-solo-seccion="escritos" hidden>
+          <ul class="curriculum-fichas">
+            {escritos.map((escrito) => (
+              <li id={`escrito-${escrito.id}`} data-pieza data-ficha={escrito.id} data-busqueda={escrito.textoBusqueda}>
+                <a href={escrito.href ?? undefined} class="curriculum-ficha">
+                  <span class="curriculum-ficha-cabecera">
+                    <span>{escrito.codigo}</span>
+                    <span>{[escrito.anio, escrito.etiqueta].filter(Boolean).join(' · ')}</span>
+                  </span>
+                  <span class="curriculum-ficha-titulo">{escrito.titulo}</span>
+                  {escrito.descripcion && <span class="curriculum-ficha-texto">{escrito.descripcion}</span>}
+                  <span class="curriculum-ficha-leer">{escrito.href ? 'Leer →' : 'Próximamente'}</span>
                 </a>
-              ) : (
-                <div class="curriculum-obra">
-                  <span class="curriculum-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
-                  <span class="curriculum-obra-titulo">{obra.titulo}</span>
-                  <span class="curriculum-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <p id="curriculum-sin-resultados" class="hidden py-10 font-sans text-sm text-ink-muted">No hay obras que coincidan con la búsqueda.</p>
-      </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <!-- Bio -->
-      <div data-solo-seccion="bio" hidden class="curriculum-bio max-w-xl">
-        <div class="mb-6 flex h-48 w-40 items-end bg-paper-sheet p-1.5 font-mono text-[9px] text-ink-muted" aria-hidden="true">[RETRATO]</div>
-        <Fragment set:html={bioHtml} />
-      </div>
+        <p id="curriculum-sin-resultados" class="hidden py-10 font-sans text-sm text-ink-muted">No hay resultados para la búsqueda.</p>
 
-      <!-- Contacto -->
-      <div data-solo-seccion="contacto" hidden class="flex max-w-xl flex-col gap-6 font-sans text-sm">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
-          <p>[EMAIL]</p>
+        <!-- Bio -->
+        <div data-solo-seccion="bio" hidden class="curriculum-bio max-w-xl">
+          <div class="mb-6 flex h-48 w-40 items-end bg-paper-sheet p-1.5 font-mono text-[9px] text-ink-muted" aria-hidden="true">[RETRATO]</div>
+          <Fragment set:html={bioHtml} />
         </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">REDES</h3>
-          <p>[INSTAGRAM]</p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
-          <p>Buenos Aires, Argentina</p>
+
+        <!-- Contacto -->
+        <div data-solo-seccion="contacto" hidden class="flex max-w-xl flex-col gap-6 font-sans text-sm">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
+            <p>[EMAIL]</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">REDES</h3>
+            <p>[INSTAGRAM]</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
+            <p>Buenos Aires, Argentina</p>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </section>
@@ -214,6 +261,8 @@ const bioHtml = renderizarBloques(
   };
   // Lo que queda visible del lienzo con el Currículum completo.
   const RESTO_LIENZO = 40;
+  // Movimiento mínimo del puntero para que cuente como arrastre y no como clic.
+  const UMBRAL_ARRASTRE = 4;
 
   const raiz = document.documentElement;
   const panel = document.getElementById('curriculum');
@@ -230,7 +279,11 @@ const bioHtml = renderizarBloques(
     return Math.round(window.innerWidth / 2);
   };
 
+  // Último extremo visitado, para que el clic en la manija alterne entre los dos.
+  let ultimoExtremo: Posicion = posicionActual() === 'completo' ? 'completo' : 'cerrado';
+
   const fijarPosicion = (posicion: Posicion) => {
+    if (posicion !== 'mitad') ultimoExtremo = posicion;
     raiz.dataset.curriculum = posicion;
     raiz.style.removeProperty('--ancho-curriculum');
     manija?.setAttribute('aria-valuenow', String(POSICIONES.indexOf(posicion)));
@@ -247,29 +300,45 @@ const bioHtml = renderizarBloques(
     fijarPosicion(POSICIONES[Math.max(0, Math.min(POSICIONES.length - 1, indice))]);
   };
 
+  // Ciclo del clic: mitad → completo → mitad → cerrado → mitad…
+  const ciclar = () => {
+    if (posicionActual() !== 'mitad') fijarPosicion('mitad');
+    else fijarPosicion(ultimoExtremo === 'completo' ? 'cerrado' : 'completo');
+  };
+
   fijarPosicion(posicionActual());
 
   // Arrastre de la manija: la costura sigue al puntero y, al soltar, se imanta
-  // en la posición más cercana.
+  // en la posición más cercana. Si el puntero casi no se movió, es un clic.
+  let presionada = false;
   let arrastrando = false;
+  let inicioX = 0;
   manija?.addEventListener('pointerdown', (event) => {
     if (event.button !== 0 || (event.target as Element).closest('button')) return;
-    arrastrando = true;
+    presionada = true;
+    arrastrando = false;
+    inicioX = event.clientX;
     manija.setPointerCapture(event.pointerId);
-    raiz.classList.add('costura-en-movimiento');
   });
 
   manija?.addEventListener('pointermove', (event) => {
-    if (!arrastrando) return;
+    if (!presionada) return;
+    if (!arrastrando && Math.abs(event.clientX - inicioX) < UMBRAL_ARRASTRE) return;
+    arrastrando = true;
+    raiz.classList.add('costura-en-movimiento');
     const ancho = Math.max(0, Math.min(window.innerWidth - RESTO_LIENZO, window.innerWidth - event.clientX));
     raiz.style.setProperty('--ancho-curriculum', `${ancho}px`);
   });
 
   const soltar = (event: PointerEvent) => {
-    if (!arrastrando) return;
-    arrastrando = false;
+    if (!presionada) return;
+    presionada = false;
     raiz.classList.remove('costura-en-movimiento');
     if (manija?.hasPointerCapture(event.pointerId)) manija.releasePointerCapture(event.pointerId);
+    if (!arrastrando) {
+      if (event.type === 'pointerup') ciclar();
+      return;
+    }
     const ancho = window.innerWidth - event.clientX;
     const masCercana = POSICIONES.reduce((mejor, posicion) =>
       Math.abs(anchoDe(posicion) - ancho) < Math.abs(anchoDe(mejor) - ancho) ? posicion : mejor);
@@ -282,51 +351,76 @@ const bioHtml = renderizarBloques(
     boton.addEventListener('click', () => mover(Number(boton.dataset.costuraPaso)));
   });
 
-  // Teclado: las flechas mueven la costura (y no llegan a los atajos del lienzo).
+  // Teclado: las flechas mueven la costura y Enter o espacio hacen el ciclo
+  // del clic (sin llegar a los atajos del lienzo).
   manija?.addEventListener('keydown', (event) => {
     const pasos: Record<string, number> = { ArrowLeft: 1, ArrowRight: -1, ArrowUp: 1, ArrowDown: -1 };
     if (event.key in pasos) mover(pasos[event.key]);
     else if (event.key === 'Home') fijarPosicion('completo');
     else if (event.key === 'End') fijarPosicion('cerrado');
+    else if (event.key === 'Enter' || event.key === ' ') ciclar();
     else return;
     event.preventDefault();
     event.stopPropagation();
   });
 
-  // Secciones: obras, bio y contacto.
+  // --- Secciones ---
   const botonesSeccion = panel?.querySelectorAll<HTMLButtonElement>('[data-seccion]') ?? [];
-  botonesSeccion.forEach((boton) => {
-    boton.addEventListener('click', () => {
-      const seccion = boton.dataset.seccion;
-      botonesSeccion.forEach((otro) => otro.setAttribute('aria-pressed', String(otro === boton)));
-      panel?.querySelectorAll<HTMLElement>('[data-solo-seccion]').forEach((bloque) => {
-        bloque.hidden = bloque.dataset.soloSeccion !== seccion;
-      });
-    });
-  });
-
-  // Buscador y categorías de obras.
   const busqueda = document.getElementById('curriculum-busqueda') as HTMLInputElement | null;
+  const etiquetaBusqueda = document.getElementById('curriculum-busqueda-etiqueta');
   const resumen = document.getElementById('curriculum-resumen');
   const sinResultados = document.getElementById('curriculum-sin-resultados');
-  const obras = panel?.querySelectorAll<HTMLElement>('[data-obra]') ?? [];
-  const botonesCategoria = panel?.querySelectorAll<HTMLButtonElement>('[data-categoria]:is(button)') ?? [];
+  const botonesCategoria = panel?.querySelectorAll<HTMLButtonElement>('button[data-categoria]') ?? [];
+  const SECCIONES_CON_BUSQUEDA: Record<string, { singular: string; plural: string; buscar: string }> = {
+    obras: { singular: 'OBRA', plural: 'OBRAS', buscar: 'Buscar obras' },
+    escritos: { singular: 'ESCRITO', plural: 'ESCRITOS', buscar: 'Buscar escritos' },
+  };
+  let seccion = 'obras';
   let categoria = '';
 
   const normalizar = (texto: string) => texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
+  // Filtra las piezas de la sección (y, en escritos, también su índice).
   const filtrar = () => {
+    const textos = SECCIONES_CON_BUSQUEDA[seccion];
+    if (!textos) return;
     const terminos = normalizar(busqueda?.value ?? '').split(/\s+/).filter(Boolean);
+    const coincide = (pieza: HTMLElement) => {
+      const texto = normalizar(pieza.dataset.busqueda ?? '');
+      const enCategoria = seccion !== 'obras' || !categoria || pieza.dataset.categoria === categoria;
+      return enCategoria && terminos.every((termino) => texto.includes(termino));
+    };
     let visibles = 0;
-    obras.forEach((obra) => {
-      const texto = normalizar(obra.dataset.busqueda ?? '');
-      const coincide = (!categoria || obra.dataset.categoria === categoria) && terminos.every((termino) => texto.includes(termino));
-      obra.hidden = !coincide;
-      if (coincide) visibles += 1;
+    panel?.querySelectorAll<HTMLElement>(`[data-solo-seccion="${seccion}"] [data-pieza]`).forEach((pieza) => {
+      pieza.hidden = !coincide(pieza);
+      if (!pieza.hidden && !pieza.closest('ol')) visibles += 1;
     });
-    if (resumen) resumen.textContent = `${visibles} ${visibles === 1 ? 'OBRA' : 'OBRAS'}`;
+    if (resumen) resumen.textContent = `${visibles} ${visibles === 1 ? textos.singular : textos.plural}`;
     sinResultados?.classList.toggle('hidden', visibles > 0);
   };
+
+  const elegirSeccion = (nueva: string) => {
+    seccion = nueva;
+    botonesSeccion.forEach((boton) => boton.setAttribute('aria-pressed', String(boton.dataset.seccion === nueva)));
+    panel?.querySelectorAll<HTMLElement>('[data-solo-seccion]').forEach((bloque) => {
+      bloque.hidden = bloque.dataset.soloSeccion !== nueva;
+    });
+    const textos = SECCIONES_CON_BUSQUEDA[nueva];
+    panel?.querySelectorAll<HTMLElement>('[data-con-busqueda]').forEach((bloque) => {
+      bloque.hidden = !textos;
+    });
+    if (!textos) {
+      sinResultados?.classList.add('hidden');
+      return;
+    }
+    if (busqueda) busqueda.placeholder = textos.buscar;
+    if (etiquetaBusqueda) etiquetaBusqueda.textContent = textos.buscar;
+    filtrar();
+  };
+
+  botonesSeccion.forEach((boton) => {
+    boton.addEventListener('click', () => elegirSeccion(boton.dataset.seccion ?? 'obras'));
+  });
 
   busqueda?.addEventListener('input', filtrar);
   botonesCategoria.forEach((boton) => {
@@ -335,6 +429,15 @@ const bioHtml = renderizarBloques(
       botonesCategoria.forEach((otro) => otro.setAttribute('aria-pressed', String(otro === boton)));
       filtrar();
     });
+  });
+
+  // El índice de escritos resalta su ficha al pasar el puntero.
+  panel?.querySelectorAll<HTMLElement>('[data-indice-de]').forEach((enlace) => {
+    const ficha = panel.querySelector<HTMLElement>(`[data-ficha="${enlace.dataset.indiceDe}"]`);
+    enlace.addEventListener('pointerenter', () => ficha?.classList.add('resaltada'));
+    enlace.addEventListener('pointerleave', () => ficha?.classList.remove('resaltada'));
+    enlace.addEventListener('focus', () => ficha?.classList.add('resaltada'));
+    enlace.addEventListener('blur', () => ficha?.classList.remove('resaltada'));
   });
 </script>
 
@@ -360,12 +463,17 @@ const bioHtml = renderizarBloques(
     }
   }
 
-  /* Con el Currículum a la vista, el botón del menú es el suyo, y el HUD
-     del lienzo, más angosto, prescinde de la barra de telemetría. */
   @media (min-width: 768px) {
+    /* Con el Currículum a la vista, el botón del menú es el suyo, y el HUD
+       del lienzo, más angosto, prescinde de la posición (POS). */
     html:not([data-curriculum='cerrado']) #btn-open-menu,
-    html:not([data-curriculum='cerrado']) #hud-telemetria {
+    html:not([data-curriculum='cerrado']) .hud-pos {
       display: none !important;
+    }
+
+    /* Con el Currículum completo, del lienzo solo asoma una franja: sin HUD. */
+    html[data-curriculum='completo'] .hud-lienzo {
+      visibility: hidden;
     }
   }
 </style>
@@ -463,7 +571,7 @@ const bioHtml = renderizarBloques(
     border-right: 1.5px solid currentColor;
   }
 
-  /* Secciones y categorías */
+  /* Secciones, categorías e índice */
   .curriculum-secciones button {
     padding: 4px 0;
     text-align: left;
@@ -481,12 +589,16 @@ const bioHtml = renderizarBloques(
     color: #FFFFFF;
   }
 
-  .curriculum-categorias button {
+  .curriculum-categorias button,
+  .curriculum-indice a {
     text-align: left;
     color: #4A505C;
+    text-decoration: none;
   }
 
-  .curriculum-categorias button:hover {
+  .curriculum-categorias button:hover,
+  .curriculum-indice a:hover,
+  .curriculum-indice a:focus-visible {
     color: #0038A8;
   }
 
@@ -495,8 +607,7 @@ const bioHtml = renderizarBloques(
     font-weight: 600;
   }
 
-  /* Grilla de obras: las columnas que entren (3 a media pantalla, 5 o más
-     con el Currículum completo). */
+  /* Grilla de obras: las columnas que entren. */
   .curriculum-grilla {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -535,6 +646,80 @@ const bioHtml = renderizarBloques(
   .curriculum-obra-meta {
     font-size: 12px;
     color: #4A505C;
+  }
+
+  /* Fichas de escritos: apiladas como en un fichero, cada una tapa la parte
+     de abajo de la anterior; al pasar el puntero, la ficha crece y sobresale. */
+  .curriculum-fichas {
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    padding: 4px 0 24px;
+  }
+
+  .curriculum-fichas > li + li {
+    margin-top: -64px;
+  }
+
+  .curriculum-ficha {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 170px;
+    padding: 14px 18px 18px;
+    border: 1px solid #D0D6E2;
+    background: #FFFFFF;
+    color: #1A1C20;
+    text-decoration: none;
+    box-shadow: 0 -1px 0 rgba(22, 37, 61, 0.04), 0 6px 14px -12px rgba(22, 37, 61, 0.35);
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+
+  .curriculum-ficha:hover,
+  .curriculum-ficha:focus-visible,
+  [data-ficha].resaltada .curriculum-ficha {
+    z-index: 2;
+    transform: translateX(-14px) scale(1.03);
+    border-color: #0038A8;
+    box-shadow: 0 16px 32px -16px rgba(22, 37, 61, 0.45);
+  }
+
+  .curriculum-ficha-cabecera {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E3E7EE;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #0038A8;
+  }
+
+  .curriculum-ficha-titulo {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .curriculum-ficha-texto {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #4A505C;
+  }
+
+  .curriculum-ficha-leer {
+    margin-top: auto;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #0038A8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .curriculum-ficha {
+      transition: none;
+    }
   }
 
   /* Bio: el HTML de MIMO, sin clases */

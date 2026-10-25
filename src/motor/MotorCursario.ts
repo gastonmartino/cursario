@@ -227,6 +227,12 @@ export class MotorCursario {
       this.cursorCanvas.height = Math.floor(h * this.dpr);
     }
 
+    // Cambiar el tamaño borra el canvas (a negro, porque es opaco). Se redibuja
+    // en el acto, antes de que el navegador pinte, para que no parpadee
+    // mientras cambia de ancho, por ejemplo al mover la costura.
+    this.syncSpatialDomNodes();
+    this.renderSurface();
+    this.renderCursor();
     this.despertar(true, true);
   }
 
