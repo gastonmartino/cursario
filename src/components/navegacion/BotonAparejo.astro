@@ -1,0 +1,31 @@
+---
+// Botón que abre el Aparejo (los atajos a otras páginas, que incluye
+// LayoutCarta). Cada carta lo ubica y le da estilo con `class`; el ícono, un
+// índice, se puede cambiar con el contenido del componente.
+interface Props {
+  class?: string;
+}
+
+const { class: clase } = Astro.props;
+---
+
+<button
+  type="button"
+  data-abrir-aparejo
+  class={clase}
+  title="Atajos a otras páginas"
+  aria-label="Abrir el aparejo: atajos a otras páginas"
+  aria-controls="aparejo"
+  aria-expanded="false"
+>
+  <slot>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="9" y1="6" x2="20" y2="6" />
+      <line x1="9" y1="12" x2="20" y2="12" />
+      <line x1="9" y1="18" x2="20" y2="18" />
+      <line x1="4" y1="6" x2="4.01" y2="6" />
+      <line x1="4" y1="12" x2="4.01" y2="12" />
+      <line x1="4" y1="18" x2="4.01" y2="18" />
+    </svg>
+  </slot>
+</button>

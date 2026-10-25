@@ -10,8 +10,9 @@
        barra de telemetría. -->
   <div class="pointer-events-auto flex min-w-0 items-center gap-3 has-[#hud-macro-identity.flex]:min-w-min md:has-[#hud-macro-identity.flex]:shrink-0">
     <!-- Macro Identity Bar -->
-    <!-- Un clic en la identidad muestra el lienzo a pantalla completa (cierra el
-         Currículum, ver Curriculum.astro), o vuelve a la pantalla dividida. -->
+    <!-- Un clic en la identidad muestra el Mapa a pantalla completa (cierra el
+         Derrotero, ver Derrotero.astro), o vuelve a la pantalla dividida. Sin
+         vista compartida, pasa al Derrotero (⇄). -->
     <div id="hud-macro-identity" data-ir-a-posicion="cerrado" role="button" tabindex="0" aria-label="Gastón Martino // Cursario: ver el lienzo a pantalla completa, o volver a la pantalla dividida" class="flex cursor-pointer items-center gap-3 bg-white/85 backdrop-blur-md px-4 py-2.5 border border-ink-border/60 shadow-sm rounded-sm transition-colors hover:border-cobalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-cobalt">
       <div class="w-2.5 h-2.5 bg-cobalt rounded-full animate-pulse"></div>
       <div>
@@ -22,6 +23,8 @@
             <span class="hidden sm:inline md:hidden xl:inline text-ink-faint font-normal text-[11px]">//</span>
           <span class="block sm:inline md:block xl:inline text-ink-faint font-normal text-[10.4px]"
                 style="position: relative; top: 1px;">CURSARIO</span>
+          <!-- Sin vista compartida, el nombre pasa al Derrotero -->
+          <svg class="alternar-vista ml-1 inline-block align-[-2px] lg:hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 3 21 7 17 11"></polyline><line x1="21" y1="7" x2="7" y2="7"></line><polyline points="7 13 3 17 7 21"></polyline><line x1="3" y1="17" x2="17" y2="17"></line></svg>
         </h1>
         <!-- Se oculta donde el cuadro queda apretado: en pantallas angostas y
              entre md y xl, donde también se muestra la barra de telemetría. -->
@@ -82,23 +85,6 @@
     </div>
   </div>
 
-  <!-- Derecha: el menú (con el Currículum a la vista, se usa el suyo) -->
-  <div class="pointer-events-auto flex shrink-0 items-center">
-    <button
-      id="btn-open-menu"
-      class="flex items-center justify-center bg-white/85 backdrop-blur-md border border-ink-border/60 shadow-sm rounded-sm px-3 py-2 text-ink-primary hover:bg-paper-sheet hover:text-cobalt transition-colors"
-      title="Abrir navegación"
-      aria-label="Abrir navegación"
-      aria-controls="navigation-drawer"
-      aria-expanded="false"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="4" y1="6" x2="20" y2="6" />
-        <line x1="4" y1="12" x2="20" y2="12" />
-        <line x1="4" y1="18" x2="20" y2="18" />
-      </svg>
-    </button>
-  </div>
 </header>
 
 <!-- Zoom y centrar: apilados abajo a la derecha del lienzo, sobre la firma -->

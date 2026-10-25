@@ -10,7 +10,7 @@ las tarjetas HTML sobre el fondo:
 Trabaja solo con la **estructura** del sitio (qué cursos, subcursos e islotes
 hay, dónde están y cómo se relacionan) y con **ids**. No conoce el contenido de
 las tarjetas (títulos, códigos, colores, textos); lo que necesita de él se lo
-provee quien lo crea, la portada (`src/components/Cursario.astro`).
+provee quien lo crea, el Mapa de la portada (`src/components/Mapa.astro`).
 
 ## Archivos
 

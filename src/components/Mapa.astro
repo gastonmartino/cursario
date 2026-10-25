@@ -1,8 +1,11 @@
 ---
+// MAPA (Mapa del Cursario)
+// El lienzo: la cartografía de cursos, derivas y subcursos, en dos niveles.
+// Comparte la portada con el Derrotero (src/components/Derrotero.astro), al
+// otro lado de la costura.
 import HUD from './HUD.astro';
 import RadarMinimapa from './RadarMinimapa.astro';
 import Derrotero from './Derrotero.astro';
-import Curriculum from './Curriculum.astro';
 import Insula from './Insula.astro';
 import Isla from './Isla.astro';
 import Islote from './Islote.astro';
@@ -57,10 +60,9 @@ const islotes = ISLOTES.map((islote) => {
 
 <div class="relative w-full h-full overflow-hidden bg-paper-base select-none">
   <Derrotero />
-  <Curriculum />
 
-  <!-- El lienzo (el Cursario) ocupa la ventana menos el ancho del Currículum,
-       al otro lado de la costura (ver Curriculum.astro). -->
+  <!-- El Mapa (el lienzo) ocupa la ventana menos el ancho del Derrotero, al
+       otro lado de la costura (ver Derrotero.astro). -->
   <div id="lienzo" class="lienzo absolute inset-y-0 left-0 overflow-hidden">
   <!-- HUD Telemetry & Navigation Controls -->
   <HUD />
@@ -704,7 +706,7 @@ const islotes = ISLOTES.map((islote) => {
 
 <style>
   .lienzo {
-    right: var(--ancho-curriculum, 0px);
+    right: var(--ancho-derrotero, 0px);
     transition: right 320ms ease-in-out;
   }
 

@@ -76,17 +76,39 @@ Toda carta usa `src/layouts/LayoutCarta.astro`, que aporta solo lo
 indispensable y no impone fondo, tipografías ni colores:
 
 - los metadatos de la página (`title`, `description`);
-- el **menú de navegación** (Derrotero);
-- la **transición** entre páginas.
+- la **transición** entre páginas;
+- el **Aparejo**: un panel, desde la derecha, con atajos a otras páginas
+  (`src/components/Aparejo.astro`);
+- el **Derrotero** (el panel "Gastón Martino // Currículum") y su manija, con
+  el aspecto del sitio, fuera de la carta.
 
 La carta ubica y estiliza los dos elementos de navegación obligatorios:
 
-- `Volver` (`src/components/navegacion/Volver.astro`): el enlace para volver.
-- `BotonMenu` (`src/components/navegacion/BotonMenu.astro`): el botón que abre
-  el menú.
+- `Volver` (`src/components/navegacion/Volver.astro`): el enlace para volver,
+  arriba a la izquierda.
+- `BotonAparejo` (`src/components/navegacion/BotonAparejo.astro`): el botón que
+  abre el Aparejo, arriba a la derecha. Su ícono es un índice.
 
 Los dos aceptan `class` (y `Volver`, también `style`), y su contenido se puede
-reemplazar: otro texto para VOLVER, otro ícono para el menú.
+reemplazar: otro texto para VOLVER, otro ícono para el Aparejo.
+
+### El lugar de la página
+
+Con **vista compartida** (desde 1024 px de ancho), la página comparte la
+pantalla con el Derrotero, separados por la costura: ocupa el lugar del Mapa,
+a la izquierda, y la manija permite ensanchar o cerrar el Derrotero. Sin vista
+compartida, la página ocupa toda la pantalla y no hay Derrotero ni manija.
+
+`LayoutCarta` dibuja la carta dentro de `.vista-pagina`, cuyo ancho es el de
+ese lugar. Por eso una carta:
+
+- **no mide con la ventana**: en lugar de `vw` usa porcentajes del ancho de su
+  contenedor, y en lugar de media queries por ancho de ventana elige su
+  composición según el ancho de `.vista-pagina` (la carta "cursario" lo hace
+  con un script en el `<head>`, que anota `data-composicion` en `<html>`);
+- **corre lo que fija a la derecha de la ventana** con la variable
+  `--derecha-pagina` (lo que le quita el Derrotero), por ejemplo
+  `right: calc(var(--derecha-pagina, 0px) + 20px)`.
 
 ## Estilos de cada carta
 
@@ -121,7 +143,7 @@ Del sitio, a toda página llegan dos cosas, que la carta puede usar o pisar:
   de estilos base (márgenes en cero, títulos sin tamaño propio, listas sin
   viñetas…) se aplica a todas las páginas. Una carta que quiera otros estilos
   base los declara en su CSS.
-- **El menú de navegación**, que conserva el aspecto del sitio.
+- **El Aparejo y el Derrotero**, que conservan el aspecto del sitio.
 
 ## Modo lectura
 
@@ -172,7 +194,7 @@ VOLVER lleva a la portada.
 ## El cartulario
 
 La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
-superior con VOLVER, INICIO, la etiqueta del curso y el botón del menú, y el
+superior con VOLVER, INICIO, la etiqueta del curso y el botón del Aparejo, y el
 contenido en una hoja blanca centrada. En pantallas de menos de 768 px, el
 contenido va directo sobre un fondo blanco, sin el marco de la hoja, y la barra
 no muestra la etiqueta del curso, para quedar en una sola fila. Las clases con que muestra cada elemento
@@ -189,14 +211,14 @@ Tiene una composición por rango de ancho de ventana, en
 
 - **xl** (desde 1280 px): la hoja con marco sobre un fondo más oscuro;
 - **lg** (de 930 a 1279 px): el papel como fondo, sin marco, con textos y
-  láminas en una columna central de 920 px y VOLVER y el menú fijos en la
+  láminas en una columna central de 920 px y VOLVER y el Aparejo fijos en la
   ventana. Muestra solo algunas láminas (las que tienen lugar).
 - **md** (de 620 a 929 px): como lg, con una columna de
   600 px y el texto siempre de un solo lado en cada franja (del otro lado,
   gráficos).
 - **sm** (de 420 a 619 px): una sola columna de 400 px,
   quebrada por las láminas y los recuadros, con los textos alternando entre
-  izquierda y derecha; VOLVER y el menú en las esquinas de la ventana.
+  izquierda y derecha; VOLVER y el Aparejo en las esquinas de la ventana.
 - **xs** (hasta 419 px): una columna de 300 px que entra completa desde los
   320 px, con varias láminas y recuadros al corte a un lado o al otro.
 

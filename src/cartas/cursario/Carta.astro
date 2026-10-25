@@ -7,7 +7,7 @@
 // sola vez, con su lugar en cada una, y el CSS elige cuál usar.
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
-import BotonMenu from '../../components/navegacion/BotonMenu.astro';
+import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -120,6 +120,29 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   claseCuerpo="cuerpo-cursario"
 >
   <Fragment slot="head">
+    <!-- Elige la composición según el ancho del lugar de la página (la
+         ventana, menos lo que le quita el Derrotero con vista compartida) y la
+         anota en <html> como data-composicion. Corre antes de dibujar y vuelve
+         a correr cuando ese lugar cambia de ancho. -->
+    <script is:inline>
+      (() => {
+        const raiz = document.documentElement;
+        const cortes = [['xl', 1280], ['lg', 930], ['md', 620], ['sm', 420], ['xs', 0]];
+        const elegir = (ancho) => {
+          raiz.dataset.composicion = cortes.find(([, desde]) => ancho >= desde)[0];
+        };
+        // Antes de que exista la página: se calcula con la posición de la costura.
+        const compartida = window.matchMedia('(min-width: 1024px)').matches;
+        const derrotero = raiz.dataset.derrotero ?? 'mitad';
+        const ancho = raiz.clientWidth;
+        elegir(compartida && derrotero !== 'cerrado' ? ancho - Math.min(ancho / 2, window.innerWidth / 2) : ancho);
+        // Después, se mide el lugar de la página.
+        document.addEventListener('DOMContentLoaded', () => {
+          const vista = document.querySelector('.vista-pagina');
+          if (vista) new ResizeObserver(() => elegir(vista.clientWidth)).observe(vista);
+        });
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -158,7 +181,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
     {/* Navegación */}
     <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
-    <BotonMenu class="nav nav--menu" />
+    <BotonAparejo class="nav nav--menu" />
 
     {/* Encabezados "##" como títulos rectos, en las composiciones que les dan lugar */}
     {encabezados.map((texto, i) => (
@@ -257,17 +280,18 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     color: var(--papel);
   }
 
-  /* Composición lg: el papel es el fondo de la página. */
-  @media (max-width: 1279.98px) {
-    body.cuerpo-cursario,
-    html.html-cursario #page-transition {
-      background: var(--papel);
-    }
+  /* Composiciones lg y menores: el papel es el fondo de la página. */
+  html.html-cursario[data-composicion]:not([data-composicion='xl']) body.cuerpo-cursario,
+  html.html-cursario[data-composicion]:not([data-composicion='xl']) #page-transition {
+    background: var(--papel);
   }
 </style>
 
 <style>
-  /* Composiciones. Cada una se usa en un rango de ancho de ventana:
+  /* Composiciones. Cada una se usa en un rango de ancho del lugar de la
+     página (con vista compartida, el Derrotero le quita parte de la ventana).
+     El script del <head> elige la composición y la anota en <html> como
+     data-composicion; sin JavaScript, se usa xl:
        xl: desde 1280 px
        lg: de 930 a 1279 px
        md: de 620 a 929 px
@@ -277,15 +301,14 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
      variables de la composición que corresponde; los que no tienen lugar en
      ella llevan la clase oculto-{composición}. */
 
-  /* La hoja, siempre centrada respecto del ancho total de la ventana (100vw
-     incluye la barra de desplazamiento). En ventanas más angostas que la hoja,
-     el margen izquierdo se vuelve negativo y la hoja se recorta igual de los dos
-     lados: a la izquierda en el borde de la ventana, a la derecha bajo la barra. */
+  /* La hoja, siempre centrada en el lugar de la página (.vista-pagina, ver
+     LayoutCarta). Si ese lugar es más angosto que la hoja, el margen izquierdo
+     se vuelve negativo y la hoja se recorta igual de los dos lados. */
   .hoja {
     position: relative;
     width: var(--ancho-xl);
     height: var(--alto-xl);
-    margin: 32px 0 64px calc(50vw - var(--ancho-xl) / 2);
+    margin: 32px 0 64px calc(50% - var(--ancho-xl) / 2);
     background: var(--papel);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 18px 40px -24px rgba(20, 20, 22, 0.45);
     overflow: hidden;
@@ -320,187 +343,186 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     right: var(--nav-derecha-xl);
   }
 
-  @media (min-width: 1280px) {
-    .oculto-xl {
-      display: none !important;
-    }
+  /* Composición xl */
+  :global(html[data-composicion='xl']) .oculto-xl {
+    display: none !important;
   }
 
-  @media (min-width: 930px) and (max-width: 1279.98px) {
-    .hoja {
-      width: var(--ancho-lg);
-      height: var(--alto-lg);
-      margin: 0 0 0 calc(50vw - var(--ancho-lg) / 2);
-      box-shadow: none;
-    }
-
-    .ubicado {
-      left: var(--x-lg);
-      top: var(--y-lg);
-      width: var(--a-lg);
-    }
-
-    .lamina img,
-    .cartucho {
-      height: var(--h-lg);
-    }
-
-    .lamina figcaption {
-      padding-left: var(--pie-lg, 0);
-    }
-
-    :global(.nav) {
-      position: var(--nav-posicion-lg);
-      top: var(--nav-arriba-lg);
-    }
-
-    :global(.nav--volver) {
-      left: var(--nav-izquierda-lg);
-    }
-
-    :global(.nav--menu) {
-      right: var(--nav-derecha-lg);
-    }
-
-    .hoja .titulo h1 {
-      font-size: 34px;
-    }
-
-    .oculto-lg {
-      display: none !important;
-    }
+  /* Composición lg */
+  :global(html[data-composicion='lg']) .hoja {
+    width: var(--ancho-lg);
+    height: var(--alto-lg);
+    margin: 0 0 0 calc(50% - var(--ancho-lg) / 2);
+    box-shadow: none;
   }
-  @media (min-width: 620px) and (max-width: 929.98px) {
-    .hoja {
-      width: var(--ancho-md);
-      height: var(--alto-md);
-      margin: 0 0 0 calc(50vw - var(--ancho-md) / 2);
-      box-shadow: none;
-    }
 
-    .ubicado {
-      left: var(--x-md);
-      top: var(--y-md);
-      width: var(--a-md);
-    }
-
-    .lamina img,
-    .cartucho {
-      height: var(--h-md);
-    }
-
-    .lamina figcaption {
-      padding-left: var(--pie-md, 0);
-    }
-
-    :global(.nav) {
-      position: var(--nav-posicion-md);
-      top: var(--nav-arriba-md);
-    }
-
-    :global(.nav--volver) {
-      left: var(--nav-izquierda-md);
-    }
-
-    :global(.nav--menu) {
-      right: var(--nav-derecha-md);
-    }
-
-    .hoja .titulo h1 {
-      font-size: 28px;
-    }
-
-    .oculto-md {
-      display: none !important;
-    }
+  :global(html[data-composicion='lg']) .ubicado {
+    left: var(--x-lg);
+    top: var(--y-lg);
+    width: var(--a-lg);
   }
-  @media (min-width: 420px) and (max-width: 619.98px) {
-    .hoja {
-      width: var(--ancho-sm);
-      height: var(--alto-sm);
-      margin: 0 0 0 calc(50vw - var(--ancho-sm) / 2);
-      box-shadow: none;
-    }
 
-    .ubicado {
-      left: var(--x-sm);
-      top: var(--y-sm);
-      width: var(--a-sm);
-    }
-
-    .lamina img,
-    .cartucho {
-      height: var(--h-sm);
-    }
-
-    .lamina figcaption {
-      padding-left: var(--pie-sm, 0);
-    }
-
-    :global(.nav) {
-      position: var(--nav-posicion-sm);
-      top: var(--nav-arriba-sm);
-    }
-
-    :global(.nav--volver) {
-      left: var(--nav-izquierda-sm);
-    }
-
-    :global(.nav--menu) {
-      right: var(--nav-derecha-sm);
-    }
-
-    .hoja .titulo h1 {
-      font-size: 24px;
-    }
-
-    .oculto-sm {
-      display: none !important;
-    }
+  :global(html[data-composicion='lg']) .lamina img,
+  :global(html[data-composicion='lg']) .cartucho {
+    height: var(--h-lg);
   }
-  @media (max-width: 419.98px) {
-    .hoja {
-      width: var(--ancho-xs);
-      height: var(--alto-xs);
-      margin: 0 0 0 calc(50vw - var(--ancho-xs) / 2);
-      box-shadow: none;
-    }
 
-    .ubicado {
-      left: var(--x-xs);
-      top: var(--y-xs);
-      width: var(--a-xs);
-    }
+  :global(html[data-composicion='lg']) .lamina figcaption {
+    padding-left: var(--pie-lg, 0);
+  }
 
-    .lamina img,
-    .cartucho {
-      height: var(--h-xs);
-    }
+  :global(html[data-composicion='lg']) :global(.nav) {
+    position: var(--nav-posicion-lg);
+    top: var(--nav-arriba-lg);
+  }
 
-    .lamina figcaption {
-      padding-left: var(--pie-xs, 0);
-    }
+  :global(html[data-composicion='lg']) :global(.nav--volver) {
+    left: var(--nav-izquierda-lg);
+  }
 
-    :global(.nav) {
-      position: var(--nav-posicion-xs);
-      top: var(--nav-arriba-xs);
-    }
+  :global(html[data-composicion='lg']) :global(.nav--menu) {
+    /* Fija en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-lg));
+  }
 
-    :global(.nav--volver) {
-      left: var(--nav-izquierda-xs);
-    }
+  :global(html[data-composicion='lg']) .hoja .titulo h1 {
+    font-size: 34px;
+  }
 
-    :global(.nav--menu) {
-      right: var(--nav-derecha-xs);
-    }
+  :global(html[data-composicion='lg']) .oculto-lg {
+    display: none !important;
+  }
+  /* Composición md */
+  :global(html[data-composicion='md']) .hoja {
+    width: var(--ancho-md);
+    height: var(--alto-md);
+    margin: 0 0 0 calc(50% - var(--ancho-md) / 2);
+    box-shadow: none;
+  }
 
-    .hoja .titulo h1 {
-      font-size: 20px;
-    }
+  :global(html[data-composicion='md']) .ubicado {
+    left: var(--x-md);
+    top: var(--y-md);
+    width: var(--a-md);
+  }
 
-    .oculto-xs {
-      display: none !important;
-    }
+  :global(html[data-composicion='md']) .lamina img,
+  :global(html[data-composicion='md']) .cartucho {
+    height: var(--h-md);
+  }
+
+  :global(html[data-composicion='md']) .lamina figcaption {
+    padding-left: var(--pie-md, 0);
+  }
+
+  :global(html[data-composicion='md']) :global(.nav) {
+    position: var(--nav-posicion-md);
+    top: var(--nav-arriba-md);
+  }
+
+  :global(html[data-composicion='md']) :global(.nav--volver) {
+    left: var(--nav-izquierda-md);
+  }
+
+  :global(html[data-composicion='md']) :global(.nav--menu) {
+    /* Fija en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-md));
+  }
+
+  :global(html[data-composicion='md']) .hoja .titulo h1 {
+    font-size: 28px;
+  }
+
+  :global(html[data-composicion='md']) .oculto-md {
+    display: none !important;
+  }
+  /* Composición sm */
+  :global(html[data-composicion='sm']) .hoja {
+    width: var(--ancho-sm);
+    height: var(--alto-sm);
+    margin: 0 0 0 calc(50% - var(--ancho-sm) / 2);
+    box-shadow: none;
+  }
+
+  :global(html[data-composicion='sm']) .ubicado {
+    left: var(--x-sm);
+    top: var(--y-sm);
+    width: var(--a-sm);
+  }
+
+  :global(html[data-composicion='sm']) .lamina img,
+  :global(html[data-composicion='sm']) .cartucho {
+    height: var(--h-sm);
+  }
+
+  :global(html[data-composicion='sm']) .lamina figcaption {
+    padding-left: var(--pie-sm, 0);
+  }
+
+  :global(html[data-composicion='sm']) :global(.nav) {
+    position: var(--nav-posicion-sm);
+    top: var(--nav-arriba-sm);
+  }
+
+  :global(html[data-composicion='sm']) :global(.nav--volver) {
+    left: var(--nav-izquierda-sm);
+  }
+
+  :global(html[data-composicion='sm']) :global(.nav--menu) {
+    /* Fija en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-sm));
+  }
+
+  :global(html[data-composicion='sm']) .hoja .titulo h1 {
+    font-size: 24px;
+  }
+
+  :global(html[data-composicion='sm']) .oculto-sm {
+    display: none !important;
+  }
+  /* Composición xs */
+  :global(html[data-composicion='xs']) .hoja {
+    width: var(--ancho-xs);
+    height: var(--alto-xs);
+    margin: 0 0 0 calc(50% - var(--ancho-xs) / 2);
+    box-shadow: none;
+  }
+
+  :global(html[data-composicion='xs']) .ubicado {
+    left: var(--x-xs);
+    top: var(--y-xs);
+    width: var(--a-xs);
+  }
+
+  :global(html[data-composicion='xs']) .lamina img,
+  :global(html[data-composicion='xs']) .cartucho {
+    height: var(--h-xs);
+  }
+
+  :global(html[data-composicion='xs']) .lamina figcaption {
+    padding-left: var(--pie-xs, 0);
+  }
+
+  :global(html[data-composicion='xs']) :global(.nav) {
+    position: var(--nav-posicion-xs);
+    top: var(--nav-arriba-xs);
+  }
+
+  :global(html[data-composicion='xs']) :global(.nav--volver) {
+    left: var(--nav-izquierda-xs);
+  }
+
+  :global(html[data-composicion='xs']) :global(.nav--menu) {
+    /* Fija en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-xs));
+  }
+
+  :global(html[data-composicion='xs']) .hoja .titulo h1 {
+    font-size: 20px;
+  }
+
+  :global(html[data-composicion='xs']) .oculto-xs {
+    display: none !important;
   }
 
   .grafica,

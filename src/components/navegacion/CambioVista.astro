@@ -61,7 +61,8 @@ const texto = enLectura ? 'Ver la carta original' : 'Ver en modo lectura';
   .cambio-vista {
     position: fixed;
     z-index: 55;
-    right: 20px;
+    /* Abajo a la derecha de la página, del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + 20px);
     bottom: 20px;
     display: flex;
     align-items: center;

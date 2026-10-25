@@ -4,7 +4,7 @@
 // una barra superior de navegación y el contenido en una hoja blanca centrada.
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
-import BotonMenu from '../../components/navegacion/BotonMenu.astro';
+import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
 import { renderizarBloques } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -56,7 +56,7 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
           <span class="truncate font-bold" style={`color: ${pagina.color};`}>[{pagina.codigo}] {pagina.titulo.toUpperCase()}</span>
         </div>
 
-        <BotonMenu class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt" />
+        <BotonAparejo class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt" />
       </div>
     </header>
 

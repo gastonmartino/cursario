@@ -1,0 +1,15 @@
+---
+// Antes de dibujar: la posición de la costura que se eligió la última vez
+// (cerrado, mitad o completo; ver Derrotero.astro). Va en el <head> de la
+// portada y de las páginas de contenido, para que el Mapa o la página nazcan
+// con el ancho que les deja el Derrotero.
+---
+
+<script is:inline>
+  try {
+    const guardada = localStorage.getItem('cursario:derrotero');
+    if (guardada === 'cerrado' || guardada === 'mitad' || guardada === 'completo') {
+      document.documentElement.dataset.derrotero = guardada;
+    }
+  } catch {}
+</script>

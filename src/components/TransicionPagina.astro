@@ -58,6 +58,9 @@
     position: fixed;
     z-index: 100;
     inset: 0;
+    /* Con vista compartida, cubre solo el Mapa o la página: el Derrotero
+       queda a la vista mientras se navega (ver Derrotero.astro). */
+    right: var(--derecha-transicion, 0px);
     pointer-events: none;
     opacity: 0;
     background-color: #F5F7FA;

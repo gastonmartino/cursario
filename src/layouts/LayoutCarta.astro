@@ -1,14 +1,23 @@
 ---
+import Aparejo from '../components/Aparejo.astro';
 import Derrotero from '../components/Derrotero.astro';
+import EstadoDerrotero from '../components/EstadoDerrotero.astro';
 import TransicionPagina from '../components/TransicionPagina.astro';
 import CambioVista from '../components/navegacion/CambioVista.astro';
 import type { VistasPagina } from '../cartas';
 import { withBase } from '../utils/paths';
 
 // Documento base de las cartas (las páginas de contenido). No impone fondo,
-// tipografías ni colores: cada carta define los suyos. Solo aporta lo común a
-// todas las páginas: los metadatos, el menú de navegación (que cada carta abre
-// con su BotonMenu) y la transición entre páginas.
+// tipografías ni colores: cada carta define los suyos. Aporta lo común a todas
+// las páginas: los metadatos, la transición entre páginas, el Aparejo (los
+// atajos a otras páginas, que cada carta abre con su BotonAparejo) y el
+// Derrotero.
+//
+// Con vista compartida (desde 1024 px de ancho; ver Derrotero.astro), la página
+// ocupa el lugar del Mapa: el resto de la ventana que le deja el Derrotero, al
+// otro lado de la costura. La carta se dibuja dentro de .vista-pagina, cuyo
+// ancho es el de ese lugar. Sin vista compartida, la página ocupa toda la
+// pantalla.
 //
 // La carta puede agregar elementos al <head> (por ejemplo, sus tipografías)
 // con <Fragment slot="head">, y clases a <html> y <body>.
@@ -31,7 +40,7 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
 ---
 
 <!doctype html>
-<html lang="es" class={claseHtml}>
+<html lang="es" class:list={['contexto-pagina', claseHtml]}>
   <head>
     <meta charset="UTF-8" />
     {vistas?.actual === 'original' && (
@@ -45,6 +54,7 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
         } catch {}
       </script>
     )}
+    <EstadoDerrotero />
     <!-- Sin bloquear el zoom: en las páginas de contenido se puede ampliar con los dedos. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
@@ -52,15 +62,29 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {vistas?.actual === 'lectura' && urlOriginal && <link rel="canonical" href={urlOriginal} />}
-    {vistas && <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&display=swap" rel="stylesheet" />}
+    <!-- Tipografías del sitio, para el Derrotero, el Aparejo y el modo lectura -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <slot name="head" />
   </head>
   <body class={claseCuerpo}>
     {/* La capa de transición va primero, para que cubra la página desde el
         primer cuadro aunque el resto del HTML tarde en llegar. */}
     <TransicionPagina />
-    <slot />
+    <div class="vista-pagina">
+      <slot />
+    </div>
     <Derrotero />
+    <Aparejo />
     {vistas && <CambioVista vistas={vistas} />}
   </body>
 </html>
+
+<style is:global>
+  /* El lugar de la página: el ancho de la ventana menos lo que le quita el
+     Derrotero (--derecha-pagina, definida en Derrotero.astro). */
+  .vista-pagina {
+    width: calc(100% - var(--derecha-pagina, 0px));
+  }
+</style>

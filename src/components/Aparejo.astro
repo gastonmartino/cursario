@@ -1,0 +1,168 @@
+---
+// APAREJO
+// Atajos para ir directo a otra página: un panel que se abre desde la derecha
+// con el botón Aparejo (src/components/navegacion/BotonAparejo.astro), que
+// cada carta ubica y estiliza. Lo incluye LayoutCarta en las páginas de
+// contenido.
+import { INSULAS } from '../data/insulas';
+import { ISLAS } from '../data/islas';
+import { ubicar } from '../motor/Derivas';
+import { withBase } from '../utils/paths';
+
+const islas = ISLAS.map((isla) => {
+  const ubicacion = ubicar(isla.id);
+  return {
+    ...isla,
+    idDeriva: ubicacion.idDeriva,
+    subcurso: ubicacion.subcurso,
+    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null) || null,
+  };
+});
+
+// Una sección por curso, con los subcursos que tienen página o enlace propio.
+const navigationSections = INSULAS.map((deriva) => ({
+  ...deriva,
+  subcursos: islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
+}));
+---
+
+<div id="aparejo-raiz" class="pointer-events-none fixed inset-0 z-[60]" aria-hidden="true">
+  <div
+    id="aparejo-fondo"
+    class="absolute inset-0 bg-cyanotype/25 opacity-0 transition-opacity duration-300"
+  ></div>
+
+  <aside
+    id="aparejo"
+    class="absolute right-0 top-0 flex h-full w-full max-w-md translate-x-full flex-col border-l border-ink-border/70 bg-paper-base/95 shadow-2xl backdrop-blur-md transition-transform duration-300 ease-out"
+    aria-label="Aparejo: atajos a otras páginas"
+  >
+    <header class="flex items-center justify-between border-b border-ink-border/60 px-5 py-4 md:px-6">
+      <div>
+        <p class="font-mono text-[10px] font-bold tracking-widest text-cobalt">APAREJO</p>
+        <h2 class="mt-1 font-sans text-xl font-bold text-ink-primary">Atajos a la Derrota</h2>
+      </div>
+      <button
+        id="aparejo-cerrar"
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-sm border border-ink-border/60 text-ink-muted transition-colors hover:bg-paper-sheet hover:text-cobalt"
+        aria-label="Cerrar el aparejo"
+        title="Cerrar el aparejo"
+      >
+        <span class="text-xl leading-none" aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <nav class="flex-1 overflow-y-auto px-5 py-6 md:px-6" aria-label="Índice del sitio">
+      <div class="space-y-1">
+        <a href={withBase('/acerca-de-cursario/')} class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+          Acerca del Cursario
+        </a>
+        <a href={withBase('/acerca-de-mi/')} class="block py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
+          Acerca de mí
+        </a>
+      </div>
+
+      <div class="my-7 border-t border-ink-border/70 pt-5">
+        <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-ink-muted uppercase pb-1">Carta de cursos y derivas</p>
+
+        <div class="space-y-1 border-t border-ink-border/70">
+          {navigationSections.map((deriva, index) => (
+            <div class="border-b border-ink-border/50">
+              <button
+                type="button"
+                class="aparejo-acordeon flex w-full items-center justify-between gap-3 py-3 text-left font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt"
+                aria-expanded="false"
+                aria-controls={`aparejo-curso-${deriva.id}`}
+              >
+                <span class="flex items-center gap-2">
+                  <span class="font-mono text-[10px]" style={`color: ${deriva.accentColor};`}>{deriva.code}</span>
+                  <span>{deriva.name}</span>
+                </span>
+                <span class="aparejo-acordeon-icono font-mono text-lg text-cobalt transition-transform duration-200" aria-hidden="true">+</span>
+              </button>
+
+              <div id={`aparejo-curso-${deriva.id}`} class="hidden pb-3 pl-4" role="region">
+                {deriva.subcursos.length > 0 ? (
+                  <div class="space-y-1 border-l border-cobalt/25 pl-3">
+                    {deriva.subcursos.map((subcurso) => (
+                      <a
+                        href={withBase(subcurso.href) ?? undefined}
+                        title={subcurso.title || subcurso.subcurso}
+                        class="flex min-w-0 items-center gap-1 py-2 font-sans text-sm leading-snug text-ink-muted transition-colors hover:text-cobalt"
+                      >
+                        <span class="shrink-0 font-mono text-[9px] text-cobalt/70">{subcurso.code}</span>
+                        <span class="min-w-0 truncate whitespace-nowrap">{subcurso.title || subcurso.subcurso}</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="py-2 font-mono text-[10px] text-ink-faint">Aún no hay artículos publicados.</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+<script>
+  const drawerRoot = document.getElementById('aparejo-raiz');
+  const drawer = document.getElementById('aparejo');
+  const drawerBackdrop = document.getElementById('aparejo-fondo');
+  // Se abre con el botón Aparejo de la carta.
+  const openButtons = document.querySelectorAll<HTMLElement>('[data-abrir-aparejo]');
+  const closeButton = document.getElementById('aparejo-cerrar');
+  let openedBy: HTMLElement | null = null;
+
+  const setDrawerOpen = (open: boolean) => {
+    if (!drawerRoot || !drawer || !drawerBackdrop) return;
+
+    drawerRoot.classList.toggle('pointer-events-none', !open);
+    drawerRoot.classList.toggle('pointer-events-auto', open);
+    drawerRoot.setAttribute('aria-hidden', String(!open));
+    drawer.classList.toggle('translate-x-full', !open);
+    drawerBackdrop.classList.toggle('opacity-0', !open);
+    drawerBackdrop.classList.toggle('opacity-100', open);
+    openButtons.forEach((button) => button.setAttribute('aria-expanded', String(open)));
+
+    if (open) closeButton?.focus();
+    else openedBy?.focus();
+  };
+
+  openButtons.forEach((button) => button.addEventListener('click', () => {
+    openedBy = button;
+    setDrawerOpen(true);
+  }));
+  closeButton?.addEventListener('click', () => setDrawerOpen(false));
+  drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
+
+  // Mientras el aparejo está abierto, el teclado le pertenece: se corta la
+  // propagación para que los atajos del lienzo (que escucha en window)
+  // no reaccionen detrás, por ejemplo Escape saliendo de la deriva.
+  document.addEventListener('keydown', (event) => {
+    if (drawerRoot?.getAttribute('aria-hidden') !== 'false') return;
+
+    event.stopPropagation();
+    if (event.key === 'Escape') {
+      setDrawerOpen(false);
+    }
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.aparejo-acordeon').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const panelId = trigger.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const icon = trigger.querySelector('.aparejo-acordeon-icono');
+      if (!panel) return;
+
+      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      trigger.setAttribute('aria-expanded', String(willOpen));
+      panel.classList.toggle('hidden', !willOpen);
+      icon?.classList.toggle('rotate-45', willOpen);
+      icon?.classList.toggle('text-cobalt-dark', willOpen);
+    });
+  });
+</script>

@@ -1,164 +1,923 @@
 ---
+// DERROTERO (Derrotero del Cursario)
+// La otra mitad del sitio: frente al Mapa (el lienzo para explorar a la
+// deriva), una versión ordenada y esperable de los contenidos, como la de
+// cualquier portfolio de artista: obras, bitácora, escritos, bio y contacto,
+// con un buscador. En la interfaz se presenta como "Gastón Martino //
+// Currículum", frente a "Gastón Martino // Cursario" del Mapa.
+//
+// Una costura vertical separa las dos mitades. Su manija se arrastra, se
+// mueve con sus flechas o con el teclado, y se imanta en tres posiciones:
+//   cerrado  → solo el Mapa (o la página de contenido);
+//   mitad    → mitad y mitad (la posición inicial);
+//   completo → el Derrotero cubre el Mapa.
+// En la manija: la flecha izquierda despliega el Currículum completo, la
+// derecha lo cierra, y un doble clic en el resto recorre las posiciones en
+// ciclo (de la mitad a un extremo, de vuelta a la mitad, al otro extremo…).
+// Arrastrarla desde cualquier parte mueve la costura.
+// La posición elegida se recuerda en el navegador (EstadoDerrotero.astro la
+// aplica antes de dibujar). El ancho del panel es la variable
+// --ancho-derrotero, que el Mapa (Mapa.astro) y las páginas de contenido
+// (LayoutCarta) también usan para ocupar solo el resto de la ventana.
+//
+// La costura existe solo con vista compartida (desde 1024 px). Por debajo, en
+// la portada se ve el Mapa o el Derrotero, y se pasa de uno a otro con su
+// nombre (⇄); en las páginas de contenido no hay Derrotero. Si el panel es
+// angosto, su menú se pliega detrás de un botón.
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
+import { cargarDocumento } from '../cartas';
+import { renderizarBloques } from '../utils/markdown';
 import { withBase } from '../utils/paths';
+import EsquinasPlano from './EsquinasPlano.astro';
 
-const islas = ISLAS.map((isla) => {
+// La sección del Currículum en la que aparecen las islas de cada curso.
+const SECCION_DE_CURSO: Record<string, 'obras' | 'bitacora' | 'escritos'> = {
+  untref: 'obras',
+  generativa: 'obras',
+  'en-curso': 'bitacora',
+  pensamiento: 'escritos',
+};
+
+const anioDe = (...textos: Array<string | null | undefined>) =>
+  textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
+
+const ordenCurso = (id: string) => INSULAS.findIndex((curso) => curso.id === id);
+
+const piezas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
+  const curso = INSULAS.find((insula) => insula.id === ubicacion.idDeriva);
+  const href = isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null);
+  const titulo = isla.title || isla.captionLabel;
   return {
-    ...isla,
-    idDeriva: ubicacion.idDeriva,
-    subcurso: ubicacion.subcurso,
-    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null) || null,
+    id: isla.id,
+    codigo: isla.code,
+    titulo,
+    descripcion: isla.description ?? isla.subtitle ?? '',
+    etiqueta: isla.tag,
+    anio: anioDe(isla.subtitle, isla.tag, isla.timeReference),
+    tecnica: curso?.name ?? '',
+    idCurso: ubicacion.idDeriva,
+    href: href ? withBase(href) : null,
+    // Texto en el que busca el buscador.
+    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
+      .filter(Boolean).join(' '),
   };
-});
+}).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));
 
-// Una sección por curso, con los subcursos que tienen página o enlace propio.
-const navigationSections = INSULAS.map((deriva) => ({
-  ...deriva,
-  subcursos: islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
-}));
+const deSeccion = (seccion: string) => piezas.filter((pieza) => SECCION_DE_CURSO[pieza.idCurso] === seccion);
+const obras = deSeccion('obras');
+const bitacora = deSeccion('bitacora');
+const escritos = deSeccion('escritos');
+
+const categorias = INSULAS.map((insula) => ({
+  id: insula.id,
+  nombre: insula.name,
+  cantidad: obras.filter((obra) => obra.idCurso === insula.id).length,
+})).filter((categoria) => categoria.cantidad > 0);
+
+// Bio: el texto de "Acerca de mí", sin su título (el nombre ya está arriba).
+const acercaDeMi = cargarDocumento('/paginas/acerca-de-mi.md');
+const bioHtml = renderizarBloques(
+  acercaDeMi.bloques.filter((bloque) => !(bloque.tipo === 'titulo' && bloque.nivel === 1)),
+);
+
+const secciones = [
+  { id: 'obras', nombre: 'OBRAS' },
+  { id: 'bitacora', nombre: 'BITÁCORA' },
+  { id: 'escritos', nombre: 'ESCRITOS' },
+  { id: 'bio', nombre: 'BIO' },
+  { id: 'contacto', nombre: 'CONTACTO' },
+];
 ---
 
-<div id="navigation-drawer-root" class="pointer-events-none fixed inset-0 z-[60]" aria-hidden="true">
+<!-- Con su tipografía y su color propios: en las páginas de contenido no hereda los de la carta. -->
+<section id="derrotero" class="derrotero font-sans text-ink-primary antialiased" aria-label="Gastón Martino // Currículum">
+  <!-- Costura con su manija -->
   <div
-    id="navigation-drawer-backdrop"
-    class="absolute inset-0 bg-cyanotype/25 opacity-0 transition-opacity duration-300"
-  ></div>
-
-  <aside
-    id="navigation-drawer"
-    class="absolute right-0 top-0 flex h-full w-full max-w-md translate-x-full flex-col border-l border-ink-border/70 bg-paper-base/95 shadow-2xl backdrop-blur-md transition-transform duration-300 ease-out"
-    aria-label="Navegación principal"
+    id="costura-manija"
+    class="costura-manija"
+    role="slider"
+    tabindex="0"
+    aria-label="Costura entre Cursario y Currículum"
+    aria-valuemin="0"
+    aria-valuemax="2"
+    aria-valuenow="1"
+    aria-valuetext="Mitad y mitad"
   >
-    <header class="flex items-center justify-between border-b border-ink-border/60 px-5 py-4 md:px-6">
-      <div>
-        <p class="font-mono text-[10px] font-bold tracking-widest text-cobalt">DERROTERO</p>
-        <h2 class="mt-1 font-sans text-xl font-bold text-ink-primary">Atajos a la Derrota</h2>
+    <button type="button" class="costura-flecha" data-costura-destino="completo" aria-label="Currículum completo" tabindex="-1">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <span class="costura-agarre" aria-hidden="true"></span>
+    <button type="button" class="costura-flecha" data-costura-destino="cerrado" aria-label="Cerrar el Currículum" tabindex="-1">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+
+  <!-- El contenido tiene un ancho mínimo y se recorta, en lugar de
+       angostarse, cuando el panel se cierra. -->
+  <div class="derrotero-recorte">
+  <div class="derrotero-contenido">
+    <!-- Encabezado: el nombre a la izquierda y, si el panel es angosto, el
+         botón de su menú a la derecha. El nombre y la bajada se ven igual que
+         su opuesto en el HUD del Mapa. -->
+    <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
+      <!-- Un clic en el nombre despliega el Derrotero completo, o vuelve a la
+           mitad. En pantallas sin vista compartida, pasa al Mapa (⇄). -->
+      <div data-ir-a-posicion="completo" role="button" tabindex="0" aria-label="Gastón Martino // Currículum: ver el Currículum completo, o volver a la pantalla dividida" class="derrotero-identidad flex min-w-0 cursor-pointer flex-col">
+        <h2 class="flex items-center gap-2 whitespace-nowrap font-mono text-xs font-bold tracking-widest text-ink-primary">
+          <span>GASTÓN MARTINO <span class="font-normal text-[11px] text-ink-faint">//</span>
+          <span class="font-normal text-[10.4px] text-ink-faint" style="position: relative; top: 1px;">CURRÍCULUM</span></span>
+          <svg class="alternar-vista lg:hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 3 21 7 17 11"></polyline><line x1="21" y1="7" x2="7" y2="7"></line><polyline points="7 13 3 17 7 21"></polyline><line x1="3" y1="17" x2="17" y2="17"></line></svg>
+        </h2>
+        <p class="mt-0.5 font-sans text-xs text-ink-muted">Artista · Diseñador · Docente</p>
       </div>
       <button
-        id="navigation-drawer-close"
+        id="derrotero-menu-boton"
         type="button"
-        class="flex h-9 w-9 items-center justify-center rounded-sm border border-ink-border/60 text-ink-muted transition-colors hover:bg-paper-sheet hover:text-cobalt"
-        aria-label="Cerrar navegación"
-        title="Cerrar navegación"
+        class="derrotero-menu-boton h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+        title="Secciones del Currículum"
+        aria-label="Abrir las secciones del Currículum"
+        aria-controls="derrotero-menu"
+        aria-expanded="false"
       >
-        <span class="text-xl leading-none" aria-hidden="true">×</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
       </button>
     </header>
 
-    <nav class="flex-1 overflow-y-auto px-5 py-6 md:px-6" aria-label="Índice del sitio">
-      <div class="space-y-1">
-        <a href={withBase('/acerca-de-cursario/')} class="block border-b border-ink-border/50 py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
-          Acerca del Cursario
-        </a>
-        <a href={withBase('/acerca-de-mi/')} class="block py-3 font-sans text-base text-ink-primary transition-colors hover:text-cobalt">
-          Acerca de mí
-        </a>
+    <div class="relative flex min-h-0 flex-1">
+      <!-- Columna de navegación. Si el panel no da para dos columnas, se
+           pliega y se abre con el botón del encabezado. -->
+      <div id="derrotero-menu" class="derrotero-menu flex w-56 shrink-0 flex-col gap-7 overflow-y-auto pb-6 pl-8 pt-7">
+        <nav aria-label="Secciones del Currículum" class="derrotero-secciones flex flex-col font-sans text-[30px] font-extrabold leading-none tracking-tight">
+          {secciones.map((seccion, i) => (
+            <button type="button" data-seccion={seccion.id} aria-pressed={String(i === 0)}>{seccion.nombre}</button>
+          ))}
+        </nav>
+
+        <div data-con-busqueda class="flex flex-col gap-3.5 border-t border-ink-primary pt-4">
+          <label class="flex h-10 items-center gap-2 border border-ink-border px-2.5 focus-within:border-cobalt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A505C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+            <span id="derrotero-busqueda-etiqueta" class="sr-only">Buscar obras</span>
+            <input id="derrotero-busqueda" type="search" placeholder="Buscar obras" autocomplete="off" aria-labelledby="derrotero-busqueda-etiqueta" class="min-w-0 flex-1 border-0 bg-transparent font-sans text-[13px] text-ink-primary outline-none placeholder:text-ink-faint" />
+          </label>
+
+          <!-- Obras: categorías -->
+          <ul data-solo-seccion="obras" class="derrotero-categorias flex flex-col gap-1.5 font-sans text-[13px]">
+            <li><button type="button" data-categoria="" aria-pressed="true">Todas las obras</button></li>
+            {categorias.map((categoria) => (
+              <li><button type="button" data-categoria={categoria.id} aria-pressed="false">{categoria.nombre}</button></li>
+            ))}
+          </ul>
+
+          <!-- Escritos: índice -->
+          <ol data-solo-seccion="escritos" hidden class="derrotero-indice flex flex-col gap-2 font-sans text-[13px] leading-snug">
+            {escritos.map((escrito) => (
+              <li data-pieza data-busqueda={escrito.textoBusqueda}>
+                <a href={escrito.href ?? `#escrito-${escrito.id}`} data-indice-de={escrito.id}>{escrito.titulo}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <p class="mt-auto font-mono text-[10px] text-ink-faint">© {new Date().getFullYear()} · GASTÓN MARTINO</p>
       </div>
 
-      <div class="my-7 border-t border-ink-border/70 pt-5">
-        <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-ink-muted uppercase pb-1">Carta de cursos y derivas</p>
+      <!-- Contenido -->
+      <div class="derrotero-columna flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto pb-8 pl-6 pr-8 pt-8">
+        <p id="derrotero-resumen" data-con-busqueda class="font-mono text-[11px] text-ink-muted">{obras.length} OBRAS</p>
 
-        <div class="space-y-1 border-t border-ink-border/70">
-          {navigationSections.map((deriva, index) => (
-            <div class="border-b border-ink-border/50">
-              <button
-                type="button"
-                class="navigation-accordion-trigger flex w-full items-center justify-between gap-3 py-3 text-left font-sans text-base font-semibold text-ink-primary transition-colors hover:text-cobalt"
-                aria-expanded="false"
-                aria-controls={`navigation-panel-${deriva.id}`}
-              >
-                <span class="flex items-center gap-2">
-                  <span class="font-mono text-[10px]" style={`color: ${deriva.accentColor};`}>{deriva.code}</span>
-                  <span>{deriva.name}</span>
-                </span>
-                <span class="navigation-accordion-icon font-mono text-lg text-cobalt transition-transform duration-200" aria-hidden="true">+</span>
-              </button>
-
-              <div id={`navigation-panel-${deriva.id}`} class="hidden pb-3 pl-4" role="region">
-                {deriva.subcursos.length > 0 ? (
-                  <div class="space-y-1 border-l border-cobalt/25 pl-3">
-                    {deriva.subcursos.map((subcurso) => (
-                      <a
-                        href={withBase(subcurso.href) ?? undefined}
-                        title={subcurso.title || subcurso.subcurso}
-                        class="flex min-w-0 items-center gap-1 py-2 font-sans text-sm leading-snug text-ink-muted transition-colors hover:text-cobalt"
-                      >
-                        <span class="shrink-0 font-mono text-[9px] text-cobalt/70">{subcurso.code}</span>
-                        <span class="min-w-0 truncate whitespace-nowrap">{subcurso.title || subcurso.subcurso}</span>
-                      </a>
-                    ))}
-                  </div>
+        <!-- Obras -->
+        <div data-solo-seccion="obras">
+          <ul class="derrotero-grilla">
+            {obras.map((obra) => (
+              <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
+                {obra.href ? (
+                  <a href={obra.href} class="derrotero-obra">
+                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-obra-titulo">{obra.titulo}</span>
+                    <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                  </a>
                 ) : (
-                  <p class="py-2 font-mono text-[10px] text-ink-faint">Aún no hay artículos publicados.</p>
+                  <div class="derrotero-obra">
+                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-obra-titulo">{obra.titulo}</span>
+                    <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                  </div>
                 )}
-              </div>
-            </div>
-          ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Bitácora -->
+        <div data-solo-seccion="bitacora" hidden>
+          <ul class="derrotero-grilla">
+            {bitacora.map((entrada) => (
+              <li data-pieza data-busqueda={entrada.textoBusqueda}>
+                {entrada.href ? (
+                  <a href={entrada.href} class="derrotero-obra">
+                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-obra-titulo">{entrada.titulo}</span>
+                    <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
+                  </a>
+                ) : (
+                  <div class="derrotero-obra">
+                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-obra-titulo">{entrada.titulo}</span>
+                    <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Escritos: fichas apiladas, que se estiran hacia arriba al pasar el puntero -->
+        <div data-solo-seccion="escritos" hidden>
+          <ul class="derrotero-fichas">
+            {escritos.map((escrito) => (
+              <li id={`escrito-${escrito.id}`} data-pieza data-ficha={escrito.id} data-busqueda={escrito.textoBusqueda}>
+                <a href={escrito.href ?? undefined} class="derrotero-ficha">
+                  <span class="derrotero-ficha-cabecera">
+                    <span>{escrito.codigo}</span>
+                    <span>{[escrito.anio, escrito.etiqueta].filter(Boolean).join(' · ')}</span>
+                  </span>
+                  <span class="derrotero-ficha-titulo">{escrito.titulo}</span>
+                  {escrito.descripcion && <span class="derrotero-ficha-texto">{escrito.descripcion}</span>}
+                  <span class="derrotero-ficha-leer">{escrito.href ? 'Leer →' : 'Próximamente'}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <p id="derrotero-sin-resultados" class="hidden py-10 font-sans text-sm text-ink-muted">No hay resultados para la búsqueda.</p>
+
+        <!-- Bio -->
+        <div data-solo-seccion="bio" hidden class="derrotero-bio max-w-xl">
+          <!-- Retrato con el borde y las esquinas de plano de las islas del lienzo -->
+          <div class="relative mb-8 ml-2 mt-2 h-56 w-56 border-2 border-cobalt">
+            <img src={withBase('/medios/retrato.jpg')} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="h-full w-full bg-paper-sheet object-cover" />
+            <EsquinasPlano color="#0038A8" />
+          </div>
+          <Fragment set:html={bioHtml} />
+        </div>
+
+        <!-- Contacto -->
+        <div data-solo-seccion="contacto" hidden class="flex max-w-xl flex-col gap-6 font-sans text-sm">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
+            <p><a href="mailto:arroba@gastonmartino.xyz" class="text-cobalt hover:underline">arroba@gastonmartino.xyz</a></p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">INSTAGRAM</h3>
+            <p><a href="https://www.instagram.com/gastonmartino/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastonmartino</a></p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
+            <p>Buenos Aires, Argentina</p>
+          </div>
         </div>
       </div>
-    </nav>
-  </aside>
-</div>
+    </div>
+  </div>
+  </div>
+</section>
 
 <script>
-  const drawerRoot = document.getElementById('navigation-drawer-root');
-  const drawer = document.getElementById('navigation-drawer');
-  const drawerBackdrop = document.getElementById('navigation-drawer-backdrop');
-  // El menú se abre con el botón de cada página (BotonMenu o el del HUD) y,
-  // en la portada, también con el del Currículum.
-  const openButtons = document.querySelectorAll<HTMLElement>('#btn-open-menu, [data-abrir-derrotero]');
-  const closeButton = document.getElementById('navigation-drawer-close');
-  let openedBy: HTMLElement | null = null;
+  type Posicion = 'cerrado' | 'mitad' | 'completo';
+  const POSICIONES: Posicion[] = ['cerrado', 'mitad', 'completo'];
+  const TEXTOS: Record<Posicion, string> = {
+    cerrado: 'Solo el Cursario',
+    mitad: 'Mitad y mitad',
+    completo: 'Solo el Currículum',
+  };
+  // Lo que queda visible del lienzo con el Currículum completo.
+  const RESTO_LIENZO = 40;
+  // Movimiento mínimo del puntero para que cuente como arrastre y no como clic.
+  const UMBRAL_ARRASTRE = 4;
 
-  const setDrawerOpen = (open: boolean) => {
-    if (!drawerRoot || !drawer || !drawerBackdrop) return;
+  const raiz = document.documentElement;
+  const panel = document.getElementById('derrotero');
+  const manija = document.getElementById('costura-manija');
 
-    drawerRoot.classList.toggle('pointer-events-none', !open);
-    drawerRoot.classList.toggle('pointer-events-auto', open);
-    drawerRoot.setAttribute('aria-hidden', String(!open));
-    drawer.classList.toggle('translate-x-full', !open);
-    drawerBackdrop.classList.toggle('opacity-0', !open);
-    drawerBackdrop.classList.toggle('opacity-100', open);
-    openButtons.forEach((button) => button.setAttribute('aria-expanded', String(open)));
-
-    if (open) closeButton?.focus();
-    else openedBy?.focus();
+  const posicionActual = (): Posicion => {
+    const valor = raiz.dataset.derrotero;
+    return valor === 'cerrado' || valor === 'completo' ? valor : 'mitad';
   };
 
-  openButtons.forEach((button) => button.addEventListener('click', () => {
-    openedBy = button;
-    setDrawerOpen(true);
-  }));
-  closeButton?.addEventListener('click', () => setDrawerOpen(false));
-  drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
+  const anchoDe = (posicion: Posicion) => {
+    if (posicion === 'cerrado') return 0;
+    if (posicion === 'completo') return window.innerWidth - RESTO_LIENZO;
+    return Math.round(window.innerWidth / 2);
+  };
 
-  // Mientras el menú está abierto, el teclado le pertenece: se corta la
-  // propagación para que los atajos del lienzo (que escucha en window)
-  // no reaccionen detrás, por ejemplo Escape saliendo de la deriva.
-  document.addEventListener('keydown', (event) => {
-    if (drawerRoot?.getAttribute('aria-hidden') !== 'false') return;
+  // Último extremo visitado, para que el clic en la manija alterne entre los dos.
+  let ultimoExtremo: Posicion = posicionActual() === 'completo' ? 'completo' : 'cerrado';
 
-    event.stopPropagation();
-    if (event.key === 'Escape') {
-      setDrawerOpen(false);
+  const fijarPosicion = (posicion: Posicion) => {
+    if (posicion !== 'mitad') ultimoExtremo = posicion;
+    raiz.dataset.derrotero = posicion;
+    raiz.style.removeProperty('--ancho-derrotero');
+    manija?.setAttribute('aria-valuenow', String(POSICIONES.indexOf(posicion)));
+    manija?.setAttribute('aria-valuetext', TEXTOS[posicion]);
+    try {
+      localStorage.setItem('cursario:derrotero', posicion);
+    } catch {
+      // Sin almacenamiento, la posición no se recuerda.
     }
+  };
+
+  const mover = (paso: number) => {
+    const indice = POSICIONES.indexOf(posicionActual()) + paso;
+    fijarPosicion(POSICIONES[Math.max(0, Math.min(POSICIONES.length - 1, indice))]);
+  };
+
+  // Ciclo del doble clic: mitad → completo → mitad → cerrado → mitad…
+  const ciclar = () => {
+    if (posicionActual() !== 'mitad') fijarPosicion('mitad');
+    else fijarPosicion(ultimoExtremo === 'completo' ? 'cerrado' : 'completo');
+  };
+
+  fijarPosicion(posicionActual());
+
+  // Arrastre de la manija, desde cualquier parte (también desde las flechas):
+  // la costura sigue al puntero y, al soltar, se imanta en la posición más
+  // cercana. Si el puntero casi no se movió, es un clic: en una flecha, lleva
+  // a su extremo; en el resto de la manija no hace nada (el ciclo es con
+  // doble clic).
+  let presionada = false;
+  let arrastrando = false;
+  let inicioX = 0;
+  let anchoInicial = 0;
+  let destino: Posicion | null = null;
+
+  const anchoArrastrado = (x: number) =>
+    Math.max(0, Math.min(window.innerWidth - RESTO_LIENZO, anchoInicial - (x - inicioX)));
+
+  manija?.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0) return;
+    presionada = true;
+    arrastrando = false;
+    inicioX = event.clientX;
+    anchoInicial = panel?.offsetWidth ?? 0;
+    const flecha = (event.target as Element).closest<HTMLElement>('[data-costura-destino]');
+    destino = (flecha?.dataset.costuraDestino as Posicion | undefined) ?? null;
+    manija.setPointerCapture(event.pointerId);
   });
 
-  document.querySelectorAll<HTMLButtonElement>('.navigation-accordion-trigger').forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      const panelId = trigger.getAttribute('aria-controls');
-      const panel = panelId ? document.getElementById(panelId) : null;
-      const icon = trigger.querySelector('.navigation-accordion-icon');
-      if (!panel) return;
+  manija?.addEventListener('pointermove', (event) => {
+    if (!presionada) return;
+    if (!arrastrando && Math.abs(event.clientX - inicioX) < UMBRAL_ARRASTRE) return;
+    arrastrando = true;
+    raiz.classList.add('costura-en-movimiento');
+    raiz.style.setProperty('--ancho-derrotero', `${anchoArrastrado(event.clientX)}px`);
+  });
 
-      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
-      trigger.setAttribute('aria-expanded', String(willOpen));
-      panel.classList.toggle('hidden', !willOpen);
-      icon?.classList.toggle('rotate-45', willOpen);
-      icon?.classList.toggle('text-cobalt-dark', willOpen);
+  const soltar = (event: PointerEvent) => {
+    if (!presionada) return;
+    presionada = false;
+    raiz.classList.remove('costura-en-movimiento');
+    if (manija?.hasPointerCapture(event.pointerId)) manija.releasePointerCapture(event.pointerId);
+    if (!arrastrando) {
+      if (event.type === 'pointerup' && destino) fijarPosicion(destino);
+      return;
+    }
+    const ancho = anchoArrastrado(event.clientX);
+    const masCercana = POSICIONES.reduce((mejor, posicion) =>
+      Math.abs(anchoDe(posicion) - ancho) < Math.abs(anchoDe(mejor) - ancho) ? posicion : mejor);
+    fijarPosicion(masCercana);
+  };
+  manija?.addEventListener('pointerup', soltar);
+  manija?.addEventListener('pointercancel', soltar);
+
+  manija?.addEventListener('dblclick', (event) => {
+    if ((event.target as Element).closest('[data-costura-destino]')) return;
+    ciclar();
+  });
+
+  // Teclado: las flechas mueven la costura y Enter o espacio hacen el ciclo
+  // del clic (sin llegar a los atajos del lienzo).
+  manija?.addEventListener('keydown', (event) => {
+    const pasos: Record<string, number> = { ArrowLeft: 1, ArrowRight: -1, ArrowUp: 1, ArrowDown: -1 };
+    if (event.key in pasos) mover(pasos[event.key]);
+    else if (event.key === 'Home') fijarPosicion('completo');
+    else if (event.key === 'End') fijarPosicion('cerrado');
+    else if (event.key === 'Enter' || event.key === ' ') ciclar();
+    else return;
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
+  // Los nombres de cada lado ("Gastón Martino // Cursario" en el HUD del Mapa
+  // y "Gastón Martino // Currículum" acá) llevan la costura a su extremo: el
+  // Mapa o el Derrotero a pantalla completa. Si ya está en ese extremo, la
+  // vuelven a la mitad. En pantallas sin vista compartida (ver VISTA_COMPARTIDA
+  // en los estilos), donde se ve una sola vista por vez, pasan a la otra.
+  const vistaCompartida = window.matchMedia('(min-width: 1024px)');
+  document.querySelectorAll<HTMLElement>('[data-ir-a-posicion]').forEach((bloque) => {
+    const posicion = bloque.dataset.irAPosicion as Posicion;
+    const ir = () => {
+      if (!vistaCompartida.matches) fijarPosicion(posicion === 'cerrado' ? 'completo' : 'cerrado');
+      else fijarPosicion(posicionActual() === posicion ? 'mitad' : posicion);
+    };
+    bloque.addEventListener('click', ir);
+    bloque.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      event.stopPropagation();
+      ir();
     });
   });
+
+  // --- Menú plegable (si el panel no da para dos columnas) ---
+  const menuBoton = document.getElementById('derrotero-menu-boton');
+  const menu = document.getElementById('derrotero-menu');
+  const abrirMenu = (abierto: boolean) => {
+    menu?.classList.toggle('abierto', abierto);
+    menuBoton?.setAttribute('aria-expanded', String(abierto));
+    menuBoton?.setAttribute('aria-label', abierto ? 'Cerrar las secciones del Currículum' : 'Abrir las secciones del Currículum');
+  };
+  menuBoton?.addEventListener('click', () => abrirMenu(!menu?.classList.contains('abierto')));
+  panel?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.classList.contains('abierto')) {
+      abrirMenu(false);
+      menuBoton?.focus();
+      event.stopPropagation();
+    }
+  });
+  // Elegir una sección o una categoría cierra el menú.
+  menu?.querySelectorAll('[data-seccion], button[data-categoria]').forEach((boton) => {
+    boton.addEventListener('click', () => abrirMenu(false));
+  });
+
+  // --- Secciones ---
+  const botonesSeccion = panel?.querySelectorAll<HTMLButtonElement>('[data-seccion]') ?? [];
+  const busqueda = document.getElementById('derrotero-busqueda') as HTMLInputElement | null;
+  const etiquetaBusqueda = document.getElementById('derrotero-busqueda-etiqueta');
+  const resumen = document.getElementById('derrotero-resumen');
+  const sinResultados = document.getElementById('derrotero-sin-resultados');
+  const botonesCategoria = panel?.querySelectorAll<HTMLButtonElement>('button[data-categoria]') ?? [];
+  const SECCIONES_CON_BUSQUEDA: Record<string, { singular: string; plural: string; buscar: string }> = {
+    obras: { singular: 'OBRA', plural: 'OBRAS', buscar: 'Buscar obras' },
+    bitacora: { singular: 'ENTRADA', plural: 'ENTRADAS', buscar: 'Buscar en la bitácora' },
+    escritos: { singular: 'ESCRITO', plural: 'ESCRITOS', buscar: 'Buscar escritos' },
+  };
+  let seccion = 'obras';
+  let categoria = '';
+
+  const normalizar = (texto: string) => texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  // Filtra las piezas de la sección (y, en escritos, también su índice).
+  const filtrar = () => {
+    const textos = SECCIONES_CON_BUSQUEDA[seccion];
+    if (!textos) return;
+    const terminos = normalizar(busqueda?.value ?? '').split(/\s+/).filter(Boolean);
+    const coincide = (pieza: HTMLElement) => {
+      const texto = normalizar(pieza.dataset.busqueda ?? '');
+      const enCategoria = seccion !== 'obras' || !categoria || pieza.dataset.categoria === categoria;
+      return enCategoria && terminos.every((termino) => texto.includes(termino));
+    };
+    let visibles = 0;
+    panel?.querySelectorAll<HTMLElement>(`[data-solo-seccion="${seccion}"] [data-pieza]`).forEach((pieza) => {
+      pieza.hidden = !coincide(pieza);
+      if (!pieza.hidden && !pieza.closest('ol')) visibles += 1;
+    });
+    if (resumen) resumen.textContent = `${visibles} ${visibles === 1 ? textos.singular : textos.plural}`;
+    sinResultados?.classList.toggle('hidden', visibles > 0);
+  };
+
+  const elegirSeccion = (nueva: string) => {
+    seccion = nueva;
+    botonesSeccion.forEach((boton) => boton.setAttribute('aria-pressed', String(boton.dataset.seccion === nueva)));
+    panel?.querySelectorAll<HTMLElement>('[data-solo-seccion]').forEach((bloque) => {
+      bloque.hidden = bloque.dataset.soloSeccion !== nueva;
+    });
+    const textos = SECCIONES_CON_BUSQUEDA[nueva];
+    panel?.querySelectorAll<HTMLElement>('[data-con-busqueda]').forEach((bloque) => {
+      bloque.hidden = !textos;
+    });
+    if (!textos) {
+      sinResultados?.classList.add('hidden');
+      return;
+    }
+    if (busqueda) busqueda.placeholder = textos.buscar;
+    if (etiquetaBusqueda) etiquetaBusqueda.textContent = textos.buscar;
+    filtrar();
+  };
+
+  botonesSeccion.forEach((boton) => {
+    boton.addEventListener('click', () => elegirSeccion(boton.dataset.seccion ?? 'obras'));
+  });
+
+  busqueda?.addEventListener('input', filtrar);
+  botonesCategoria.forEach((boton) => {
+    boton.addEventListener('click', () => {
+      categoria = boton.dataset.categoria ?? '';
+      botonesCategoria.forEach((otro) => otro.setAttribute('aria-pressed', String(otro === boton)));
+      filtrar();
+    });
+  });
+
+  // El índice de escritos resalta su ficha al pasar el puntero.
+  panel?.querySelectorAll<HTMLElement>('[data-indice-de]').forEach((enlace) => {
+    const ficha = panel.querySelector<HTMLElement>(`[data-ficha="${enlace.dataset.indiceDe}"]`);
+    enlace.addEventListener('pointerenter', () => ficha?.classList.add('resaltada'));
+    enlace.addEventListener('pointerleave', () => ficha?.classList.remove('resaltada'));
+    enlace.addEventListener('focus', () => ficha?.classList.add('resaltada'));
+    enlace.addEventListener('blur', () => ficha?.classList.remove('resaltada'));
+  });
 </script>
+
+<style is:global>
+  /* VISTA COMPARTIDA: desde 1024 px de ancho, el Mapa (o una página de
+     contenido) y el Derrotero comparten la pantalla, separados por la
+     costura. Por debajo, se ve una sola vista por vez. El corte se repite en
+     las media queries de este archivo, de LayoutCarta y de las cartas, y en
+     el script de arriba.
+
+     Variables, en <html>:
+       --ancho-derrotero-reposo  ancho del Derrotero según la posición de la
+                                 costura (cerrado, mitad, completo);
+       --ancho-derrotero         ancho actual: el de reposo, o el que fija el
+                                 arrastre mientras dura;
+       --derecha-pagina          lo que el Derrotero le quita a una página de
+                                 contenido (con el Derrotero completo, la
+                                 página no se angosta más que a la mitad: el
+                                 Derrotero la tapa);
+       --derecha-transicion      lo que no cubre la transición entre páginas. */
+  html {
+    --ancho-derrotero-reposo: 50vw;
+    --ancho-derrotero: var(--ancho-derrotero-reposo);
+    --derecha-pagina: min(50vw, var(--ancho-derrotero-reposo));
+    /* Lo que no cubre la capa de transición entre páginas. */
+    --derecha-transicion: var(--ancho-derrotero-reposo);
+  }
+
+  html[data-derrotero='cerrado'] {
+    --ancho-derrotero-reposo: 0px;
+  }
+
+  html[data-derrotero='completo'] {
+    --ancho-derrotero-reposo: calc(100vw - 40px);
+  }
+
+  /* Sin vista compartida: en la portada, el Mapa o el Derrotero a pantalla
+     completa; en las páginas de contenido, solo la página. */
+  @media (max-width: 1023.98px) {
+    html {
+      --ancho-derrotero-reposo: 0px !important;
+      --derecha-pagina: 0px !important;
+      --derecha-transicion: 0px !important;
+    }
+
+    html.contexto-mapa[data-derrotero='completo'] {
+      --ancho-derrotero-reposo: 100vw !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    /* Con el Derrotero a la vista, el HUD del Mapa, más angosto, prescinde de
+       la posición (POS). */
+    html:not([data-derrotero='cerrado']) .hud-pos {
+      display: none !important;
+    }
+
+    /* Con el Derrotero completo, del Mapa solo asoma una franja: sin HUD. */
+    html[data-derrotero='completo'] .hud-lienzo {
+      visibility: hidden;
+    }
+  }
+</style>
+
+<style>
+  .derrotero {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--ancho-derrotero);
+    border-left: 3px solid #0038A8;
+    background: #FFFFFF;
+    /* Sombra hacia el lienzo: el panel está por encima. */
+    box-shadow: -10px 0 24px -14px rgba(22, 37, 61, 0.45);
+    transition: width 320ms ease-in-out;
+  }
+
+  :global(html.costura-en-movimiento) .derrotero {
+    transition: none;
+  }
+
+  /* hidden oculta aunque el elemento tenga una clase de display (flex…) */
+  .derrotero [hidden] {
+    display: none !important;
+  }
+
+  .derrotero-recorte {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Nunca más angosto que a media pantalla (menos el borde de la costura). */
+  .derrotero-contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: calc(50vw - 3px);
+    height: 100%;
+  }
+
+  /* Sin vista compartida no hay costura: sin borde ni manija. En las páginas
+     de contenido, tampoco Derrotero. */
+  @media (max-width: 1023.98px) {
+    .derrotero {
+      border-left: 0;
+      box-shadow: none;
+    }
+
+    .derrotero .costura-manija {
+      display: none;
+    }
+
+    :global(html.contexto-pagina) .derrotero {
+      display: none;
+    }
+  }
+
+  /* El contenido es un contenedor: su ancho decide si entran las dos
+     columnas (menú y contenido) o si el menú se pliega. */
+  .derrotero-contenido {
+    container: derrotero / inline-size;
+  }
+
+  .derrotero-menu-boton {
+    display: none;
+  }
+
+  @container derrotero (max-width: 640px) {
+    .derrotero-menu-boton {
+      display: flex;
+    }
+
+    .derrotero-menu {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      display: none;
+      width: auto;
+      padding-right: 32px;
+      background: #FFFFFF;
+    }
+
+    .derrotero-menu.abierto {
+      display: flex;
+    }
+
+    .derrotero-columna {
+      padding-left: 32px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .derrotero {
+      transition: none;
+    }
+  }
+
+  /* Manija de la costura */
+  .costura-manija {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: -18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33px;
+    padding: 4px 0;
+    transform: translateY(-50%);
+    border: 1px solid #0038A8;
+    background: #FFFFFF;
+    color: #0038A8;
+    box-shadow: 0 1px 3px rgba(22, 37, 61, 0.15);
+    cursor: ew-resize;
+    touch-action: none;
+  }
+
+  :global(html[data-derrotero='cerrado']) .costura-manija {
+    left: -36px;
+  }
+
+  .costura-manija:focus-visible {
+    outline: 2px solid #0038A8;
+    outline-offset: 2px;
+  }
+
+  .costura-flecha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 22px;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .costura-flecha:hover {
+    background: #EDF1F5;
+  }
+
+  .costura-agarre {
+    width: 9px;
+    height: 26px;
+    margin: 4px 0;
+    border-left: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+
+  .derrotero-identidad:hover h2 {
+    color: #0038A8;
+  }
+
+  .derrotero-identidad:focus-visible {
+    outline: 2px solid #0038A8;
+    outline-offset: 4px;
+  }
+
+  /* Secciones, categorías e índice */
+  .derrotero-secciones button {
+    padding: 4px 0;
+    text-align: left;
+    color: #1A1C20;
+  }
+
+  .derrotero-secciones button:hover {
+    color: #0038A8;
+  }
+
+  .derrotero-secciones button[aria-pressed='true'] {
+    margin-left: -8px;
+    padding-left: 8px;
+    background: #0038A8;
+    color: #FFFFFF;
+  }
+
+  .derrotero-categorias button,
+  .derrotero-indice a {
+    text-align: left;
+    color: #4A505C;
+    text-decoration: none;
+  }
+
+  .derrotero-categorias button:hover,
+  .derrotero-indice a:hover,
+  .derrotero-indice a:focus-visible {
+    color: #0038A8;
+  }
+
+  .derrotero-categorias button[aria-pressed='true'] {
+    color: #0038A8;
+    font-weight: 600;
+  }
+
+  /* Grilla de obras: las columnas que entren. */
+  .derrotero-grilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 22px 14px;
+  }
+
+  .derrotero-obra {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #1A1C20;
+    text-decoration: none;
+  }
+
+  a.derrotero-obra:hover .derrotero-obra-titulo {
+    color: #0038A8;
+  }
+
+  .derrotero-imagen {
+    display: flex;
+    align-items: flex-end;
+    aspect-ratio: 1 / 1;
+    padding: 6px;
+    background: #EDF1F5;
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    color: #4A505C;
+  }
+
+  .derrotero-obra-titulo {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .derrotero-obra-meta {
+    font-size: 12px;
+    color: #4A505C;
+  }
+
+  /* Fichas de escritos: apiladas como en un fichero, cada una tapa la parte
+     de abajo de la anterior. Al pasar el puntero, la ficha se estira hacia
+     arriba (su borde de abajo queda quieto y sigue debajo de la siguiente),
+     como si se levantara, y deja ver más de su texto. */
+  .derrotero-fichas {
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    padding: 64px 0 24px;
+  }
+
+  .derrotero-fichas > li + li {
+    margin-top: -64px;
+  }
+
+  .derrotero-ficha {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 170px;
+    overflow: hidden;
+    padding: 14px 18px 18px;
+    border: 1px solid #D0D6E2;
+    background: #FFFFFF;
+    color: #1A1C20;
+    text-decoration: none;
+    box-shadow: 0 -1px 0 rgba(22, 37, 61, 0.04), 0 6px 14px -12px rgba(22, 37, 61, 0.35);
+    transition: height 240ms ease, margin-top 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+  }
+
+  .derrotero-ficha:hover,
+  .derrotero-ficha:focus-visible,
+  [data-ficha].resaltada .derrotero-ficha {
+    height: 230px;
+    margin-top: -60px;
+    border-color: #0038A8;
+    box-shadow: 0 10px 24px -14px rgba(0, 56, 168, 0.5);
+    outline: none;
+  }
+
+  .derrotero-ficha-cabecera {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E3E7EE;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #0038A8;
+  }
+
+  .derrotero-ficha-titulo {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .derrotero-ficha-texto {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #4A505C;
+  }
+
+  .derrotero-ficha-leer {
+    margin-top: auto;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #0038A8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .derrotero-ficha {
+      transition: none;
+    }
+  }
+
+  /* Bio: el HTML de MIMO, sin clases */
+  .derrotero-bio :global(p) {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1A1C20;
+  }
+
+  .derrotero-bio :global(h2) {
+    margin: 22px 0 8px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+</style>
