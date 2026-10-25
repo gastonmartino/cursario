@@ -227,7 +227,7 @@ const secciones = [
 
         <!-- Bio -->
         <div data-solo-seccion="bio" hidden class="curriculum-bio max-w-xl">
-          <div class="mb-6 flex h-48 w-40 items-end bg-paper-sheet p-1.5 font-mono text-[9px] text-ink-muted" aria-hidden="true">[RETRATO]</div>
+          <img src={withBase('/medios/retrato.jpg')} alt="Retrato de Gastón Martino" width="600" height="600" loading="lazy" decoding="async" class="mb-6 h-56 w-56 bg-paper-sheet object-cover" />
           <Fragment set:html={bioHtml} />
         </div>
 
@@ -235,11 +235,11 @@ const secciones = [
         <div data-solo-seccion="contacto" hidden class="flex max-w-xl flex-col gap-6 font-sans text-sm">
           <div class="flex flex-col gap-1.5">
             <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
-            <p>[EMAIL]</p>
+            <p><a href="mailto:arroba@gastonmartino.xyz" class="text-cobalt hover:underline">arroba@gastonmartino.xyz</a></p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">REDES</h3>
-            <p>[INSTAGRAM]</p>
+            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">INSTAGRAM</h3>
+            <p><a href="https://www.instagram.com/gastonmartino/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastonmartino</a></p>
           </div>
           <div class="flex flex-col gap-1.5">
             <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
