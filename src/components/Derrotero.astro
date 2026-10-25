@@ -89,6 +89,9 @@ const secciones = [
   { id: 'bitacora', nombre: 'BITÁCORA' },
   { id: 'escritos', nombre: 'ESCRITOS' },
   { id: 'bio', nombre: 'BIO' },
+  // No es una sección del Derrotero: lleva a la página "Acerca del Cursario"
+  // (con vista compartida, cerrando antes el Derrotero).
+  { id: 'cursario', nombre: 'CURSARIO', href: withBase('/acerca-de-cursario/') },
   { id: 'contacto', nombre: 'CONTACTO' },
 ];
 ---
@@ -121,7 +124,7 @@ const secciones = [
   <div class="derrotero-recorte">
   <div class="derrotero-contenido">
     <!-- Encabezado: el nombre a la izquierda; a la derecha, el botón para ver
-         el Mapa y, si el panel es angosto, a su lado el de su menú. El nombre y
+         el Mapa y, si el panel es angosto, el de su menú en la esquina. El nombre y
          la bajada se ven igual que su opuesto en el HUD del Mapa. -->
     <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
       <!-- Un clic en el nombre despliega el Derrotero completo, o vuelve a la
@@ -133,9 +136,18 @@ const secciones = [
         </h2>
         <p class="mt-0.5 font-sans text-xs text-ink-muted">Artista · Diseñador · Docente</p>
       </div>
-      <!-- A la derecha: el botón para ver el Mapa (un mapa plegado), en la
-           esquina, y a su lado, si el panel es angosto, el de su menú. -->
+      <!-- A la derecha: el botón para ver el Mapa (un mapa plegado) y, si el
+           panel es angosto, el de su menú, que por convención va en la esquina. -->
       <div class="flex shrink-0 items-start gap-2">
+        <button
+          type="button"
+          data-alternar-vista="cerrado"
+          class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+          title="Ver el Mapa"
+          aria-label="Ver el Mapa"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
+        </button>
         <button
           id="derrotero-menu-boton"
           type="button"
@@ -151,15 +163,6 @@ const secciones = [
             <line x1="4" y1="18" x2="20" y2="18" />
           </svg>
         </button>
-        <button
-          type="button"
-          data-alternar-vista="cerrado"
-          class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
-          title="Ver el Mapa"
-          aria-label="Ver el Mapa"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
-        </button>
       </div>
     </header>
 
@@ -168,7 +171,9 @@ const secciones = [
            pliega y se abre con el botón del encabezado. -->
       <div id="derrotero-menu" class="derrotero-menu flex w-56 shrink-0 flex-col gap-7 overflow-y-auto pb-6 pl-8 pt-7">
         <nav aria-label="Secciones del Currículum" class="derrotero-secciones flex flex-col font-sans text-[30px] font-extrabold leading-none tracking-tight">
-          {secciones.map((seccion, i) => (
+          {secciones.map((seccion, i) => seccion.href ? (
+            <a href={seccion.href} data-ir-a-pagina>{seccion.nombre}</a>
+          ) : (
             <button type="button" data-seccion={seccion.id} aria-pressed={String(i === 0)}>{seccion.nombre}</button>
           ))}
         </nav>
@@ -283,18 +288,31 @@ const secciones = [
         </div>
 
         <!-- Contacto -->
-        <div data-solo-seccion="contacto" hidden class="flex max-w-xl flex-col gap-6 font-sans text-sm">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
-            <p><a href="mailto:arroba@gastonmartino.xyz" class="text-cobalt hover:underline">arroba@gastonmartino.xyz</a></p>
+        <!-- Contacto: en dos columnas (en una sola, si el panel es angosto) -->
+        <div data-solo-seccion="contacto" hidden class="derrotero-contacto max-w-xl font-sans text-sm">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-1.5">
+              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CORREO</h3>
+              <p><a href="mailto:arroba@gastonmartino.xyz" class="text-cobalt hover:underline">arroba@gastonmartino.xyz</a></p>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">INSTAGRAM</h3>
+              <p><a href="https://www.instagram.com/gastonmartino/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastonmartino</a></p>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
+              <p>Buenos Aires, Argentina</p>
+            </div>
           </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">INSTAGRAM</h3>
-            <p><a href="https://www.instagram.com/gastonmartino/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastonmartino</a></p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">CIUDAD</h3>
-            <p>Buenos Aires, Argentina</p>
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-1.5">
+              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">FIGMA</h3>
+              <p><a href="https://www.figma.com/@gastimo" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">@gastimo</a></p>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <h3 class="font-mono text-[10px] font-bold tracking-widest text-ink-muted">WEB3 (TEZOS)</h3>
+              <p><a href="https://gastimo.tez.page/" target="_blank" rel="noopener noreferrer" class="text-cobalt hover:underline">gastimo.tez.page</a></p>
+            </div>
           </div>
         </div>
       </div>
@@ -457,6 +475,15 @@ const secciones = [
   // despliega el Derrotero completo; en el Derrotero, lo cierra.
   document.querySelectorAll<HTMLElement>('[data-alternar-vista]').forEach((boton) => {
     boton.addEventListener('click', () => fijarPosicion(boton.dataset.alternarVista as Posicion));
+  });
+
+  // Los enlaces del menú a otras páginas (CURSARIO), con vista compartida,
+  // cierran antes el Derrotero: la página se abre a pantalla completa. La
+  // navegación sigue su curso (con la transición entre páginas).
+  panel?.querySelectorAll<HTMLAnchorElement>('[data-ir-a-pagina]').forEach((enlace) => {
+    enlace.addEventListener('click', () => {
+      if (vistaCompartida.matches) fijarPosicion('cerrado');
+    });
   });
 
   // --- Menú plegable (si el panel no da para dos columnas) ---
@@ -788,13 +815,15 @@ const secciones = [
   }
 
   /* Secciones, categorías e índice */
-  .derrotero-secciones button {
+  .derrotero-secciones button,
+  .derrotero-secciones a {
     padding: 4px 0;
     text-align: left;
     color: #1A1C20;
   }
 
-  .derrotero-secciones button:hover {
+  .derrotero-secciones button:hover,
+  .derrotero-secciones a:hover {
     color: #0038A8;
   }
 
@@ -939,6 +968,18 @@ const secciones = [
   @media (prefers-reduced-motion: reduce) {
     .derrotero-ficha {
       transition: none;
+    }
+  }
+
+  .derrotero-contacto {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 32px;
+  }
+
+  @container derrotero (max-width: 460px) {
+    .derrotero-contacto {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
