@@ -7,9 +7,10 @@
 // Solo se ve por debajo de los 1280 px de ancho de ventana: sin vista
 // compartida (menos de 1024 px), donde las páginas no muestran el Derrotero, y
 // con vista compartida pero sin lugar para el menú del Derrotero a la mitad
-// (de 1024 a 1279 px), donde convive con la manija. Desde 1280 px, el menú del
-// Derrotero se ve siempre y la manija alcanza. Lo que hace al tocarlo está en
-// Derrotero.astro.
+// (de 1024 a 1279 px), donde convive con la manija y solo se ve con el
+// Derrotero cerrado (abierto, el Derrotero ya tiene su propio botón de menú).
+// Desde 1280 px, el menú del Derrotero se ve siempre y la manija alcanza. Lo
+// que hace al tocarlo está en Derrotero.astro.
 interface Props {
   class?: string;
 }
@@ -40,6 +41,12 @@ const { class: clase } = Astro.props;
      Derrotero.astro). */
   @media (min-width: 1280px) {
     .boton-menu-derrotero {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :global(html:not([data-derrotero='cerrado'])) .boton-menu-derrotero {
       display: none !important;
     }
   }
