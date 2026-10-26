@@ -99,7 +99,9 @@ La carta ubica y estiliza los tres elementos de navegación obligatorios:
   Derrotero muestra una cruz, a la derecha del botón del Mapa (desde 1280 px,
   esa cruz está siempre en las páginas, también si el Derrotero se abrió con
   la manija). En todos los casos, la cruz vuelve a la página. La manija sigue
-  igual.
+  igual. En el mismo lugar, con vista compartida y el Derrotero a la mitad,
+  el componente muestra en su lugar un botón para maximizar la página, que
+  cierra el Derrotero (con la misma `class`).
 
 Los tres aceptan `class` (y `Volver`, también `style`), y su contenido se puede
 reemplazar: otro texto para VOLVER, otros íconos para los botones.

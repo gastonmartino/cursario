@@ -632,6 +632,17 @@ const secciones = [
     (abiertoDesde ?? document.querySelector<HTMLElement>('.vista-pagina [data-abrir-menu-derrotero]'))?.focus({ preventScroll: true });
   };
   cruz?.addEventListener('click', volverConLaCruz);
+
+  // El botón para maximizar la página (junto al de menú, en la página) cierra
+  // el Derrotero.
+  document.querySelectorAll<HTMLElement>('[data-maximizar-pagina]').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      abrirMenu(false);
+      menuDeLaPagina = false;
+      fijarPosicion('cerrado');
+      document.querySelector<HTMLElement>('.vista-pagina [data-abrir-menu-derrotero]')?.focus({ preventScroll: true });
+    });
+  });
   // Al volver con "atrás", la página puede llegar tal como quedó al salir.
   window.addEventListener('pageshow', (event) => {
     if (event.persisted && raiz.classList.contains('derrotero-sobre-pagina')) {

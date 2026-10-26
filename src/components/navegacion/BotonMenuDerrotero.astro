@@ -12,6 +12,11 @@
 //   - de 1024 a 1279 px: el Derrotero a la mitad con el menú desplegado;
 //   - desde 1280 px: el Derrotero a la mitad, como la manija (en las páginas,
 //     el Derrotero tiene siempre una cruz para volver).
+//
+// En el mismo lugar, con vista compartida y el Derrotero a la mitad, va el
+// botón para maximizar la página: cierra el Derrotero. Con el Derrotero
+// completo no se ve ninguno de los dos. Los dos botones reciben la misma
+// `class`; el ícono del de maximizar se cambia con el slot "maximizar".
 interface Props {
   class?: string;
 }
@@ -37,9 +42,37 @@ const { class: clase } = Astro.props;
   </slot>
 </button>
 
+<button
+  type="button"
+  data-maximizar-pagina
+  class:list={['boton-maximizar-pagina', clase]}
+  title="Maximizar la página"
+  aria-label="Maximizar la página: cerrar el Currículum"
+>
+  <slot name="maximizar">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+      <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+      <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+      <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+    </svg>
+  </slot>
+</button>
+
 <style>
   @media (min-width: 1024px) {
     :global(html:not([data-derrotero='cerrado'])) .boton-menu-derrotero {
+      display: none !important;
+    }
+  }
+
+  /* Maximizar: solo con vista compartida y el Derrotero a la mitad. */
+  :global(html:not([data-derrotero='mitad'])) .boton-maximizar-pagina {
+    display: none !important;
+  }
+
+  @media (max-width: 1023.98px) {
+    .boton-maximizar-pagina {
       display: none !important;
     }
   }
