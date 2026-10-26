@@ -90,15 +90,14 @@ La carta ubica y estiliza los tres elementos de navegación obligatorios:
   abre el Aparejo, justo a la derecha de VOLVER (del mismo lado desde el que
   se abre el panel). Su ícono es un índice.
 - `BotonMenuDerrotero` (`src/components/navegacion/BotonMenuDerrotero.astro`):
-  el botón que abre el "Menú del Derrotero desplegado", arriba a la derecha de
-  la página (si es fijo en la ventana, corrido con `--derecha-pagina`). Solo se
-  ve por debajo de 1280 px de ventana: sin vista compartida, el Derrotero se
-  abre a pantalla completa sobre la página; con vista compartida (de 1024 a
-  1279 px), el botón solo se ve con el Derrotero cerrado y lo abre a la
-  mitad. En los dos casos, cerrar el menú con la cruz vuelve a la página. La
-  manija sigue igual. De 637 a 1023 px, el menú del Derrotero entra a la
-  vista y no se pliega: el Derrotero se abre sobre la página con una cruz
-  propia, a la derecha del botón del Mapa, para volver a ella.
+  el botón que abre el Derrotero, arriba a la derecha de la página (si es fijo
+  en la ventana, corrido con `--derecha-pagina`). Con vista compartida solo se
+  ve con el Derrotero cerrado. Sin vista compartida, abre el Derrotero a
+  pantalla completa sobre la página; con vista compartida, a la mitad, como
+  la manija. Si el menú del Derrotero no entra, lo abre como "Menú del
+  Derrotero desplegado" (menos de 637 px y de 1024 a 1279 px); si entra, el
+  Derrotero muestra una cruz, a la derecha del botón del Mapa. En todos los
+  casos, la cruz vuelve a la página. La manija sigue igual.
 
 Los tres aceptan `class` (y `Volver`, también `style`), y su contenido se puede
 reemplazar: otro texto para VOLVER, otros íconos para los botones.

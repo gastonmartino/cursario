@@ -177,9 +177,9 @@ const secciones = [
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
         </BotonVista>
-        <!-- Cruz para volver a la página: solo con el Derrotero abierto sobre
-             una página por su botón de menú y con el menú a la vista (sin
-             botón de menú propio; de 637 a 1023 px de ancho). -->
+        <!-- Cruz para volver a la página: solo con el Derrotero abierto desde
+             el botón de menú de una página y con el menú a la vista (sin
+             botón de menú propio: de 637 a 1023 px y desde 1280 px). -->
         <button
           id="derrotero-cerrar"
           type="button"
@@ -393,6 +393,8 @@ const secciones = [
 
   const fijarPosicion = (posicion: Posicion) => {
     if (posicion !== 'mitad') ultimoExtremo = posicion;
+    // Cerrado, ya no está abierto desde el botón de menú de una página.
+    if (posicion === 'cerrado') raiz.classList.remove('derrotero-desde-pagina');
     raiz.dataset.derrotero = posicion;
     raiz.style.removeProperty('--ancho-derrotero');
     manija?.setAttribute('aria-valuenow', String(POSICIONES.indexOf(posicion)));
@@ -555,14 +557,17 @@ const secciones = [
   // la manija, lo abre con el menú desplegado. Cerrar ese menú con la cruz o
   // con Escape deshace la apertura y vuelve a la página; elegir una sección
   // muestra el Derrotero en esa sección.
-  //   - Con vista compartida (de 1024 a 1279 px; el botón solo se ve con el
-  //     Derrotero cerrado), lo abre a la mitad, y la cruz lo vuelve a cerrar.
+  //   - Con vista compartida (el botón solo se ve con el Derrotero cerrado),
+  //     lo abre a la mitad (html.derrotero-desde-pagina), y la cruz lo vuelve
+  //     a cerrar. De 1024 a 1279 px, el menú se pliega y se abre desplegado;
+  //     desde 1280 px, el menú está a la vista y el Derrotero muestra una
+  //     cruz propia (#derrotero-cerrar).
   //   - Sin vista compartida, lo abre a pantalla completa por encima de la
   //     página (html.derrotero-sobre-pagina), y la cruz vuelve a la página
   //     (también si el menú se abrió después desde el propio Derrotero).
   //   - Si sin vista compartida el panel es ancho (de 637 a 1023 px), el menú
-  //     ya está a la vista y no hay menú que desplegar: el Derrotero se abre
-  //     tal cual, con una cruz (#derrotero-cerrar) para volver a la página.
+  //     también está a la vista: el Derrotero se abre tal cual, con la cruz
+  //     #derrotero-cerrar para volver a la página.
   let abiertoDesde: HTMLElement | null = null;
   // Si el menú abierto ahora es el que abrió el botón de la página.
   let menuDeLaPagina = false;
@@ -580,7 +585,7 @@ const secciones = [
       quitarDeSobrePagina();
       return true;
     }
-    if (menuDeLaPagina && vistaCompartida.matches && posicionActual() === 'mitad') {
+    if (raiz.classList.contains('derrotero-desde-pagina') && vistaCompartida.matches) {
       fijarPosicion('cerrado');
       return true;
     }
@@ -588,7 +593,8 @@ const secciones = [
   };
   const cerrarMenu = () => {
     abrirMenu(false);
-    const volvio = volverALaPagina();
+    // Elegida una sección, la cruz del menú ya no deshace la apertura.
+    const volvio = menuDeLaPagina || !vistaCompartida.matches ? volverALaPagina() : false;
     menuDeLaPagina = false;
     if (volvio) abiertoDesde?.focus({ preventScroll: true });
     else menuBoton?.focus();
@@ -599,6 +605,7 @@ const secciones = [
       menuDeLaPagina = true;
       if (vistaCompartida.matches) {
         fijarPosicion('mitad');
+        raiz.classList.add('derrotero-desde-pagina');
       } else {
         window.clearTimeout(salida);
         raiz.classList.remove('derrotero-saliendo');
@@ -612,7 +619,14 @@ const secciones = [
       }
     });
   });
-  document.getElementById('derrotero-cerrar')?.addEventListener('click', cerrarMenu);
+  const cruz = document.getElementById('derrotero-cerrar');
+  const volverConLaCruz = () => {
+    abrirMenu(false);
+    menuDeLaPagina = false;
+    volverALaPagina();
+    abiertoDesde?.focus({ preventScroll: true });
+  };
+  cruz?.addEventListener('click', volverConLaCruz);
   // Al volver con "atrás", la página puede llegar tal como quedó al salir.
   window.addEventListener('pageshow', (event) => {
     if (event.persisted && raiz.classList.contains('derrotero-sobre-pagina')) {
@@ -627,11 +641,12 @@ const secciones = [
   });
   panel?.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    // Con el menú desplegado, o con el Derrotero sobre la página.
-    if (menu?.classList.contains('abierto') || raiz.classList.contains('derrotero-sobre-pagina')) {
-      cerrarMenu();
-      event.stopPropagation();
-    }
+    // Con el menú desplegado, o con la cruz para volver a la página a la vista.
+    if (menu?.classList.contains('abierto')) cerrarMenu();
+    else if (cruz && getComputedStyle(cruz).display !== 'none') volverConLaCruz();
+    else if (raiz.classList.contains('derrotero-sobre-pagina')) cerrarMenu();
+    else return;
+    event.stopPropagation();
   });
   // Elegir una sección o una categoría cierra el menú (y deja el Derrotero a
   // la vista, en esa sección).
@@ -869,6 +884,12 @@ const secciones = [
 
   .derrotero-cerrar {
     display: none;
+  }
+
+  @media (min-width: 1024px) {
+    :global(html.derrotero-desde-pagina) .derrotero-cerrar {
+      display: flex;
+    }
   }
 
   /* El contenido es un contenedor: su ancho decide si entran las dos

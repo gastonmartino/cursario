@@ -1,16 +1,17 @@
 ---
-// Botón que abre el "Menú del Derrotero desplegado" desde una página de
-// contenido. Va en todas las cartas arriba a la derecha de la página. Cada
-// carta lo ubica y le da estilo con `class`; el ícono se puede cambiar con el
-// contenido del componente.
+// Botón que abre el Derrotero desde una página de contenido, en todas las
+// cartas arriba a la derecha de la página. Cada carta lo ubica y le da estilo
+// con `class`; el ícono se puede cambiar con el contenido del componente.
 //
-// Solo se ve por debajo de los 1280 px de ancho de ventana: sin vista
-// compartida (menos de 1024 px), donde las páginas no muestran el Derrotero, y
-// con vista compartida pero sin lugar para el menú del Derrotero a la mitad
-// (de 1024 a 1279 px), donde convive con la manija y solo se ve con el
-// Derrotero cerrado (abierto, el Derrotero ya tiene su propio botón de menú).
-// Desde 1280 px, el menú del Derrotero se ve siempre y la manija alcanza. Lo
-// que hace al tocarlo está en Derrotero.astro.
+// Con vista compartida (desde 1024 px) solo se ve con el Derrotero cerrado:
+// abierto, el Derrotero ya tiene su propio botón de menú. Lo que hace al
+// tocarlo (ver Derrotero.astro) depende del ancho:
+//   - menos de 1024 px: el Derrotero sobre la página, con el "Menú del
+//     Derrotero desplegado" (o, si el menú entra a la vista, con una cruz
+//     para volver);
+//   - de 1024 a 1279 px: el Derrotero a la mitad con el menú desplegado;
+//   - desde 1280 px: el Derrotero a la mitad, como la manija, con una cruz
+//     para volver a la página.
 interface Props {
   class?: string;
 }
@@ -37,14 +38,6 @@ const { class: clase } = Astro.props;
 </button>
 
 <style>
-  /* El mismo corte que el menú plegable del Derrotero a la mitad (ver
-     Derrotero.astro). */
-  @media (min-width: 1280px) {
-    .boton-menu-derrotero {
-      display: none !important;
-    }
-  }
-
   @media (min-width: 1024px) {
     :global(html:not([data-derrotero='cerrado'])) .boton-menu-derrotero {
       display: none !important;
