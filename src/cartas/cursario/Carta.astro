@@ -91,7 +91,7 @@ const modoImagen = (i: number) => {
 const estiloHoja = VARIANTES.flatMap(([nombre, { hoja, navegacion }]) => [
   `--ancho-${nombre}: ${hoja.ancho}px`, `--alto-${nombre}: ${hoja.alto}px`,
   `--nav-arriba-${nombre}: ${navegacion.arriba}px`, `--nav-izquierda-${nombre}: ${navegacion.izquierda}px`,
-  `--nav-derecha-${nombre}: ${navegacion.derecha}px`, `--nav-posicion-${nombre}: ${navegacion.fija ? 'fixed' : 'absolute'}`,
+  `--nav-posicion-${nombre}: ${navegacion.fija ? 'fixed' : 'absolute'}`,
 ]).join('; ');
 
 const enLinea = (texto: string) => renderizarEnLinea(texto);
@@ -180,8 +180,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     </header>
 
     {/* Navegación */}
-    <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
-    <BotonAparejo class="nav nav--menu" />
+    <nav class="nav-grupo" aria-label="Navegación">
+      <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
+      <BotonAparejo class="nav nav--menu" />
+    </nav>
 
     {/* Encabezados "##" como títulos rectos, en las composiciones que les dan lugar */}
     {encabezados.map((texto, i) => (
@@ -330,17 +332,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-xl, 0);
   }
 
-  :global(.nav) {
+  .nav-grupo {
     position: var(--nav-posicion-xl);
     top: var(--nav-arriba-xl);
-  }
-
-  :global(.nav--volver) {
     left: var(--nav-izquierda-xl);
-  }
-
-  :global(.nav--menu) {
-    right: var(--nav-derecha-xl);
   }
 
   /* Composición xl */
@@ -371,18 +366,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-lg, 0);
   }
 
-  :global(html[data-composicion='lg']) :global(.nav) {
+  :global(html[data-composicion='lg']) .nav-grupo {
     position: var(--nav-posicion-lg);
     top: var(--nav-arriba-lg);
-  }
-
-  :global(html[data-composicion='lg']) :global(.nav--volver) {
     left: var(--nav-izquierda-lg);
-  }
-
-  :global(html[data-composicion='lg']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
-    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-lg));
   }
 
   :global(html[data-composicion='lg']) .hoja .titulo h1 {
@@ -415,18 +402,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-md, 0);
   }
 
-  :global(html[data-composicion='md']) :global(.nav) {
+  :global(html[data-composicion='md']) .nav-grupo {
     position: var(--nav-posicion-md);
     top: var(--nav-arriba-md);
-  }
-
-  :global(html[data-composicion='md']) :global(.nav--volver) {
     left: var(--nav-izquierda-md);
-  }
-
-  :global(html[data-composicion='md']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
-    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-md));
   }
 
   :global(html[data-composicion='md']) .hoja .titulo h1 {
@@ -459,18 +438,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-sm, 0);
   }
 
-  :global(html[data-composicion='sm']) :global(.nav) {
+  :global(html[data-composicion='sm']) .nav-grupo {
     position: var(--nav-posicion-sm);
     top: var(--nav-arriba-sm);
-  }
-
-  :global(html[data-composicion='sm']) :global(.nav--volver) {
     left: var(--nav-izquierda-sm);
-  }
-
-  :global(html[data-composicion='sm']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
-    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-sm));
   }
 
   :global(html[data-composicion='sm']) .hoja .titulo h1 {
@@ -503,18 +474,10 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-xs, 0);
   }
 
-  :global(html[data-composicion='xs']) :global(.nav) {
+  :global(html[data-composicion='xs']) .nav-grupo {
     position: var(--nav-posicion-xs);
     top: var(--nav-arriba-xs);
-  }
-
-  :global(html[data-composicion='xs']) :global(.nav--volver) {
     left: var(--nav-izquierda-xs);
-  }
-
-  :global(html[data-composicion='xs']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
-    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-xs));
   }
 
   :global(html[data-composicion='xs']) .hoja .titulo h1 {
@@ -585,9 +548,14 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     letter-spacing: 0.08em;
   }
 
-  /* Navegación */
-  :global(.nav) {
+  /* Navegación: VOLVER y, pegado a su derecha, el botón del Aparejo. */
+  .nav-grupo {
     z-index: 2;
+    display: flex;
+    align-items: stretch;
+  }
+
+  :global(.nav) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -613,7 +581,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
   :global(.nav--menu) {
     width: 32px;
-    height: 32px;
+    margin-left: -1px;
     padding: 0;
   }
 

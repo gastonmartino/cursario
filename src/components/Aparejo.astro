@@ -1,8 +1,8 @@
 ---
 // APAREJO
 // Atajos para ir directo a otra página: un panel que se abre desde el borde
-// derecho de la página con el botón Aparejo (src/components/navegacion/BotonAparejo.astro), que
-// cada carta ubica y estiliza. Lo incluye LayoutCarta en las páginas de
+// izquierdo de la pantalla con el botón Aparejo (src/components/navegacion/BotonAparejo.astro), que
+// cada carta estiliza y ubica junto a VOLVER. Lo incluye LayoutCarta en las páginas de
 // contenido.
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
@@ -26,8 +26,8 @@ const navigationSections = INSULAS.map((deriva) => ({
 }));
 ---
 
-<!-- Ocupa el lugar de la página: con vista compartida, se abre desde el borde
-     de la página, junto a la costura, y deja el Derrotero a la vista.
+<!-- Ocupa el lugar de la página y se abre desde su borde izquierdo (el de la
+     pantalla): con vista compartida, deja el Derrotero a la vista.
      Recorta con overflow-clip y no overflow-hidden: un contenedor oculto se
      puede desplazar, y el navegador lo desplaza para mostrar lo que recibe el
      foco, con lo que el panel aparecía de golpe en lugar de deslizarse. -->
@@ -39,7 +39,7 @@ const navigationSections = INSULAS.map((deriva) => ({
 
   <aside
     id="aparejo"
-    class="absolute right-0 top-0 flex h-full w-full max-w-md translate-x-full flex-col border-l border-ink-border/70 bg-paper-base/95 shadow-2xl backdrop-blur-md transition-transform duration-300 ease-out"
+    class="absolute left-0 top-0 flex h-full w-full max-w-md -translate-x-full flex-col border-r border-ink-border/70 bg-paper-base/95 shadow-2xl backdrop-blur-md transition-transform duration-300 ease-out"
     aria-label="Aparejo: atajos a otras páginas"
   >
     <header class="flex items-center justify-between border-b border-ink-border/60 px-5 py-4 md:px-6">
@@ -124,7 +124,7 @@ const navigationSections = INSULAS.map((deriva) => ({
     drawerRoot.classList.toggle('pointer-events-none', !open);
     drawerRoot.classList.toggle('pointer-events-auto', open);
     drawerRoot.setAttribute('aria-hidden', String(!open));
-    drawer.classList.toggle('translate-x-full', !open);
+    drawer.classList.toggle('-translate-x-full', !open);
     drawerBackdrop.classList.toggle('opacity-0', !open);
     drawerBackdrop.classList.toggle('opacity-100', open);
     openButtons.forEach((button) => button.setAttribute('aria-expanded', String(open)));
