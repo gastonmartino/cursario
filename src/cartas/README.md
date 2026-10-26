@@ -116,7 +116,9 @@ ese lugar. Por eso una carta:
 - **no mide con la ventana**: en lugar de `vw` usa porcentajes del ancho de su
   contenedor, y en lugar de media queries por ancho de ventana elige su
   composición según el ancho de `.vista-pagina` (la carta "cursario" lo hace
-  con un script en el `<head>`, que anota `data-composicion` en `<html>`);
+  con un script en el `<head>`, que anota `data-composicion` en `<html>`). Para
+  el corte de 768 px hay una variante de Tailwind, `pagina-ancha:`, que
+  reemplaza a `md:` y mide el lugar de la página (ver `tailwind.config.mjs`);
 - **corre lo que fija a la derecha de la ventana** con la variable
   `--derecha-pagina` (lo que le quita el Derrotero), por ejemplo
   `right: calc(var(--derecha-pagina, 0px) + 20px)`.
@@ -212,7 +214,8 @@ con su valor debajo; un separador `---` pasa a la columna siguiente).
 La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
 superior con VOLVER y el botón del Aparejo a la izquierda, la etiqueta del
 curso al centro y el botón de menú del Derrotero a la derecha, y el
-contenido en una hoja blanca centrada. En pantallas de menos de 768 px, el
+contenido en una hoja blanca centrada. Si el lugar de la página mide menos de
+768 px (la ventana o, con vista compartida, lo que deja el Derrotero), el
 contenido va directo sobre un fondo blanco, sin el marco de la hoja, y la barra
 no muestra la etiqueta del curso, para quedar en una sola fila. Las clases con que muestra cada elemento
 del Markdown están en `cartulario/clases.ts`.

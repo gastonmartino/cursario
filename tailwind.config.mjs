@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -37,5 +39,19 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    // Variante "pagina-ancha:": se aplica cuando el lugar de la página de
+    // contenido (.vista-pagina, ver LayoutCarta) mide 768 px o más. Sin vista
+    // compartida (menos de 1024 px), ese lugar es la ventana; con vista
+    // compartida, es la ventana entera con el Derrotero cerrado, y la mitad con
+    // el Derrotero a la mitad o completo (ancho desde 1536 px de ventana).
+    // Reemplaza a "md:" en las cartas, que mide la ventana.
+    plugin(({ addVariant }) => {
+      addVariant('pagina-ancha', [
+        '@media (min-width: 768px) and (max-width: 1023.98px) { & }',
+        '@media (min-width: 1536px) { & }',
+        "@media (min-width: 1024px) { html[data-derrotero='cerrado'] & }",
+      ]);
+    }),
+  ],
 }
