@@ -24,7 +24,8 @@
 // la portada se ve el Mapa o el Derrotero; en las páginas de contenido no hay
 // Derrotero. En cualquier ancho, un botón arriba a la derecha de cada vista
 // pasa a la otra (un mapa o una grilla). Si el panel es
-// angosto, su menú se pliega detrás de un botón.
+// angosto, su menú se pliega detrás de un botón (abierto, es el estado
+// "Menú del Derrotero desplegado").
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
@@ -523,6 +524,8 @@ const secciones = [
   });
 
   // --- Menú plegable (si el panel no da para dos columnas) ---
+  // "Menú del Derrotero desplegado": el estado con el menú abierto en un panel
+  // angosto. El botón muestra una cruz y el nombre del encabezado se oculta.
   const menuBoton = document.getElementById('derrotero-menu-boton');
   const menu = document.getElementById('derrotero-menu');
   const encabezado = document.getElementById('derrotero-encabezado');
