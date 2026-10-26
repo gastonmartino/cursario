@@ -96,7 +96,9 @@ La carta ubica y estiliza los tres elementos de navegación obligatorios:
   abre a pantalla completa sobre la página; con vista compartida (de 1024 a
   1279 px), el botón solo se ve con el Derrotero cerrado y lo abre a la
   mitad. En los dos casos, cerrar el menú con la cruz vuelve a la página. La
-  manija sigue igual.
+  manija sigue igual. De 637 a 1023 px, el menú del Derrotero entra a la
+  vista y no se pliega: el Derrotero se abre sobre la página con una cruz
+  propia, a la derecha del botón del Mapa, para volver a ella.
 
 Los tres aceptan `class` (y `Volver`, también `style`), y su contenido se puede
 reemplazar: otro texto para VOLVER, otros íconos para los botones.
