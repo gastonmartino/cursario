@@ -13,8 +13,9 @@
 //   - desde 1280 px: el Derrotero a la mitad, como la manija (en las páginas,
 //     el Derrotero tiene siempre una cruz para volver).
 //
-// En el mismo lugar, con vista compartida y el Derrotero a la mitad, va el
-// botón para maximizar la página: cierra el Derrotero. Con el Derrotero
+// En el mismo lugar, de 1024 a 1279 px y con el Derrotero a la mitad, va el
+// botón para maximizar la página: cierra el Derrotero (desde 1280 px no hace
+// falta: el Derrotero tiene en las páginas su cruz para volver). Con el Derrotero
 // completo no se ve ninguno de los dos. Los dos botones reciben la misma
 // `class`; el ícono del de maximizar se cambia con el slot "maximizar".
 interface Props {
@@ -66,12 +67,12 @@ const { class: clase } = Astro.props;
     }
   }
 
-  /* Maximizar: solo con vista compartida y el Derrotero a la mitad. */
+  /* Maximizar: solo de 1024 a 1279 px y con el Derrotero a la mitad. */
   :global(html:not([data-derrotero='mitad'])) .boton-maximizar-pagina {
     display: none !important;
   }
 
-  @media (max-width: 1023.98px) {
+  @media (max-width: 1023.98px), (min-width: 1280px) {
     .boton-maximizar-pagina {
       display: none !important;
     }
