@@ -96,8 +96,10 @@ La carta ubica y estiliza los tres elementos de navegación obligatorios:
   pantalla completa sobre la página; con vista compartida, a la mitad, como
   la manija. Si el menú del Derrotero no entra, lo abre como "Menú del
   Derrotero desplegado" (menos de 637 px y de 1024 a 1279 px); si entra, el
-  Derrotero muestra una cruz, a la derecha del botón del Mapa. En todos los
-  casos, la cruz vuelve a la página. La manija sigue igual.
+  Derrotero muestra una cruz, a la derecha del botón del Mapa (desde 1280 px,
+  esa cruz está siempre en las páginas, también si el Derrotero se abrió con
+  la manija). En todos los casos, la cruz vuelve a la página. La manija sigue
+  igual.
 
 Los tres aceptan `class` (y `Volver`, también `style`), y su contenido se puede
 reemplazar: otro texto para VOLVER, otros íconos para los botones.
