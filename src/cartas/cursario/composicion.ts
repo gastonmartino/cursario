@@ -14,9 +14,10 @@ export type ModoImagen = 'recuadro' | 'papel' | 'transparencia';
 export interface Composicion {
   // marco: el borde graduado con franjas y coordenadas.
   hoja: { ancho: number; alto: number; margen: number; banda: number; marco: boolean };
-  // Posición de la navegación (VOLVER y el botón del Aparejo, a su derecha):
-  // en la hoja o, si es fija, en la ventana (siempre visible).
-  navegacion: { arriba: number; izquierda: number; fija: boolean };
+  // Posición de la navegación: VOLVER y el botón del Aparejo, a su derecha
+  // (desde la izquierda), y el botón de menú del Derrotero (desde la
+  // derecha). En la hoja o, si es fija, en la ventana (siempre visible).
+  navegacion: { arriba: number; izquierda: number; derecha: number; fija: boolean };
   // Recuadros negros escalonados; cada uno es la unión de varios rectángulos.
   recuadros: Rect[][];
   rosas: Circulo[];
@@ -43,7 +44,7 @@ export interface Composicion {
 // Ventanas de 1280 px o más: la hoja con marco, sobre un fondo más oscuro.
 const XL: Composicion = {
   hoja: { ancho: 1400, alto: 2400, margen: 44, banda: 8, marco: true },
-  navegacion: { arriba: 66, izquierda: 74, fija: false },
+  navegacion: { arriba: 66, izquierda: 74, derecha: 76, fija: false },
   recuadros: [
     [[760, 250, 540, 250], [700, 500, 600, 240], [860, 740, 300, 60]],
     [[150, 930, 560, 300], [150, 1230, 430, 230], [580, 1230, 180, 90]],
@@ -106,7 +107,7 @@ const XL: Composicion = {
 // los 930 px de ancho. VOLVER y el menú quedan fijos en la ventana.
 const LG: Composicion = {
   hoja: { ancho: 1280, alto: 2360, margen: 0, banda: 0, marco: false },
-  navegacion: { arriba: 24, izquierda: 20, fija: true },
+  navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
   recuadros: [
     [[640, 240, 460, 260], [600, 500, 500, 280]],
     [[180, 830, 460, 280], [180, 1110, 380, 210]],
@@ -168,7 +169,7 @@ const LG: Composicion = {
 // hay texto a la derecha, a la izquierda van gráficos, y al revés.
 const MD: Composicion = {
   hoja: { ancho: 930, alto: 2860, margen: 0, banda: 0, marco: false },
-  navegacion: { arriba: 24, izquierda: 20, fija: true },
+  navegacion: { arriba: 24, izquierda: 20, derecha: 20, fija: true },
   recuadros: [
     [[465, 240, 300, 250], [405, 490, 360, 230]],
     [[165, 1010, 380, 220], [165, 1230, 350, 240]],
@@ -227,7 +228,7 @@ const MD: Composicion = {
 // VOLVER y el menú, fijos en las esquinas de la ventana.
 const SM: Composicion = {
   hoja: { ancho: 620, alto: 3600, margen: 0, banda: 0, marco: false },
-  navegacion: { arriba: 12, izquierda: 12, fija: true },
+  navegacion: { arriba: 12, izquierda: 12, derecha: 12, fija: true },
   recuadros: [
     [[110, 400, 330, 220], [110, 620, 400, 210]],
     [[170, 1130, 340, 210], [130, 1340, 380, 220]],
@@ -286,7 +287,7 @@ const SM: Composicion = {
 // quede apilado; las dos rosas son solo gráfica.
 const XS: Composicion = {
   hoja: { ancho: 440, alto: 3480, margen: 0, banda: 0, marco: false },
-  navegacion: { arriba: 12, izquierda: 12, fija: true },
+  navegacion: { arriba: 12, izquierda: 12, derecha: 12, fija: true },
   recuadros: [
     [[0, 380, 370, 240], [0, 620, 380, 250]],
     [[130, 985, 310, 225]],

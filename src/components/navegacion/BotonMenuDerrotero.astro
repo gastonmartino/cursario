@@ -1,0 +1,46 @@
+---
+// Botón que abre el "Menú del Derrotero desplegado" desde una página de
+// contenido. Va en todas las cartas arriba a la derecha de la página. Cada
+// carta lo ubica y le da estilo con `class`; el ícono se puede cambiar con el
+// contenido del componente.
+//
+// Solo se ve por debajo de los 1280 px de ancho de ventana: sin vista
+// compartida (menos de 1024 px), donde las páginas no muestran el Derrotero, y
+// con vista compartida pero sin lugar para el menú del Derrotero a la mitad
+// (de 1024 a 1279 px), donde convive con la manija. Desde 1280 px, el menú del
+// Derrotero se ve siempre y la manija alcanza. Lo que hace al tocarlo está en
+// Derrotero.astro.
+interface Props {
+  class?: string;
+}
+
+const { class: clase } = Astro.props;
+---
+
+<button
+  type="button"
+  data-abrir-menu-derrotero
+  class:list={['boton-menu-derrotero', clase]}
+  title="Secciones del Currículum"
+  aria-label="Abrir las secciones del Currículum"
+  aria-controls="derrotero-menu"
+  aria-expanded="false"
+>
+  <slot>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  </slot>
+</button>
+
+<style>
+  /* El mismo corte que el menú plegable del Derrotero a la mitad (ver
+     Derrotero.astro). */
+  @media (min-width: 1280px) {
+    .boton-menu-derrotero {
+      display: none !important;
+    }
+  }
+</style>

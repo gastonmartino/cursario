@@ -82,16 +82,22 @@ indispensable y no impone fondo, tipografías ni colores:
 - el **Derrotero** (el panel "Gastón Martino // Currículum") y su manija, con
   el aspecto del sitio, fuera de la carta.
 
-La carta ubica y estiliza los dos elementos de navegación obligatorios:
+La carta ubica y estiliza los tres elementos de navegación obligatorios:
 
 - `Volver` (`src/components/navegacion/Volver.astro`): el enlace para volver,
   arriba a la izquierda.
 - `BotonAparejo` (`src/components/navegacion/BotonAparejo.astro`): el botón que
   abre el Aparejo, justo a la derecha de VOLVER (del mismo lado desde el que
   se abre el panel). Su ícono es un índice.
+- `BotonMenuDerrotero` (`src/components/navegacion/BotonMenuDerrotero.astro`):
+  el botón que abre el "Menú del Derrotero desplegado", arriba a la derecha de
+  la página (si es fijo en la ventana, corrido con `--derecha-pagina`). Solo se
+  ve por debajo de 1280 px de ventana: sin vista compartida, el Derrotero se
+  abre a pantalla completa sobre la página; con vista compartida (de 1024 a
+  1279 px), se abre a la mitad si estaba cerrado, y la manija sigue igual.
 
-Los dos aceptan `class` (y `Volver`, también `style`), y su contenido se puede
-reemplazar: otro texto para VOLVER, otro ícono para el Aparejo.
+Los tres aceptan `class` (y `Volver`, también `style`), y su contenido se puede
+reemplazar: otro texto para VOLVER, otros íconos para los botones.
 
 ### El lugar de la página
 
@@ -200,7 +206,8 @@ con su valor debajo; un separador `---` pasa a la columna siguiente).
 ## El cartulario
 
 La carta estándar: el aspecto del Cursario (papel, paleta, Geist), una barra
-superior con VOLVER y el botón del Aparejo, y la etiqueta del curso, y el
+superior con VOLVER y el botón del Aparejo a la izquierda, la etiqueta del
+curso al centro y el botón de menú del Derrotero a la derecha, y el
 contenido en una hoja blanca centrada. En pantallas de menos de 768 px, el
 contenido va directo sobre un fondo blanco, sin el marco de la hoja, y la barra
 no muestra la etiqueta del curso, para quedar en una sola fila. Las clases con que muestra cada elemento
@@ -224,7 +231,7 @@ Tiene una composición por rango de ancho de ventana, en
   gráficos).
 - **sm** (de 420 a 619 px): una sola columna de 400 px,
   quebrada por las láminas y los recuadros, con los textos alternando entre
-  izquierda y derecha; VOLVER y el Aparejo en la esquina de la ventana.
+  izquierda y derecha; la navegación en las esquinas de la ventana.
 - **xs** (hasta 419 px): una columna de 300 px que entra completa desde los
   320 px, con varias láminas y recuadros al corte a un lado o al otro.
 

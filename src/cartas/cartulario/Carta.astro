@@ -5,6 +5,7 @@
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
 import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
+import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import { renderizarBloques } from '../../utils/markdown';
 import type { PropsCarta } from '../index';
 import { CLASES_CARTULARIO } from './clases';
@@ -30,11 +31,14 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
   </Fragment>
 
   <div class="paper-texture min-h-screen">
-    <!-- Encabezado en una sola fila: en pantallas chicas no se muestra la caja
-         de la deriva (el título ya está en el contenido); en las demás, un
-         nombre que no entra se corta. -->
+    <!-- Encabezado en una sola fila: VOLVER y el Aparejo a la izquierda, la
+         caja de la deriva al centro y el botón de menú del Derrotero a la
+         derecha (solo por debajo de 1280 px). En pantallas chicas no se
+         muestra la caja de la deriva (el título ya está en el contenido); en
+         las demás, un nombre que no entra se corta. -->
     <header class="sticky top-0 z-30 border-b border-ink-border/70 bg-white/90 px-4 py-3 backdrop-blur-md md:bg-paper-base/90 md:px-6 md:py-4">
-      <div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
+      <div class="mx-auto flex max-w-6xl items-center gap-3">
+        <div class="flex flex-1 basis-0">
         <nav class="flex shrink-0 items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
           <Volver
             href={volver}
@@ -43,11 +47,16 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
           />
           <BotonAparejo class="flex w-9 items-center justify-center self-stretch border-l border-ink-border/60 text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt" />
         </nav>
+        </div>
 
         <div class="hidden min-w-0 items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-4 py-2 shadow-sm font-mono text-xs text-ink-primary md:flex">
           <span class="h-2 w-2 shrink-0 rounded-full animate-pulse" style={`background-color: ${pagina.color};`}></span>
           <span class="shrink-0 text-ink-faint">DERIVA:</span>
           <span class="truncate font-bold" style={`color: ${pagina.color};`}>[{pagina.codigo}] {pagina.titulo.toUpperCase()}</span>
+        </div>
+
+        <div class="flex flex-1 basis-0 justify-end">
+          <BotonMenuDerrotero class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt" />
         </div>
       </div>
     </header>

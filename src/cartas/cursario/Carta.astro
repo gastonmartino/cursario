@@ -8,6 +8,7 @@
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
 import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
+import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -91,7 +92,7 @@ const modoImagen = (i: number) => {
 const estiloHoja = VARIANTES.flatMap(([nombre, { hoja, navegacion }]) => [
   `--ancho-${nombre}: ${hoja.ancho}px`, `--alto-${nombre}: ${hoja.alto}px`,
   `--nav-arriba-${nombre}: ${navegacion.arriba}px`, `--nav-izquierda-${nombre}: ${navegacion.izquierda}px`,
-  `--nav-posicion-${nombre}: ${navegacion.fija ? 'fixed' : 'absolute'}`,
+  `--nav-derecha-${nombre}: ${navegacion.derecha}px`, `--nav-posicion-${nombre}: ${navegacion.fija ? 'fixed' : 'absolute'}`,
 ]).join('; ');
 
 const enLinea = (texto: string) => renderizarEnLinea(texto);
@@ -184,6 +185,7 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
       <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
       <BotonAparejo class="nav nav--menu" />
     </nav>
+    <BotonMenuDerrotero class="nav nav--derrotero" />
 
     {/* Encabezados "##" como títulos rectos, en las composiciones que les dan lugar */}
     {encabezados.map((texto, i) => (
@@ -338,6 +340,12 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     left: var(--nav-izquierda-xl);
   }
 
+  :global(.nav--derrotero) {
+    position: var(--nav-posicion-xl);
+    top: var(--nav-arriba-xl);
+    right: var(--nav-derecha-xl);
+  }
+
   /* Composición xl */
   :global(html[data-composicion='xl']) .oculto-xl {
     display: none !important;
@@ -370,6 +378,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     position: var(--nav-posicion-lg);
     top: var(--nav-arriba-lg);
     left: var(--nav-izquierda-lg);
+  }
+
+  :global(html[data-composicion='lg']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-lg);
+    top: var(--nav-arriba-lg);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-lg));
   }
 
   :global(html[data-composicion='lg']) .hoja .titulo h1 {
@@ -408,6 +423,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     left: var(--nav-izquierda-md);
   }
 
+  :global(html[data-composicion='md']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-md);
+    top: var(--nav-arriba-md);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-md));
+  }
+
   :global(html[data-composicion='md']) .hoja .titulo h1 {
     font-size: 28px;
   }
@@ -444,6 +466,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     left: var(--nav-izquierda-sm);
   }
 
+  :global(html[data-composicion='sm']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-sm);
+    top: var(--nav-arriba-sm);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-sm));
+  }
+
   :global(html[data-composicion='sm']) .hoja .titulo h1 {
     font-size: 24px;
   }
@@ -478,6 +507,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     position: var(--nav-posicion-xs);
     top: var(--nav-arriba-xs);
     left: var(--nav-izquierda-xs);
+  }
+
+  :global(html[data-composicion='xs']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-xs);
+    top: var(--nav-arriba-xs);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-xs));
   }
 
   :global(html[data-composicion='xs']) .hoja .titulo h1 {
@@ -582,6 +618,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   :global(.nav--menu) {
     width: 32px;
     margin-left: -1px;
+    padding: 0;
+  }
+
+  :global(.nav--derrotero) {
+    z-index: 2;
+    width: 32px;
+    height: 32px;
     padding: 0;
   }
 

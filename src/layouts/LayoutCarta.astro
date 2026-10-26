@@ -86,5 +86,9 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
      Derrotero (--derecha-pagina, definida en Derrotero.astro). */
   .vista-pagina {
     width: calc(100% - var(--derecha-pagina, 0px));
+    /* Lo que una carta deja sangrar más allá de su lugar se recorta: si no,
+       en el celular la página se ensancha y lo fijo a la derecha de la
+       ventana queda afuera. clip (y no hidden) no desplaza ni rompe sticky. */
+    overflow-x: clip;
   }
 </style>

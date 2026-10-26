@@ -535,11 +535,51 @@ const secciones = [
     menuBoton?.setAttribute('aria-expanded', String(abierto));
     menuBoton?.setAttribute('aria-label', abierto ? 'Cerrar las secciones del Currículum' : 'Abrir las secciones del Currículum');
   };
-  menuBoton?.addEventListener('click', () => abrirMenu(!menu?.classList.contains('abierto')));
+  // En una página de contenido, el botón de menú de la carta
+  // (BotonMenuDerrotero) abre directamente el menú desplegado:
+  //   - con vista compartida (de 1024 a 1279 px), en el Derrotero, que se
+  //     abre a la mitad si estaba cerrado (la manija sigue igual);
+  //   - sin vista compartida, en el Derrotero a pantalla completa por encima
+  //     de la página (html.derrotero-sobre-pagina). Ahí, cerrar el menú con
+  //     la cruz o con Escape vuelve a la página; elegir una sección muestra
+  //     el Derrotero en esa sección.
+  let abiertoDesde: HTMLElement | null = null;
+  const cerrarMenu = () => {
+    abrirMenu(false);
+    if (raiz.classList.contains('derrotero-sobre-pagina')) {
+      raiz.classList.remove('derrotero-sobre-pagina');
+      abiertoDesde?.focus({ preventScroll: true });
+    } else {
+      menuBoton?.focus();
+    }
+  };
+  document.querySelectorAll<HTMLElement>('[data-abrir-menu-derrotero]').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      abiertoDesde = boton;
+      if (vistaCompartida.matches) {
+        if (posicionActual() === 'cerrado') fijarPosicion('mitad');
+      } else {
+        raiz.classList.add('derrotero-sobre-pagina');
+      }
+      abrirMenu(true);
+      menuBoton?.focus({ preventScroll: true });
+    });
+  });
+  // Al volver con "atrás", la página puede llegar tal como quedó al salir.
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && raiz.classList.contains('derrotero-sobre-pagina')) {
+      abrirMenu(false);
+      raiz.classList.remove('derrotero-sobre-pagina');
+    }
+  });
+
+  menuBoton?.addEventListener('click', () => {
+    if (menu?.classList.contains('abierto')) cerrarMenu();
+    else abrirMenu(true);
+  });
   panel?.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && menu?.classList.contains('abierto')) {
-      abrirMenu(false);
-      menuBoton?.focus();
+      cerrarMenu();
       event.stopPropagation();
     }
   });
@@ -743,10 +783,27 @@ const secciones = [
     :global(html.contexto-pagina) .derrotero {
       display: none;
     }
+
+    /* Salvo cuando el botón de menú de la página lo abre: entonces se ve a
+       pantalla completa por encima de la página, con un fundido. */
+    :global(html.contexto-pagina.derrotero-sobre-pagina) .derrotero {
+      display: block;
+      width: 100vw;
+      animation: derrotero-aparecer 200ms ease;
+    }
+  }
+
+  @keyframes derrotero-aparecer {
+    from {
+      opacity: 0;
+    }
   }
 
   /* El contenido es un contenedor: su ancho decide si entran las dos
-     columnas (menú y contenido) o si el menú se pliega. */
+     columnas (menú y contenido) o si el menú se pliega. El corte, 637 px,
+     hace que con el Derrotero a la mitad (50vw - 3px) el menú se pliegue
+     justo por debajo de los 1280 px de ventana, como el botón de menú de las
+     páginas (BotonMenuDerrotero). */
   .derrotero-contenido {
     container: derrotero / inline-size;
   }
@@ -764,7 +821,7 @@ const secciones = [
     display: block;
   }
 
-  @container derrotero (max-width: 640px) {
+  @container derrotero (width < 637px) {
     .derrotero-menu-boton {
       display: flex;
     }
@@ -813,6 +870,10 @@ const secciones = [
     .derrotero-identidad,
     .menu-abierto .derrotero-identidad {
       transition: none;
+    }
+
+    :global(html.contexto-pagina.derrotero-sobre-pagina) .derrotero {
+      animation: none;
     }
   }
 
