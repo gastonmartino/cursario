@@ -1,12 +1,14 @@
 ---
-// Páginas sueltas del sitio (como "Acerca de"): cada archivo .md de
-// public/paginas/ se publica en /{nombre-del-archivo}/. Sus datos (título,
-// código, etiqueta, color, descripción) van en el encabezado del archivo, y
-// lo arma la carta que elige (ver src/cartas/index.ts).
+// Páginas de un solo tramo de URL:
+// - las sueltas (como "Acerca de"): cada archivo .md de public/paginas/ se
+//   publica en /{nombre-del-archivo}/. Sus datos (título, código, etiqueta,
+//   color, descripción) van en el encabezado del archivo;
+// - las de los subcursos con URL propia (pageUrl, en src/data/islas.ts).
+// Cada una la arma la carta que elige su Markdown (ver src/cartas/index.ts).
 import { obtenerCarta, type PropsCarta } from '../cartas';
-import { rutasPaginasSueltas } from '../cartas/rutas';
+import { rutasDeUnTramo } from '../cartas/rutas';
 
-export const getStaticPaths = rutasPaginasSueltas;
+export const getStaticPaths = rutasDeUnTramo;
 
 type Props = PropsCarta;
 

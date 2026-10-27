@@ -31,7 +31,9 @@ estructura por el `id`:
 - **Ínsula** (`DerivaInsula`): un curso de primer nivel. `curso` es su carpeta en
   `public/` y el primer tramo de sus URLs.
 - **Isla** (`DerivaIsla`): un subcurso dentro de un curso. `subcurso` es su
-  carpeta y el segundo tramo de la URL de su página (`/{curso}/{subcurso}/`).
+  carpeta y el segundo tramo de la URL de su página (`/{curso}/{subcurso}/`),
+  salvo que la isla tenga una URL propia (`pageUrl`, en `src/data/islas.ts`):
+  entonces la página va en `/{pageUrl}/`, y sus archivos siguen en su carpeta.
 - **Islote** (`DerivaIslote`): una tarjeta más simple asociada a un curso o a un
   subcurso (`idSuperior`). Se dibuja en el mismo lienzo que su superior.
 
