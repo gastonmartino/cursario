@@ -5,6 +5,7 @@
  * lienzo. El contenido de cada tarjeta está en src/data/ (insulas.ts,
  * islas.ts e islotes.ts) y se vincula con esta estructura por el id.
  */
+import { ISLAS } from '../data/islas';
 
 /**
  * DerivaInsula
@@ -82,6 +83,16 @@ export interface Ubicacion {
   alto: number;
 }
 
+// La URL propia de la página de una isla, si la tiene (pageUrl).
+export function urlPropia(id: string): string | undefined {
+  const pageUrl = ISLAS.find((isla) => isla.id === id)?.pageUrl;
+  if (!pageUrl) return undefined;
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(pageUrl)) {
+    throw new Error(`La pageUrl "${pageUrl}" de "${id}" (src/data/islas.ts) solo puede tener minúsculas, números y guiones, sin barras`);
+  }
+  return `/${pageUrl}/`;
+}
+
 export function ubicar(id: string): Ubicacion {
   for (const deriva of DERIVAS_INSULAS) {
     const base = { idDeriva: deriva.id, curso: deriva.curso };
@@ -105,7 +116,8 @@ export function ubicar(id: string): Ubicacion {
         subcurso: isla.subcurso,
         carpetaMedios: `${carpeta}/medios`,
         carpetaContenidos: `${carpeta}/contenidos`,
-        urlPagina: `/${deriva.curso}/${isla.subcurso}/`,
+        // La URL propia de la isla (pageUrl, en src/data/islas.ts), si tiene.
+        urlPagina: urlPropia(id) ?? `/${deriva.curso}/${isla.subcurso}/`,
         x, y, ancho, alto,
       };
     }

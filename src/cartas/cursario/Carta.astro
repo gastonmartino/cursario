@@ -8,6 +8,7 @@
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
 import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
+import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -180,8 +181,11 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     </header>
 
     {/* Navegación */}
-    <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
-    <BotonAparejo class="nav nav--menu" />
+    <nav class="nav-grupo" aria-label="Navegación">
+      <Volver href={volver} class="nav nav--volver">← VOLVER</Volver>
+      <BotonAparejo class="nav nav--menu" />
+    </nav>
+    <BotonMenuDerrotero class="nav nav--derrotero" />
 
     {/* Encabezados "##" como títulos rectos, en las composiciones que les dan lugar */}
     {encabezados.map((texto, i) => (
@@ -330,16 +334,15 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-xl, 0);
   }
 
-  :global(.nav) {
+  .nav-grupo {
     position: var(--nav-posicion-xl);
     top: var(--nav-arriba-xl);
-  }
-
-  :global(.nav--volver) {
     left: var(--nav-izquierda-xl);
   }
 
-  :global(.nav--menu) {
+  :global(.nav--derrotero) {
+    position: var(--nav-posicion-xl);
+    top: var(--nav-arriba-xl);
     right: var(--nav-derecha-xl);
   }
 
@@ -371,17 +374,16 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-lg, 0);
   }
 
-  :global(html[data-composicion='lg']) :global(.nav) {
+  :global(html[data-composicion='lg']) .nav-grupo {
     position: var(--nav-posicion-lg);
     top: var(--nav-arriba-lg);
-  }
-
-  :global(html[data-composicion='lg']) :global(.nav--volver) {
     left: var(--nav-izquierda-lg);
   }
 
-  :global(html[data-composicion='lg']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
+  :global(html[data-composicion='lg']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-lg);
+    top: var(--nav-arriba-lg);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
     right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-lg));
   }
 
@@ -415,17 +417,16 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-md, 0);
   }
 
-  :global(html[data-composicion='md']) :global(.nav) {
+  :global(html[data-composicion='md']) .nav-grupo {
     position: var(--nav-posicion-md);
     top: var(--nav-arriba-md);
-  }
-
-  :global(html[data-composicion='md']) :global(.nav--volver) {
     left: var(--nav-izquierda-md);
   }
 
-  :global(html[data-composicion='md']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
+  :global(html[data-composicion='md']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-md);
+    top: var(--nav-arriba-md);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
     right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-md));
   }
 
@@ -459,17 +460,16 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-sm, 0);
   }
 
-  :global(html[data-composicion='sm']) :global(.nav) {
+  :global(html[data-composicion='sm']) .nav-grupo {
     position: var(--nav-posicion-sm);
     top: var(--nav-arriba-sm);
-  }
-
-  :global(html[data-composicion='sm']) :global(.nav--volver) {
     left: var(--nav-izquierda-sm);
   }
 
-  :global(html[data-composicion='sm']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
+  :global(html[data-composicion='sm']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-sm);
+    top: var(--nav-arriba-sm);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
     right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-sm));
   }
 
@@ -503,17 +503,16 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     padding-left: var(--pie-xs, 0);
   }
 
-  :global(html[data-composicion='xs']) :global(.nav) {
+  :global(html[data-composicion='xs']) .nav-grupo {
     position: var(--nav-posicion-xs);
     top: var(--nav-arriba-xs);
-  }
-
-  :global(html[data-composicion='xs']) :global(.nav--volver) {
     left: var(--nav-izquierda-xs);
   }
 
-  :global(html[data-composicion='xs']) :global(.nav--menu) {
-    /* Fija en la ventana: del lado de acá del Derrotero. */
+  :global(html[data-composicion='xs']) :global(.nav--derrotero) {
+    position: var(--nav-posicion-xs);
+    top: var(--nav-arriba-xs);
+    /* Fijo en la ventana: del lado de acá del Derrotero. */
     right: calc(var(--derecha-pagina, 0px) + var(--nav-derecha-xs));
   }
 
@@ -585,9 +584,14 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     letter-spacing: 0.08em;
   }
 
-  /* Navegación */
-  :global(.nav) {
+  /* Navegación: VOLVER y, pegado a su derecha, el botón del Aparejo. */
+  .nav-grupo {
     z-index: 2;
+    display: flex;
+    align-items: stretch;
+  }
+
+  :global(.nav) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -612,6 +616,13 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   }
 
   :global(.nav--menu) {
+    width: 32px;
+    margin-left: -1px;
+    padding: 0;
+  }
+
+  :global(.nav--derrotero) {
+    z-index: 2;
     width: 32px;
     height: 32px;
     padding: 0;

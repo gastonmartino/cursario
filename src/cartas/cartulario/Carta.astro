@@ -5,8 +5,8 @@
 import LayoutCarta from '../../layouts/LayoutCarta.astro';
 import Volver from '../../components/navegacion/Volver.astro';
 import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
+import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import { renderizarBloques } from '../../utils/markdown';
-import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
 import { CLASES_CARTULARIO } from './clases';
 
@@ -20,8 +20,8 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
   vistas={vistas}
   title={`GASTÓN MARTINO // ${pagina.codigo} • ${pagina.titulo}`}
   description={documento.datos.descripcion ?? `${pagina.subtitulo}. Bitácora de Derivas de Gastón Martino.`}
-  claseHtml="html-cartulario min-h-full bg-white md:bg-paper-base"
-  claseCuerpo="min-h-full w-full overflow-x-hidden font-sans text-ink-primary antialiased bg-white md:bg-paper-base"
+  claseHtml="html-cartulario min-h-full"
+  claseCuerpo="min-h-full w-full overflow-x-hidden font-sans text-ink-primary antialiased bg-white pagina-ancha:bg-paper-base"
 >
   <Fragment slot="head">
     <!-- Typography: Geist & Geist Mono -->
@@ -31,39 +31,40 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
   </Fragment>
 
   <div class="paper-texture min-h-screen">
-    <!-- Encabezado en una sola fila: en pantallas chicas no se muestra la caja
-         de la deriva (el título ya está en el contenido); en las demás, un
-         nombre que no entra se corta. -->
-    <header class="sticky top-0 z-30 border-b border-ink-border/70 bg-white/90 px-4 py-3 backdrop-blur-md md:bg-paper-base/90 md:px-6 md:py-4">
-      <div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
+    <!-- Encabezado en una sola fila: VOLVER y el Aparejo a la izquierda, la
+         caja de la deriva al centro y el botón de menú del Derrotero a la
+         derecha (solo por debajo de 1280 px). En pantallas chicas no se
+         muestra la caja de la deriva (el título ya está en el contenido); en
+         las demás, un nombre que no entra se corta. -->
+    <header class="sticky top-0 z-30 border-b border-ink-border/70 bg-white/90 px-4 py-3 backdrop-blur-md pagina-ancha:bg-paper-base/90 pagina-ancha:px-6 pagina-ancha:py-4">
+      <div class="mx-auto flex max-w-6xl items-center gap-3">
+        <div class="flex flex-1 basis-0">
         <nav class="flex shrink-0 items-center overflow-hidden rounded-sm border border-ink-border/70 bg-white/85 shadow-sm" aria-label="Navegación de la deriva">
           <Volver
             href={volver}
-            class="border-r border-ink-border/60 px-3 py-2 font-mono text-xs font-bold transition-colors hover:bg-river-mist md:px-4"
+            class="px-3 py-2 font-mono text-xs font-bold transition-colors hover:bg-river-mist pagina-ancha:px-4"
             style={`color: ${pagina.color};`}
           />
-          <a
-            href={withBase('/')}
-            class="px-3 py-2 font-mono text-xs font-bold text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt md:px-4"
-          >
-            INICIO
-          </a>
+          <BotonAparejo class="flex w-9 items-center justify-center self-stretch border-l border-ink-border/60 text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt" />
         </nav>
+        </div>
 
-        <div class="hidden min-w-0 items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-4 py-2 shadow-sm font-mono text-xs text-ink-primary md:flex">
+        <div class="hidden min-w-0 items-center gap-2 rounded-sm border border-ink-border/70 bg-white/85 px-4 py-2 shadow-sm font-mono text-xs text-ink-primary pagina-ancha:flex">
           <span class="h-2 w-2 shrink-0 rounded-full animate-pulse" style={`background-color: ${pagina.color};`}></span>
           <span class="shrink-0 text-ink-faint">DERIVA:</span>
           <span class="truncate font-bold" style={`color: ${pagina.color};`}>[{pagina.codigo}] {pagina.titulo.toUpperCase()}</span>
         </div>
 
-        <BotonAparejo class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt" />
+        <div class="flex flex-1 basis-0 justify-end">
+          <BotonMenuDerrotero class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-ink-border/70 bg-white/85 text-ink-primary shadow-sm transition-colors hover:bg-paper-sheet hover:text-cobalt" />
+        </div>
       </div>
     </header>
 
     <!-- En pantallas chicas, el contenido va directo sobre el fondo blanco, sin
          el marco de la hoja. -->
-    <main class="mx-auto max-w-4xl px-5 py-7 md:px-8 md:py-10">
-      <article class="md:border md:border-ink-border/80 md:bg-white/80 md:p-12 md:shadow-sm">
+    <main class="mx-auto max-w-4xl px-5 py-7 pagina-ancha:px-8 pagina-ancha:py-10">
+      <article class="pagina-ancha:border pagina-ancha:border-ink-border/80 pagina-ancha:bg-white/80 pagina-ancha:p-12 pagina-ancha:shadow-sm">
         <div class="mb-10 border-b border-ink-border/60 pb-6">
           <div class="mb-4 flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest" style={`color: ${pagina.color};`}>
             <span class="h-2 w-2 rounded-full" style={`background-color: ${pagina.color};`}></span>
@@ -81,9 +82,21 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
 </LayoutCarta>
 
 <style>
-  /* Textura de papel en pantallas medianas y grandes; en las chicas, fondo blanco. */
-  @media (min-width: 768px) {
+  /* Textura de papel si la página tiene lugar (como la variante pagina-ancha:
+     de Tailwind, ver tailwind.config.mjs); si no, fondo blanco. */
+  @media (min-width: 768px) and (max-width: 1023.98px), (min-width: 1536px) {
     .paper-texture {
+      background-color: #F5F7FA;
+      background-image:
+        radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),
+        radial-gradient(rgba(0, 56, 168, 0.04) 0.45px, transparent 0.65px);
+      background-position: 0 0, 3px 3px;
+      background-size: 7px 7px, 11px 11px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :global(html[data-derrotero='cerrado']) .paper-texture {
       background-color: #F5F7FA;
       background-image:
         radial-gradient(rgba(22, 37, 61, 0.075) 0.55px, transparent 0.7px),

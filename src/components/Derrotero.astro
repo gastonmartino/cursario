@@ -24,13 +24,14 @@
 // la portada se ve el Mapa o el Derrotero; en las páginas de contenido no hay
 // Derrotero. En cualquier ancho, un botón arriba a la derecha de cada vista
 // pasa a la otra (un mapa o una grilla). Si el panel es
-// angosto, su menú se pliega detrás de un botón.
+// angosto, su menú se pliega detrás de un botón (abierto, es el estado
+// "Menú del Derrotero desplegado").
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
 import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
-import { withBase } from '../utils/paths';
+import { resolveFile, withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
 // En las páginas de contenido (LayoutCarta), lo que se ve al otro lado de la
@@ -71,6 +72,7 @@ const piezas = ISLAS.map((isla) => {
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
+    miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
     textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
       .filter(Boolean).join(' '),
@@ -153,7 +155,7 @@ const secciones = [
     <!-- Encabezado: el nombre a la izquierda; a la derecha, el botón para ver
          el Mapa y, si el panel es angosto, el de su menú en la esquina. El nombre y
          la bajada se ven igual que su opuesto en el HUD del Mapa. -->
-    <header class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
+    <header id="derrotero-encabezado" class="flex shrink-0 items-start justify-between gap-4 px-8 pt-8">
       <!-- Un clic en el nombre despliega el Derrotero completo, o vuelve a la
            mitad (solo con vista compartida). -->
       <div data-ir-a-posicion="completo" role="button" tabindex="0" aria-label="Gastón Martino // Currículum: ver el Currículum completo, o volver a la pantalla dividida" class="derrotero-identidad flex min-w-0 cursor-pointer flex-col">
@@ -175,6 +177,22 @@ const secciones = [
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" /></svg>
         </BotonVista>
+        <!-- Cruz para volver a la página, con el menú a la vista (sin botón de
+             menú propio): desde 1280 px, siempre en las páginas; por debajo,
+             solo con el Derrotero abierto desde el botón de menú de una
+             página. -->
+        <button
+          id="derrotero-cerrar"
+          type="button"
+          class="derrotero-cerrar h-10 w-10 shrink-0 items-center justify-center border border-ink-primary bg-white text-ink-primary transition-colors hover:bg-paper-sheet hover:text-cobalt"
+          title="Volver a la página"
+          aria-label="Cerrar el Currículum y volver a la página"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+          </svg>
+        </button>
         <button
           id="derrotero-menu-boton"
           type="button"
@@ -184,10 +202,15 @@ const secciones = [
           aria-controls="derrotero-menu"
           aria-expanded="false"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Tres líneas con el menú cerrado; una cruz con el menú abierto. -->
+          <svg class="derrotero-menu-icono-abrir" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="4" y1="6" x2="20" y2="6" />
             <line x1="4" y1="12" x2="20" y2="12" />
             <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+          <svg class="derrotero-menu-icono-cerrar" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="18" y1="6" x2="6" y2="18" />
           </svg>
         </button>
       </div>
@@ -244,13 +267,13 @@ const secciones = [
               <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
                 {obra.href ? (
                   <a href={obra.href} class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
                   </a>
                 ) : (
                   <div class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{obra.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
                   </div>
@@ -267,13 +290,13 @@ const secciones = [
               <li data-pieza data-busqueda={entrada.textoBusqueda}>
                 {entrada.href ? (
                   <a href={entrada.href} class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
                   </a>
                 ) : (
                   <div class="derrotero-obra">
-                    <span class="derrotero-imagen" aria-hidden="true"><span>{entrada.codigo}</span></span>
+                    <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
                   </div>
@@ -371,6 +394,8 @@ const secciones = [
 
   const fijarPosicion = (posicion: Posicion) => {
     if (posicion !== 'mitad') ultimoExtremo = posicion;
+    // Cerrado, ya no está abierto desde el botón de menú de una página.
+    if (posicion === 'cerrado') raiz.classList.remove('derrotero-desde-pagina');
     raiz.dataset.derrotero = posicion;
     raiz.style.removeProperty('--ancho-derrotero');
     manija?.setAttribute('aria-valuenow', String(POSICIONES.indexOf(posicion)));
@@ -517,24 +542,135 @@ const secciones = [
   });
 
   // --- Menú plegable (si el panel no da para dos columnas) ---
+  // "Menú del Derrotero desplegado": el estado con el menú abierto en un panel
+  // angosto. El botón muestra una cruz y el nombre del encabezado se oculta.
   const menuBoton = document.getElementById('derrotero-menu-boton');
   const menu = document.getElementById('derrotero-menu');
+  const encabezado = document.getElementById('derrotero-encabezado');
   const abrirMenu = (abierto: boolean) => {
     menu?.classList.toggle('abierto', abierto);
+    encabezado?.classList.toggle('menu-abierto', abierto);
     menuBoton?.setAttribute('aria-expanded', String(abierto));
     menuBoton?.setAttribute('aria-label', abierto ? 'Cerrar las secciones del Currículum' : 'Abrir las secciones del Currículum');
   };
-  menuBoton?.addEventListener('click', () => abrirMenu(!menu?.classList.contains('abierto')));
-  panel?.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && menu?.classList.contains('abierto')) {
+  // En una página de contenido, el botón de menú de la carta
+  // (BotonMenuDerrotero) es otra forma de abrir el Derrotero: a diferencia de
+  // la manija, lo abre con el menú desplegado. Cerrar ese menú con la cruz o
+  // con Escape deshace la apertura y vuelve a la página; elegir una sección
+  // muestra el Derrotero en esa sección.
+  //   - Con vista compartida (el botón solo se ve con el Derrotero cerrado),
+  //     lo abre a la mitad (html.derrotero-desde-pagina), y la cruz lo vuelve
+  //     a cerrar. De 1024 a 1279 px, el menú se pliega y se abre desplegado;
+  //     desde 1280 px, el menú está a la vista y el Derrotero muestra una
+  //     cruz propia (#derrotero-cerrar), que en las páginas está siempre,
+  //     también si se abrió con la manija.
+  //   - Sin vista compartida, lo abre a pantalla completa por encima de la
+  //     página (html.derrotero-sobre-pagina), y la cruz vuelve a la página
+  //     (también si el menú se abrió después desde el propio Derrotero).
+  //   - Si sin vista compartida el panel es ancho (de 637 a 1023 px), el menú
+  //     también está a la vista: el Derrotero se abre tal cual, con la cruz
+  //     #derrotero-cerrar para volver a la página.
+  let abiertoDesde: HTMLElement | null = null;
+  // Si el menú abierto ahora es el que abrió el botón de la página.
+  let menuDeLaPagina = false;
+  const DURACION_FUNDIDO = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 300;
+  let salida = 0;
+  // El Derrotero sobre la página se va con un fundido antes de ocultarse.
+  const quitarDeSobrePagina = () => {
+    raiz.classList.add('derrotero-saliendo');
+    window.clearTimeout(salida);
+    salida = window.setTimeout(() => raiz.classList.remove('derrotero-sobre-pagina', 'derrotero-saliendo'), DURACION_FUNDIDO);
+  };
+  const menuPlegado = () => !!menuBoton && getComputedStyle(menuBoton).display !== 'none';
+  const volverALaPagina = () => {
+    if (raiz.classList.contains('derrotero-sobre-pagina')) {
+      quitarDeSobrePagina();
+      return true;
+    }
+    if (raiz.classList.contains('derrotero-desde-pagina') && vistaCompartida.matches) {
+      fijarPosicion('cerrado');
+      return true;
+    }
+    return false;
+  };
+  const cerrarMenu = () => {
+    abrirMenu(false);
+    // Elegida una sección, la cruz del menú ya no deshace la apertura.
+    const volvio = menuDeLaPagina || !vistaCompartida.matches ? volverALaPagina() : false;
+    menuDeLaPagina = false;
+    if (volvio) abiertoDesde?.focus({ preventScroll: true });
+    else menuBoton?.focus();
+  };
+  document.querySelectorAll<HTMLElement>('[data-abrir-menu-derrotero]').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      abiertoDesde = boton;
+      menuDeLaPagina = true;
+      if (vistaCompartida.matches) {
+        fijarPosicion('mitad');
+        raiz.classList.add('derrotero-desde-pagina');
+      } else {
+        window.clearTimeout(salida);
+        raiz.classList.remove('derrotero-saliendo');
+        raiz.classList.add('derrotero-sobre-pagina');
+      }
+      if (menuPlegado()) {
+        abrirMenu(true);
+        menuBoton?.focus({ preventScroll: true });
+      } else {
+        document.getElementById('derrotero-cerrar')?.focus({ preventScroll: true });
+      }
+    });
+  });
+  const cruz = document.getElementById('derrotero-cerrar');
+  // La cruz solo se ve cuando corresponde (ver sus estilos): siempre vuelve a
+  // la página.
+  const volverConLaCruz = () => {
+    abrirMenu(false);
+    menuDeLaPagina = false;
+    if (raiz.classList.contains('derrotero-sobre-pagina')) quitarDeSobrePagina();
+    else fijarPosicion('cerrado');
+    (abiertoDesde ?? document.querySelector<HTMLElement>('.vista-pagina [data-abrir-menu-derrotero]'))?.focus({ preventScroll: true });
+  };
+  cruz?.addEventListener('click', volverConLaCruz);
+
+  // El botón para maximizar la página (junto al de menú, en la página) cierra
+  // el Derrotero.
+  document.querySelectorAll<HTMLElement>('[data-maximizar-pagina]').forEach((boton) => {
+    boton.addEventListener('click', () => {
       abrirMenu(false);
-      menuBoton?.focus();
-      event.stopPropagation();
+      menuDeLaPagina = false;
+      fijarPosicion('cerrado');
+      document.querySelector<HTMLElement>('.vista-pagina [data-abrir-menu-derrotero]')?.focus({ preventScroll: true });
+    });
+  });
+  // Al volver con "atrás", la página puede llegar tal como quedó al salir.
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && raiz.classList.contains('derrotero-sobre-pagina')) {
+      abrirMenu(false);
+      raiz.classList.remove('derrotero-sobre-pagina', 'derrotero-saliendo');
     }
   });
-  // Elegir una sección o una categoría cierra el menú.
+
+  menuBoton?.addEventListener('click', () => {
+    if (menu?.classList.contains('abierto')) cerrarMenu();
+    else abrirMenu(true);
+  });
+  panel?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    // Con el menú desplegado, o con la cruz para volver a la página a la vista.
+    if (menu?.classList.contains('abierto')) cerrarMenu();
+    else if (cruz && getComputedStyle(cruz).display !== 'none') volverConLaCruz();
+    else if (raiz.classList.contains('derrotero-sobre-pagina')) cerrarMenu();
+    else return;
+    event.stopPropagation();
+  });
+  // Elegir una sección o una categoría cierra el menú (y deja el Derrotero a
+  // la vista, en esa sección).
   menu?.querySelectorAll('[data-seccion], button[data-categoria]').forEach((boton) => {
-    boton.addEventListener('click', () => abrirMenu(false));
+    boton.addEventListener('click', () => {
+      menuDeLaPagina = false;
+      abrirMenu(false);
+    });
   });
 
   // --- Secciones ---
@@ -732,10 +868,59 @@ const secciones = [
     :global(html.contexto-pagina) .derrotero {
       display: none;
     }
+
+    /* Salvo cuando el botón de menú de la página lo abre: entonces se ve a
+       pantalla completa por encima de la página, con un fundido. */
+    :global(html.contexto-pagina.derrotero-sobre-pagina) .derrotero {
+      display: block;
+      width: 100vw;
+      animation: derrotero-aparecer 300ms ease;
+    }
+
+    :global(html.contexto-pagina.derrotero-sobre-pagina.derrotero-saliendo) .derrotero {
+      animation: derrotero-desaparecer 300ms ease forwards;
+    }
+
+    :global(html.derrotero-sobre-pagina) .derrotero-cerrar {
+      display: flex;
+    }
+  }
+
+  @keyframes derrotero-aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes derrotero-desaparecer {
+    to {
+      opacity: 0;
+    }
+  }
+
+  .derrotero-cerrar {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    :global(html.derrotero-desde-pagina) .derrotero-cerrar {
+      display: flex;
+    }
+  }
+
+  /* Desde 1280 px, en las páginas de contenido, la cruz está siempre: el
+     Derrotero se haya abierto desde el botón de la página o con la manija. */
+  @media (min-width: 1280px) {
+    :global(html.contexto-pagina) .derrotero-cerrar {
+      display: flex;
+    }
   }
 
   /* El contenido es un contenedor: su ancho decide si entran las dos
-     columnas (menú y contenido) o si el menú se pliega. */
+     columnas (menú y contenido) o si el menú se pliega. El corte, 637 px,
+     hace que con el Derrotero a la mitad (50vw - 3px) el menú se pliegue
+     justo por debajo de los 1280 px de ventana, como el botón de menú de las
+     páginas (BotonMenuDerrotero). */
   .derrotero-contenido {
     container: derrotero / inline-size;
   }
@@ -744,23 +929,55 @@ const secciones = [
     display: none;
   }
 
-  @container derrotero (max-width: 640px) {
+  .derrotero-menu-icono-cerrar,
+  .derrotero-menu-boton[aria-expanded='true'] .derrotero-menu-icono-abrir {
+    display: none;
+  }
+
+  .derrotero-menu-boton[aria-expanded='true'] .derrotero-menu-icono-cerrar {
+    display: block;
+  }
+
+  @container derrotero (width < 637px) {
     .derrotero-menu-boton {
       display: flex;
     }
 
+    /* Con el menú plegado, su propia cruz ya lleva de vuelta a la página. */
+    .derrotero-cerrar {
+      display: none !important;
+    }
+
+    /* El menú y el nombre aparecen y desaparecen con un fundido. Se ocultan
+       con visibility (y no con display) para que la opacidad pueda
+       transicionar; visibility cambia al final del fundido de salida. */
     .derrotero-menu {
       position: absolute;
       z-index: 3;
       inset: 0;
-      display: none;
       width: auto;
       padding-right: 32px;
       background: #FFFFFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease, visibility 0s linear 300ms;
     }
 
     .derrotero-menu.abierto {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 300ms ease, visibility 0s;
+    }
+
+    /* Con el menú abierto, el nombre se oculta (sin mover los botones). */
+    .derrotero-identidad {
+      transition: opacity 300ms ease, visibility 0s;
+    }
+
+    .menu-abierto .derrotero-identidad {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease, visibility 0s linear 300ms;
     }
 
     .derrotero-columna {
@@ -769,8 +986,17 @@ const secciones = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .derrotero {
+    .derrotero,
+    .derrotero-menu,
+    .derrotero-menu.abierto,
+    .derrotero-identidad,
+    .menu-abierto .derrotero-identidad {
       transition: none;
+    }
+
+    :global(html.contexto-pagina.derrotero-sobre-pagina) .derrotero,
+    :global(html.contexto-pagina.derrotero-sobre-pagina.derrotero-saliendo) .derrotero {
+      animation: none;
     }
   }
 
@@ -910,6 +1136,18 @@ const secciones = [
     font-family: 'Geist Mono', monospace;
     font-size: 9px;
     color: #4A505C;
+  }
+
+  /* La miniatura (thumbnailImageUrl) llena el recuadro, recortada al cuadrado. */
+  .derrotero-imagen:has(img) {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .derrotero-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .derrotero-obra-titulo {

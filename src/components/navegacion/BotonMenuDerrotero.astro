@@ -1,0 +1,80 @@
+---
+// Botón que abre el Derrotero desde una página de contenido, en todas las
+// cartas arriba a la derecha de la página. Cada carta lo ubica y le da estilo
+// con `class`; el ícono se puede cambiar con el contenido del componente.
+//
+// Con vista compartida (desde 1024 px) solo se ve con el Derrotero cerrado:
+// abierto, el Derrotero ya tiene su propio botón de menú. Lo que hace al
+// tocarlo (ver Derrotero.astro) depende del ancho:
+//   - menos de 1024 px: el Derrotero sobre la página, con el "Menú del
+//     Derrotero desplegado" (o, si el menú entra a la vista, con una cruz
+//     para volver);
+//   - de 1024 a 1279 px: el Derrotero a la mitad con el menú desplegado;
+//   - desde 1280 px: el Derrotero a la mitad, como la manija (en las páginas,
+//     el Derrotero tiene siempre una cruz para volver).
+//
+// En el mismo lugar, de 1024 a 1279 px y con el Derrotero a la mitad, va el
+// botón para maximizar la página: cierra el Derrotero (desde 1280 px no hace
+// falta: el Derrotero tiene en las páginas su cruz para volver). Con el Derrotero
+// completo no se ve ninguno de los dos. Los dos botones reciben la misma
+// `class`; el ícono del de maximizar se cambia con el slot "maximizar".
+interface Props {
+  class?: string;
+}
+
+const { class: clase } = Astro.props;
+---
+
+<button
+  type="button"
+  data-abrir-menu-derrotero
+  class:list={['boton-menu-derrotero', clase]}
+  title="Secciones del Currículum"
+  aria-label="Abrir las secciones del Currículum"
+  aria-controls="derrotero-menu"
+  aria-expanded="false"
+>
+  <slot>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  </slot>
+</button>
+
+<button
+  type="button"
+  data-maximizar-pagina
+  class:list={['boton-maximizar-pagina', clase]}
+  title="Maximizar la página"
+  aria-label="Maximizar la página: cerrar el Currículum"
+>
+  <slot name="maximizar">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+      <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+      <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+      <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+    </svg>
+  </slot>
+</button>
+
+<style>
+  @media (min-width: 1024px) {
+    :global(html:not([data-derrotero='cerrado'])) .boton-menu-derrotero {
+      display: none !important;
+    }
+  }
+
+  /* Maximizar: solo de 1024 a 1279 px y con el Derrotero a la mitad. */
+  :global(html:not([data-derrotero='mitad'])) .boton-maximizar-pagina {
+    display: none !important;
+  }
+
+  @media (max-width: 1023.98px), (min-width: 1280px) {
+    .boton-maximizar-pagina {
+      display: none !important;
+    }
+  }
+</style>

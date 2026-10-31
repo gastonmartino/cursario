@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
-import { ubicar } from '../motor/Derivas';
+import { ubicar, urlPropia } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { cargarDocumento, documentoDeLectura, tieneModoLectura, type PropsCarta } from './index';
 
@@ -57,25 +57,54 @@ export function rutasPaginasSueltas(): RutaCarta<{ pagina: string }>[] {
 }
 
 // Subcursos e islotes: solo los que tienen un archivo de página. La URL es la
-// urlPagina de su ubicación (src/motor/Derivas.ts).
-export function rutasSubcursos(): RutaCarta<{ curso: string; subcurso: string | undefined }>[] {
+// urlPagina de su ubicación (src/motor/Derivas.ts): /{curso}/{subcurso}/ o,
+// si la isla tiene pageUrl (src/data/islas.ts), /{pageUrl}/.
+function paginasDeSubcursos() {
   return [...ISLAS, ...ISLOTES].filter((data) => data.pageMarkdownFile).map((data) => {
     const ubicacion = ubicar(data.id);
     const documento = cargarDocumento(resolveFile(ubicacion.carpetaContenidos, data.pageMarkdownFile)!);
-    return conVistas({
-      params: { curso: ubicacion.curso, subcurso: ubicacion.subcurso },
-      props: {
-        pagina: {
-          titulo: data.title ?? '',
-          subtitulo: data.subtitle ?? '',
-          codigo: data.code,
-          etiqueta: data.tag,
-          color: data.accentColor,
-        },
-        documento,
-        // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-        volver: `/?deriva=${ubicacion.idDeriva}`,
+    const props: PropsCarta = {
+      pagina: {
+        titulo: data.title ?? '',
+        subtitulo: data.subtitle ?? '',
+        codigo: data.code,
+        etiqueta: data.tag,
+        color: data.accentColor,
       },
-    }, `/${ubicacion.curso}/${ubicacion.subcurso}/`);
+      documento,
+      // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
+      volver: `/?deriva=${ubicacion.idDeriva}`,
+    };
+    return { id: data.id, ubicacion, url: ubicacion.urlPagina!, props };
   });
+}
+
+// Las de /{curso}/{subcurso}/ (src/pages/[curso]/[subcurso].astro).
+export function rutasSubcursos(): RutaCarta<{ curso: string; subcurso: string | undefined }>[] {
+  return paginasDeSubcursos()
+    .filter(({ id }) => !urlPropia(id))
+    .map(({ ubicacion, url, props }) => conVistas({ params: { curso: ubicacion.curso, subcurso: ubicacion.subcurso }, props }, url));
+}
+
+// Las de URL propia, de un solo tramo, como las páginas sueltas.
+function rutasConUrlPropia(): RutaCarta<{ pagina: string }>[] {
+  return paginasDeSubcursos()
+    .filter(({ id }) => urlPropia(id))
+    .map(({ url, props }) => conVistas({ params: { pagina: url.slice(1, -1) }, props }, url));
+}
+
+// Todas las páginas de un solo tramo (src/pages/[pagina].astro): las sueltas y
+// las de URL propia. Si una URL se repite, o coincide con una carpeta de
+// public/ (como /curso01/), el build se detiene.
+export function rutasDeUnTramo(): RutaCarta<{ pagina: string }>[] {
+  const rutas = [...rutasPaginasSueltas(), ...rutasConUrlPropia()];
+  const enPublic = new Set(fs.readdirSync(path.join(process.cwd(), 'public')));
+  const usadas = new Set<string>();
+  for (const { params: { pagina } } of rutas) {
+    if (usadas.has(pagina) || enPublic.has(pagina)) {
+      throw new Error(`La URL /${pagina}/ ya está en uso (otra página suelta, una pageUrl de src/data/islas.ts o una carpeta de public/)`);
+    }
+    usadas.add(pagina);
+  }
+  return rutas;
 }

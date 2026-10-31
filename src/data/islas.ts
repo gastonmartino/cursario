@@ -28,9 +28,23 @@ export interface IslaDefinition {
   // Una ruta que empieza con "/" se toma tal cual (archivo de otra carpeta).
   markdownFile?: string | null;
   pageMarkdownFile?: string | null;
+  // URL propia de la página (pageMarkdownFile), escrita a mano y de un solo
+  // tramo: 'rebelion-en-la-granja-de-clics' → /rebelion-en-la-granja-de-clics/.
+  // Solo minúsculas, números y guiones. Sin ella, la página va en
+  // /{curso}/{subcurso}/. Los archivos se siguen buscando en su carpeta.
+  pageUrl?: string | null;
   actionHref?: string | null;
   detailHref?: string | null;
   showAction?: boolean;
+
+  // Imágenes del subcurso fuera del lienzo, con la misma regla de rutas que
+  // imageUrl (/{curso}/subcursos/{subcurso}/medios/):
+  //   coverImageUrl     → la portada, la imagen grande que lo representa;
+  //   thumbnailImageUrl → la miniatura, para las grillas (como la del
+  //                       Derrotero). Conviene una imagen liviana y cuadrada.
+  // Sin miniatura, el Derrotero muestra un recuadro gris con el código.
+  coverImageUrl?: string | null;
+  thumbnailImageUrl?: string | null;
 }
 
 export const ISLAS: IslaDefinition[] = [
@@ -157,6 +171,7 @@ export const ISLAS: IslaDefinition[] = [
     id: 'untref-obra-02',
     imageUrl: 'portada-granja.jpg',
     pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'rebelion-en-la-granja-de-clics',
     code: 'OBRA:02', 
     title: 'Rebelión en la Granja de Clics', 
     subtitle: 'Noviembre de 2025',

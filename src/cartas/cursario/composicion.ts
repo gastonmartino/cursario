@@ -14,8 +14,9 @@ export type ModoImagen = 'recuadro' | 'papel' | 'transparencia';
 export interface Composicion {
   // marco: el borde graduado con franjas y coordenadas.
   hoja: { ancho: number; alto: number; margen: number; banda: number; marco: boolean };
-  // Posición de VOLVER (desde la izquierda) y del menú (desde la derecha): en
-  // la hoja o, si son fijos, en la ventana (siempre visibles).
+  // Posición de la navegación: VOLVER y el botón del Aparejo, a su derecha
+  // (desde la izquierda), y el botón de menú del Derrotero (desde la
+  // derecha). En la hoja o, si es fija, en la ventana (siempre visible).
   navegacion: { arriba: number; izquierda: number; derecha: number; fija: boolean };
   // Recuadros negros escalonados; cada uno es la unión de varios rectángulos.
   recuadros: Rect[][];
