@@ -167,7 +167,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-09',
-    imageUrl: 'la-puja.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     description: 'A partir del texto de Pérez Royo, pensar un sentimiento “amoroso” o positivo, que nutra y potencie su proyecto de TFIC en curso; pensar un sentimiento negativo (trabas, miedos, apatía, desorientación, etc) que dificulte el avance del mismo.',
     markdownFile: 'discurso-amoroso.md',
@@ -390,4 +389,5 @@ export const ISLAS: IslaDefinition[] = [
     imageCaption: 'AL ENCUENTRO DE OTRO DISEÑO', headerLabel: 'DIS#03',
   },
 ];
+
 
