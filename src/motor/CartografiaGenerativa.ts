@@ -78,14 +78,11 @@ export class CartografiaGenerativa {
     // 4. Overlaid Circuit Schematics & Vector Diagrams
     this.drawElectronicSchematics(ctx, width, height, camX, camY, zoom);
 
-    // 5. Cloud Windows & Halftone Textures
-    this.drawAtmosphericWindows(ctx, width, height, camX, camY, zoom);
-
-    // 6. El curso que une las ínsulas, en el orden de sus códigos: punteado,
+    // 5. El curso que une las ínsulas, en el orden de sus códigos: punteado,
     // grueso y en el rojo de los acentos.
     this.drawCursoDeInsulas(ctx, width, height, camX, camY, zoom);
 
-    // 7. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
+    // 6. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
     // están en este lienzo (con posiciones relativas a la ínsula).
     for (const deriva of DERIVAS_REFLOTADAS) {
       const recorrido = [
@@ -95,7 +92,7 @@ export class CartografiaGenerativa {
       this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido });
     }
 
-    // 8. Secondary islands connected to top-level courses
+    // 7. Secondary islands connected to top-level courses
     // (las ínsulas son tarjetas HTML: el lienzo no dibuja nada debajo de ellas)
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
@@ -356,88 +353,6 @@ export class CartografiaGenerativa {
     ctx.restore();
   }
 
-  private drawAtmosphericWindows(
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-    camX: number,
-    camY: number,
-    zoom: number
-  ) {
-    if (zoom < 0.3) return;
-
-    ctx.save();
-    const cx = width / 2;
-    const cy = height / 2;
-
-    const windows = [
-      { x: -300, y: -450, r: 85, title: 'ATMOSPHERE: 01 // SKY' },
-      { x: 450, y: 350, r: 100, title: 'WATER MEMORY // 02' },
-      { x: -800, y: -300, r: 70, title: 'CUMULUS FORMATION' },
-    ];
-
-    for (const win of windows) {
-      const sx = (win.x - camX) * zoom + cx;
-      const sy = (win.y - camY) * zoom + cy;
-      const radius = win.r * zoom;
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(sx, sy, radius, 0, Math.PI * 2);
-      ctx.clip();
-
-      const skyGrad = ctx.createLinearGradient(sx, sy - radius, sx, sy + radius);
-      skyGrad.addColorStop(0, '#7EA8CE');
-      skyGrad.addColorStop(0.6, '#A6C6E2');
-      skyGrad.addColorStop(1, '#D8E5F3');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(sx - radius, sy - radius, radius * 2, radius * 2);
-
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-      ctx.beginPath();
-      ctx.arc(sx - 15 * zoom, sy + 10 * zoom, 40 * zoom, 0, Math.PI * 2);
-      ctx.arc(sx + 20 * zoom, sy + 15 * zoom, 35 * zoom, 0, Math.PI * 2);
-      ctx.arc(sx + 5 * zoom, sy - 10 * zoom, 30 * zoom, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = 'rgba(0, 56, 168, 0.25)';
-      const dotStep = Math.max(4, 8 * zoom);
-      for (let dx = -radius; dx <= radius; dx += dotStep) {
-        for (let dy = -radius; dy <= radius; dy += dotStep) {
-          if (dx * dx + dy * dy < radius * radius) {
-            ctx.fillRect(sx + dx, sy + dy, 1.2 * zoom, 1.2 * zoom);
-          }
-        }
-      }
-
-      ctx.restore();
-
-      ctx.lineWidth = 1.2 * zoom;
-      ctx.strokeStyle = '#0038A8';
-      ctx.beginPath();
-      ctx.arc(sx, sy, radius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(sx - radius - 8 * zoom, sy); ctx.lineTo(sx - radius, sy);
-      ctx.moveTo(sx + radius, sy); ctx.lineTo(sx + radius + 8 * zoom, sy);
-      ctx.moveTo(sx, sy - radius - 8 * zoom); ctx.lineTo(sx, sy - radius);
-      ctx.moveTo(sx, sy + radius); ctx.lineTo(sx, sy + radius + 8 * zoom);
-      ctx.stroke();
-
-      if (zoom > 0.6) {
-        ctx.font = '9px "Geist Mono", monospace';
-        ctx.fillStyle = '#0038A8';
-        ctx.textAlign = 'center';
-        ctx.fillText(win.title, sx, sy + radius + 16 * zoom);
-      }
-    }
-
-    ctx.restore();
-  }
-
-  // Curso que une las ínsulas en el lienzo principal, con la misma curva que
-  // el recorrido de las islas de un curso (drawDerivaStream).
   private drawCursoDeInsulas(
     ctx: CanvasRenderingContext2D,
     width: number,

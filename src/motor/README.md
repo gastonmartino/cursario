@@ -19,7 +19,7 @@ provee quien lo crea, el Mapa de la portada (`src/components/Mapa.astro`).
 | `Derivas.ts` | Estructura del sitio: los cursos de primer nivel (`DERIVAS_INSULAS`), sus subcursos (definidos dentro de cada curso y reunidos en `DERIVAS_ISLAS`) y los islotes (`DERIVAS_ISLOTES`), con sus relaciones, carpetas, URLs, posiciones y tamaños. Incluye `ubicar(id)`, que devuelve dónde está cualquier elemento. |
 | `MotorCursario.ts` | El motor propiamente dicho: recibe los eventos (puntero, rueda, toques, teclado), administra los dos niveles (lienzo principal y lienzo de un curso), mueve la cámara, ubica las tarjetas HTML, informa la telemetría al HUD y decide cuándo hay que dibujar. |
 | `Camara.ts` | Posición y zoom de la vista: conversión entre coordenadas de pantalla y del mundo, arrastre con inercia, zoom centrado en un punto y vuelos suaves hacia un destino. |
-| `CartografiaGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, ventanas de nubes, línea de recorrido de los subcursos y conexiones de los islotes. |
+| `CartografiaGenerativa.ts` | Dibujo del fondo en el lienzo principal (`infinite-canvas`): papel, retícula, ríos, circuitos, curso entre las ínsulas, línea de recorrido de los subcursos y conexiones de los islotes. |
 | `CursorEntintado.ts` | Dibujo del cursor en su propio lienzo (`cursor-canvas`, encima de todo): mira técnica, estela de tinta, gotas que salpican y la etiqueta junto al puntero. |
 
 ## Estructura y contenido
@@ -182,9 +182,10 @@ Lo que dibuja `CartografiaGenerativa.ts` depende solo de la cámara, del nivel y
 del tamaño de la ventana; nada se anima con el paso del tiempo.
 
 - **Lienzo principal**: textura de papel, retícula de 200 unidades (con cruces
-  desde zoom 0,4 y coordenadas desde 0,7), ríos, esquemas de circuitos y
-  ventanas circulares de nubes, más las conexiones de los islotes de primer
-  nivel.
+  desde zoom 0,4 y coordenadas desde 0,7), ríos y esquemas de circuitos; el
+  curso punteado en rojo que une las ínsulas, en el orden de sus códigos; el
+  recorrido de las ínsulas reflotadas con sus islas, y las conexiones de los
+  islotes.
 - **Lienzo de un curso**: papel, retícula fina de 150 unidades, la línea de
   recorrido que une sus islas y las conexiones de sus islotes.
 
