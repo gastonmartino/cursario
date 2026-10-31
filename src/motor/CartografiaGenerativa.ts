@@ -81,22 +81,21 @@ export class CartografiaGenerativa {
     // 5. Cloud Windows & Halftone Textures
     this.drawAtmosphericWindows(ctx, width, height, camX, camY, zoom);
 
-    // 6. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
+    // 6. El curso que une las ínsulas, en el orden de sus códigos: punteado,
+    // grueso y en el rojo de los acentos.
+    this.drawCursoDeInsulas(ctx, width, height, camX, camY, zoom);
+
+    // 7. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
     // están en este lienzo (con posiciones relativas a la ínsula).
     for (const deriva of DERIVAS_REFLOTADAS) {
       const recorrido = [
         { ...deriva.subcursos[0], id: deriva.id, x: deriva.x, y: deriva.y },
         ...deriva.subcursos.map((isla) => ({ ...isla, ...posicionReflotada(isla)! })),
       ];
-      // Más gruesa y en el rojo de los acentos, para que se distinga en el
-      // lienzo principal, entre las corrientes del fondo.
-      this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido }, {
-        color: ROJO_ACENTO,
-        grosor: 6,
-      });
+      this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido });
     }
 
-    // 7. Secondary islands connected to top-level courses
+    // 8. Secondary islands connected to top-level courses
     // (las ínsulas son tarjetas HTML: el lienzo no dibuja nada debajo de ellas)
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
@@ -437,6 +436,38 @@ export class CartografiaGenerativa {
     ctx.restore();
   }
 
+  // Curso que une las ínsulas en el lienzo principal, con la misma curva que
+  // el recorrido de las islas de un curso (drawDerivaStream).
+  private drawCursoDeInsulas(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    camX: number,
+    camY: number,
+    zoom: number
+  ) {
+    if (DERIVAS_INSULAS.length < 2) return;
+    const cx = width / 2;
+    const cy = height / 2;
+    const pantalla = (x: number, y: number) => ({ x: (x - camX) * zoom + cx, y: (y - camY) * zoom + cy });
+
+    ctx.save();
+    ctx.lineWidth = Math.max(1.5, 6 * zoom);
+    ctx.strokeStyle = ROJO_ACENTO;
+    ctx.setLineDash([18 * zoom, 14 * zoom]);
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    const primera = pantalla(DERIVAS_INSULAS[0].x, DERIVAS_INSULAS[0].y);
+    ctx.moveTo(primera.x, primera.y);
+    for (let i = 0; i < DERIVAS_INSULAS.length - 1; i++) {
+      const p1 = pantalla(DERIVAS_INSULAS[i].x, DERIVAS_INSULAS[i].y);
+      const p2 = pantalla(DERIVAS_INSULAS[i + 1].x, DERIVAS_INSULAS[i + 1].y);
+      ctx.quadraticCurveTo((p1.x + p2.x) / 2, (p1.y + p2.y) / 2 + 50 * zoom, p2.x, p2.y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
   private drawDerivaLevel(
     ctx: CanvasRenderingContext2D,
     width: number,
@@ -509,8 +540,7 @@ export class CartografiaGenerativa {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: DerivaInsula,
-    estilo: { color?: string; grosor?: number } = {}
+    deriva: DerivaInsula
   ) {
     ctx.save();
     const cx = width / 2;
@@ -520,8 +550,8 @@ export class CartografiaGenerativa {
     if (items.length >= 2) {
       // Connect items with a flowing meander line
       ctx.beginPath();
-      ctx.lineWidth = Math.max(1, (estilo.grosor ?? 3) * zoom);
-      ctx.strokeStyle = estilo.color ?? this.accentColor(deriva.id);
+      ctx.lineWidth = 3 * zoom;
+      ctx.strokeStyle = this.accentColor(deriva.id);
 
       const firstSx = (items[0].x - camX) * zoom + cx;
       const firstSy = (items[0].y - camY) * zoom + cy;
