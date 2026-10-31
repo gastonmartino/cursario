@@ -66,9 +66,16 @@ es `/?deriva={id}` (así vuelven las páginas de los subcursos).
   corte la tarjeta de más arriba; entonces baja hasta que su encabezado quede
   a 100 px del borde superior, debajo del HUD. CENTRAR (o `0`, `R`) vuelve a
   ella.
+- En pantallas chicas (lienzo de menos de 768 px), el zoom es el que hace
+  entrar una tarjeta y media de ancho; el ajuste vertical es el mismo, y en
+  horizontal la tarjeta visible más a la izquierda queda entera, a 16 px del
+  borde.
+- Mientras nadie mueva la vista inicial, se recalcula si cambia el tamaño del
+  lienzo (al cargar en el celular, al mover la costura).
 - La última vista de cada lienzo (posición y zoom) se recuerda en el navegador
   (`cursario:vistas`): al volver a un lienzo, aunque sea desde otra página, se
-  lo encuentra como se dejó. La primera vez se usa la vista inicial.
+  lo encuentra como se dejó. La primera vez, o si nadie la había movido, se
+  usa la vista inicial, calculada para la pantalla de ese momento.
 - Arrastrar desplaza la vista; al soltar, sigue desplazándose por inercia y se
   frena de a poco.
 - La rueda del mouse hace zoom centrado en el puntero. En un trackpad, deslizar

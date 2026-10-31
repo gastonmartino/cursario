@@ -20,6 +20,9 @@ interface Vista {
   x: number;
   y: number;
   zoom: number;
+  // Si es la vista inicial calculada (nadie la movió): entonces no se guarda
+  // la posición, sino que se recalcula para el tamaño del lienzo.
+  auto?: boolean;
 }
 
 // Vista inicial de cada lienzo (ver vistaInicial): zoom de 70 % y, en la
@@ -27,6 +30,13 @@ interface Vista {
 // debajo de los controles del HUD.
 const ZOOM_INICIAL = 0.7;
 const MARGEN_SUPERIOR = 100;
+
+// En pantallas chicas (lienzo de menos de ANCHO_MOVIL px), el zoom inicial se
+// ajusta para que entren TARJETAS_MOVIL tarjetas de ancho, y la tarjeta
+// visible más a la izquierda queda entera, a MARGEN_IZQUIERDO_MOVIL del borde.
+const ANCHO_MOVIL = 768;
+const TARJETAS_MOVIL = 1.5;
+const MARGEN_IZQUIERDO_MOVIL = 16;
 
 // La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
 // en el navegador: al volver a un lienzo, se lo encuentra como se dejó.
@@ -126,8 +136,9 @@ export class MotorCursario {
       this.cursorCtx = cursorCanvas.getContext('2d');
     }
 
-    const inicial = this.vistas.macro ?? this.vistaInicialMacro();
-    this.camera = new Camara(inicial.x, inicial.y, inicial.zoom);
+    // La vista inicial depende del tamaño del lienzo: se ubica en init(), ya
+    // medido (ver colocarVistaInicial).
+    this.camera = new Camara(0, 0, ZOOM_INICIAL);
     this.cursor = new CursorEntintado();
     this.surface = new CartografiaGenerativa(appearance.accentColor);
 
@@ -143,6 +154,7 @@ export class MotorCursario {
 
   private init() {
     this.handleResize();
+    this.colocarVistaInicial();
     this.bindEvents();
     // Lo que falte guardar se guarda al irse de la página.
     window.addEventListener('pagehide', () => this.guardarVista());
@@ -197,20 +209,45 @@ export class MotorCursario {
   }
 
   // Vista inicial de un lienzo, a partir de sus tarjetas (las ínsulas en el
-  // principal, las islas en el de un curso; los islotes no cuentan), al 70 %:
-  // - en horizontal, el conjunto queda centrado;
-  // - en vertical, también, salvo que así quede cortada la tarjeta de más
-  //   arriba: entonces el conjunto baja hasta que su encabezado se vea entero.
+  // principal, las islas en el de un curso; los islotes no cuentan).
+  // - Zoom: 70 %; en pantallas chicas, el que hace entrar una tarjeta y media
+  //   de ancho.
+  // - Vertical: el conjunto queda centrado, salvo que así quede cortada la
+  //   tarjeta de más arriba: entonces baja hasta que su encabezado se vea
+  //   entero, a MARGEN_SUPERIOR del borde.
+  // - Horizontal: el conjunto queda centrado; en pantallas chicas, la tarjeta
+  //   visible más a la izquierda (de las que quedan a la vista en vertical)
+  //   queda entera, a MARGEN_IZQUIERDO_MOVIL del borde.
   private vistaInicial(tarjetas: Array<{ x: number; y: number; ancho: number; alto: number }>): Vista {
     if (tarjetas.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL };
+    const ancho = this.anchoVista();
+    const alto = this.altoVista();
+    const movil = ancho < ANCHO_MOVIL;
+
+    const anchoTarjeta = Math.max(...tarjetas.map((item) => item.ancho));
+    const zoom = movil
+      ? Math.max(0.25, Math.min(2.5, ancho / (anchoTarjeta * TARJETAS_MOVIL)))
+      : ZOOM_INICIAL;
+
     const left = Math.min(...tarjetas.map((item) => item.x - item.ancho / 2));
     const right = Math.max(...tarjetas.map((item) => item.x + item.ancho / 2));
     const top = Math.min(...tarjetas.map((item) => item.y - item.alto / 2));
     const bottom = Math.max(...tarjetas.map((item) => item.y + item.alto / 2));
     // Con la cámara en y, el borde superior del conjunto queda en la pantalla en
     // (top - y) * zoom + alto / 2; tiene que quedar al menos en MARGEN_SUPERIOR.
-    const yMaximo = top - (MARGEN_SUPERIOR - this.altoVista() / 2) / ZOOM_INICIAL;
-    return { x: (left + right) / 2, y: Math.min((top + bottom) / 2, yMaximo), zoom: ZOOM_INICIAL };
+    const y = Math.min((top + bottom) / 2, top - (MARGEN_SUPERIOR - alto / 2) / zoom);
+
+    if (!movil) return { x: (left + right) / 2, y, zoom };
+
+    // Las tarjetas que quedan a la vista en vertical con esa cámara.
+    const arribaVisible = y - alto / 2 / zoom;
+    const abajoVisible = y + alto / 2 / zoom;
+    const visibles = tarjetas.filter((item) =>
+      item.y + item.alto / 2 > arribaVisible && item.y - item.alto / 2 < abajoVisible);
+    const izquierda = Math.min(...(visibles.length ? visibles : tarjetas).map((item) => item.x - item.ancho / 2));
+    // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2.
+    const x = izquierda - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;
+    return { x, y, zoom };
   }
 
   private vistaInicialMacro(): Vista {
@@ -219,6 +256,40 @@ export class MotorCursario {
 
   private vistaInicialCurso(deriva: DerivaInsula): Vista {
     return this.vistaInicial(deriva.subcursos);
+  }
+
+  // Mientras la vista sea la inicial calculada (nadie la movió), se recalcula
+  // cuando cambia el tamaño del lienzo: al cargar en el celular, el lienzo
+  // todavía no tiene su ancho definitivo, y también cambia con la costura.
+  private vistaAutomatica = false;
+
+  private vistaInicialActual(): Vista {
+    return this.level === 'deriva' && this.activeDeriva
+      ? this.vistaInicialCurso(this.activeDeriva)
+      : this.vistaInicialMacro();
+  }
+
+  // La vista recordada de un lienzo, o la inicial si no hay o era automática.
+  private vistaRecordada(clave: string, inicial: () => Vista): Vista {
+    const guardada = this.vistas[clave];
+    this.vistaAutomatica = !guardada || Boolean(guardada.auto);
+    return this.vistaAutomatica ? inicial() : guardada;
+  }
+
+  private ubicarCamara(vista: Vista) {
+    this.camera.x = this.camera.targetX = vista.x;
+    this.camera.y = this.camera.targetY = vista.y;
+    this.camera.zoom = this.camera.targetZoom = vista.zoom;
+  }
+
+  // Al cargar: la vista recordada del lienzo principal, o la inicial.
+  private colocarVistaInicial() {
+    this.ubicarCamara(this.vistaRecordada('macro', () => this.vistaInicialMacro()));
+  }
+
+  // El usuario movió la vista: deja de ser la automática.
+  private soltarVistaAutomatica() {
+    this.vistaAutomatica = false;
   }
 
   // Clave del lienzo que se está viendo, para recordar su vista.
@@ -235,6 +306,7 @@ export class MotorCursario {
       x: Math.round(this.camera.targetX),
       y: Math.round(this.camera.targetY),
       zoom: Math.round(this.camera.targetZoom * 1000) / 1000,
+      ...(this.vistaAutomatica ? { auto: true } : {}),
     };
     try {
       localStorage.setItem(CLAVE_VISTAS, JSON.stringify(this.vistas));
@@ -285,6 +357,7 @@ export class MotorCursario {
   }
 
   public handleResize() {
+    if (this.vistaAutomatica && this.canvas.clientWidth > 1) this.ubicarCamara(this.vistaInicialActual());
     this.dpr = window.devicePixelRatio || 1;
     const w = this.anchoVista();
     const h = this.altoVista();
@@ -307,6 +380,7 @@ export class MotorCursario {
   }
 
   public onMouseDown(e: MouseEvent) {
+    this.soltarVistaAutomatica();
     if (e.button === 0 || e.button === 1) {
       this.camera.startDrag(e.clientX, e.clientY);
       this.cursor.isDragging = true;
@@ -356,6 +430,7 @@ export class MotorCursario {
   }
 
   public onWheel(e: WheelEvent) {
+    this.soltarVistaAutomatica();
     e.preventDefault();
 
     if (e.ctrlKey || Math.abs(e.deltaY) > 50) {
@@ -376,6 +451,7 @@ export class MotorCursario {
   }
 
   public onTouchStart(e: TouchEvent) {
+    this.soltarVistaAutomatica();
     e.preventDefault();
     // Synchronize all active contacts. A second finger can begin over a
     // different DOM layer (or over an interactive child), so relying only on
@@ -577,7 +653,7 @@ export class MotorCursario {
 
     // La vista con que se dejó este lienzo o, la primera vez, la inicial.
     // Se entra desde un poco más lejos, con un acercamiento.
-    const vista = this.vistas[targetDeriva.id] ?? this.vistaInicialCurso(targetDeriva);
+    const vista = this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
     this.camera.x = vista.x;
     this.camera.y = vista.y;
     this.camera.zoom = Math.min(0.5, vista.zoom);
@@ -601,11 +677,10 @@ export class MotorCursario {
 
     // El lienzo principal como se dejó o, si nunca se lo vio (se llegó
     // directo a un curso), centrado en la ínsula de la que se sale.
-    const vista = this.vistas.macro ?? {
-      x: exitingDeriva.x,
-      y: exitingDeriva.y,
-      zoom: this.getMacroZoom(exitingDeriva, 0.85),
-    };
+    const vista = this.vistas.macro
+      ? this.vistaRecordada('macro', () => this.vistaInicialMacro())
+      : { x: exitingDeriva.x, y: exitingDeriva.y, zoom: this.getMacroZoom(exitingDeriva, 0.85) };
+    if (!this.vistas.macro) this.vistaAutomatica = false;
     this.camera.x = vista.x;
     this.camera.y = vista.y;
     this.camera.zoom = vista.zoom;
@@ -614,6 +689,7 @@ export class MotorCursario {
   }
 
   public flyToDeriva(derivaId: string) {
+    this.soltarVistaAutomatica();
     if (this.level === 'macro') {
       const d = DERIVAS_INSULAS.find((item) => item.id === derivaId);
       if (d) {
@@ -629,14 +705,14 @@ export class MotorCursario {
   // CENTRAR: vuelve a la vista inicial del lienzo (y esa pasa a ser la que
   // se recuerda).
   public resetView() {
-    const vista = this.level === 'deriva' && this.activeDeriva
-      ? this.vistaInicialCurso(this.activeDeriva)
-      : this.vistaInicialMacro();
+    const vista = this.vistaInicialActual();
+    this.vistaAutomatica = true;
     this.camera.flyTo(vista.x, vista.y, vista.zoom);
     this.despertar();
   }
 
   public zoomIn() {
+    this.soltarVistaAutomatica();
     const w = this.anchoVista();
     const h = this.altoVista();
     this.camera.zoomAt(1.25, w / 2, h / 2, w, h);
@@ -644,6 +720,7 @@ export class MotorCursario {
   }
 
   public zoomOut() {
+    this.soltarVistaAutomatica();
     const w = this.anchoVista();
     const h = this.altoVista();
     this.camera.zoomAt(0.8, w / 2, h / 2, w, h);
