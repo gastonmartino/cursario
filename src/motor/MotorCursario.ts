@@ -22,9 +22,11 @@ interface Vista {
   zoom: number;
 }
 
-// Zoom con que se entra a cada lienzo de curso (70 %), con sus islas
-// centradas. Los islotes no cuentan.
-const ZOOM_INICIAL_CURSO = 0.7;
+// Vista inicial de cada lienzo (ver vistaInicial): zoom de 70 % y, en la
+// pantalla, la tarjeta de más arriba a esta distancia del borde superior, por
+// debajo de los controles del HUD.
+const ZOOM_INICIAL = 0.7;
+const MARGEN_SUPERIOR = 100;
 
 // La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
 // en el navegador: al volver a un lienzo, se lo encuentra como se dejó.
@@ -194,21 +196,29 @@ export class MotorCursario {
     return Math.max(0.25, Math.min(preferredZoom, fitZoom, 2.5));
   }
 
-  // Vista inicial del lienzo principal: centrado en el origen, con la ínsula
-  // "En Curso…" entera a la vista (hasta un 90 %).
-  private vistaInicialMacro(): Vista {
-    const enCurso = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
-    return { x: 0, y: 0, zoom: enCurso ? this.getMacroZoom(enCurso) : 0.9 };
+  // Vista inicial de un lienzo, a partir de sus tarjetas (las ínsulas en el
+  // principal, las islas en el de un curso; los islotes no cuentan), al 70 %:
+  // - en horizontal, el conjunto queda centrado;
+  // - en vertical, también, salvo que así quede cortada la tarjeta de más
+  //   arriba: entonces el conjunto baja hasta que su encabezado se vea entero.
+  private vistaInicial(tarjetas: Array<{ x: number; y: number; ancho: number; alto: number }>): Vista {
+    if (tarjetas.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL };
+    const left = Math.min(...tarjetas.map((item) => item.x - item.ancho / 2));
+    const right = Math.max(...tarjetas.map((item) => item.x + item.ancho / 2));
+    const top = Math.min(...tarjetas.map((item) => item.y - item.alto / 2));
+    const bottom = Math.max(...tarjetas.map((item) => item.y + item.alto / 2));
+    // Con la cámara en y, el borde superior del conjunto queda en la pantalla en
+    // (top - y) * zoom + alto / 2; tiene que quedar al menos en MARGEN_SUPERIOR.
+    const yMaximo = top - (MARGEN_SUPERIOR - this.altoVista() / 2) / ZOOM_INICIAL;
+    return { x: (left + right) / 2, y: Math.min((top + bottom) / 2, yMaximo), zoom: ZOOM_INICIAL };
   }
 
-  // Vista inicial del lienzo de un curso: sus islas centradas, al 70 %.
+  private vistaInicialMacro(): Vista {
+    return this.vistaInicial(DERIVAS_INSULAS);
+  }
+
   private vistaInicialCurso(deriva: DerivaInsula): Vista {
-    if (deriva.subcursos.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL_CURSO };
-    const left = Math.min(...deriva.subcursos.map((item) => item.x - item.ancho / 2));
-    const right = Math.max(...deriva.subcursos.map((item) => item.x + item.ancho / 2));
-    const top = Math.min(...deriva.subcursos.map((item) => item.y - item.alto / 2));
-    const bottom = Math.max(...deriva.subcursos.map((item) => item.y + item.alto / 2));
-    return { x: (left + right) / 2, y: (top + bottom) / 2, zoom: ZOOM_INICIAL_CURSO };
+    return this.vistaInicial(deriva.subcursos);
   }
 
   // Clave del lienzo que se está viendo, para recordar su vista.

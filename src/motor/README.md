@@ -60,9 +60,12 @@ es `/?deriva={id}` (así vuelven las páginas de los subcursos).
 ## Cámara
 
 - El zoom va de 0,25 a 2,5.
-- Vista inicial de cada lienzo: en el de un curso, sus islas (sin los islotes)
-  centradas, al 70 %; en el principal, el origen, con la ínsula "En Curso…"
-  entera a la vista (hasta un 90 %). CENTRAR (o `0`, `R`) vuelve a ella.
+- Vista inicial de cada lienzo, al 70 %, a partir de sus tarjetas (las ínsulas
+  en el principal, las islas en el de un curso; los islotes no cuentan): el
+  conjunto, centrado en horizontal y, en vertical, también, salvo que así se
+  corte la tarjeta de más arriba; entonces baja hasta que su encabezado quede
+  a 100 px del borde superior, debajo del HUD. CENTRAR (o `0`, `R`) vuelve a
+  ella.
 - La última vista de cada lienzo (posición y zoom) se recuerda en el navegador
   (`cursario:vistas`): al volver a un lienzo, aunque sea desde otra página, se
   lo encuentra como se dejó. La primera vez se usa la vista inicial.
