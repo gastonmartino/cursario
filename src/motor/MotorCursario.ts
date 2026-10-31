@@ -15,6 +15,30 @@ export interface AparienciaLienzo {
   cursorLabel: (id: string, action: 'hover' | 'select') => string;
 }
 
+// Vista de un lienzo: el punto del mundo en el centro de la pantalla y el zoom.
+interface Vista {
+  x: number;
+  y: number;
+  zoom: number;
+}
+
+// Zoom con que se entra a cada lienzo de curso (70 %), con sus islas
+// centradas. Los islotes no cuentan.
+const ZOOM_INICIAL_CURSO = 0.7;
+
+// La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
+// en el navegador: al volver a un lienzo, se lo encuentra como se dejó.
+const CLAVE_VISTAS = 'cursario:vistas';
+
+function leerVistas(): Record<string, Vista> {
+  try {
+    const guardadas = JSON.parse(localStorage.getItem(CLAVE_VISTAS) ?? '{}');
+    return guardadas && typeof guardadas === 'object' ? guardadas : {};
+  } catch {
+    return {};
+  }
+}
+
 const APARIENCIA_NEUTRA: AparienciaLienzo = {
   accentColor: () => '#0038A8',
   cursorLabel: () => '',
@@ -77,6 +101,9 @@ export class MotorCursario {
 
   private appearance: AparienciaLienzo;
 
+  private vistas: Record<string, Vista> = leerVistas();
+  private guardadoPendiente = 0;
+
   constructor(
     canvas: HTMLCanvasElement, 
     onTelemetry?: AlActualizarTelemetria,
@@ -97,8 +124,8 @@ export class MotorCursario {
       this.cursorCtx = cursorCanvas.getContext('2d');
     }
 
-    const initialDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
-    this.camera = new Camara(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
+    const inicial = this.vistas.macro ?? this.vistaInicialMacro();
+    this.camera = new Camara(inicial.x, inicial.y, inicial.zoom);
     this.cursor = new CursorEntintado();
     this.surface = new CartografiaGenerativa(appearance.accentColor);
 
@@ -115,6 +142,8 @@ export class MotorCursario {
   private init() {
     this.handleResize();
     this.bindEvents();
+    // Lo que falte guardar se guarda al irse de la página.
+    window.addEventListener('pagehide', () => this.guardarVista());
     this.observarCambiosExternos();
     this.despertar(true, true);
   }
@@ -165,21 +194,52 @@ export class MotorCursario {
     return Math.max(0.25, Math.min(preferredZoom, fitZoom, 2.5));
   }
 
-  private getMacroZoom(deriva: DerivaInsula, preferredZoom = 0.9) {
-    return this.getZoomToFit(deriva.ancho, deriva.alto, preferredZoom);
+  // Vista inicial del lienzo principal: centrado en el origen, con la ínsula
+  // "En Curso…" entera a la vista (hasta un 90 %).
+  private vistaInicialMacro(): Vista {
+    const enCurso = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
+    return { x: 0, y: 0, zoom: enCurso ? this.getMacroZoom(enCurso) : 0.9 };
   }
 
-  private getDerivaZoom(deriva: DerivaInsula, preferredZoom = 0.95) {
-    if (deriva.subcursos.length === 0) {
-      return this.getZoomToFit(deriva.ancho, deriva.alto, preferredZoom);
-    }
-
+  // Vista inicial del lienzo de un curso: sus islas centradas, al 70 %.
+  private vistaInicialCurso(deriva: DerivaInsula): Vista {
+    if (deriva.subcursos.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL_CURSO };
     const left = Math.min(...deriva.subcursos.map((item) => item.x - item.ancho / 2));
     const right = Math.max(...deriva.subcursos.map((item) => item.x + item.ancho / 2));
     const top = Math.min(...deriva.subcursos.map((item) => item.y - item.alto / 2));
     const bottom = Math.max(...deriva.subcursos.map((item) => item.y + item.alto / 2));
+    return { x: (left + right) / 2, y: (top + bottom) / 2, zoom: ZOOM_INICIAL_CURSO };
+  }
 
-    return this.getZoomToFit(right - left, bottom - top, preferredZoom);
+  // Clave del lienzo que se está viendo, para recordar su vista.
+  private claveLienzo() {
+    return this.level === 'deriva' && this.activeDeriva ? this.activeDeriva.id : 'macro';
+  }
+
+  // Guarda la vista hacia la que va la cámara (no un paso intermedio de un
+  // vuelo) del lienzo actual.
+  private guardarVista() {
+    window.clearTimeout(this.guardadoPendiente);
+    this.guardadoPendiente = 0;
+    this.vistas[this.claveLienzo()] = {
+      x: Math.round(this.camera.targetX),
+      y: Math.round(this.camera.targetY),
+      zoom: Math.round(this.camera.targetZoom * 1000) / 1000,
+    };
+    try {
+      localStorage.setItem(CLAVE_VISTAS, JSON.stringify(this.vistas));
+    } catch {
+      // Sin almacenamiento, la vista no se recuerda.
+    }
+  }
+
+  private programarGuardado() {
+    window.clearTimeout(this.guardadoPendiente);
+    this.guardadoPendiente = window.setTimeout(() => this.guardarVista(), 400);
+  }
+
+  private getMacroZoom(deriva: DerivaInsula, preferredZoom = 0.9) {
+    return this.getZoomToFit(deriva.ancho, deriva.alto, preferredZoom);
   }
 
   private bindEvents() {
@@ -444,8 +504,7 @@ export class MotorCursario {
         case '0':
         case 'r':
         case 'R':
-          this.camera.flyTo(0, 0, this.activeDeriva ? this.getDerivaZoom(this.activeDeriva) : 0.95);
-          this.despertar();
+          this.resetView();
           break;
         case '+':
         case '=':
@@ -493,6 +552,9 @@ export class MotorCursario {
 
     if (!targetDeriva) return;
 
+    // Antes de cambiar de lienzo, se guarda la vista del que se deja.
+    this.guardarVista();
+
     if (this.transitionCallback) {
       this.transitionCallback('enter', targetDeriva);
     }
@@ -503,12 +565,13 @@ export class MotorCursario {
     this.hoveredDeriva = null;
     this.hoveredItem = null;
 
-    // Center camera in local Deriva coordinates
-    this.camera.x = 0;
-    this.camera.y = 0;
-    const derivaZoom = this.getDerivaZoom(targetDeriva);
-    this.camera.zoom = Math.min(0.5, derivaZoom); // Start slightly zoomed out for cinematic entrance
-    this.camera.flyTo(0, 0, derivaZoom);
+    // La vista con que se dejó este lienzo o, la primera vez, la inicial.
+    // Se entra desde un poco más lejos, con un acercamiento.
+    const vista = this.vistas[targetDeriva.id] ?? this.vistaInicialCurso(targetDeriva);
+    this.camera.x = vista.x;
+    this.camera.y = vista.y;
+    this.camera.zoom = Math.min(0.5, vista.zoom);
+    this.camera.flyTo(vista.x, vista.y, vista.zoom);
     this.despertar(true, true);
   }
 
@@ -516,6 +579,7 @@ export class MotorCursario {
     if (this.level !== 'deriva' || !this.activeDeriva) return;
 
     const exitingDeriva = this.activeDeriva;
+    this.guardarVista();
 
     if (this.transitionCallback) {
       this.transitionCallback('exit', exitingDeriva);
@@ -525,12 +589,17 @@ export class MotorCursario {
     this.activeDeriva = null;
     this.hoveredItem = null;
 
-    // Return to Deriva position in macro coordinates
-    this.camera.x = exitingDeriva.x;
-    this.camera.y = exitingDeriva.y;
-    const macroZoom = this.getMacroZoom(exitingDeriva, 0.85);
-    this.camera.zoom = macroZoom;
-    this.camera.flyTo(exitingDeriva.x, exitingDeriva.y, macroZoom);
+    // El lienzo principal como se dejó o, si nunca se lo vio (se llegó
+    // directo a un curso), centrado en la ínsula de la que se sale.
+    const vista = this.vistas.macro ?? {
+      x: exitingDeriva.x,
+      y: exitingDeriva.y,
+      zoom: this.getMacroZoom(exitingDeriva, 0.85),
+    };
+    this.camera.x = vista.x;
+    this.camera.y = vista.y;
+    this.camera.zoom = vista.zoom;
+    this.camera.flyTo(vista.x, vista.y, vista.zoom);
     this.despertar(true, true);
   }
 
@@ -547,13 +616,13 @@ export class MotorCursario {
     }
   }
 
+  // CENTRAR: vuelve a la vista inicial del lienzo (y esa pasa a ser la que
+  // se recuerda).
   public resetView() {
-    if (this.level === 'macro') {
-      const initialDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === 'en-curso');
-      this.camera.flyTo(0, 0, initialDeriva ? this.getMacroZoom(initialDeriva) : 0.9);
-    } else {
-      this.camera.flyTo(0, 0, this.activeDeriva ? this.getDerivaZoom(this.activeDeriva) : 0.95);
-    }
+    const vista = this.level === 'deriva' && this.activeDeriva
+      ? this.vistaInicialCurso(this.activeDeriva)
+      : this.vistaInicialMacro();
+    this.camera.flyTo(vista.x, vista.y, vista.zoom);
     this.despertar();
   }
 
@@ -588,6 +657,7 @@ export class MotorCursario {
 
     if (camaraCambio || this.escenaPendiente) {
       this.escenaPendiente = false;
+      if (camaraCambio) this.programarGuardado();
       this.ultimaCamara = { x: this.camera.x, y: this.camera.y, zoom: this.camera.zoom };
       this.notifyTelemetry();
       this.syncSpatialDomNodes();
