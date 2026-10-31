@@ -1187,7 +1187,7 @@ const secciones = [
 
   /* Inicio: cada curso destacado, con su portada (2:1, recortada si la
      imagen tiene otra proporción; con el panel ancho, una franja de 360 px de
-     alto recortada al centro), su código y nombre, y su título. */
+     alto tomada desde arriba de la imagen), su código y nombre, y su título. */
   .derrotero-destacado {
     display: flex;
     flex-direction: column;
@@ -1201,6 +1201,7 @@ const secciones = [
     max-height: 360px;
     margin-bottom: 4px;
     object-fit: cover;
+    object-position: center top;
     background: #EDF1F5;
   }
 
