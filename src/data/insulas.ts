@@ -67,6 +67,8 @@ export const INSULAS: InsulaDefinition[] = [
     imageUrl: 'curso01-inicio.jpg',
     imageBackgroundColor: '#ffffff',
     markdownFile: 'curso01-inicio.md',
+    coverImageUrl: 'portada-seccion.jpg',
+    featured: true,
     categoryLabel: 'EJES: TIEMPO / ESPACIO / MOVIMIENTO',
     imageMaxHeight: 440,
   },

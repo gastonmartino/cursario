@@ -2,8 +2,8 @@
 // DERROTERO (Derrotero del Cursario)
 // La otra mitad del sitio: frente al Mapa (el lienzo para explorar a la
 // deriva), una versión ordenada y esperable de los contenidos, como la de
-// cualquier portfolio de artista: obras, bitácora, escritos, bio y contacto,
-// con un buscador. En la interfaz se presenta como "Gastón Martino //
+// cualquier portfolio de artista: un inicio con lo destacado (featured, en
+// src/data/), obras, bitácora, escritos, bio y contacto, con un buscador. En la interfaz se presenta como "Gastón Martino //
 // Currículum", frente a "Gastón Martino // Cursario" del Mapa.
 //
 // Una costura vertical separa las dos mitades. Su manija se arrastra, se
@@ -72,6 +72,7 @@ const piezas = ISLAS.map((isla) => {
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
+    destacada: Boolean(isla.featured),
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
     textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
@@ -83,6 +84,20 @@ const deSeccion = (seccion: string) => piezas.filter((pieza) => SECCION_DE_CURSO
 const obras = deSeccion('obras');
 const bitacora = deSeccion('bitacora');
 const escritos = deSeccion('escritos');
+
+// Inicio: las piezas destacadas (featured). Las de un curso destacado van en
+// una sección propia, con su portada (coverImageUrl) si la tiene; las demás,
+// juntas al final.
+const destacadas = piezas.filter((pieza) => pieza.destacada);
+const cursosDestacados = INSULAS.filter((insula) => insula.featured).map((insula) => ({
+  id: insula.id,
+  codigo: insula.code,
+  nombre: insula.name,
+  titulo: insula.title,
+  portada: withBase(resolveFile(ubicar(insula.id).carpetaMedios, insula.coverImageUrl)) ?? null,
+  piezas: destacadas.filter((pieza) => pieza.idCurso === insula.id),
+}));
+const destacadasSueltas = destacadas.filter((pieza) => !cursosDestacados.some((curso) => curso.id === pieza.idCurso));
 
 const categorias = INSULAS.map((insula) => ({
   id: insula.id,
@@ -114,6 +129,8 @@ const columnasContacto = cargarDocumento('/paginas/contacto.md').bloques.reduce<
 ).filter((columna) => columna.length > 0);
 
 const secciones = [
+  // La sección con la que se abre el Derrotero.
+  { id: 'inicio', nombre: 'INICIO' },
   { id: 'obras', nombre: 'OBRAS' },
   { id: 'bitacora', nombre: 'BITÁCORA' },
   { id: 'escritos', nombre: 'ESCRITOS' },
@@ -228,7 +245,7 @@ const secciones = [
           ))}
         </nav>
 
-        <div data-con-busqueda class="flex flex-col gap-3.5 border-t border-ink-primary pt-4">
+        <div data-con-busqueda hidden class="flex flex-col gap-3.5 border-t border-ink-primary pt-4">
           <label class="flex h-10 items-center gap-2 border border-ink-border px-2.5 focus-within:border-cobalt">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A505C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
             <span id="derrotero-busqueda-etiqueta" class="sr-only">Buscar obras</span>
@@ -236,7 +253,7 @@ const secciones = [
           </label>
 
           <!-- Obras: categorías -->
-          <ul data-solo-seccion="obras" class="derrotero-categorias flex flex-col gap-1.5 font-sans text-[13px]">
+          <ul data-solo-seccion="obras" hidden class="derrotero-categorias flex flex-col gap-1.5 font-sans text-[13px]">
             <li><button type="button" data-categoria="" aria-pressed="true">Todas las obras</button></li>
             {categorias.map((categoria) => (
               <li><button type="button" data-categoria={categoria.id} aria-pressed="false">{categoria.nombre}</button></li>
@@ -258,10 +275,47 @@ const secciones = [
 
       <!-- Contenido -->
       <div class="derrotero-columna flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto pb-8 pl-6 pr-8 pt-8">
-        <p id="derrotero-resumen" data-con-busqueda class="font-mono text-[11px] text-ink-muted">{obras.length} OBRAS</p>
+        <p id="derrotero-resumen" data-con-busqueda hidden class="font-mono text-[11px] text-ink-muted">{obras.length} OBRAS</p>
+
+        <!-- Inicio: las obras destacadas, por curso destacado -->
+        <div data-solo-seccion="inicio" class="flex flex-col gap-12">
+          {cursosDestacados.map((curso) => (
+            <section class="derrotero-destacado" aria-label={curso.nombre}>
+              {curso.portada && <img src={curso.portada} alt="" width="1600" height="800" loading="lazy" decoding="async" class="derrotero-portada" />}
+              <p class="font-mono text-[11px] text-ink-muted">{curso.codigo} // {curso.nombre.toUpperCase()}</p>
+              {curso.titulo && <h3 class="derrotero-destacado-titulo">{curso.titulo}</h3>}
+              {curso.piezas.length > 0 && (
+                <ul class="derrotero-grilla">
+                  {curso.piezas.map((obra) => (
+                    <li>
+                      <a href={obra.href ?? undefined} class="derrotero-obra">
+                        <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
+                        <span class="derrotero-obra-titulo">{obra.titulo}</span>
+                        <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+          {destacadasSueltas.length > 0 && (
+            <ul class="derrotero-grilla">
+              {destacadasSueltas.map((obra) => (
+                <li>
+                  <a href={obra.href ?? undefined} class="derrotero-obra">
+                    <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
+                    <span class="derrotero-obra-titulo">{obra.titulo}</span>
+                    <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <!-- Obras -->
-        <div data-solo-seccion="obras">
+        <div data-solo-seccion="obras" hidden>
           <ul class="derrotero-grilla">
             {obras.map((obra) => (
               <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
@@ -685,7 +739,7 @@ const secciones = [
     bitacora: { singular: 'ENTRADA', plural: 'ENTRADAS', buscar: 'Buscar en la bitácora' },
     escritos: { singular: 'ESCRITO', plural: 'ESCRITOS', buscar: 'Buscar escritos' },
   };
-  let seccion = 'obras';
+  let seccion = 'inicio';
   let categoria = '';
 
   const normalizar = (texto: string) => texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -729,7 +783,7 @@ const secciones = [
   };
 
   botonesSeccion.forEach((boton) => {
-    boton.addEventListener('click', () => elegirSeccion(boton.dataset.seccion ?? 'obras'));
+    boton.addEventListener('click', () => elegirSeccion(boton.dataset.seccion ?? 'inicio'));
   });
 
   busqueda?.addEventListener('input', filtrar);
@@ -1113,6 +1167,33 @@ const secciones = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 22px 14px;
+  }
+
+  /* Inicio: cada curso destacado, con su portada (2:1, recortada si la
+     imagen tiene otra proporción; con el panel ancho, una franja de 360 px de
+     alto recortada al centro), su código y nombre, y su título. */
+  .derrotero-destacado {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .derrotero-portada {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    max-height: 360px;
+    margin-bottom: 4px;
+    object-fit: cover;
+    background: #EDF1F5;
+  }
+
+  .derrotero-destacado-titulo {
+    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
   .derrotero-obra {

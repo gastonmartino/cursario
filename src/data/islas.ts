@@ -166,6 +166,7 @@ export const ISLAS: IslaDefinition[] = [
  //
   {
     id: 'untref-obra-01',
+    featured: true,
     imageUrl: 'portada-sos.gif',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -182,6 +183,7 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'untref-obra-02',
+    featured: true,
     imageUrl: 'portada-granja.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -198,6 +200,7 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'untref-obra-03',
+    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -213,6 +216,7 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'untref-obra-04',
+    featured: true,
     imageUrl: 'portada-gps.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
