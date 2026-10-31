@@ -36,7 +36,7 @@ const MARGEN_SUPERIOR = 100;
 // visible más a la izquierda, si queda cortada, entra entera, a
 // MARGEN_IZQUIERDO_MOVIL del borde.
 const ANCHO_MOVIL = 768;
-const TARJETAS_MOVIL = 1.5;
+const TARJETAS_MOVIL = 1.25;
 const MARGEN_IZQUIERDO_MOVIL = 16;
 
 // La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
@@ -244,17 +244,24 @@ export class MotorCursario {
     // En pantallas chicas: con el conjunto centrado, la tarjeta de más a la
     // izquierda entre las que se ven en pantalla. Si el borde la corta, el
     // lienzo se desplaza hasta que entre entera.
+    // Al desplazarse puede asomar otra tarjeta por la izquierda: se repite
+    // hasta que la de más a la izquierda a la vista no quede cortada.
     const mitadAncho = ancho / 2 / zoom;
     const mitadAlto = alto / 2 / zoom;
-    const visibles = tarjetas.filter((item) =>
-      item.x + item.ancho / 2 > centro - mitadAncho && item.x - item.ancho / 2 < centro + mitadAncho &&
-      item.y + item.alto / 2 > y - mitadAlto && item.y - item.alto / 2 < y + mitadAlto);
-    if (visibles.length === 0) return { x: centro, y, zoom };
-    const izquierda = Math.min(...visibles.map((item) => item.x - item.ancho / 2));
-    // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2;
-    // si queda antes del margen, se desplaza hasta el margen.
-    const xMaximo = izquierda - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;
-    return { x: Math.min(centro, xMaximo), y, zoom };
+    let x = centro;
+    for (let vuelta = 0; vuelta < 5; vuelta++) {
+      const visibles = tarjetas.filter((item) =>
+        item.x + item.ancho / 2 > x - mitadAncho && item.x - item.ancho / 2 < x + mitadAncho &&
+        item.y + item.alto / 2 > y - mitadAlto && item.y - item.alto / 2 < y + mitadAlto);
+      if (visibles.length === 0) break;
+      const izquierda = Math.min(...visibles.map((item) => item.x - item.ancho / 2));
+      // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2;
+      // si queda antes del margen, se desplaza hasta el margen.
+      const xMaximo = izquierda - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;
+      if (xMaximo >= x - 0.5) break;
+      x = xMaximo;
+    }
+    return { x, y, zoom };
   }
 
   private vistaInicialMacro(): Vista {

@@ -67,7 +67,7 @@ es `/?deriva={id}` (así vuelven las páginas de los subcursos).
   a 100 px del borde superior, debajo del HUD. CENTRAR (o `0`, `R`) vuelve a
   ella.
 - En pantallas chicas (lienzo de menos de 768 px), el zoom es el que hace
-  entrar una tarjeta y media de ancho; el ajuste vertical es el mismo, y en
+  entrar 1,25 tarjetas de ancho; el ajuste vertical es el mismo, y en
   horizontal, con el conjunto centrado, si la tarjeta visible más a la
   izquierda queda cortada por el borde, el lienzo se desplaza hasta que entre
   entera, a 16 px del borde.
