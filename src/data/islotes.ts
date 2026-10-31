@@ -22,10 +22,15 @@ export interface IsloteDefinition {
   description?: string | null;
   keywords?: string | null;
   tag: string;
-  timeReference?: string | null;
+  // Pie de la imagen: imageCaption a la izquierda, imageDate a la derecha.
+  // Sin imagen, no se muestran. El Derrotero toma de imageDate el año de la
+  // pieza si no lo encuentra en el subtítulo ni en la etiqueta.
+  imageDate?: string | null;
   accentColor: string;
-  categoryLabel?: string | null;
-  captionLabel: string;
+  imageCaption?: string | null;
+  // Etiqueta del encabezado de la tarjeta; también es el título de respaldo
+  // si no hay title.
+  headerLabel: string;
 }
 
 export const ISLOTES: IsloteDefinition[] = [
@@ -42,10 +47,10 @@ export const ISLOTES: IsloteDefinition[] = [
     title: 'Bitácora del trabajo práctico final / MAE',
     subtitle: 'EJE INVESTIGACIÓN-CREACIÓN',
     tag: 'EXCURSO',
-    timeReference: '2026', 
+    imageDate: '2026', 
     accentColor: '#E03E2D',
-    categoryLabel: 'UNTREF / MAE / TFIC / EN CURSO',
-    captionLabel: 'EXCURSO 01',
+    imageCaption: 'UNTREF / MAE / TFIC / EN CURSO',
+    headerLabel: 'EXCURSO 01',
   },
     
     
@@ -71,7 +76,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: true,
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
-    captionLabel: 'EXCURSO 04',
+    headerLabel: 'EXCURSO 04',
   },
   {
     id: 'islote-bitacora-01-02',
@@ -83,7 +88,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     description: `El proyecto comienza con la intención de investigar un arroyo que nace en el barrio **Rayo de Sol**, en **Longchamps**, a pocas cuadras del lugar donde crecí. Allí se presenta como un curso de agua de poco caudal que atraviesa barrios vulnerables, parques industriales y áreas naturales protegidas del partido de Almirante Brown, para luego continuar su recorrido por el conurbano sur —por momentos entubado y por momentos a cielo abierto— hasta desembocar en el río **Matanza-Riachuelo**.`,
     tag: 'DISPARADOR',
     accentColor: '#E03E2D',
-    captionLabel: 'EXCURSO 04',
+    headerLabel: 'EXCURSO 04',
   },
   {
     id: 'islote-bitacora-05-01',
@@ -94,9 +99,9 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     description: 'Una pelota de cuero, descosida y sucia, asomándose desde el verdín y a punto de ahogarse. Un enjambre de bichos en la cara y zumbando en los oídos. Una pisada en falso que empuja unas piedritas al agua. Las ondas en la superficie verde sacuden la pelota que espera el rescate. Un pájaro sobrevuela indiferente la escena buscando comida.',
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
-    categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
-    captionLabel: 'RECORRIDO 01',
-    timeReference: '1-SEP-2026', 
+    imageCaption: 'ARROYO DEL REY / LONGCHAMPS',
+    headerLabel: 'RECORRIDO 01',
+    imageDate: '1-SEP-2026', 
   },
   {
     id: 'islote-bitacora-05-02',
@@ -107,9 +112,9 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     description: 'Una fogata a orillas del arroyo, a orillas de la ruta. Los plásticos achicharrándose y desprendiendo nubes negras que se arrojan sobre los vehículos. Bocinazos mezclados con música country de fondo y el olor penetrante de los neumáticos quemados. Un nene corre para cruzar la ruta, adelantándose a la camioneta roja.',
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
-    categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
-    captionLabel: 'RECORRIDO 02',
-    timeReference: '1-SEP-2026', 
+    imageCaption: 'ARROYO DEL REY / LONGCHAMPS',
+    headerLabel: 'RECORRIDO 02',
+    imageDate: '1-SEP-2026', 
   },
   {
     id: 'islote-bitacora-05-03',
@@ -120,9 +125,9 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     description: 'Un caño que brota de la tierra escupe baba perfumada en la zanja donde bucea la reencarnación plástica y naranja del pececito dorado. La espuma flota inmaculada, apenas agitada por una brisa que desafía el estancamiento del agua. El surco sigue empeñado en mantener a la corriente en cautiverio.',
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
-    categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
-    captionLabel: 'RECORRIDO 03',
-    timeReference: '1-SEP-2026', 
+    imageCaption: 'ARROYO DEL REY / LONGCHAMPS',
+    headerLabel: 'RECORRIDO 03',
+    imageDate: '1-SEP-2026', 
   },
   {
     id: 'islote-bitacora-08-01',
@@ -134,8 +139,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     description: `El **Arroyo del Rey** introduce otra genealogía posible: la de las marcas que se inscriben sobre un territorio para nombrarlo, delimitarlo, administrarlo y, eventualmente, apropiarlo. Pero, en este caso, la marca pertenece al propio territorio. ¿Quién tiene derecho a poner una marca sobre el agua? El título propone una ironía para tensionar diseño, propiedad, autoría y territorio, al mismo tiempo que abre una posible lectura sobre las formas históricas de inscripción y apropiación territorial vinculadas al colonialismo.`,
     tag: 'MARCAS / SURCOS',
     accentColor: '#E03E2D',
-    categoryLabel: 'PROPIEDAD REAL / DOMINIO PÚBLICO',
-    captionLabel: 'MARCA DE AGUA',
+    imageCaption: 'PROPIEDAD REAL / DOMINIO PÚBLICO',
+    headerLabel: 'MARCA DE AGUA',
   },
     
     
@@ -152,8 +157,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     tag: 'MANFIESTO v1.0',
     accentColor: '#0038A8',
     backgroundColor: '#ffffff',
-    categoryLabel: '',
-    captionLabel: 'Diagrama de dominación en tres capas',
+    imageCaption: '',
+    headerLabel: 'Diagrama de dominación en tres capas',
     showAction: false,
     imageMaxHeight: 800,
   },    
@@ -164,8 +169,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'SEAMOS TODOS ARROBADOS POR LA NUBE',
     tag: '',
     accentColor: '#0038A8',
-    categoryLabel: '',
-    captionLabel: '',
+    imageCaption: '',
+    headerLabel: '',
     showAction: false,
   },
   {
@@ -175,8 +180,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'TURBIO',
     tag: '',
     accentColor: '#0038A8',
-    categoryLabel: '',
-    captionLabel: '',
+    imageCaption: '',
+    headerLabel: '',
     showAction: false,
   },
   {
@@ -186,8 +191,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'HOMO HAMATUS',
     tag: '',
     accentColor: '#0038A8',
-    categoryLabel: '',
-    captionLabel: '',
+    imageCaption: '',
+    headerLabel: '',
     showAction: false,
   }, 
   {
@@ -197,8 +202,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'GPS',
     tag: '',
     accentColor: '#0038A8',
-    categoryLabel: '',
-    captionLabel: '',
+    imageCaption: '',
+    headerLabel: '',
     showAction: false,
   },
   {
@@ -208,8 +213,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'HAPTICA',
     tag: '',
     accentColor: '#0038A8',
-    categoryLabel: '',
-    captionLabel: '',
+    imageCaption: '',
+    headerLabel: '',
     showAction: false,
   }, 
     
@@ -226,9 +231,9 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'SERIE GENERATIVA 01',
     tag: 'P5JS',
     accentColor: '#16253D',
-    categoryLabel: 'GENERATIVA',
-    captionLabel: 'EXCURSO 01',
-    timeReference: '2024-2025', 
+    imageCaption: 'GENERATIVA',
+    headerLabel: 'EXCURSO 01',
+    imageDate: '2024-2025', 
   },    
 
 ];

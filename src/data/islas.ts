@@ -15,10 +15,15 @@ export interface IslaDefinition {
   description?: string | null;
   keywords?: string | null;
   tag: string;
-  timeReference?: string | null;
+  // Pie de la imagen: imageCaption a la izquierda, imageDate a la derecha.
+  // Sin imagen, no se muestran. El Derrotero toma de imageDate el año de la
+  // pieza si no lo encuentra en el subtítulo ni en la etiqueta.
+  imageDate?: string | null;
   accentColor: string;
-  categoryLabel?: string | null;
-  captionLabel: string;
+  imageCaption?: string | null;
+  // Etiqueta del encabezado de la tarjeta; también es el título de respaldo
+  // si no hay title.
+  headerLabel: string;
     
   // DETALLE DE LA SUBDERIVA
   // imageUrl, markdownFile y pageMarkdownFile se escriben solo con el nombre
@@ -63,8 +68,8 @@ export const ISLAS: IslaDefinition[] = [
     code: 'TFIC:00', 
     tag: '04:AGOSTO:26', 
     accentColor: '#E03E2D', 
-    categoryLabel: '', 
-    captionLabel: 'INICIO BITÁCORA'
+    imageCaption: '', 
+    headerLabel: 'INICIO BITÁCORA'
   },
   {
     id: 'bitacora-02',
@@ -76,8 +81,8 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Intereses, objetos, amuletos y miedos',
     tag: '04:AGOSTO:26', 
     accentColor: '#E03E2D', 
-    categoryLabel: 'OBJETOS / AMULETOS', 
-    captionLabel: 'EJERCICIO #1 / CUESTIONARIO',
+    imageCaption: 'OBJETOS / AMULETOS', 
+    headerLabel: 'EJERCICIO #1 / CUESTIONARIO',
   },
   {
     id: 'bitacora-03',
@@ -89,8 +94,8 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Por Diego Flores',
     tag: '11:AGOSTO:26', 
     accentColor: '#E03E2D', 
-    categoryLabel: '', 
-    captionLabel: 'EJERCICIO #2 / STATEMENT',
+    imageCaption: '', 
+    headerLabel: 'EJERCICIO #2 / STATEMENT',
   },
   {
     id: 'bitacora-04',
@@ -102,8 +107,8 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Ubicado dentro de la Cuenca Matanza Riachuelo, es un área natural de 160ha que conserva parte del ecosistema natural de la provincia de Buenos Aires. Es un gran mosaico de pastizales inmerso en una matriz urbana.  En esta área coexisten productores rurales de la agricultura familiar, barrios populares y el Sector Industrial Planificado de Almirante Brown (SIPAB) con más de 200 industrias instaladas.',
     tag: '22:AGOSTO:2026', 
     accentColor: '#E03E2D', 
-    categoryLabel: 'FOTOGRAFÍA', 
-    captionLabel: 'ARROYO DEL REY / REGISTRO DE CAMPO',
+    imageCaption: 'FOTOGRAFÍA', 
+    headerLabel: 'ARROYO DEL REY / REGISTRO DE CAMPO',
   },
   {
     id: 'bitacora-05',
@@ -116,9 +121,9 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Visital al Arroyo del Rey / Rayo de Sol / Longchamps',
     tag: '31:AGOSTO:26', 
     accentColor: '#E03E2D', 
-    categoryLabel: 'REGISTRO', 
-    captionLabel: 'EJERCICIO #3 / RECORRIDO',
-    timeReference: '31 de agosto de 2026', 
+    imageCaption: 'REGISTRO', 
+    headerLabel: 'EJERCICIO #3 / RECORRIDO',
+    imageDate: '31 de agosto de 2026', 
   },
   {
     id: 'bitacora-06',
@@ -131,7 +136,7 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Las macrófitas (plantas acuáticas del arroyo) contienen de alguna manera el territorio. En su crecimiento quedan inscriptas las condiciones del lugar. Su cualidad de "macro" contiene, a su vez, lo "micro". Las macrófitas son una emergencia visible de procesos invisibles dentro del territorio. Pero al mismo tiempo que son su consecuencia, participan activamente de su transformación, siempre cambiante, siempre sujetas a las nuevas condiciones de generación.',
     tag: '06:SEPTIEMBRE:26',
     accentColor: '#E03E2D',
-    captionLabel: 'REGISTRO DE CAMPO / GENERATIVA',
+    headerLabel: 'REGISTRO DE CAMPO / GENERATIVA',
   },
   {
     id: 'bitacora-07',
@@ -143,8 +148,8 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'El territorio produce formas inesperadas. Las formas producen territorio',
     tag: '13:SEPTIEMBRE:26',
     accentColor: '#E03E2D',
-    categoryLabel: 'MICRO / MACRO',
-    captionLabel: 'REFLEXIÓN',
+    imageCaption: 'MICRO / MACRO',
+    headerLabel: 'REFLEXIÓN',
   },
   {
     id: 'bitacora-08',
@@ -157,8 +162,8 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Actividad - Primer acercamiento al cuerpo de obra',
     tag: '22:SEPTIEMBRE:26',
     accentColor: '#E03E2D',
-    categoryLabel: 'STRANGER VISIONS / Heather Dewey-Hagborg',
-    captionLabel: 'EJERCICIO #4 / CUERPO DE OBRA',
+    imageCaption: 'STRANGER VISIONS / Heather Dewey-Hagborg',
+    headerLabel: 'EJERCICIO #4 / CUERPO DE OBRA',
   },
   {
     id: 'bitacora-09',
@@ -172,8 +177,8 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Actividad - Sobre la investigación en artes',
     tag: '06:OCTUBRE:26',
     accentColor: '#E03E2D',
-    categoryLabel: 'INVESTIGACIÓN EN ARTES / Victoria Pérez Royo',
-    captionLabel: 'EJERCICIO #4 / V. PÉREZ ROYO',
+    imageCaption: 'INVESTIGACIÓN EN ARTES / Victoria Pérez Royo',
+    headerLabel: 'EJERCICIO #4 / V. PÉREZ ROYO',
   },
 
 //
@@ -192,9 +197,9 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Un culto a la obnubilación, con tecnoliturgias obscenas, maquinales actos de fe y profecías de autosatisfacción. Una historia apócrifa sobre el arrobamiento del Antropobsceno tardío',
     tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
-    categoryLabel: 'EJE TIEMPO: METÁFORAS TECNOLÓGICAS / LA NUBE / ANTROPOBSCENO TARDÍO', 
-    captionLabel: 'SOS',
-    timeReference: '1C 2025', 
+    imageCaption: 'EJE TIEMPO: METÁFORAS TECNOLÓGICAS / LA NUBE / ANTROPOBSCENO TARDÍO', 
+    headerLabel: 'SOS',
+    imageDate: '1C 2025', 
   },
   {
     id: 'arte-electronico-02',
@@ -209,9 +214,9 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Realizado junto con Diego Flores',
     tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
-    categoryLabel: 'EJE ESPACIO: ENTURBIAMIENTO / PANTALLAS EMPAÑADAS / MUNDOS DIGITALES', 
-    captionLabel: 'TURBIO',
-    timeReference: '2C 2025', 
+    imageCaption: 'EJE ESPACIO: ENTURBIAMIENTO / PANTALLAS EMPAÑADAS / MUNDOS DIGITALES', 
+    headerLabel: 'TURBIO',
+    imageDate: '2C 2025', 
   },
   {
     id: 'arte-electronico-03',
@@ -225,9 +230,9 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Julio de 2026',
     tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
-    categoryLabel: 'EJE MOVIMIENTO: REDES DE CUIDADO / IDENTIDADES ASIDERO', 
-    captionLabel: 'HAMATUS',
-    timeReference: '1C 2026', 
+    imageCaption: 'EJE MOVIMIENTO: REDES DE CUIDADO / IDENTIDADES ASIDERO', 
+    headerLabel: 'HAMATUS',
+    imageDate: '1C 2026', 
   },
   {
     id: 'arte-electronico-04',
@@ -242,9 +247,9 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Trabajo realizado con Germán Anido y Diego Flores', 
     tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
-    categoryLabel: 'VIDEO / DISPOSITIVOS INSUMISOS / CARTOGRAFÍAS DEL DESEO', 
-    captionLabel: 'GPS',
-    timeReference: '1C 2025', 
+    imageCaption: 'VIDEO / DISPOSITIVOS INSUMISOS / CARTOGRAFÍAS DEL DESEO', 
+    headerLabel: 'GPS',
+    imageDate: '1C 2025', 
   },
   {
     id: 'arte-electronico-05',
@@ -258,9 +263,9 @@ export const ISLAS: IslaDefinition[] = [
     description: 'Trabajo realizado con Diego Flores, Ángel Aberbach y Gianfranco Chiappe', 
     tag: 'ARTES ELECTRÓNICAS', 
     accentColor: '#0038A8', 
-    categoryLabel: 'HÁPTICA / PROXEMIA / AFFORDANCE', 
-    captionLabel: 'HÁPTICA',
-    timeReference: '1C 2026', 
+    imageCaption: 'HÁPTICA / PROXEMIA / AFFORDANCE', 
+    headerLabel: 'HÁPTICA',
+    imageDate: '1C 2026', 
   },
     
     
@@ -275,10 +280,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Sarandí Revelation', 
     description: 'Entonces el ángel derramó su copa en el río y a la bestia se le permitió azotar a los pobres con dispensa.',
     tag: 'PROCESSING / P5JS', 
-    timeReference: '2025', 
+    imageDate: '2025', 
     accentColor: '#16253D', 
-    categoryLabel: 'PNG: 4320 x 7680', 
-    captionLabel: '1 EDITION',
+    imageCaption: 'PNG: 4320 x 7680', 
+    headerLabel: '1 EDITION',
     keywords: 'agua, contaminación, polución, río, sarandí, avellaneda, residuos',
   },
   {
@@ -289,10 +294,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Meticulously Unplanned', 
     description: 'Temporada de floración de ciudades vulnerables.',
     tag: 'PROCESSING / P5JS', 
-    timeReference: '2024', 
+    imageDate: '2024', 
     accentColor: '#16253D', 
-    categoryLabel: 'GIF ANIMADO', 
-    captionLabel: '15 EDITIONS',
+    imageCaption: 'GIF ANIMADO', 
+    headerLabel: '15 EDITIONS',
     keywords: 'urbanización, degradación, urbanización no planificada, gentrificación, abandono',
   },
   {
@@ -303,10 +308,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Plastic Natianta', 
     description: 'Inevitablemente, los fondos marinos plastificados terminan abriéndose paso hacia la superficie por la cadena alimentaria.',
     tag: 'PROCESSING / P5JS',
-    timeReference: '2025', 
+    imageDate: '2025', 
     accentColor: '#16253D', 
-    categoryLabel: 'PNG: 4320 x 7680', 
-    captionLabel: '1 EDITION',
+    imageCaption: 'PNG: 4320 x 7680', 
+    headerLabel: '1 EDITION',
     keywords: 'microplásticos, mar, océanos, polución, krill, ecosistema, medioambiente',
   },
   {
@@ -317,10 +322,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Diasporas', 
     description: 'La diáspora comienza justo después del grito vibrante de los líquenes.',
     tag: 'PROCESSING / P5JS',
-    timeReference: '2025', 
+    imageDate: '2025', 
     accentColor: '#16253D', 
-    categoryLabel: 'PNG: 4320 x 7680', 
-    captionLabel: '1 EDITION',
+    imageCaption: 'PNG: 4320 x 7680', 
+    headerLabel: '1 EDITION',
     keywords: 'advertencia, alerta, liquen, medioambiente, polución',
   },
   {
@@ -331,10 +336,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Meanwhile, in the Southern Hemisphere, a lymphatic summer',
     description: 'Mientras los ojos del mundo están puestos en la sangre, la linfa fluye inadvertidamente, siempre en la misma dirección.',
     tag: 'PROCESSING / P5JS',
-    timeReference: '2024', 
+    imageDate: '2024', 
     accentColor: '#16253D', 
-    categoryLabel: 'PNG: 1920 x 3414', 
-    captionLabel: '1 EDITION',
+    imageCaption: 'PNG: 1920 x 3414', 
+    headerLabel: '1 EDITION',
     keywords: 'decolonialidad , sur global, crisis de occidente, cooperación sur-sur',
   },
   {
@@ -345,10 +350,10 @@ export const ISLAS: IslaDefinition[] = [
     title: 'Regolito fértil', 
     description: 'Sólo sesenta lunas más de cosecha por delante.',
     tag: 'PROCESSING / P5JS',
-    timeReference: '2024', 
+    imageDate: '2024', 
     accentColor: '#16253D', 
-    categoryLabel: 'PNG: 2160 x 3840', 
-    captionLabel: '1 EDITION',
+    imageCaption: 'PNG: 2160 x 3840', 
+    headerLabel: '1 EDITION',
     keywords: 'suelo, erosión, agotamiento, monicultivos, degradación, frontera agrícola',
   },
     
@@ -362,7 +367,7 @@ export const ISLAS: IslaDefinition[] = [
     title: '¿Qué sostiene la experiencia del usuario?', 
     description: '¿Qué hay debajo de cada interacción que hace posible que ésta tenga lugar. El teléfono celular no es más que la extremidad visible (y táctil) de una descomunal infrastrucutra a nivel planetario.',
     tag: 'GIRO UX', 
-    accentColor: '#002FA7', categoryLabel: 'INTERFACES / DISEÑO UX', captionLabel: 'DIS#01',
+    accentColor: '#002FA7', imageCaption: 'INTERFACES / DISEÑO UX', headerLabel: 'DIS#01',
   },
   {
     id: 'dis-ensayo-02',
@@ -372,7 +377,7 @@ export const ISLAS: IslaDefinition[] = [
     description: '¿Cuántas voces y agencias están presentes en cada encuentro digital?',
     tag: 'GIRO UX', 
     accentColor: '#002FA7', 
-    categoryLabel: 'DISEÑO DE INTERACCIÓN / IxD', captionLabel: 'DIS#02',
+    imageCaption: 'DISEÑO DE INTERACCIÓN / IxD', headerLabel: 'DIS#02',
   },
   {
     id: 'dis-ensayo-03',
@@ -382,7 +387,7 @@ export const ISLAS: IslaDefinition[] = [
     code: 'NOTA:03', 
     tag: 'GIRO UX',
     accentColor: '#002FA7', 
-    categoryLabel: 'AL ENCUENTRO DE OTRO DISEÑO', captionLabel: 'DIS#03',
+    imageCaption: 'AL ENCUENTRO DE OTRO DISEÑO', headerLabel: 'DIS#03',
   },
 ];
 

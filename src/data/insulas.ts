@@ -16,7 +16,8 @@ export interface InsulaDefinition {
   description?: string | null;
   tag: string;
   accentColor: string;
-  categoryLabel?: string | null;
+  // Pie de la imagen; sin imagen, no se muestra.
+  imageCaption?: string | null;
   imageMaxHeight?: number;
   imageBackgroundColor?: string | null;
 
@@ -52,7 +53,7 @@ export const INSULAS: InsulaDefinition[] = [
     accentColor: '#E03E2D',
     imageUrl: 'curso00-inicio.jpg',
     markdownFile: 'curso00-inicio.md',
-    categoryLabel: 'BITÁCORA / TFIC / MAE',
+    imageCaption: 'BITÁCORA / TFIC / MAE',
     imageMaxHeight: 380,
   },
   {
@@ -69,7 +70,7 @@ export const INSULAS: InsulaDefinition[] = [
     markdownFile: 'curso01-inicio.md',
     coverImageUrl: 'portada-seccion.jpg',
     featured: true,
-    categoryLabel: 'EJES: TIEMPO / ESPACIO / MOVIMIENTO',
+    imageCaption: 'EJES: TIEMPO / ESPACIO / MOVIMIENTO',
     imageMaxHeight: 440,
   },
   {
@@ -83,7 +84,7 @@ export const INSULAS: InsulaDefinition[] = [
     tag: 'ALGORITMOS & TRAMAS',
     accentColor: '#16253D',
     imageUrl: 'portada-generativa.gif',
-    categoryLabel: 'PROCESSING / P5.JS',
+    imageCaption: 'PROCESSING / P5.JS',
     imageMaxHeight: 440,
   },
   {
@@ -97,7 +98,7 @@ export const INSULAS: InsulaDefinition[] = [
     accentColor: '#002FA7',
     imageUrl: 'curso03-inicio.jpg',
     markdownFile: 'curso03-inicio.md',
-    categoryLabel: 'REFLEXIÓN / ENSAYO',
+    imageCaption: 'REFLEXIÓN / ENSAYO',
     imageMaxHeight: 440,
   },
 ];

@@ -61,21 +61,21 @@ const piezas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
   const curso = INSULAS.find((insula) => insula.id === ubicacion.idDeriva);
   const href = isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null);
-  const titulo = isla.title || isla.captionLabel;
+  const titulo = isla.title || isla.headerLabel;
   return {
     id: isla.id,
     codigo: isla.code,
     titulo,
     descripcion: isla.description ?? isla.subtitle ?? '',
     etiqueta: isla.tag,
-    anio: anioDe(isla.subtitle, isla.tag, isla.timeReference),
+    anio: anioDe(isla.subtitle, isla.tag, isla.imageDate),
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
     destacada: Boolean(isla.featured),
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
-    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.captionLabel, curso?.name]
+    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.headerLabel, curso?.name]
       .filter(Boolean).join(' '),
   };
 }).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));

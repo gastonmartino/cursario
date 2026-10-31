@@ -18,12 +18,12 @@ interface Props {
   description?: string | null;
   keywords?: string | null;
   tag: string;
-  timeReference?: string | null;
+  imageDate?: string | null;
   accentColor?: string;
   imageUrl?: string | null;
   imageLoading?: 'eager' | 'lazy';
   coordinatesText: string;
-  categoryLabel?: string | null;
+  imageCaption?: string | null;
   width?: number | string;
   height?: number | string;
   imageMaxHeight?: number | string;
@@ -54,12 +54,12 @@ const {
   description,
   keywords,
   tag,
-  timeReference,
+  imageDate,
   accentColor = "#0038A8",
   imageUrl,
   imageLoading = 'lazy',
   coordinatesText,
-  categoryLabel,
+  imageCaption,
   width = 740,
   height = 730,
   imageMaxHeight = 380,
@@ -115,7 +115,7 @@ if (markdownFile) {
 }
 
 const hasMarkdown = Boolean(resolvedMarkdownHtml);
-const hasMediaMetadata = Boolean(categoryLabel || timeReference);
+const hasMediaMetadata = Boolean(imageCaption || imageDate);
 // A custom detailHref can be used for a card with an explicit destination.
 // Otherwise, the card only becomes clickable when its page exists.
 const navigableHref = detailHref || (pageMarkdownFile ? actionHref : undefined);
@@ -256,8 +256,8 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
         </div>
         {hasMediaMetadata && (
         <div class="flex items-center justify-between font-mono text-[9px] text-ink-faint px-1">
-          <span>{categoryLabel}</span>
-          <span>{timeReference}</span>
+          <span>{imageCaption}</span>
+          <span>{imageDate}</span>
         </div>
         )}
       </div>

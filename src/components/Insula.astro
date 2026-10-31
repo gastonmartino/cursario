@@ -18,7 +18,7 @@ interface Props {
   imageUrl?: string | null;
   derivaId: string;
   coordinatesText: string;
-  categoryLabel?: string | null;
+  imageCaption?: string | null;
   width?: number | string;
   height?: number | string;
   imageMaxHeight?: number | string;
@@ -46,7 +46,7 @@ const {
   imageUrl,
   derivaId,
   coordinatesText,
-  categoryLabel,
+  imageCaption,
   width = 740,
   height = 730,
   imageMaxHeight = 380,
@@ -211,7 +211,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
           )}
         </div>
         <div class="flex items-center justify-between font-mono text-[9px] text-ink-faint px-1">
-          <span>{categoryLabel}</span>
+          <span>{imageCaption}</span>
         </div>
       </div>
       )}

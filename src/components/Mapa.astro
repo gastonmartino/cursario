@@ -99,7 +99,7 @@ const islotes = ISLOTES.map((islote) => {
         markdownFile={insula.markdownFile}
         derivaId={insula.id}
         coordinatesText={formatCoordinates(insula)}
-        categoryLabel={insula.categoryLabel}
+        imageCaption={insula.imageCaption}
         width={insula.ancho}
         height={insula.alto}
         imageMaxHeight={insula.imageMaxHeight}
@@ -113,13 +113,13 @@ const islotes = ISLOTES.map((islote) => {
         idTarjeta={isla.id}
         detailHref={isla.detailHref || isla.actionHref || isla.pageHref}
         code={isla.code}
-        headerTypeLabel={`// ${isla.captionLabel.toUpperCase()}`}
+        headerTypeLabel={`// ${isla.headerLabel.toUpperCase()}`}
         title={isla.title}
         subtitle={isla.subtitle}
         description={isla.description}
         keywords={isla.keywords}
         tag={isla.tag}
-        timeReference={isla.timeReference}
+        imageDate={isla.imageDate}
         accentColor={isla.accentColor}
         imageUrl={isla.imageUrl}
         imageBackgroundColor={isla.imageBackgroundColor}
@@ -127,7 +127,7 @@ const islotes = ISLOTES.map((islote) => {
         pageMarkdownFile={isla.pageMarkdownFile}
         showAction={isla.showAction ?? true}
         coordinatesText={formatCoordinates(isla)}
-        categoryLabel={isla.categoryLabel}
+        imageCaption={isla.imageCaption}
         width={isla.ancho}
         height={isla.alto}
         imageMaxHeight={360}
@@ -146,15 +146,15 @@ const islotes = ISLOTES.map((islote) => {
         description={islote.description}
         keywords={islote.keywords}
         tag={islote.tag}
-        timeReference={islote.timeReference}
+        imageDate={islote.imageDate}
         accentColor={islote.accentColor}
         imageUrl={islote.imageUrl}
         markdownFile={islote.markdownFile}
         actionHref={islote.actionHref || islote.pageHref}
         actionLabel={islote.actionLabel}
         showAction={islote.showAction ?? true}
-        categoryLabel={islote.categoryLabel}
-        captionLabel={islote.captionLabel}
+        imageCaption={islote.imageCaption}
+        headerLabel={islote.headerLabel}
         showHeader={islote.showHeader ?? true}
         imageMaxHeight={islote.imageMaxHeight}
         backgroundColor={islote.backgroundColor}
@@ -193,7 +193,7 @@ const islotes = ISLOTES.map((islote) => {
   // o subcurso, para el HUD, el minimapa y el cursor, se buscan acá.
   const contenidoPorId = new Map<string, { code: string; label: string; accentColor: string }>([
     ...INSULAS.map((insula) => [insula.id, { code: insula.code, label: insula.name, accentColor: insula.accentColor }] as const),
-    ...ISLAS.map((isla) => [isla.id, { code: isla.code, label: isla.title || isla.captionLabel, accentColor: isla.accentColor }] as const),
+    ...ISLAS.map((isla) => [isla.id, { code: isla.code, label: isla.title || isla.headerLabel, accentColor: isla.accentColor }] as const),
   ]);
   const describir = (id: string) =>
     contenidoPorId.get(id) ?? { code: id, label: '', accentColor: '#0038A8' };

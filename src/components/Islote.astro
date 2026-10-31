@@ -12,15 +12,15 @@ interface Props {
   description?: string | null;
   keywords?: string | null;
   tag: string;
-  timeReference?: string | null;
+  imageDate?: string | null;
   accentColor?: string;
   imageUrl?: string | null;
   markdownFile?: string | null;
   actionHref?: string | null;
   actionLabel?: string;
   showAction?: boolean;
-  categoryLabel?: string | null;
-  captionLabel?: string;
+  imageCaption?: string | null;
+  headerLabel?: string;
   showHeader?: boolean;
   width?: number | string;
   height?: number | string;
@@ -37,15 +37,15 @@ const {
   description,
   keywords,
   tag,
-  timeReference,
+  imageDate,
   accentColor = '#0038A8',
   imageUrl,
   markdownFile = null,
   actionHref,
   actionLabel = 'INCURSIONAR [ABRIR]',
   showAction = true,
-  categoryLabel,
-  captionLabel = 'ISLOTE',
+  imageCaption,
+  headerLabel = 'ISLOTE',
   showHeader = true,
   width = 420,
   height = 320,
@@ -75,7 +75,8 @@ if (markdownFile) {
 }
 
 const hasMarkdown = Boolean(markdownHtml);
-const hasMetadata = Boolean(categoryLabel || timeReference);
+// El pie de la imagen (texto a la izquierda, fecha a la derecha): solo con imagen.
+const hasImageMetadata = Boolean(hasImage && (imageCaption || imageDate));
 ---
 
 {/* El islote empieza oculto (display: none) hasta que el motor lo ubique:
@@ -114,13 +115,16 @@ const hasMetadata = Boolean(categoryLabel || timeReference);
 
     {(hasImage || hasMarkdown) && (
       <div class="grid grid-cols-1 gap-2">
-        {hasImage && <img src={withBase(imageUrl)} alt={title || captionLabel} class="h-auto w-full rounded-sm object-contain" style={`max-height: ${imageMaxHeightCss};`} loading={imageLoading} decoding="async" draggable="false" />}
+        {hasImage && (
+          <figure class="m-0">
+            <img src={withBase(imageUrl)} alt={title || headerLabel} class="h-auto w-full rounded-sm object-contain" style={`max-height: ${imageMaxHeightCss};`} loading={imageLoading} decoding="async" draggable="false" />
+            {hasImageMetadata && <figcaption class="mt-1 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{imageCaption}</span><span>{imageDate}</span></figcaption>}
+          </figure>
+        )}
         {hasMarkdown && <div class="min-w-0 text-[10px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
       </div>
     )}
   </div>
-
-  {hasMetadata && <div class="mt-2 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{categoryLabel}</span><span>{timeReference}</span></div>}
 
   {showAction && actionHref && (
     <div class="mt-3 border-t border-ink-border/40 pt-2">
