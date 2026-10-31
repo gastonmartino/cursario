@@ -296,20 +296,22 @@ const CLASES_SEPARADORES: ClasesMimo['separadores'] = {
   '+++': 'my-2 h-4 w-full',
 };
 
+// Texto de las tarjetas del Mapa: el de lectura en 15 px, para que sus
+// columnas ronden las 10 palabras por línea.
 export const CLASES_TARJETA: ClasesMimo = {
-  cita: 'border-l-2 border-cobalt pl-3 py-1 my-2 italic text-ink-muted bg-river-mist/30 text-[11px] font-sans',
+  cita: 'border-l-2 border-cobalt pl-3 py-1 my-2 italic text-ink-muted bg-river-mist/30 text-[14px] font-sans',
   negrita: 'font-bold text-ink-primary',
   italica: 'italic',
   enlace: 'font-semibold text-cobalt underline decoration-cobalt/40 underline-offset-2 hover:text-cobalt-dark',
-  codigo: 'font-mono text-[10px] bg-paper-sheet px-1 py-0.5 rounded text-cobalt',
-  h1: 'font-sans font-bold text-sm text-ink-primary mt-2 mb-1',
-  h2: 'font-sans font-bold text-xs text-ink-primary mt-2 mb-1',
-  h3: 'font-sans font-semibold text-xs text-ink-primary mt-1 mb-1',
-  parrafo: 'text-xs text-ink-muted leading-relaxed my-1 font-sans',
-  lista: 'list-disc pl-4 my-1 space-y-0.5 text-xs text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
+  codigo: 'font-mono text-[13px] bg-paper-sheet px-1 py-0.5 rounded text-cobalt',
+  h1: 'font-sans font-bold text-[18px] leading-snug text-ink-primary mt-2 mb-1',
+  h2: 'font-sans font-bold text-[16px] leading-snug text-ink-primary mt-2 mb-1',
+  h3: 'font-sans font-semibold text-[15px] leading-snug text-ink-primary mt-1 mb-1',
+  parrafo: 'text-[15px] text-ink-muted leading-relaxed my-1 font-sans',
+  lista: 'list-disc pl-4 my-1 space-y-0.5 text-[15px] text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
   figura: 'my-8 w-full',
   imagen: 'h-auto w-full object-contain',
-  pie: 'mt-1 text-[10px] text-ink-faint italic leading-relaxed font-sans',
+  pie: 'mt-1 text-[12px] text-ink-faint italic leading-relaxed font-sans',
   video: 'my-8 aspect-video w-full overflow-hidden rounded-sm border border-ink-border/60 bg-black',
   marcoVideo: 'h-full w-full',
   separadores: CLASES_SEPARADORES,
