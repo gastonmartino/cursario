@@ -55,6 +55,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-01',
     imageUrl: 'mapa-cuenca.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     description: 'La cuenca Matanza-Riachuelo: En una cuenca tan extensa, empezar por lo que está cerca.',
     code: 'TFIC:00', 
     tag: '04:AGOSTO:26', 
@@ -65,6 +66,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-02',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:01', 
@@ -89,6 +91,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-04',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'TFIC:03', 
     title: 'Camino de las Flores', 
     subtitle: 'Un área protegida al sur del conurbano bonaerense',
@@ -101,6 +104,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-05',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:04', 
@@ -115,6 +119,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-06',
     imageUrl: 'arroyo-macrofitas-v01.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'macrofitas.md',
     code: 'TFIC:05',
     title: 'Macrófitas - Visualización de un territorio generativo',
@@ -127,6 +132,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-07',
     imageUrl: 'collage-emergencia-01.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'emergencia.md',
     code: 'TFIC:06',
     title: 'Emergencias del Territorio',
@@ -139,6 +145,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'bitacora-08',
     imageUrl: 'stranger-visions.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'actividad-consigna.md',
     pageMarkdownFile: 'actividad-respuesta.md',
     code: 'TFIC:07',
@@ -156,6 +163,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'untref-obra-01',
     imageUrl: 'portada-sos.gif',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     pageUrl: 'sos',
     code: 'OBRA:01', 
@@ -171,6 +179,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'untref-obra-02',
     imageUrl: 'portada-granja.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     pageUrl: 'rebelion-en-la-granja-de-clics',
     code: 'OBRA:02', 
@@ -186,6 +195,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'untref-obra-03',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     pageUrl: 'homo-hamatus',
     code: 'OBRA:03', 
@@ -200,6 +210,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'untref-obra-04',
     imageUrl: 'portada-gps.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     pageUrl: 'gps',
     code: 'OBRA:04', 
@@ -215,6 +226,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'untref-obra-05',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
     pageUrl: 'dialogos-desavenidos',
     code: 'OBRA:05', 
@@ -235,6 +247,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-01',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:01', 
     title: 'Sarandí Revelation', 
     description: 'Entonces el ángel derramó su copa en el río y a la bestia se le permitió azotar a los pobres con dispensa.',
@@ -248,6 +261,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-02',
     imageUrl: 'portada-curso.gif',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:02', 
     title: 'Meticulously Unplanned', 
     description: 'Temporada de floración de ciudades vulnerables.',
@@ -261,6 +275,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-03',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:03', 
     title: 'Plastic Natianta', 
     description: 'Inevitablemente, los fondos marinos plastificados terminan abriéndose paso hacia la superficie por la cadena alimentaria.',
@@ -274,6 +289,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-04',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:04', 
     title: 'Diasporas', 
     description: 'La diáspora comienza justo después del grito vibrante de los líquenes.',
@@ -287,6 +303,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-05',
     imageUrl: 'portada-curso.gif',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:05', 
     title: 'Meanwhile, in the Southern Hemisphere, a lymphatic summer',
     description: 'Mientras los ojos del mundo están puestos en la sangre, la linfa fluye inadvertidamente, siempre en la misma dirección.',
@@ -300,6 +317,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-06',
     imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:06', 
     title: 'Regolito fértil', 
     description: 'Sólo sesenta lunas más de cosecha por delante.',
