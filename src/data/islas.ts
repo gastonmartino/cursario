@@ -157,6 +157,7 @@ export const ISLAS: IslaDefinition[] = [
     id: 'untref-obra-01',
     imageUrl: 'portada-sos.gif',
     pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'sos',
     code: 'OBRA:01', 
     title: 'Siervos del Obnubilante Scrolling (S.O.S)', 
     subtitle: 'Julio de 2025',
@@ -186,6 +187,7 @@ export const ISLAS: IslaDefinition[] = [
     id: 'untref-obra-03',
     imageUrl: 'portada-curso.jpg',
     pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'homo-hamatus',
     code: 'OBRA:03', 
     title: 'Homo Hamatus. Fenomenología de la vulnerabilidad', 
     subtitle: 'Julio de 2026',
@@ -199,6 +201,7 @@ export const ISLAS: IslaDefinition[] = [
     id: 'untref-obra-04',
     imageUrl: 'portada-gps.jpg',
     pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'gps',
     code: 'OBRA:04', 
     title: 'GPS (Goce Positioning System)', 
     subtitle: 'Mayo de 2025',
@@ -213,6 +216,7 @@ export const ISLAS: IslaDefinition[] = [
     id: 'untref-obra-05',
     imageUrl: 'portada-curso.jpg',
     pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'dialogos-desavenidos',
     code: 'OBRA:05', 
     title: 'Diálogos Desavenidos', 
     subtitle: 'Junio de 2026',
@@ -340,3 +344,4 @@ export const ISLAS: IslaDefinition[] = [
     categoryLabel: 'AL ENCUENTRO DE OTRO DISEÑO', captionLabel: 'DIS#03',
   },
 ];
+
