@@ -422,12 +422,9 @@ const islotes = ISLOTES.map((islote) => {
           if (radarInstruction) radarInstruction.textContent = 'Arrastrar para surcar • Click para incursionar';
 
           if (zoneEl) {
-            if (data.hoveredDeriva && esCurso(data.hoveredDeriva.id)) {
-              const hovered = describir(data.hoveredDeriva.id);
-              zoneEl.textContent = `[${hovered.code}] ${hovered.label.toUpperCase()} · INCURSIONAR`;
-              zoneEl.style.color = hovered.accentColor;
-            } else if (data.hoveredDeriva || data.hoveredItem) {
-              // Una ínsula reflotada o una de sus islas.
+            if (data.hoveredDeriva || data.hoveredItem) {
+              // Una ínsula (la invitación a incursionar ya está en el cursor y
+              // en su botón) o una isla de una ínsula reflotada.
               const hovered = describir((data.hoveredDeriva ?? data.hoveredItem)!.id);
               zoneEl.textContent = `[${hovered.code}] ${hovered.label.toUpperCase()}`;
               zoneEl.style.color = hovered.accentColor;
