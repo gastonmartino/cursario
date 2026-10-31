@@ -68,8 +68,9 @@ es `/?deriva={id}` (así vuelven las páginas de los subcursos).
   ella.
 - En pantallas chicas (lienzo de menos de 768 px), el zoom es el que hace
   entrar una tarjeta y media de ancho; el ajuste vertical es el mismo, y en
-  horizontal la tarjeta visible más a la izquierda queda entera, a 16 px del
-  borde.
+  horizontal, con el conjunto centrado, si la tarjeta visible más a la
+  izquierda queda cortada por el borde, el lienzo se desplaza hasta que entre
+  entera, a 16 px del borde.
 - Mientras nadie mueva la vista inicial, se recalcula si cambia el tamaño del
   lienzo (al cargar en el celular, al mover la costura).
 - La última vista de cada lienzo (posición y zoom) se recuerda en el navegador

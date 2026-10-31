@@ -33,7 +33,8 @@ const MARGEN_SUPERIOR = 100;
 
 // En pantallas chicas (lienzo de menos de ANCHO_MOVIL px), el zoom inicial se
 // ajusta para que entren TARJETAS_MOVIL tarjetas de ancho, y la tarjeta
-// visible más a la izquierda queda entera, a MARGEN_IZQUIERDO_MOVIL del borde.
+// visible más a la izquierda, si queda cortada, entra entera, a
+// MARGEN_IZQUIERDO_MOVIL del borde.
 const ANCHO_MOVIL = 768;
 const TARJETAS_MOVIL = 1.5;
 const MARGEN_IZQUIERDO_MOVIL = 16;
@@ -215,9 +216,9 @@ export class MotorCursario {
   // - Vertical: el conjunto queda centrado, salvo que así quede cortada la
   //   tarjeta de más arriba: entonces baja hasta que su encabezado se vea
   //   entero, a MARGEN_SUPERIOR del borde.
-  // - Horizontal: el conjunto queda centrado; en pantallas chicas, la tarjeta
-  //   visible más a la izquierda (de las que quedan a la vista en vertical)
-  //   queda entera, a MARGEN_IZQUIERDO_MOVIL del borde.
+  // - Horizontal: el conjunto queda centrado; en pantallas chicas, además, si
+  //   la tarjeta visible más a la izquierda queda cortada por el borde, el
+  //   lienzo se desplaza hasta que entre entera (a MARGEN_IZQUIERDO_MOVIL).
   private vistaInicial(tarjetas: Array<{ x: number; y: number; ancho: number; alto: number }>): Vista {
     if (tarjetas.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL };
     const ancho = this.anchoVista();
@@ -237,17 +238,23 @@ export class MotorCursario {
     // (top - y) * zoom + alto / 2; tiene que quedar al menos en MARGEN_SUPERIOR.
     const y = Math.min((top + bottom) / 2, top - (MARGEN_SUPERIOR - alto / 2) / zoom);
 
-    if (!movil) return { x: (left + right) / 2, y, zoom };
+    const centro = (left + right) / 2;
+    if (!movil) return { x: centro, y, zoom };
 
-    // Las tarjetas que quedan a la vista en vertical con esa cámara.
-    const arribaVisible = y - alto / 2 / zoom;
-    const abajoVisible = y + alto / 2 / zoom;
+    // En pantallas chicas: con el conjunto centrado, la tarjeta de más a la
+    // izquierda entre las que se ven en pantalla. Si el borde la corta, el
+    // lienzo se desplaza hasta que entre entera.
+    const mitadAncho = ancho / 2 / zoom;
+    const mitadAlto = alto / 2 / zoom;
     const visibles = tarjetas.filter((item) =>
-      item.y + item.alto / 2 > arribaVisible && item.y - item.alto / 2 < abajoVisible);
-    const izquierda = Math.min(...(visibles.length ? visibles : tarjetas).map((item) => item.x - item.ancho / 2));
-    // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2.
-    const x = izquierda - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;
-    return { x, y, zoom };
+      item.x + item.ancho / 2 > centro - mitadAncho && item.x - item.ancho / 2 < centro + mitadAncho &&
+      item.y + item.alto / 2 > y - mitadAlto && item.y - item.alto / 2 < y + mitadAlto);
+    if (visibles.length === 0) return { x: centro, y, zoom };
+    const izquierda = Math.min(...visibles.map((item) => item.x - item.ancho / 2));
+    // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2;
+    // si queda antes del margen, se desplaza hasta el margen.
+    const xMaximo = izquierda - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;
+    return { x: Math.min(centro, xMaximo), y, zoom };
   }
 
   private vistaInicialMacro(): Vista {
