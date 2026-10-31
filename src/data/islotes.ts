@@ -91,7 +91,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageUrl: '/curso00/subcursos/curso005/medios/naturaleza-muerta-01.jpg',
     code: 'ISLOTE:00.3',
     subtitle: 'Naturaleza muerta / Ejercicio de escritura #1',
-    description: 'Una pelota de cuero, descosida y sucia, asomándose desde el verdín y a punto de ahogarse. Un enjambre de bichos en la cara y zumbando en los oídos. Una pisada en falso que empuja unas piedritas al agua. Las ondas en la superficie verde sacuden la pelota que espera el rescate. Un pájaron sobrevuela indiferente la escena buscando comida.',
+    description: 'Una pelota de cuero, descosida y sucia, asomándose desde el verdín y a punto de ahogarse. Un enjambre de bichos en la cara y zumbando en los oídos. Una pisada en falso que empuja unas piedritas al agua. Las ondas en la superficie verde sacuden la pelota que espera el rescate. Un pájaro sobrevuela indiferente la escena buscando comida.',
     tag: 'EXCURSO',
     accentColor: '#E03E2D',
     categoryLabel: 'ARROYO DEL REY / LONGCHAMPS',
