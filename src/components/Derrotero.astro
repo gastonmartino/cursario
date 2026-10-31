@@ -595,6 +595,22 @@ const secciones = [
     });
   });
 
+  // Con vista compartida y el Derrotero completo, la página que se abre desde
+  // él (una obra, una entrada de la bitácora, un escrito…) quedaría tapada:
+  // antes de ir, la costura vuelve a la mitad. No cuentan los enlaces a otros
+  // sitios, los que abren otra pestaña, los saltos dentro del panel ni los que
+  // ya deciden la posición (CURSARIO y el botón del Mapa).
+  panel?.addEventListener('click', (event) => {
+    if (!vistaCompartida.matches || posicionActual() !== 'completo') return;
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const enlace = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
+    if (!enlace || enlace.target || enlace.hasAttribute('data-ir-a-pagina') || enlace.hasAttribute('data-alternar-vista')) return;
+    const destino = new URL(enlace.href, location.href);
+    if (destino.origin !== location.origin) return;
+    if (destino.pathname === location.pathname && destino.hash) return;
+    fijarPosicion('mitad');
+  });
+
   // --- Menú plegable (si el panel no da para dos columnas) ---
   // "Menú del Derrotero desplegado": el estado con el menú abierto en un panel
   // angosto. El botón muestra una cruz y el nombre del encabezado se oculta.
