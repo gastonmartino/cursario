@@ -43,7 +43,7 @@ export interface InsulaDefinition {
 export const INSULAS: InsulaDefinition[] = [
   {
     id: 'en-curso',
-    code: 'CURSO:00',
+    code: 'DERIVA:00',
     name: 'En Curso...',
     headerTypeLabel: '// BITÁCORA',
     title: 'En Curso...',
@@ -57,7 +57,7 @@ export const INSULAS: InsulaDefinition[] = [
   },
   {
     id: 'untref',
-    code: 'CURSO:01',
+    code: 'DERIVA:01',
     name: 'Artes Electrónicas',
     headerTypeLabel: '// ARTES ELECTRÓNICAS',
     title: 'Nubes infames, granjas turbias y una hominización especulativa',
@@ -74,7 +74,7 @@ export const INSULAS: InsulaDefinition[] = [
   },
   {
     id: 'generativa',
-    code: 'CURSO:02',
+    code: 'DERIVA:02',
     name: 'Gráfica Generativa',
     headerTypeLabel: '// GENERATIVA',
     title: 'Gráfica generativa en p5js',
@@ -88,7 +88,7 @@ export const INSULAS: InsulaDefinition[] = [
   },
   {
     id: 'pensamiento',
-    code: 'CURSO:03',
+    code: 'DERIVA:03',
     name: 'Pensamiento & Diseño',
     headerTypeLabel: '// DISEÑO',
     title: 'Pensamiento & Diseño',
@@ -101,4 +101,5 @@ export const INSULAS: InsulaDefinition[] = [
     imageMaxHeight: 440,
   },
 ];
+
 
