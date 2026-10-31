@@ -1,6 +1,9 @@
 import { createNoise2D } from 'simplex-noise';
 import { DERIVAS_ISLOTES, DERIVAS_INSULAS, DERIVAS_REFLOTADAS, posicionReflotada, type DerivaInsula } from './Derivas';
 
+// Rojo de los acentos del sitio (accent-vermilion en tailwind.config.mjs).
+const ROJO_ACENTO = '#E03E2D';
+
 export class CartografiaGenerativa {
   private noise2D = createNoise2D();
 
@@ -85,7 +88,12 @@ export class CartografiaGenerativa {
         { ...deriva.subcursos[0], id: deriva.id, x: deriva.x, y: deriva.y },
         ...deriva.subcursos.map((isla) => ({ ...isla, ...posicionReflotada(isla)! })),
       ];
-      this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido });
+      // Más gruesa y en el rojo de los acentos, para que se distinga en el
+      // lienzo principal, entre las corrientes del fondo.
+      this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido }, {
+        color: ROJO_ACENTO,
+        grosor: 6,
+      });
     }
 
     // 7. Secondary islands connected to top-level courses
@@ -501,7 +509,8 @@ export class CartografiaGenerativa {
     camX: number,
     camY: number,
     zoom: number,
-    deriva: DerivaInsula
+    deriva: DerivaInsula,
+    estilo: { color?: string; grosor?: number } = {}
   ) {
     ctx.save();
     const cx = width / 2;
@@ -511,8 +520,8 @@ export class CartografiaGenerativa {
     if (items.length >= 2) {
       // Connect items with a flowing meander line
       ctx.beginPath();
-      ctx.lineWidth = 3 * zoom;
-      ctx.strokeStyle = this.accentColor(deriva.id);
+      ctx.lineWidth = Math.max(1, (estilo.grosor ?? 3) * zoom);
+      ctx.strokeStyle = estilo.color ?? this.accentColor(deriva.id);
 
       const firstSx = (items[0].x - camX) * zoom + cx;
       const firstSy = (items[0].y - camY) * zoom + cy;
