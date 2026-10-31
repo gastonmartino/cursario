@@ -3,6 +3,11 @@
 // (cerrado, mitad o completo; ver Derrotero.astro). Va en el <head> de la
 // portada y de las páginas de contenido, para que el Mapa o la página nazcan
 // con el ancho que les deja el Derrotero.
+//
+// En la primera visita (sin nada guardado), la posición por defecto es la
+// mitad (ver los estilos de Derrotero.astro), salvo sin vista compartida
+// (menos de 1024 px): ahí se arranca con el Derrotero completo, es decir, en
+// la portada se ve solo el Derrotero y no el Mapa.
 ---
 
 <script is:inline>
@@ -10,6 +15,8 @@
     const guardada = localStorage.getItem('cursario:derrotero');
     if (guardada === 'cerrado' || guardada === 'mitad' || guardada === 'completo') {
       document.documentElement.dataset.derrotero = guardada;
+    } else if (window.matchMedia('(max-width: 1023.98px)').matches) {
+      document.documentElement.dataset.derrotero = 'completo';
     }
   } catch {}
 </script>
