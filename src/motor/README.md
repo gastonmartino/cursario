@@ -72,6 +72,10 @@ a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
   páginas de sus islas, lleva a la portada.
 - En el minimapa, sus islas son puntos chicos, más claros y sin texto. Los
   islotes no se muestran.
+- Una envolvente punteada, fina y en rojo suave, rodea a sus islas (no a los
+  islotes) a 40 unidades de distancia. Sigue la forma del grupo: rellena los
+  entrantes chicos entre islas, pero no los huecos grandes donde puede haber
+  otras ínsulas (`calcularEnvolvente`, en `CartografiaGenerativa.ts`).
 
 ## Cámara
 

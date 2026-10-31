@@ -82,7 +82,12 @@ export class CartografiaGenerativa {
     // grueso y en el rojo de los acentos.
     this.drawCursoDeInsulas(ctx, width, height, camX, camY, zoom);
 
-    // 6. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
+    // 6. Ínsulas reflotadas: una envolvente punteada alrededor de sus islas.
+    for (const deriva of DERIVAS_REFLOTADAS) {
+      this.drawEnvolvente(ctx, width, height, camX, camY, zoom, deriva);
+    }
+
+    // 7. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
     // están en este lienzo (con posiciones relativas a la ínsula).
     for (const deriva of DERIVAS_REFLOTADAS) {
       const recorrido = [
@@ -92,7 +97,7 @@ export class CartografiaGenerativa {
       this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido });
     }
 
-    // 7. Secondary islands connected to top-level courses
+    // 8. Secondary islands connected to top-level courses
     // (las ínsulas son tarjetas HTML: el lienzo no dibuja nada debajo de ellas)
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
@@ -353,6 +358,142 @@ export class CartografiaGenerativa {
     ctx.restore();
   }
 
+  // ENVOLVENTE DE UNA ÍNSULA REFLOTADA
+  // Una curva cerrada que rodea a sus islas (no a los islotes), a ENV_MARGEN
+  // de ellas (la mitad de la separación mínima con otras tarjetas). Para que sea una curva continua sin colarse en los huecos
+  // grandes (donde puede haber otras ínsulas), se toma la unión de las islas
+  // ensanchadas, se le cierran los entrantes de menos de 2 × ENV_CIERRE
+  // (cierre morfológico: dilatar y erosionar) y el contorno se suaviza. Las
+  // posiciones no cambian, así que se calcula una sola vez por ínsula.
+  private envolventes = new Map<string, Array<Array<{ x: number; y: number }>>>();
+
+  private calcularEnvolvente(deriva: DerivaInsula) {
+    const ENV_MARGEN = 40;
+    const ENV_CIERRE = 260;
+    const PASO = 30;
+    const cajas = deriva.subcursos.map((isla) => {
+      const { x, y } = posicionReflotada(isla)!;
+      return { x1: x - isla.ancho / 2, x2: x + isla.ancho / 2, y1: y - isla.alto / 2, y2: y + isla.alto / 2 };
+    });
+    // Distancia de un punto al conjunto de islas (0 adentro de una).
+    const distancia = (px: number, py: number) => Math.min(...cajas.map((c) =>
+      Math.hypot(Math.max(c.x1 - px, 0, px - c.x2), Math.max(c.y1 - py, 0, py - c.y2))));
+    const borde = ENV_MARGEN + ENV_CIERRE + 2 * PASO;
+    const x0 = Math.min(...cajas.map((c) => c.x1)) - borde;
+    const y0 = Math.min(...cajas.map((c) => c.y1)) - borde;
+    const nx = Math.ceil((Math.max(...cajas.map((c) => c.x2)) + borde - x0) / PASO) + 1;
+    const ny = Math.ceil((Math.max(...cajas.map((c) => c.y2)) + borde - y0) / PASO) + 1;
+    // 1. Dilatación: a menos de ENV_MARGEN + ENV_CIERRE de alguna isla.
+    const dilatada: boolean[] = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      dilatada.push(distancia(x0 + i * PASO, y0 + j * PASO) <= ENV_MARGEN + ENV_CIERRE);
+    }
+    const dentroDe = (i: number, j: number) => i >= 0 && j >= 0 && i < nx && j < ny && dilatada[j * nx + i];
+    // 2. Erosión: quedan los puntos a más de ENV_CIERRE de lo que quedó afuera.
+    const afuera: Array<[number, number]> = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      if (dilatada[j * nx + i]) continue;
+      if ([[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => dentroDe(i + di, j + dj))) afuera.push([i, j]);
+    }
+    const campo: boolean[] = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      campo.push(dilatada[j * nx + i] && afuera.every(([ai, aj]) => Math.hypot((ai - i) * PASO, (aj - j) * PASO) > ENV_CIERRE));
+    }
+    const en = (i: number, j: number) => i >= 0 && j >= 0 && i < nx && j < ny && campo[j * nx + i];
+    // 3. Contorno (marching squares): segmentos entre los puntos medios de los
+    // lados de cada celda, en coordenadas de medio paso.
+    const siguiente = new Map<string, string>();
+    const puntos = new Map<string, { x: number; y: number }>();
+    for (let j = -1; j < ny; j++) for (let i = -1; i < nx; i++) {
+      const lados = {
+        arriba: [2 * i + 1, 2 * j], derecha: [2 * i + 2, 2 * j + 1],
+        abajo: [2 * i + 1, 2 * j + 2], izquierda: [2 * i, 2 * j + 1],
+      } as const;
+      type Lado = keyof typeof lados;
+      const caso = (en(i, j) ? 8 : 0) | (en(i + 1, j) ? 4 : 0) | (en(i + 1, j + 1) ? 2 : 0) | (en(i, j + 1) ? 1 : 0);
+      const pares: Record<number, Array<[Lado, Lado]>> = {
+        1: [['izquierda', 'abajo']], 2: [['abajo', 'derecha']], 3: [['izquierda', 'derecha']],
+        4: [['derecha', 'arriba']], 5: [['izquierda', 'arriba'], ['derecha', 'abajo']], 6: [['abajo', 'arriba']],
+        7: [['izquierda', 'arriba']], 8: [['arriba', 'izquierda']], 9: [['arriba', 'abajo']],
+        10: [['arriba', 'derecha'], ['abajo', 'izquierda']], 11: [['arriba', 'derecha']], 12: [['derecha', 'izquierda']],
+        13: [['derecha', 'abajo']], 14: [['abajo', 'izquierda']],
+      };
+      for (const [desde, hasta] of pares[caso] ?? []) {
+        const [ax, ay] = lados[desde], [bx, by] = lados[hasta];
+        siguiente.set(`${ax},${ay}`, `${bx},${by}`);
+        puntos.set(`${ax},${ay}`, { x: x0 + (ax / 2) * PASO, y: y0 + (ay / 2) * PASO });
+        puntos.set(`${bx},${by}`, { x: x0 + (bx / 2) * PASO, y: y0 + (by / 2) * PASO });
+      }
+    }
+    // Los segmentos se encadenan en lazos cerrados.
+    const lazos: Array<Array<{ x: number; y: number }>> = [];
+    const vistos = new Set<string>();
+    for (const inicio of siguiente.keys()) {
+      if (vistos.has(inicio)) continue;
+      const lazo: Array<{ x: number; y: number }> = [];
+      let actual: string | undefined = inicio;
+      while (actual && !vistos.has(actual)) {
+        vistos.add(actual);
+        lazo.push(puntos.get(actual)!);
+        actual = siguiente.get(actual);
+      }
+      if (lazo.length > 8) lazos.push(lazo);
+    }
+    // 4. Suavizado: primero un promedio con los vecinos (borra los escalones
+    // de la grilla), después Chaikin.
+    return lazos.map((lazo) => {
+      let curva = lazo;
+      for (let vuelta = 0; vuelta < 3; vuelta++) {
+        curva = curva.map((p, k) => {
+          const a = curva[(k - 1 + curva.length) % curva.length], b = curva[(k + 1) % curva.length];
+          return { x: (a.x + 2 * p.x + b.x) / 4, y: (a.y + 2 * p.y + b.y) / 4 };
+        });
+      }
+      for (let vuelta = 0; vuelta < 3; vuelta++) {
+        curva = curva.flatMap((p, k) => {
+          const q = curva[(k + 1) % curva.length];
+          return [
+            { x: 0.75 * p.x + 0.25 * q.x, y: 0.75 * p.y + 0.25 * q.y },
+            { x: 0.25 * p.x + 0.75 * q.x, y: 0.25 * p.y + 0.75 * q.y },
+          ];
+        });
+      }
+      return curva;
+    });
+  }
+
+  private drawEnvolvente(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    camX: number,
+    camY: number,
+    zoom: number,
+    deriva: DerivaInsula
+  ) {
+    if (!this.envolventes.has(deriva.id)) this.envolventes.set(deriva.id, this.calcularEnvolvente(deriva));
+    const cx = width / 2;
+    const cy = height / 2;
+    ctx.save();
+    // Fina y punteada, como las conexiones de los islotes, en un rojo suave.
+    ctx.setLineDash([6 * zoom, 5 * zoom]);
+    ctx.lineWidth = Math.max(1, 1.5 * zoom);
+    ctx.strokeStyle = 'rgba(224, 62, 45, 0.55)';
+    for (const lazo of this.envolventes.get(deriva.id)!) {
+      ctx.beginPath();
+      lazo.forEach((p, k) => {
+        const sx = (p.x - camX) * zoom + cx;
+        const sy = (p.y - camY) * zoom + cy;
+        if (k === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+      });
+      ctx.closePath();
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Curso que une las ínsulas en el lienzo principal, con la misma curva que
+  // el recorrido de las islas de un curso (drawDerivaStream).
   private drawCursoDeInsulas(
     ctx: CanvasRenderingContext2D,
     width: number,
