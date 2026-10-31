@@ -424,7 +424,7 @@ const islotes = ISLOTES.map((islote) => {
           if (zoneEl) {
             if (data.hoveredDeriva && esCurso(data.hoveredDeriva.id)) {
               const hovered = describir(data.hoveredDeriva.id);
-              zoneEl.textContent = `[${hovered.code}] INCURSIONAR`;
+              zoneEl.textContent = `[${hovered.code}] ${hovered.label.toUpperCase()} · INCURSIONAR`;
               zoneEl.style.color = hovered.accentColor;
             } else if (data.hoveredDeriva || data.hoveredItem) {
               // Una ínsula reflotada o una de sus islas.
