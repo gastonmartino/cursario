@@ -1,5 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula } from './Derivas';
+import { DERIVAS_ISLOTES, DERIVAS_INSULAS, DERIVAS_REFLOTADAS, posicionReflotada, type DerivaInsula } from './Derivas';
 
 export class CartografiaGenerativa {
   private noise2D = createNoise2D();
@@ -78,7 +78,17 @@ export class CartografiaGenerativa {
     // 5. Cloud Windows & Halftone Textures
     this.drawAtmosphericWindows(ctx, width, height, camX, camY, zoom);
 
-    // 6. Secondary islands connected to top-level courses
+    // 6. Ínsulas reflotadas: el curso que une la ínsula con sus islas, que
+    // están en este lienzo (con posiciones relativas a la ínsula).
+    for (const deriva of DERIVAS_REFLOTADAS) {
+      const recorrido = [
+        { ...deriva.subcursos[0], id: deriva.id, x: deriva.x, y: deriva.y },
+        ...deriva.subcursos.map((isla) => ({ ...isla, ...posicionReflotada(isla)! })),
+      ];
+      this.drawDerivaStream(ctx, width, height, camX, camY, zoom, { ...deriva, subcursos: recorrido });
+    }
+
+    // 7. Secondary islands connected to top-level courses
     // (las ínsulas son tarjetas HTML: el lienzo no dibuja nada debajo de ellas)
     this.drawIsloteConnections(ctx, width, height, camX, camY, zoom, 'macro');
   }
@@ -574,10 +584,16 @@ export class CartografiaGenerativa {
 
     for (const islote of DERIVAS_ISLOTES) {
       let parent: { id: string; x: number; y: number } | undefined;
+      // Un islote de una isla reflotada está en el lienzo principal.
+      const flotante = level === 'macro' ? posicionReflotada(islote) : null;
 
       if (level === 'macro') {
         const deriva = DERIVAS_INSULAS.find((item) => item.id === islote.idSuperior);
         if (deriva) parent = deriva;
+        else if (flotante) {
+          const isla = DERIVAS_REFLOTADAS.flatMap((entrada) => entrada.subcursos).find((item) => item.id === islote.idSuperior)!;
+          parent = { id: isla.id, ...posicionReflotada(isla)! };
+        }
       } else if (activeDeriva) {
         const item = activeDeriva.subcursos.find((entry) => entry.id === islote.idSuperior);
         if (item) parent = item;
@@ -586,7 +602,7 @@ export class CartografiaGenerativa {
       if (!parent) continue;
 
       const parentPoint = toScreen(parent.x, parent.y);
-      const islotePoint = toScreen(islote.x, islote.y);
+      const islotePoint = toScreen((flotante ?? islote).x, (flotante ?? islote).y);
       const directionX = parentPoint.x - islotePoint.x;
       const directionY = parentPoint.y - islotePoint.y;
       // Use the rendered card dimensions when available. Islote content is

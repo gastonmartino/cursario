@@ -5,6 +5,7 @@
  * lienzo. El contenido de cada tarjeta está en src/data/ (insulas.ts,
  * islas.ts e islotes.ts) y se vincula con esta estructura por el id.
  */
+import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 
 /**
@@ -237,6 +238,8 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     ]
   },
   {
+    // Reflotada (src/data/insulas.ts): sus islas y los islotes de éstas están
+    // en el lienzo principal, con coordenadas relativas a esta ínsula.
     id: 'arte-electronico',
     curso: 'curso01',
     x: -641,
@@ -247,40 +250,40 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
       {
         id: 'arte-electronico-01',
         subcurso: 'curso001',
-        x: -720,
-        y: -30,
+        x: -528,
+        y: 1947,
         ancho: 640,
         alto: 1148,
       },
       {
         id: 'arte-electronico-02',
         subcurso: 'curso002',
-        x: 0,
-        y: -220,
+        x: 192,
+        y: 1757,
         ancho: 640,
         alto: 738,
       },
       {
         id: 'arte-electronico-03',
         subcurso: 'curso003',
-        x: 720,
-        y: -260,
+        x: 912,
+        y: 1717,
         ancho: 640,
         alto: 1026,
       },
       {
         id: 'arte-electronico-04',
         subcurso: 'curso004',
-        x: -20,
-        y: 560,
+        x: 172,
+        y: 2537,
         ancho: 560,
         alto: 673,
       },
       {
         id: 'arte-electronico-05',
         subcurso: 'curso005',
-        x: 660,
-        y: 860,
+        x: 852,
+        y: 2837,
         ancho: 560,
         alto: 1008,
       }
@@ -381,9 +384,34 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
   }
 ];
 
+// =====================================================================================
+//
+// ÍNSULAS REFLOTADAS
+// Una ínsula con refloated: true (src/data/insulas.ts) no tiene lienzo propio:
+// sus islas y los islotes de éstas se muestran en el lienzo principal, junto a
+// ella. Sus coordenadas se escriben relativas al centro de la ínsula, así que
+// al mover la ínsula se mueve todo el conjunto.
+//
+// =====================================================================================
+
+export function estaReflotada(idInsula: string): boolean {
+  return Boolean(INSULAS.find((insula) => insula.id === idInsula)?.refloated);
+}
+
+
+// Posición en el lienzo principal de una isla o un islote que salen a flote
+// con una ínsula reflotada, o null si no salen a flote.
+export function posicionReflotada(item: { id: string; x: number; y: number; idSuperior?: string }): { x: number; y: number } | null {
+  const idIsla = item.idSuperior ?? item.id;
+  const deriva = DERIVAS_REFLOTADAS.find((entrada) => entrada.subcursos.some((isla) => isla.id === idIsla));
+  return deriva ? { x: deriva.x + item.x, y: deriva.y + item.y } : null;
+}
+
 // Todos los subcursos (islas) de todos los cursos, en una sola lista. Cada uno
 // se define dentro de su curso, en el campo `subcursos` de DERIVAS_INSULAS.
 export const DERIVAS_ISLAS: DerivaIsla[] = DERIVAS_INSULAS.flatMap((deriva) => deriva.subcursos);
+
+export const DERIVAS_REFLOTADAS: DerivaInsula[] = DERIVAS_INSULAS.filter((deriva) => estaReflotada(deriva.id));
 
 
 // =====================================================================================
@@ -478,8 +506,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-00',
     idSuperior: 'arte-electronico-01',
     subcurso: 'islote007',
-    x: -1440,
-    y: -61,
+    x: -1248,
+    y: 1916,
     ancho: 580,
     alto: 1105, 
   },
@@ -492,8 +520,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-01',
     idSuperior: 'arte-electronico-01',
     subcurso: 'islote008',
-    x: -726,
-    y: -774,
+    x: -534,
+    y: 1203,
     ancho: 220,
     alto: 220,
   },
@@ -501,8 +529,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-02',
     idSuperior: 'arte-electronico-02',
     subcurso: 'islote009',
-    x: 0,
-    y: -766,
+    x: 192,
+    y: 1211,
     ancho: 340,
     alto: 212,
   },
@@ -510,8 +538,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-03',
     idSuperior: 'arte-electronico-03',
     subcurso: 'islote010',
-    x: 1236,
-    y: -266,
+    x: 1428,
+    y: 1711,
     ancho: 220,
     alto: 220,
   },
@@ -519,8 +547,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-04',
     idSuperior: 'arte-electronico-04',
     subcurso: 'islote011',
-    x: -480,
-    y: 732,
+    x: -288,
+    y: 2709,
     ancho: 144,
     alto: 144,
   },
@@ -528,8 +556,8 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-05',
     idSuperior: 'arte-electronico-05',
     subcurso: 'islote012',
-    x: 1100,
-    y: 830,
+    x: 1292,
+    y: 2807,
     ancho: 160,
     alto: 160,
   },

@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
-import { ubicar, urlPropia } from '../motor/Derivas';
+import { estaReflotada, ubicar, urlPropia } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { cargarDocumento, documentoDeLectura, tieneModoLectura, type PropsCarta } from './index';
 
@@ -72,8 +72,9 @@ function paginasDeSubcursos() {
         color: data.accentColor,
       },
       documento,
-      // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem.
-      volver: `/?deriva=${ubicacion.idDeriva}`,
+      // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem
+      // o, si el curso está reflotado (sin lienzo propio), el principal.
+      volver: estaReflotada(ubicacion.idDeriva) ? '/' : `/?deriva=${ubicacion.idDeriva}`,
     };
     return { id: data.id, ubicacion, url: ubicacion.urlPagina!, props };
   });

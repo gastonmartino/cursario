@@ -33,6 +33,8 @@ interface Props {
 
   markdownFile?: string | null;
   actionLabel?: string;
+  // Sin el botón INCURSIONAR (una ínsula reflotada no tiene lienzo propio).
+  showAction?: boolean;
 }
 
 const {
@@ -59,6 +61,7 @@ const {
   paddingY = "0.9rem",
   paddingX = "1.2rem",
   actionLabel = "INCURSIONAR [CLICK / ENTER]",
+  showAction = true,
 
 // Markdown File define el contenido que se muestra dentro de la tarjeta.
   markdownFile = null,
@@ -235,6 +238,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
     <div class="font-mono text-[10px] text-ink-muted flex items-center gap-2">
       <span style={`color: ${accentColor};`}>✦</span> COORDENADAS: {coordinatesText}
     </div>
+    {showAction && (
     <button
       data-incursionar={derivaId}
       data-fly-to={derivaId}
@@ -243,6 +247,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
     >
       {actionLabel}
     </button>
+    )}
   </div>
   <EsquinasPlano color={accentColor} />
 </article>

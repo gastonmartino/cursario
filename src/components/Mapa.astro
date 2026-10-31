@@ -12,7 +12,7 @@ import Islote from './Islote.astro';
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
-import { ubicar } from '../motor/Derivas';
+import { estaReflotada, posicionReflotada, ubicar } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { version } from '../../package.json';
 
@@ -99,6 +99,7 @@ const islotes = ISLOTES.map((islote) => {
         markdownFile={insula.markdownFile}
         derivaId={insula.id}
         coordinatesText={formatCoordinates(insula)}
+        showAction={!estaReflotada(insula.id)}
         imageCaption={insula.imageCaption}
         width={insula.ancho}
         height={insula.alto}
@@ -126,7 +127,7 @@ const islotes = ISLOTES.map((islote) => {
         markdownFile={isla.markdownFile}
         pageMarkdownFile={isla.pageMarkdownFile}
         showAction={isla.showAction ?? true}
-        coordinatesText={formatCoordinates(isla)}
+        coordinatesText={formatCoordinates(posicionReflotada(isla) ?? isla)}
         imageCaption={isla.imageCaption}
         width={isla.ancho}
         height={isla.alto}
@@ -185,7 +186,7 @@ const islotes = ISLOTES.map((islote) => {
 
 <script>
   import { MotorCursario, type DatosTelemetria } from '../motor/MotorCursario';
-  import { DERIVAS_INSULAS } from '../motor/Derivas';
+  import { DERIVAS_INSULAS, DERIVAS_REFLOTADAS, estaReflotada, posicionReflotada } from '../motor/Derivas';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
 
@@ -197,7 +198,9 @@ const islotes = ISLOTES.map((islote) => {
   ]);
   const describir = (id: string) =>
     contenidoPorId.get(id) ?? { code: id, label: '', accentColor: '#0038A8' };
-  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id);
+  // Un curso en el que se puede incursionar (las ínsulas reflotadas no tienen
+  // lienzo propio).
+  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id) && !estaReflotada(id);
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
@@ -239,21 +242,49 @@ const islotes = ISLOTES.map((islote) => {
 
       if (data.level === 'macro') {
         // LEVEL 1 MINIMAP
-        const scale = (mw / 2) / worldRadius;
+        // Las islas de las ínsulas reflotadas también están en este lienzo. Sin
+        // ellas, el mapa abarca un radio fijo alrededor del origen; con ellas,
+        // se encuadra todo (ínsulas e islas), sea cual sea su extensión.
+        const islasReflotadas = DERIVAS_REFLOTADAS.flatMap((deriva) =>
+          deriva.subcursos.map((isla) => ({ id: isla.id, ...posicionReflotada(isla)! })));
+        const puntos = [...DERIVAS_INSULAS, ...islasReflotadas];
+        const xs = puntos.map((punto) => punto.x);
+        const ys = puntos.map((punto) => punto.y);
+        const margenMundo = 500;
+        const minX = Math.min(-worldRadius / 2, ...xs) - margenMundo;
+        const maxX = Math.max(worldRadius / 2, ...xs) + margenMundo;
+        const minY = Math.min(-worldRadius / 4, ...ys) - margenMundo;
+        const maxY = Math.max(worldRadius / 4, ...ys) + margenMundo;
+        const scale = islasReflotadas.length
+          ? Math.min(mw / (maxX - minX), mh / (maxY - minY))
+          : (mw / 2) / worldRadius;
+        const centroX = islasReflotadas.length ? (minX + maxX) / 2 : 0;
+        const centroY = islasReflotadas.length ? (minY + maxY) / 2 : 0;
+        const mapX = (x: number) => mcx + (x - centroX) * scale;
+        const mapY = (y: number) => mcy + (y - centroY) * scale;
 
         // Concentric radar survey rings
         minimapCtx.strokeStyle = 'rgba(22, 37, 61, 0.12)';
         minimapCtx.lineWidth = 1;
         minimapCtx.beginPath();
-        minimapCtx.arc(mcx, mcy, 35, 0, Math.PI * 2);
-        minimapCtx.arc(mcx, mcy, 70, 0, Math.PI * 2);
-        minimapCtx.arc(mcx, mcy, 105, 0, Math.PI * 2);
+        minimapCtx.arc(mapX(0), mapY(0), 35, 0, Math.PI * 2);
+        minimapCtx.arc(mapX(0), mapY(0), 70, 0, Math.PI * 2);
+        minimapCtx.arc(mapX(0), mapY(0), 105, 0, Math.PI * 2);
         minimapCtx.stroke();
+
+        // Islas de las ínsulas reflotadas: puntos chicos, sin texto, y más
+        // claros que los de las ínsulas.
+        for (const isla of islasReflotadas) {
+          minimapCtx.fillStyle = `${describir(isla.id).accentColor}99`;
+          minimapCtx.beginPath();
+          minimapCtx.arc(mapX(isla.x), mapY(isla.y), 2, 0, Math.PI * 2);
+          minimapCtx.fill();
+        }
 
         // Deriva Nodes
         for (const deriva of DERIVAS_INSULAS) {
-          const zx = mcx + deriva.x * scale;
-          const zy = mcy + deriva.y * scale;
+          const zx = mapX(deriva.x);
+          const zy = mapY(deriva.y);
 
           minimapCtx.fillStyle = describir(deriva.id).accentColor;
           minimapCtx.beginPath();
@@ -269,8 +300,8 @@ const islotes = ISLOTES.map((islote) => {
         // Encuadre de la cámara
         const viewportW = (mainCanvas.clientWidth / (data.zoom / 100)) * scale;
         const viewportH = (mainCanvas.clientHeight / (data.zoom / 100)) * scale;
-        const camX = mcx + data.worldX * scale - viewportW / 2;
-        const camY = mcy + data.worldY * scale - viewportH / 2;
+        const camX = mapX(data.worldX) - viewportW / 2;
+        const camY = mapY(data.worldY) - viewportH / 2;
 
         minimapCtx.strokeStyle = '#0038A8';
         minimapCtx.lineWidth = 1.5;
@@ -280,7 +311,7 @@ const islotes = ISLOTES.map((islote) => {
 
         minimapCtx.fillStyle = '#E03E2D';
         minimapCtx.beginPath();
-        minimapCtx.arc(mcx + data.worldX * scale, mcy + data.worldY * scale, 2, 0, Math.PI * 2);
+        minimapCtx.arc(mapX(data.worldX), mapY(data.worldY), 2, 0, Math.PI * 2);
         minimapCtx.fill();
       } else if (data.activeDeriva) {
         // LEVEL 2 MINIMAP (Local Deriva Course)
@@ -391,9 +422,14 @@ const islotes = ISLOTES.map((islote) => {
           if (radarInstruction) radarInstruction.textContent = 'Arrastrar para surcar • Click para incursionar';
 
           if (zoneEl) {
-            if (data.hoveredDeriva) {
+            if (data.hoveredDeriva && esCurso(data.hoveredDeriva.id)) {
               const hovered = describir(data.hoveredDeriva.id);
               zoneEl.textContent = `[${hovered.code}] INCURSIONAR`;
+              zoneEl.style.color = hovered.accentColor;
+            } else if (data.hoveredDeriva || data.hoveredItem) {
+              // Una ínsula reflotada o una de sus islas.
+              const hovered = describir((data.hoveredDeriva ?? data.hoveredItem)!.id);
+              zoneEl.textContent = `[${hovered.code}] ${hovered.label.toUpperCase()}`;
               zoneEl.style.color = hovered.accentColor;
             } else if (data.activeDeriva) {
               const active = describir(data.activeDeriva.id);

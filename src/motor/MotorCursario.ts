@@ -1,7 +1,7 @@
 import { Camara } from './Camara';
 import { CursorEntintado } from './CursorEntintado';
 import { CartografiaGenerativa } from './CartografiaGenerativa';
-import { DERIVAS_ISLOTES, DERIVAS_INSULAS, type DerivaInsula, type DerivaIsla } from './Derivas';
+import { DERIVAS_ISLOTES, DERIVAS_INSULAS, DERIVAS_REFLOTADAS, estaReflotada, posicionReflotada, type DerivaInsula, type DerivaIsla } from './Derivas';
 
 /**
  * Lo único del contenido que el motor necesita, pedido por id. Lo provee
@@ -259,8 +259,11 @@ export class MotorCursario {
     return { x, y, zoom };
   }
 
+  // En el lienzo principal cuentan las ínsulas y las islas de las reflotadas.
   private vistaInicialMacro(): Vista {
-    return this.vistaInicial(DERIVAS_INSULAS);
+    const islasReflotadas = DERIVAS_REFLOTADAS.flatMap((deriva) =>
+      deriva.subcursos.map((isla) => ({ ...isla, ...posicionReflotada(isla)! })));
+    return this.vistaInicial([...DERIVAS_INSULAS, ...islasReflotadas]);
   }
 
   private vistaInicialCurso(deriva: DerivaInsula): Vista {
@@ -427,11 +430,10 @@ export class MotorCursario {
   }
 
   private handleClick() {
-    if (this.level === 'macro') {
-      if (this.hoveredDeriva) {
-        this.incursionar(this.hoveredDeriva.id);
-      }
-    } else if (this.level === 'deriva' && this.hoveredItem) {
+    if (this.level === 'macro' && this.hoveredDeriva) {
+      // Una ínsula reflotada no tiene lienzo propio: no se incursiona.
+      if (!estaReflotada(this.hoveredDeriva.id)) this.incursionar(this.hoveredDeriva.id);
+    } else if (this.hoveredItem) {
       // In the future: open deep-reading modal/drawer
       this.cursor.hoverLabel = this.appearance.cursorLabel(this.hoveredItem.id, 'select');
       this.despertar(false, true);
@@ -560,7 +562,7 @@ export class MotorCursario {
     }
 
     if (e.key === 'Enter') {
-      if (this.level === 'macro' && this.hoveredDeriva) {
+      if (this.level === 'macro' && this.hoveredDeriva && !estaReflotada(this.hoveredDeriva.id)) {
         this.incursionar(this.hoveredDeriva.id);
       }
       return;
@@ -620,12 +622,14 @@ export class MotorCursario {
   ------------------------------------------------------------- */
   public marcarSobrevuelo(id: string | null) {
     if (this.level === 'macro') {
+      // En el lienzo principal: una ínsula o una isla de una reflotada.
       this.hoveredDeriva = DERIVAS_INSULAS.find((deriva) => deriva.id === id) ?? null;
+      this.hoveredItem = DERIVAS_REFLOTADAS.flatMap((deriva) => deriva.subcursos).find((isla) => isla.id === id) ?? null;
     } else {
       this.hoveredItem = this.activeDeriva?.subcursos.find((isla) => isla.id === id) ?? null;
     }
 
-    const marcado = this.level === 'macro' ? this.hoveredDeriva : this.hoveredItem;
+    const marcado = this.level === 'macro' ? this.hoveredDeriva ?? this.hoveredItem : this.hoveredItem;
     this.cursor.isHovering = !!marcado;
     this.cursor.hoverLabel = marcado ? this.appearance.cursorLabel(marcado.id, 'hover') : '';
     this.despertar(true, true);
@@ -634,7 +638,7 @@ export class MotorCursario {
   // Quita la marca solo si sigue marcado este id (otra tarjeta pudo haberla
   // tomado mientras tanto).
   public desmarcarSobrevuelo(id: string) {
-    const marcado = this.level === 'macro' ? this.hoveredDeriva : this.hoveredItem;
+    const marcado = this.level === 'macro' ? this.hoveredDeriva ?? this.hoveredItem : this.hoveredItem;
     if (marcado?.id === id) this.marcarSobrevuelo(null);
   }
 
@@ -646,6 +650,14 @@ export class MotorCursario {
     const targetDeriva = DERIVAS_INSULAS.find((d) => d.id === targetId);
 
     if (!targetDeriva) return;
+
+    // Una ínsula reflotada no tiene lienzo propio: se va hacia ella en el
+    // lienzo principal.
+    if (estaReflotada(targetDeriva.id)) {
+      if (this.level === 'deriva') this.exitDeriva();
+      this.flyToDeriva(targetDeriva.id);
+      return;
+    }
 
     // Antes de cambiar de lienzo, se guarda la vista del que se deja.
     this.guardarVista();
@@ -814,13 +826,17 @@ export class MotorCursario {
         const node = document.getElementById(`spatial-subnode-${item.id}`);
         if (!node) continue;
 
-        const shouldShow = this.level === 'deriva' && this.activeDeriva?.id === deriva.id;
+        // Las de una ínsula reflotada, en el lienzo principal; las demás, en el
+        // lienzo de su curso.
+        const reflotada = this.level === 'macro' ? posicionReflotada(item) : null;
+        const shouldShow = reflotada || (this.level === 'deriva' && this.activeDeriva?.id === deriva.id);
         if (!shouldShow) {
           node.style.display = 'none';
           continue;
         }
 
-        const screen = this.camera.worldToScreen(item.x, item.y, w, h);
+        const posicion = reflotada ?? item;
+        const screen = this.camera.worldToScreen(posicion.x, posicion.y, w, h);
         node.style.display = 'flex';
         node.style.transform = `translate3d(${screen.x.toFixed(2)}px, ${screen.y.toFixed(2)}px, 0) translate(-50%, -50%) scale(${this.camera.zoom.toFixed(4)})`;
         node.style.opacity = this.camera.zoom < 0.22 ? '0' : '1';
@@ -839,16 +855,19 @@ export class MotorCursario {
       const containingDeriva = topLevelParent || DERIVAS_INSULAS.find((deriva) =>
         deriva.subcursos.some((item) => item.id === islote.idSuperior)
       );
+      // Los de una isla de una ínsula reflotada, en el lienzo principal.
+      const reflotado = this.level === 'macro' ? posicionReflotada(islote) : null;
       const shouldShow = topLevelParent
         ? this.level === 'macro'
-        : this.level === 'deriva' && this.activeDeriva?.id === containingDeriva?.id;
+        : reflotado || (this.level === 'deriva' && this.activeDeriva?.id === containingDeriva?.id);
 
       if (!shouldShow) {
         node.style.display = 'none';
         continue;
       }
 
-      const screen = this.camera.worldToScreen(islote.x, islote.y, w, h);
+      const posicion = reflotado ?? islote;
+      const screen = this.camera.worldToScreen(posicion.x, posicion.y, w, h);
       node.style.display = 'flex';
       node.style.transform = `translate3d(${screen.x.toFixed(2)}px, ${screen.y.toFixed(2)}px, 0) translate(-50%, -50%) scale(${this.camera.zoom.toFixed(4)})`;
       node.style.opacity = this.camera.zoom < 0.22 ? '0' : '1';

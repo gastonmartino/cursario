@@ -39,6 +39,12 @@ export interface InsulaDefinition {
 
   // Destacado (true) o no (false, o sin definir).
   featured?: boolean;
+
+  // Reflotada (true): sus islas, con sus islotes, salen a flote en el lienzo
+  // principal junto a la ínsula, y el curso no tiene lienzo propio (no se
+  // incursiona). Sus coordenadas, en src/motor/Derivas.ts, pasan a ser
+  // relativas a la ínsula: al moverla, se mueve el conjunto. Por defecto, false.
+  refloated?: boolean;
 }
 
 export const INSULAS: InsulaDefinition[] = [
@@ -58,6 +64,7 @@ export const INSULAS: InsulaDefinition[] = [
   },
   {
     id: 'arte-electronico',
+    refloated: true,
     code: 'DERIVA:01',
     name: 'Artes Electrónicas',
     headerTypeLabel: '// ARTES ELECTRÓNICAS',

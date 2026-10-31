@@ -45,8 +45,9 @@ Markdown, la URL de su página y su posición y tamaño.
 
 El motor tiene dos niveles, cada uno con su propio sistema de coordenadas:
 
-- **Lienzo principal** (`macro`): se ven las cuatro ínsulas y los islotes
-  asociados a ellas. Click o Enter sobre una ínsula, o su botón INCURSIONAR,
+- **Lienzo principal** (`macro`): se ven las cuatro ínsulas, los islotes
+  asociados a ellas y, si hay ínsulas reflotadas, sus islas e islotes (ver más
+  abajo). Click o Enter sobre una ínsula, o su botón INCURSIONAR,
   entra a ese curso.
 - **Lienzo de un curso** (`deriva`): se ven las islas de ese curso, conectadas
   por una línea de recorrido en el orden en que están definidas, y sus islotes.
@@ -56,6 +57,21 @@ El motor tiene dos niveles, cada uno con su propio sistema de coordenadas:
 Al cambiar de nivel se avisa a la portada (`AlCambiarDeNivel`), que muestra una
 transición. La portada abre directamente el lienzo de un curso cuando la URL
 es `/?deriva={id}` (así vuelven las páginas de los subcursos).
+
+### Ínsulas reflotadas
+
+Una ínsula con `refloated: true` (en `src/data/insulas.ts`) no tiene lienzo
+propio: sus islas, con sus islotes, salen a flote en el lienzo principal, junto
+a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
+
+- En `Derivas.ts`, las coordenadas de esas islas y de sus islotes son
+  relativas al centro de la ínsula: al moverla, se mueve todo el conjunto
+  (`posicionReflotada` da su posición en el lienzo principal).
+- La ínsula no tiene botón INCURSIONAR, y el click o Enter no incursionan.
+  `/?deriva={id}` lleva hacia ella en el lienzo principal, y VOLVER, desde las
+  páginas de sus islas, lleva a la portada.
+- En el minimapa, sus islas son puntos chicos, más claros y sin texto. Los
+  islotes no se muestran.
 
 ## Cámara
 
