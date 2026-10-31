@@ -165,7 +165,7 @@ export const ISLAS: IslaDefinition[] = [
  // CURSO:01 - ARTES ELECTRÓNICAS
  //
   {
-    id: 'untref-obra-01',
+    id: 'arte-electronico-01',
     featured: true,
     imageUrl: 'portada-sos.gif',
     thumbnailImageUrl: 'miniatura.jpg',
@@ -182,7 +182,7 @@ export const ISLAS: IslaDefinition[] = [
     timeReference: '1C 2025', 
   },
   {
-    id: 'untref-obra-02',
+    id: 'arte-electronico-02',
     featured: true,
     imageUrl: 'portada-granja.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
@@ -199,7 +199,7 @@ export const ISLAS: IslaDefinition[] = [
     timeReference: '2C 2025', 
   },
   {
-    id: 'untref-obra-03',
+    id: 'arte-electronico-03',
     featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
@@ -215,7 +215,7 @@ export const ISLAS: IslaDefinition[] = [
     timeReference: '1C 2026', 
   },
   {
-    id: 'untref-obra-04',
+    id: 'arte-electronico-04',
     featured: true,
     imageUrl: 'portada-gps.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
@@ -232,7 +232,7 @@ export const ISLAS: IslaDefinition[] = [
     timeReference: '1C 2025', 
   },
   {
-    id: 'untref-obra-05',
+    id: 'arte-electronico-05',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',

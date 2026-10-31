@@ -56,7 +56,7 @@ export const INSULAS: InsulaDefinition[] = [
     imageMaxHeight: 380,
   },
   {
-    id: 'untref',
+    id: 'arte-electronico',
     code: 'DERIVA:01',
     name: 'Artes Electrónicas',
     headerTypeLabel: '// ARTES ELECTRÓNICAS',

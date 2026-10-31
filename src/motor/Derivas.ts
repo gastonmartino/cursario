@@ -229,7 +229,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     ]
   },
   {
-    id: 'untref',
+    id: 'arte-electronico',
     curso: 'curso01',
     x: -641,
     y: -270,
@@ -237,7 +237,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     alto: 730,
     subcursos: [
       {
-        id: 'untref-obra-01',
+        id: 'arte-electronico-01',
         subcurso: 'curso001',
         x: -720,
         y: -30,
@@ -245,7 +245,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         alto: 660,
       },
       {
-        id: 'untref-obra-02',
+        id: 'arte-electronico-02',
         subcurso: 'curso002',
         x: 0,
         y: -220,
@@ -253,7 +253,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         alto: 660,
       },
       {
-        id: 'untref-obra-03',
+        id: 'arte-electronico-03',
         subcurso: 'curso003',
         x: 720,
         y: -260,
@@ -261,7 +261,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         alto: 660,
       },
       {
-        id: 'untref-obra-04',
+        id: 'arte-electronico-04',
         subcurso: 'curso004',
         x: -20,
         y: 560,
@@ -269,7 +269,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         alto: 580,
       },
       {
-        id: 'untref-obra-05',
+        id: 'arte-electronico-05',
         subcurso: 'curso005',
         x: 660,
         y: 860,
@@ -468,7 +468,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     id: 'islote-obra-00',
-    idSuperior: 'untref-obra-01',
+    idSuperior: 'arte-electronico-01',
     subcurso: 'islote007',
     x: -1440,
     y: -61,
@@ -482,7 +482,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   {
     id: 'islote-obra-01',
-    idSuperior: 'untref-obra-01',
+    idSuperior: 'arte-electronico-01',
     subcurso: 'islote008',
     x: -726,
     y: -766,
@@ -491,7 +491,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   },
   {
     id: 'islote-obra-02',
-    idSuperior: 'untref-obra-02',
+    idSuperior: 'arte-electronico-02',
     subcurso: 'islote009',
     x: 0,
     y: -766,
@@ -500,7 +500,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   },
   {
     id: 'islote-obra-03',
-    idSuperior: 'untref-obra-03',
+    idSuperior: 'arte-electronico-03',
     subcurso: 'islote010',
     x: 1236,
     y: -266,
@@ -509,7 +509,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   },
   {
     id: 'islote-obra-04',
-    idSuperior: 'untref-obra-04',
+    idSuperior: 'arte-electronico-04',
     subcurso: 'islote011',
     x: -480,
     y: 732,
@@ -518,7 +518,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   },
   {
     id: 'islote-obra-05',
-    idSuperior: 'untref-obra-05',
+    idSuperior: 'arte-electronico-05',
     subcurso: 'islote012',
     x: 1100,
     y: 830,

@@ -422,7 +422,7 @@ export class MotorCursario {
           this.flyToDeriva('en-curso');
           break;
         case '2':
-          this.flyToDeriva('untref');
+          this.flyToDeriva('arte-electronico');
           break;
         case '3':
           this.flyToDeriva('generativa');
