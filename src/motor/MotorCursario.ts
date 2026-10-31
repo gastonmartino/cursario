@@ -210,49 +210,63 @@ export class MotorCursario {
   }
 
   // Vista inicial de un lienzo, a partir de sus tarjetas (las ínsulas en el
-  // principal, las islas en el de un curso; los islotes no cuentan).
-  // - Zoom: 70 %; en pantallas chicas, el que hace entrar una tarjeta y media
-  //   de ancho.
-  // - Vertical: el conjunto queda centrado, salvo que así quede cortada la
-  //   tarjeta de más arriba: entonces baja hasta que su encabezado se vea
-  //   entero, a MARGEN_SUPERIOR del borde.
-  // - Horizontal: el conjunto queda centrado; en pantallas chicas, además, si
-  //   alguna tarjeta queda cortada por el borde izquierdo, el lienzo se
-  //   desplaza hasta que la de más arriba de ellas entre entera (a
-  //   MARGEN_IZQUIERDO_MOVIL).
+  // principal, más las islas de las reflotadas; las islas en el de un curso;
+  // los islotes no cuentan). El algoritmo completo está documentado en
+  // src/motor/README.md ("Vista inicial de cada lienzo").
+  // 1. Zoom: 70 %; en pantallas chicas, el que hace entrar TARJETAS_MOVIL
+  //    tarjetas de ancho.
+  // 2. Centrado: el conjunto, en los dos ejes (centro del rectángulo que
+  //    encierra todas las tarjetas).
+  // 3. Vertical: de las tarjetas que se ven con esa vista, la de más arriba;
+  //    si su borde superior queda por encima de MARGEN_SUPERIOR (cortada o
+  //    bajo el HUD), el lienzo baja hasta que quede ahí. Esta posición
+  //    vertical ya no cambia.
+  // 4. Horizontal (solo en pantallas chicas): de las tarjetas visibles que el
+  //    borde izquierdo corta, la de más arriba; el lienzo se desplaza hasta
+  //    que entre entera, a MARGEN_IZQUIERDO_MOVIL. Una sola vez.
   private vistaInicial(tarjetas: Array<{ x: number; y: number; ancho: number; alto: number }>): Vista {
     if (tarjetas.length === 0) return { x: 0, y: 0, zoom: ZOOM_INICIAL };
     const ancho = this.anchoVista();
     const alto = this.altoVista();
     const movil = ancho < ANCHO_MOVIL;
 
+    // 1. Zoom.
     const anchoTarjeta = Math.max(...tarjetas.map((item) => item.ancho));
     const zoom = movil
       ? Math.max(0.25, Math.min(2.5, ancho / (anchoTarjeta * TARJETAS_MOVIL)))
       : ZOOM_INICIAL;
+    const mitadAncho = ancho / 2 / zoom;
+    const mitadAlto = alto / 2 / zoom;
+    // Las tarjetas que se ven con la cámara en (x, y).
+    const visiblesDesde = (x: number, y: number) => tarjetas.filter((item) =>
+      item.x + item.ancho / 2 > x - mitadAncho && item.x - item.ancho / 2 < x + mitadAncho &&
+      item.y + item.alto / 2 > y - mitadAlto && item.y - item.alto / 2 < y + mitadAlto);
 
+    // 2. Centrado en los dos ejes.
     const left = Math.min(...tarjetas.map((item) => item.x - item.ancho / 2));
     const right = Math.max(...tarjetas.map((item) => item.x + item.ancho / 2));
     const top = Math.min(...tarjetas.map((item) => item.y - item.alto / 2));
     const bottom = Math.max(...tarjetas.map((item) => item.y + item.alto / 2));
-    // Con la cámara en y, el borde superior del conjunto queda en la pantalla en
-    // (top - y) * zoom + alto / 2; tiene que quedar al menos en MARGEN_SUPERIOR.
-    const y = Math.min((top + bottom) / 2, top - (MARGEN_SUPERIOR - alto / 2) / zoom);
+    const centroX = (left + right) / 2;
+    let y = (top + bottom) / 2;
 
-    const centro = (left + right) / 2;
-    if (!movil) return { x: centro, y, zoom };
+    // 3. Vertical: la tarjeta visible de más arriba. Su borde superior queda en
+    // la pantalla en (arriba - y) * zoom + alto / 2; tiene que quedar al menos
+    // en MARGEN_SUPERIOR.
+    const visibles = visiblesDesde(centroX, y);
+    if (visibles.length > 0) {
+      const arriba = Math.min(...visibles.map((item) => item.y - item.alto / 2));
+      y = Math.min(y, arriba - (MARGEN_SUPERIOR - alto / 2) / zoom);
+    }
 
-    // En pantallas chicas: con el conjunto centrado, de las tarjetas que se
-    // ven cortadas por el borde izquierdo (una parte queda fuera de la
-    // pantalla), la de más arriba; el lienzo se desplaza hasta que entre
-    // entera, a MARGEN_IZQUIERDO_MOVIL del borde. Si ninguna está cortada, no
-    // se desplaza.
-    const bordeIzquierdo = centro - ancho / 2 / zoom;
-    const mitadAlto = alto / 2 / zoom;
-    const cortadas = tarjetas.filter((item) =>
-      item.x - item.ancho / 2 < bordeIzquierdo && item.x + item.ancho / 2 > bordeIzquierdo &&
-      item.y + item.alto / 2 > y - mitadAlto && item.y - item.alto / 2 < y + mitadAlto);
-    if (cortadas.length === 0) return { x: centro, y, zoom };
+    if (!movil) return { x: centroX, y, zoom };
+
+    // 4. Horizontal: de las tarjetas visibles que el borde izquierdo corta (una
+    // parte queda fuera de la pantalla), la de más arriba entra entera.
+    const bordeIzquierdo = centroX - mitadAncho;
+    const cortadas = visiblesDesde(centroX, y).filter((item) =>
+      item.x - item.ancho / 2 < bordeIzquierdo && item.x + item.ancho / 2 > bordeIzquierdo);
+    if (cortadas.length === 0) return { x: centroX, y, zoom };
     const superior = cortadas.reduce((a, b) => (b.y - b.alto / 2 < a.y - a.alto / 2 ? b : a));
     // Su borde izquierdo queda en la pantalla en (izquierda - x) * zoom + ancho / 2.
     const x = superior.x - superior.ancho / 2 - (MARGEN_IZQUIERDO_MOVIL - ancho / 2) / zoom;

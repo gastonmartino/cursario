@@ -76,17 +76,8 @@ a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
 ## Cámara
 
 - El zoom va de 0,25 a 2,5.
-- Vista inicial de cada lienzo, al 70 %, a partir de sus tarjetas (las ínsulas
-  en el principal, las islas en el de un curso; los islotes no cuentan): el
-  conjunto, centrado en horizontal y, en vertical, también, salvo que así se
-  corte la tarjeta de más arriba; entonces baja hasta que su encabezado quede
-  a 100 px del borde superior, debajo del HUD. CENTRAR (o `0`, `R`) vuelve a
-  ella.
-- En pantallas chicas (lienzo de menos de 768 px), el zoom es el que hace
-  entrar 1,25 tarjetas de ancho; el ajuste vertical es el mismo, y en
-  horizontal, con el conjunto centrado, si alguna tarjeta queda cortada por el
-  borde izquierdo, el lienzo se desplaza hasta que la de más arriba de ellas
-  entre entera, a 16 px del borde.
+- La vista inicial de cada lienzo se calcula con el algoritmo de la sección
+  siguiente. CENTRAR (o `0`, `R`) vuelve a ella.
 - Mientras nadie mueva la vista inicial, se recalcula si cambia el tamaño del
   lienzo (al cargar en el celular, al mover la costura).
 - La última vista de cada lienzo (posición y zoom) se recuerda en el navegador
@@ -106,6 +97,34 @@ Atajos de teclado: `0` o `R` centra la vista; `+` y `-` hacen zoom; en el lienzo
 principal, `1` a `4` vuelan a cada curso y `Enter` entra al curso que tiene el
 puntero encima; `Escape` vuelve desde un curso. Mientras el menú de navegación
 está abierto, el teclado no llega al lienzo.
+
+## Vista inicial de cada lienzo
+
+Se calcula en `vistaInicial` (`MotorCursario.ts`), con las constantes del
+principio del archivo. Cuentan las **tarjetas** del lienzo: en el principal, las
+ínsulas y las islas de las ínsulas reflotadas; en el de un curso, sus islas. Los
+islotes nunca cuentan. "Pantalla chica" es un lienzo de menos de 768 px de
+ancho (`ANCHO_MOVIL`).
+
+1. **Zoom.** En escritorio y tablets, 70 % (`ZOOM_INICIAL`). En pantallas
+   chicas, el que hace entrar 1,25 tarjetas de ancho (`TARJETAS_MOVIL`, con el
+   ancho de la tarjeta más ancha).
+2. **Centrado.** La cámara va al centro del rectángulo que encierra todas las
+   tarjetas, en los dos ejes (no solo las que se ven).
+3. **Ajuste vertical.** Con esa vista, se toma la tarjeta de más arriba **de
+   entre las que se ven en el lienzo**. Si su borde superior queda a menos de
+   100 px del borde del lienzo (`MARGEN_SUPERIOR`: cortada o debajo del HUD),
+   el lienzo baja hasta que quede justo a 100 px, con su encabezado a la vista.
+   Si no, no se mueve. Esta posición vertical ya no cambia.
+4. **Ajuste horizontal** (solo en pantallas chicas). Con la vista del paso
+   anterior, se toman las tarjetas visibles que el borde izquierdo corta (una
+   parte queda fuera de la pantalla) y, de ellas, la de más arriba. El lienzo
+   se desplaza hasta que esa tarjeta entre entera, con su borde izquierdo a
+   16 px (`MARGEN_IZQUIERDO_MOVIL`). Si ninguna está cortada, no se mueve. Es
+   una sola pasada: si al desplazarse asoma otra tarjeta por la izquierda, se
+   deja así (puede quedar entera pero pegada al borde).
+
+En escritorio la vista termina en el paso 3, centrada en horizontal.
 
 ## Tarjetas HTML
 
