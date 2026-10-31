@@ -162,6 +162,8 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-09',
+    imageUrl: 'la-puja.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     description: 'A partir del texto de Pérez Royo, pensar un sentimiento “amoroso” o positivo, que nutra y potencie su proyecto de TFIC en curso; pensar un sentimiento negativo (trabas, miedos, apatía, desorientación, etc) que dificulte el avance del mismo.',
     markdownFile: 'discurso-amoroso.md',
     pageMarkdownFile: 'discurso-amoroso.md',
@@ -170,7 +172,7 @@ export const ISLAS: IslaDefinition[] = [
     subtitle: 'Actividad - Sobre la investigación en artes',
     tag: '06:OCTUBRE:26',
     accentColor: '#E03E2D',
-    categoryLabel: 'STRANGER VISIONS / Heather Dewey-Hagborg',
+    categoryLabel: 'INVESTIGACIÓN EN ARTES / Victoria Pérez Royo',
     captionLabel: 'EJERCICIO #4 / V. PÉREZ ROYO',
   },
 
