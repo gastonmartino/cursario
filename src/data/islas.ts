@@ -78,6 +78,7 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-03',
+    thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:02', 
