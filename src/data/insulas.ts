@@ -35,6 +35,9 @@ export interface InsulaDefinition {
   //                       Derrotero). Conviene una imagen liviana y cuadrada.
   coverImageUrl?: string | null;
   thumbnailImageUrl?: string | null;
+
+  // Destacado (true) o no (false, o sin definir).
+  featured?: boolean;
 }
 
 export const INSULAS: InsulaDefinition[] = [

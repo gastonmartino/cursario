@@ -45,6 +45,9 @@ export interface IslaDefinition {
   // Sin miniatura, el Derrotero muestra un recuadro gris con el código.
   coverImageUrl?: string | null;
   thumbnailImageUrl?: string | null;
+
+  // Destacado (true) o no (false, o sin definir).
+  featured?: boolean;
 }
 
 export const ISLAS: IslaDefinition[] = [
