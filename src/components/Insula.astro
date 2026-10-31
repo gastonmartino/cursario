@@ -159,13 +159,13 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
     <!-- Flexible Body: Image and/or Markdown -->
     <div class:list={[
       'grid grid-cols-1 gap-5 items-start my-2',
-      hasImage && hasMarkdown && 'md:grid-cols-12',
+      hasImage && hasMarkdown && 'grid-cols-12',
     ]}>
       <!-- Image column / full-width image -->
       {hasImage && (
       <div class:list={[
         'flex flex-col gap-2',
-        hasMarkdown ? 'md:col-span-5' : 'w-full',
+        hasMarkdown ? 'col-span-5' : 'w-full',
       ]}>
         <div 
           class:list={[
@@ -220,7 +220,7 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
       {hasMarkdown && (
       <div class:list={[
         'flex flex-col justify-between h-full bg-white/70 p-4 border border-ink-border/30 rounded-sm',
-        hasImage ? 'md:col-span-7' : 'w-full',
+        hasImage ? 'col-span-7' : 'w-full',
       ]}>
         <div class="font-sans text-ink-primary text-xs leading-relaxed space-y-2">
           <Fragment set:html={resolvedMarkdownHtml} />
