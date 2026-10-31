@@ -417,7 +417,7 @@ const islotes = ISLOTES.map((islote) => {
             activeDerivaName.style.color = active.accentColor;
           }
 
-          if (radarBadge) radarBadge.textContent = `DERIVA: ${active.code}`;
+          if (radarBadge) radarBadge.textContent = active.code;
           if (radarInstruction) radarInstruction.textContent = 'Arrastrar para recorrer • ESC para volver';
 
           if (zoneEl) {
