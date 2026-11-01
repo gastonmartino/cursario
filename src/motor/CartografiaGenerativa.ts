@@ -370,7 +370,7 @@ export class CartografiaGenerativa {
   private calcularEnvolvente(deriva: DerivaInsula) {
     const ENV_MARGEN = 40;
     const ENV_CIERRE = 260;
-    const PASO = 30;
+    const PASO = 20;
     const cajas = deriva.subcursos.map((isla) => {
       const { x, y } = posicionReflotada(isla)!;
       return { x1: x - isla.ancho / 2, x2: x + isla.ancho / 2, y1: y - isla.alto / 2, y2: y + isla.alto / 2 };
@@ -384,32 +384,54 @@ export class CartografiaGenerativa {
     const nx = Math.ceil((Math.max(...cajas.map((c) => c.x2)) + borde - x0) / PASO) + 1;
     const ny = Math.ceil((Math.max(...cajas.map((c) => c.y2)) + borde - y0) / PASO) + 1;
     // 1. Dilatación: a menos de ENV_MARGEN + ENV_CIERRE de alguna isla.
-    const dilatada: boolean[] = [];
-    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
-      dilatada.push(distancia(x0 + i * PASO, y0 + j * PASO) <= ENV_MARGEN + ENV_CIERRE);
-    }
-    const dentroDe = (i: number, j: number) => i >= 0 && j >= 0 && i < nx && j < ny && dilatada[j * nx + i];
-    // 2. Erosión: quedan los puntos a más de ENV_CIERRE de lo que quedó afuera.
+    const alcance = ENV_MARGEN + ENV_CIERRE;
+    const dist: number[] = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) dist.push(distancia(x0 + i * PASO, y0 + j * PASO));
+    const dilatada = (i: number, j: number) => i >= 0 && j >= 0 && i < nx && j < ny && dist[j * nx + i] <= alcance;
+    // 2. Erosión, como campo continuo: cuánto se aleja cada punto de lo que no
+    // quedó dilatado, menos ENV_CIERRE. Es positivo adentro de la envolvente y
+    // negativo afuera, y varía de a poco: el contorno se interpola donde cruza
+    // el cero (sin los escalones de la grilla).
+    // El borde de la zona dilatada, punto por punto, interpolado sobre cada lado
+    // de la grilla donde la distancia a las islas cruza ENV_MARGEN + ENV_CIERRE.
     const afuera: Array<[number, number]> = [];
     for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
-      if (dilatada[j * nx + i]) continue;
-      if ([[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => dentroDe(i + di, j + dj))) afuera.push([i, j]);
+      for (const [di, dj] of [[1, 0], [0, 1]]) {
+        const i2 = i + di, j2 = j + dj;
+        if (i2 >= nx || j2 >= ny || dilatada(i, j) === dilatada(i2, j2)) continue;
+        const da = dist[j * nx + i], db = dist[j2 * nx + i2];
+        const t = (alcance - da) / (db - da);
+        afuera.push([x0 + (i + di * t) * PASO, y0 + (j + dj * t) * PASO]);
+      }
     }
-    const campo: boolean[] = [];
+    const campo: number[] = [];
     for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
-      campo.push(dilatada[j * nx + i] && afuera.every(([ai, aj]) => Math.hypot((ai - i) * PASO, (aj - j) * PASO) > ENV_CIERRE));
+      const d = dist[j * nx + i];
+      if (d > alcance) { campo.push(alcance - d - ENV_CIERRE); continue; }
+      const px = x0 + i * PASO, py = y0 + j * PASO;
+      let cerca = Infinity;
+      for (const [ax, ay] of afuera) cerca = Math.min(cerca, Math.hypot(ax - px, ay - py));
+      campo.push(cerca - ENV_CIERRE);
     }
-    const en = (i: number, j: number) => i >= 0 && j >= 0 && i < nx && j < ny && campo[j * nx + i];
-    // 3. Contorno (marching squares): segmentos entre los puntos medios de los
-    // lados de cada celda, en coordenadas de medio paso.
+    const valor = (i: number, j: number) => (i >= 0 && j >= 0 && i < nx && j < ny ? campo[j * nx + i] : -alcance);
+    // 3. Contorno (marching squares) con los cruces interpolados sobre los
+    // lados de cada celda.
     const siguiente = new Map<string, string>();
     const puntos = new Map<string, { x: number; y: number }>();
+    const cruce = (ia: number, ja: number, ib: number, jb: number) => {
+      const va = valor(ia, ja), vb = valor(ib, jb);
+      const t = va / (va - vb);
+      return { x: x0 + (ia + (ib - ia) * t) * PASO, y: y0 + (ja + (jb - ja) * t) * PASO };
+    };
     for (let j = -1; j < ny; j++) for (let i = -1; i < nx; i++) {
       const lados = {
-        arriba: [2 * i + 1, 2 * j], derecha: [2 * i + 2, 2 * j + 1],
-        abajo: [2 * i + 1, 2 * j + 2], izquierda: [2 * i, 2 * j + 1],
-      } as const;
+        arriba: { clave: `${2 * i + 1},${2 * j}`, punto: () => cruce(i, j, i + 1, j) },
+        derecha: { clave: `${2 * i + 2},${2 * j + 1}`, punto: () => cruce(i + 1, j, i + 1, j + 1) },
+        abajo: { clave: `${2 * i + 1},${2 * j + 2}`, punto: () => cruce(i, j + 1, i + 1, j + 1) },
+        izquierda: { clave: `${2 * i},${2 * j + 1}`, punto: () => cruce(i, j, i, j + 1) },
+      };
       type Lado = keyof typeof lados;
+      const en = (a: number, b: number) => valor(a, b) >= 0;
       const caso = (en(i, j) ? 8 : 0) | (en(i + 1, j) ? 4 : 0) | (en(i + 1, j + 1) ? 2 : 0) | (en(i, j + 1) ? 1 : 0);
       const pares: Record<number, Array<[Lado, Lado]>> = {
         1: [['izquierda', 'abajo']], 2: [['abajo', 'derecha']], 3: [['izquierda', 'derecha']],
@@ -419,10 +441,9 @@ export class CartografiaGenerativa {
         13: [['derecha', 'abajo']], 14: [['abajo', 'izquierda']],
       };
       for (const [desde, hasta] of pares[caso] ?? []) {
-        const [ax, ay] = lados[desde], [bx, by] = lados[hasta];
-        siguiente.set(`${ax},${ay}`, `${bx},${by}`);
-        puntos.set(`${ax},${ay}`, { x: x0 + (ax / 2) * PASO, y: y0 + (ay / 2) * PASO });
-        puntos.set(`${bx},${by}`, { x: x0 + (bx / 2) * PASO, y: y0 + (by / 2) * PASO });
+        siguiente.set(lados[desde].clave, lados[hasta].clave);
+        if (!puntos.has(lados[desde].clave)) puntos.set(lados[desde].clave, lados[desde].punto());
+        if (!puntos.has(lados[hasta].clave)) puntos.set(lados[hasta].clave, lados[hasta].punto());
       }
     }
     // Los segmentos se encadenan en lazos cerrados.
@@ -439,11 +460,11 @@ export class CartografiaGenerativa {
       }
       if (lazo.length > 8) lazos.push(lazo);
     }
-    // 4. Suavizado: primero un promedio con los vecinos (borra los escalones
-    // de la grilla), después Chaikin.
+    // 4. Suavizado: un promedio con los vecinos (alisa lo que quede de la
+    // grilla) y después Chaikin.
     return lazos.map((lazo) => {
       let curva = lazo;
-      for (let vuelta = 0; vuelta < 3; vuelta++) {
+      for (let vuelta = 0; vuelta < 4; vuelta++) {
         curva = curva.map((p, k) => {
           const a = curva[(k - 1 + curva.length) % curva.length], b = curva[(k + 1) % curva.length];
           return { x: (a.x + 2 * p.x + b.x) / 4, y: (a.y + 2 * p.y + b.y) / 4 };
