@@ -410,6 +410,14 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         ancho: 640,
         alto: 666,
       },
+      {
+        id: 'expediente-1126-03',
+        subcurso: 'curso003',
+        x: 1140,
+        y: -20,
+        ancho: 640,
+        alto: 692,
+      },
     ],
   },
 ];

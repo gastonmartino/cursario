@@ -22,7 +22,11 @@ En la vivienda aparece un conjunto heterogéneo de materiales que, considerados 
 - correspondencia y papeles sueltos, con nombres, iniciales y fechas que se repiten;
 - componentes y herramientas cuya función no puede determinarse durante el procedimiento.
 
+![Cuadernos de registro sobre la mesa de trabajo, con escala forense](/curso04/subcursos/curso002/medios/cuadernos-registro.jpg) *Elemento E-02: cuadernos de registro, sobre la mesa de trabajo del taller posterior.*
+
 En conjunto, sugieren una actividad sostenida de observación y registro de la infraestructura costera. Hay distintas caligrafías y códigos diferentes, y algunos sectores del territorio aparecen registrados por más de una mano.
+
+![Plano de Las Toninas con anotaciones manuscritas](/curso04/subcursos/curso002/medios/plano-anotado.jpg) *Elemento E-01: plano de Las Toninas con recorridos, puntos marcados y anotaciones a mano.*
 
 ## Lo que queda abierto
 

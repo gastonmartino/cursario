@@ -21,5 +21,6 @@ La causa se abre con un episodio menor: una pelea entre dos vendedores ambulante
 - **Diligencia 01 · 18/01/2026** — [Procedimiento policial en la playa](/curso04/curso001/)
 - **Diligencia 02 · 19/01/2026** — Identificación técnica del objeto *(en preparación)*
 - **Diligencia 03 · 21/01/2026** — [Allanamiento del domicilio de Pereyra](/curso04/curso002/)
+- **Diligencia 04 · 26/01/2026** — [Identificación de personas y vínculos](/curso04/curso003/)
 
 > La investigación continúa.

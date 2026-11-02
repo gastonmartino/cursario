@@ -449,6 +449,21 @@ export const ISLAS: IslaDefinition[] = [
     imageDate: '21/01/2026',
     headerLabel: 'ALLANAMIENTO',
   },
+  {
+    id: 'expediente-1126-03',
+    imageUrl: 'tarjeta.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
+    markdownFile: 'tarjeta.md',
+    pageMarkdownFile: 'pagina.md',
+    code: 'DILIGENCIA:04',
+    title: 'Identificación de personas y vínculos',
+    subtitle: 'DDI La Costa · Anexo I, fs. 15',
+    tag: '26:ENERO:26',
+    accentColor: '#3F14DB',
+    imageCaption: 'CROQUIS DE VÍNCULOS / CUADERNOS E-02',
+    imageDate: '26/01/2026',
+    headerLabel: 'PERSONAS Y VÍNCULOS',
+  },
 ];
 
 
