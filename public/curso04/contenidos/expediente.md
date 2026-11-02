@@ -16,8 +16,8 @@ La historia no se narra: se reconstruye. Se presenta como un expediente híbrido
 
 La causa se abre con un episodio menor: una pelea entre dos vendedores ambulantes en la playa, el domingo 18 de enero de 2026. Durante el procedimiento aparece un objeto que nadie reconoce como propio.
 
-- **Hito 01 · 18/01/2026** — [Procedimiento policial en la playa](/curso04/curso001/)
-- **Hito 02 · 19/01/2026** — Identificación técnica del objeto *(en preparación)*
-- **Hito 03 · 21/01/2026** — [Allanamiento del domicilio de Pereyra](/curso04/curso002/)
+- **Diligencia 01 · 18/01/2026** — [Procedimiento policial en la playa](/curso04/curso001/)
+- **Diligencia 02 · 19/01/2026** — Identificación técnica del objeto *(en preparación)*
+- **Diligencia 03 · 21/01/2026** — [Allanamiento del domicilio de Pereyra](/curso04/curso002/)
 
 > La investigación continúa.
