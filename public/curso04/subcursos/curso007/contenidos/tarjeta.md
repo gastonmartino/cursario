@@ -1,7 +1,7 @@
-### Primeras declaraciones testimoniales
+### Declaraciones testimoniales
 
-Finales de febrero de 2026. La Fiscalía convoca a personas relacionadas con Pereyra y con los lugares que aparecen en mapas, cuadernos y documentos técnicos.
+Finales de febrero de 2026. Prestan declaración personas vinculadas con Pereyra y con los lugares mencionados en mapas, cuadernos y documentos técnicos.
 
-Los testimonios reconstruyen recorridos, reuniones y actividades técnicas. Algunas personas niegan conocerse entre sí, aunque sus nombres aparecen juntos en los mismos registros.
+Los declarantes refieren recorridos, reuniones fuera de temporada y tareas técnicas. Algunos niegan conocerse entre sí.
 
-> Las contradicciones también son evidencia.
+> «Eran charlas de vecinos por los problemas de Internet».

@@ -1,7 +1,7 @@
 ### Contrataciones y licitaciones
 
-Primera quincena de julio de 2026. La Fiscalía examina contrataciones, licitaciones, permisos de obra y proyectos de infraestructura en los que aparecen personas o empresas vinculadas a la investigación.
+Primera quincena de julio de 2026. Se examinan contrataciones, licitaciones y permisos de obra en los que intervienen personas o empresas vinculadas a la causa.
 
-¿Fueron algunas obras públicas aprovechadas para instalar elementos con funciones no declaradas en los pliegos?
+El proyecto del Monumento a la Conectividad Atlántica está firmado por un arquitecto y un ingeniero civil individualizados en marzo.
 
-> Lo público, ¿también al servicio de lo reservado?
+> No se presume fraude por la sola coincidencia de nombres.

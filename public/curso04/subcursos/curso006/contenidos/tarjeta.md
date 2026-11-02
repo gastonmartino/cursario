@@ -1,7 +1,7 @@
 ### Requerimiento de informes
 
-Segunda quincena de febrero de 2026. La Fiscalía libra pedidos de informes a organismos, empresas y registros para verificar identidades, domicilios, titularidades y antecedentes de las personas mencionadas en el material secuestrado.
+Segunda quincena de febrero de 2026. La Fiscalía libra oficios a organismos, empresas y registros para verificar identidades, domicilios, titularidades y antecedentes de las personas mencionadas en el material secuestrado.
 
-Las respuestas suman nombres nuevos y referencias a personas radicadas fuera de Las Toninas.
+Las respuestas incorporan nombres nuevos y domicilios fuera de Las Toninas.
 
-> El expediente empieza a crecer hacia afuera.
+> Ninguno de los informados registra antecedentes penales.

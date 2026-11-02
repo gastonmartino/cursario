@@ -1,25 +1,28 @@
 # Hallazgo de documentación complementaria y ampliación de la investigación
 
-**Segunda quincena de octubre de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de octubre de 2026 · fs. 220–233.
 
-Las medidas de octubre tuvieron un efecto inesperado: la organización dejó de controlar qué materiales llegaban a la investigación.
+## Antecedentes
 
-## Objeto
+Conforme lo dispuesto a fs. 219, se incorporan las declaraciones y los elementos obtenidos con posterioridad a las medidas de coerción.
 
-Incorporar las nuevas declaraciones y los elementos secuestrados después de las medidas de coerción.
+## Elementos incorporados
 
-## Hallazgos
+- documentación que completa parcialmente la **cronología** de Los del Fondo;
+- referencias a **proyectos no ejecutados**;
+- referencias a una **etapa de expansión** de Nueva Toninas.
 
-- documentos que permiten completar parcialmente la **cronología** de Los del Fondo;
-- referencias a **proyectos todavía no ejecutados**;
-- indicios de una **etapa de expansión** de Nueva Toninas.
+## Valoración
 
-## Lo que cambia
+La documentación incorporada modifica o complementa valoraciones anteriores: algunas se refuerzan y otras pierden sustento.
 
-El expediente se amplía cuando ya no depende solo de lo que la investigación busca. Los documentos nuevos modifican o complejizan interpretaciones anteriores: algunas hipótesis se refuerzan, otras pierden sustento.
+## Alcance
 
-## Límites
+La cronología continúa siendo parcial. Las referencias a proyectos futuros no acreditan su ejecución ni la identidad de todos sus responsables.
 
-La cronología continúa siendo parcial. La aparición de proyectos futuros no prueba que hayan sido ejecutados ni que todos sus responsables estén identificados.
+## Se dispone
 
-> Un archivo que se sigue escribiendo mientras se lo investiga.
+- Agregar la documentación.
+- Elaborar un informe de estado de la investigación con fecha de corte al 2 de noviembre de 2026.
+
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

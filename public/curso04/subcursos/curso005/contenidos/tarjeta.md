@@ -1,7 +1,7 @@
-### Análisis del material secuestrado
+### Informe pericial documental
 
-Primera quincena de febrero de 2026. Los peritos clasifican los documentos, dispositivos y componentes secuestrados en el domicilio de Pereyra y buscan relaciones entre ellos.
+Primera quincena de febrero de 2026. Los peritos clasifican el material secuestrado en el domicilio de Pereyra y registran las relaciones observables entre sus partes.
 
-Aparecen distintas caligrafías, códigos compartidos y referencias reiteradas a puntos de la infraestructura. Algunos diagramas describen circuitos de comunicación óptica que no coinciden con ningún estándar comercial conocido.
+Se constatan distintas caligrafías, códigos compartidos, la nomenclatura «M-00» y diagramas de comunicación óptica sin equivalente en estándares comerciales.
 
-> Ya no es un módulo aislado: es una práctica.
+> No es posible atribuir cada documento a una persona determinada.

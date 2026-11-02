@@ -1,22 +1,22 @@
 # Reconstrucción de proyectos urbanos y obras ejecutadas
 
-**Segunda quincena de junio de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de junio de 2026 · fs. 111–124.
 
-Los planos secuestrados en el depósito mostraban intervenciones urbanas ya construidas. Esta diligencia los pone a prueba frente a la documentación oficial y frente al territorio.
+## Antecedentes
 
-## Objeto
+Entre la documentación secuestrada en el depósito (fs. 64–79) constan planos de intervenciones urbanas ejecutadas o parcialmente construidas. Se dispone su cotejo con la documentación municipal y con las instalaciones existentes.
 
-Comparar planos, permisos, documentación municipal e instalaciones para identificar un plan territorial más amplio.
+## Método
 
-## Tres capas de análisis
+El cotejo se organiza en tres capas:
 
-- **La ciudad anterior.** Trazado, infraestructura y usos históricos del balneario.
-- **La ciudad existente.** Obras, instalaciones y modificaciones actuales.
-- **La ciudad proyectada.** Intervenciones, conexiones y dispositivos previstos en los planos de la organización.
+- **trazado anterior:** infraestructura y usos históricos de la localidad;
+- **trazado existente:** obras, instalaciones y modificaciones actuales;
+- **trazado proyectado:** intervenciones, conexiones y dispositivos consignados en los planos secuestrados.
 
-## Hallazgos
+## Resultado
 
-Algunas obras aparentemente ordinarias podrían cumplir funciones adicionales dentro de la red. Seis se repiten en planos de distintas procedencias:
+Seis obras se reiteran en planos de distinta procedencia:
 
 - el **plan de saneamiento pluvial** y recuperación de escurrimientos;
 - el **Centro de Formación en Oficios y Tecnologías Costeras**;
@@ -25,12 +25,15 @@ Algunas obras aparentemente ordinarias podrían cumplir funciones adicionales de
 - el **Programa de Infraestructura Náutica de Baja Escala**;
 - el **Monumento a la Conectividad Atlántica**.
 
-En las cartografías que las superponen, distancias y orientaciones sugieren un origen común, que no coincide con la referencia topográfica municipal. En los planos secuestrados, cada obra aparece con otro rótulo y otras conexiones.
+En los planos secuestrados, cada obra consta con rótulos y conexiones que no figuran en la documentación municipal. En las cartografías que las superponen, distancias y orientaciones remiten a un origen de referencia común, que no coincide con la referencia topográfica municipal.
 
-La ciudad proyectada comienza a superponerse con la ciudad visible.
+## Alcance
 
-## Límites
+Las funciones no declaradas de cada obra no se encuentran acreditadas y deberán contrastarse mediante documentos, inspecciones y peritajes.
 
-La función oculta de cada obra permanece como hipótesis hasta que sea contrastada con documentos, inspecciones y conexiones materiales.
+## Se dispone
 
-> Leídos juntos, los planos oficiales y los secuestrados dibujan dos ciudades en el mismo lugar.
+- Agregar el informe de cotejo.
+- Requerir a la Municipalidad del Partido de La Costa los expedientes de contratación, licitación y habilitación de las seis obras.
+
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

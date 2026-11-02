@@ -1,30 +1,35 @@
 # Requerimiento de informes y solicitud de antecedentes
 
-**Segunda quincena de febrero de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de febrero de 2026 · fs. 25–33.
 
-Las iniciales, los teléfonos y los domicilios que aparecen en los cuadernos y en la correspondencia secuestrada necesitan una correspondencia formal. La Fiscalía individualiza a las personas de interés y formula requerimientos diferenciados para cada línea de verificación.
+## Antecedentes
 
-## Objeto
+El informe de individualización (fs. 12–15) y el informe pericial documental (fs. 16–24) consignan nombres, iniciales, teléfonos y domicilios que requieren verificación.
 
-Solicitar información a organismos, empresas y registros para verificar:
+## Oficios librados
 
-- identidades y domicilios;
-- titularidades de líneas telefónicas, servicios y bienes registrables;
-- antecedentes registrales;
-- posibles vínculos entre las personas mencionadas en el material secuestrado.
+Se libran oficios a:
 
-## Desarrollo
+- el Registro Nacional de las Personas, respecto de identidad y domicilios;
+- la Junta Electoral, respecto del padrón del Partido de La Costa;
+- las empresas prestadoras de telefonía fija y servicios, respecto de la titularidad de líneas;
+- la Municipalidad del Partido de La Costa, respecto de habilitaciones comerciales y registros catastrales;
+- el Registro Nacional de Reincidencia, respecto de antecedentes penales.
 
-Los pedidos se dirigen, entre otros, a registros de identificación, al padrón electoral, a las empresas prestadoras de servicios y a la Municipalidad del Partido de La Costa. Las respuestas llegan de manera despareja y en distintos formatos.
+## Resultado
 
-Al cruzarlas aparecen nombres nuevos y referencias a personas radicadas fuera de Las Toninas: domicilios en otras localidades de la costa y en ciudades más lejanas, líneas a nombre de terceros, servicios contratados en lugares donde nadie parece vivir todo el año.
+- Se confirman las identidades y los domicilios de las personas individualizadas a fs. 12–15.
+- Varias líneas telefónicas registradas en los cuadernos figuran a nombre de terceros.
+- Surgen nombres no mencionados hasta el momento y domicilios en otras localidades de la costa y en ciudades más alejadas.
+- Ninguna de las personas informadas registra antecedentes penales.
 
-## Lo que cambia
+## Alcance
 
-La diligencia amplía espacialmente el expediente. Las referencias parciales del archivo se transforman en líneas de identificación y de cruce documental, y la red, que parecía circunscripta al pueblo, empieza a tener extremos en otros lugares.
+Los informes no acreditan por sí mismos pertenencia a una organización ni finalidad delictiva. Antecedentes, domicilios y titularidades se agregan sin perjuicio de su valoración posterior.
 
-## Límites
+## Se dispone
 
-Los informes no demuestran por sí mismos la pertenencia a una organización ni una finalidad delictiva. Antecedentes, domicilios y titularidades deben mantenerse separados de las hipótesis de colaboración.
+- Agregar los informes recibidos.
+- Citar a prestar declaración testimonial a las personas vinculadas con Pereyra y con los lugares mencionados en el material secuestrado.
 
-> Cada respuesta confirma un dato y, al mismo tiempo, abre una dirección nueva.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

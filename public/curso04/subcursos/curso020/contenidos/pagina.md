@@ -1,30 +1,29 @@
 # Identificación de la red de comunicaciones experimental
 
-**Primera quincena de septiembre de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Primera quincena de septiembre de 2026 · fs. 182–194.
 
-El dispositivo de pulsos de luz, los repetidores humanos y su academia, las obras con funciones adicionales: la investigación intenta ahora unirlos en una misma red.
+## Antecedentes
 
-## Objeto
+Conforme lo dispuesto a fs. 181, se reconstruye la red que vincula el dispositivo de pulsos de luz (fs. 80–92), el sistema de repetidores (fs. 93–101) y las obras inspeccionadas (fs. 165–181).
 
-Reconstruir las conexiones entre estaciones, puntos de transmisión, tramos de fibra y repetidores humanos.
+## Resultado
 
-## Hallazgos
+Se incorporan:
 
 - **registros de pruebas** con fechas, horarios y resultados;
 - **códigos** de transmisión;
 - **horarios** de operación;
-- **protocolos** de comunicación entre nodos.
+- **protocolos** de comunicación entre puntos de retransmisión.
 
-Se evalúan también las conexiones del monumento —M-00— con los observatorios, el mural 03 y el puerto náutico.
+Se evalúan las conexiones del monumento —M-00— con los observatorios, el mural 03 y el puerto náutico, y se distingue la infraestructura proyectada de la instalada y de la efectivamente utilizada.
 
-Con ellos se intenta determinar qué información circuló efectivamente por la red y qué elementos quedaron solamente proyectados.
+## Alcance
 
-## Lo que cambia
+Se mantiene la distinción entre documentación técnica, pruebas realizadas y comunicaciones efectivamente cursadas. Los registros no acreditan el contenido de ninguna comunicación ni el funcionamiento de la red en su conjunto.
 
-La red de pulsos luminosos deja de ser un diseño aislado y puede analizarse como sistema: con nodos, operadores y procedimientos.
+## Se dispone
 
-## Límites
+- Agregar el informe.
+- Evaluar la situación individual de las personas involucradas y la eventual calificación legal de los hechos.
 
-Debe mantenerse la diferencia entre documentación técnica, pruebas realizadas y comunicaciones efectivamente transmitidas. El expediente no puede convertir el proyecto en funcionamiento probado sin evidencia.
-
-> Saber que una red pudo funcionar no es saber qué dijo.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

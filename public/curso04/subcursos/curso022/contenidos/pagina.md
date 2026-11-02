@@ -1,25 +1,28 @@
 # Medidas de coerción y detenciones
 
-**Primera quincena de octubre de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores · Primera quincena de octubre de 2026 · fs. 207–219.
 
-Con la calificación en estudio, la Fiscalía pasa de la descripción a la acción sobre las personas.
+## Antecedentes
 
-## Objeto
+Conforme lo resuelto a fs. 206, se evalúa la situación individual de los involucrados.
 
-Solicitar y ejecutar medidas respecto de personas para las que existen elementos individualizados sobre su participación en hechos investigados.
+## Requerimiento fiscal
 
-## Desarrollo
+La Fiscalía requiere al Juzgado de Garantías medidas de coerción respecto de las personas que registran elementos individualizados de participación en hechos investigados. El requerimiento se funda en hechos concretos atribuidos a cada una; la pertenencia a Los del Fondo o la participación en Nueva Toninas no se invocan como fundamento suficiente.
 
-La Fiscalía fundamenta las medidas y solicita el control judicial correspondiente. Se producen una o más detenciones. Ni la pertenencia a Los del Fondo ni la participación en Nueva Toninas son, por sí solas, motivo suficiente para ninguna de ellas.
+## Resolución y ejecución
 
-## Consecuencias
+El Juzgado de Garantías hace lugar parcialmente al requerimiento. Se practican una o más detenciones y se notifican las medidas a los imputados y a sus defensas.
 
-- algunos integrantes **dejan de colaborar**;
-- se **interrumpen comunicaciones**;
-- aparecen **documentos** que no habían sido incorporados al expediente.
+## Constancias posteriores
 
-## Límites
+- Algunos involucrados dejan de prestar colaboración.
+- Se interrumpen comunicaciones registradas hasta la fecha.
+- Se tiene noticia de documentación no incorporada a las actuaciones.
 
-La diligencia debe distinguir entre aprehensión policial, detención judicial y otras medidas de coerción. La respuesta institucional no resuelve automáticamente la organización ni su proyecto.
+## Se dispone
 
-> Detener a una persona no detiene una red.
+- Agregar el requerimiento, la resolución y las actas de detención.
+- Incorporar la documentación y las declaraciones que surjan con posterioridad a las medidas.
+
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

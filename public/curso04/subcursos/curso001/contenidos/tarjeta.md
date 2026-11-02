@@ -1,7 +1,7 @@
 ### Acta de procedimiento
 
-Domingo 18 de enero de 2026, 17:42 h. Playa de Las Toninas. Una disputa territorial entre dos vendedores ambulantes termina en golpes. Turistas dan aviso y el personal del Destacamento Costero interviene.
+Domingo 18 de enero de 2026, 17:42 h, playa de Las Toninas. Personal del Destacamento Costero interviene ante una riña entre dos vendedores ambulantes, Juan Carlos Ríos y Héctor Daniel Pereyra.
 
-Durante el procedimiento, en el puesto de pareos de Héctor Daniel Pereyra, se observa una caja rígida gris oscuro con un **módulo electrónico** en su interior. Pereyra manifiesta que el elemento no le pertenece y que desconoce cómo llegó al puesto. Se lo secuestra preventivamente para establecer su procedencia.
+En el puesto de Pereyra se observa una caja rígida con un **módulo electrónico** que lleva etiqueta de Telemar. El nombrado manifiesta que no le pertenece.
 
-> Primera anomalía de la investigación.
+> Se dispone el secuestro preventivo del elemento.

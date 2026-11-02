@@ -1,28 +1,29 @@
 # Primeras declaraciones testimoniales
 
-**Finales de febrero de 2026** · Testimoniales a tenor informativo, sin imputación formal · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Finales de febrero de 2026 · fs. 34–40.
 
-Después de los papeles, las voces. La Fiscalía cita a declarar a personas relacionadas con Héctor Daniel Pereyra y con los lugares que aparecen en los mapas, los cuadernos y los documentos técnicos secuestrados.
+## Antecedentes
 
-## Objeto
+Conforme lo dispuesto a fs. 33, se cita a prestar declaración testimonial, a tenor informativo y sin imputación, a personas vinculadas con Héctor Daniel Pereyra y con los lugares mencionados en el material secuestrado.
 
-Reconstruir, a partir de relatos situados, los recorridos, encuentros y actividades que el archivo registra de manera fragmentaria.
+## Síntesis de las declaraciones
 
-## Lo que dicen los testimonios
+- Los declarantes refieren **recorridos** por la playa y la costa en horarios no habituales, durante el invierno.
+- Mencionan **reuniones** fuera de temporada en salones cerrados y casas particulares, que describen como charlas entre vecinos.
+- Refieren **tareas técnicas** —mediciones, tendidos de prueba, reparaciones— que presentan como pasatiempos o favores.
+- Varios declarantes **niegan conocerse entre sí**, aunque sus nombres o iniciales constan asociados en los mismos registros.
 
-- Describen **recorridos** por la playa y por la costa a horas poco habituales, y caminatas de invierno que nadie más hace.
-- Mencionan **reuniones** fuera de temporada, en salones cerrados y casas particulares, presentadas como charlas de vecinos.
-- Refieren **actividades técnicas** —mediciones, tendidos de prueba, reparaciones— que los declarantes describen como pasatiempos o favores.
-- Varias personas **niegan conocerse entre sí**, aunque sus nombres o sus iniciales aparecen asociados en los mismos registros.
+## Extracto de declaración
 
-Algunos testigos repiten explicaciones parecidas: que se trataba de los problemas de Internet del pueblo, que «nos pasaban los cables por abajo y no teníamos ni línea», que los planos servían para entender por qué la costa quedaba aislada en invierno.
+> Preguntado para que diga a qué se refieren las anotaciones de los cuadernos, RESPONDE: que eran charlas de vecinos por los problemas de Internet; que hace quince años no tenían ni línea telefónica mientras les pasaban los cables por abajo; que los planos eran para entender por qué el pueblo quedaba aislado en invierno. Preguntado para que diga si integra alguna agrupación, RESPONDE: que no.
 
-## Lo que cambia
+## Valoración
 
-Las declaraciones conectan el archivo material con experiencias y movimientos de personas concretas. La red deja de ser una abstracción documental, pero todavía no se deja explicar como un todo.
+Las declaraciones coinciden en lo sustancial respecto del motivo invocado y presentan contradicciones respecto del trato entre los declarantes. Las contradicciones se consignan y quedan sujetas a valoración.
 
-## Límites
+## Se dispone
 
-Cada testimonio conserva su carácter situado y parcial. Las contradicciones no se resuelven automáticamente: quedan registradas y pueden convertirse, ellas mismas, en parte de la evidencia.
+- Agregar las actas de declaración.
+- Profundizar la individualización de las personas que pudieron aportar conocimientos, herramientas o medios de movilidad a las actividades registradas.
 
-> Nadie admite formar parte de nada. Pero todos parecen saber de qué se les pregunta.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

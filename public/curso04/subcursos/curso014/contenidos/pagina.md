@@ -1,14 +1,14 @@
 # Investigación de la Academia de Repetidores
 
-**Primera quincena de junio de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Primera quincena de junio de 2026 · fs. 102–110.
 
-Un sistema que depende de operadores humanos necesita formarlos. Entre los documentos de la red de repetidores, la investigación encuentra las huellas de una institución dedicada a eso.
+## Antecedentes
 
-## Objeto
+Conforme lo dispuesto a fs. 101, se investiga la instancia de formación de operadores mencionada en los documentos del sistema de repetidores.
 
-Investigar la institución de formación mencionada en los documentos del sistema de repetidores humanos.
+## Resultado
 
-## Hallazgos
+Se constatan:
 
 - referencias a **encuentros de formación**;
 - **manuales** de lectura y emisión de señales;
@@ -16,14 +16,16 @@ Investigar la institución de formación mencionada en los documentos del sistem
 - **ejercicios de transmisión** y registros de práctica;
 - **evaluaciones**.
 
-La institución aparece, provisoriamente, como **Academia de Repetidores**.
+Los documentos utilizan la denominación **Academia de Repetidores**.
 
-## Lo que cambia
+## Alcance
 
-La organización deja de proyectar solamente un dispositivo y comienza a producir saberes, protocolos y una profesión específica para sostenerlo. Lo que se investiga ya no es solo una red de comunicación, sino una forma de transmitir conocimiento.
+No se establece si la academia tuvo sede estable, funcionamiento institucional o una modalidad informal de capacitación. Su existencia se sostiene, a la fecha, en documentación fragmentaria.
 
-## Límites
+## Se dispone
 
-No se determina si la academia tuvo una sede estable, un funcionamiento institucional o una modalidad informal de capacitación. Su existencia se sostiene, por ahora, en documentos fragmentarios.
+- Agregar el informe y la documentación de respaldo.
+- Requerir a la Municipalidad del Partido de La Costa la nómina de cursos y programas de formación en oficios dictados en la localidad.
+- Cotejar los planos de proyectos urbanos secuestrados con la documentación municipal.
 
-> Para que la luz pase de un nodo a otro, alguien tuvo que aprender a leerla.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

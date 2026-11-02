@@ -1,29 +1,28 @@
 # Determinación de responsabilidades y eventual calificación legal
 
-**Segunda quincena de septiembre de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de septiembre de 2026 · fs. 195–206.
 
-Ocho meses después del incidente en la playa, la investigación tiene que decir qué es, para el derecho, todo lo que reunió.
+## Vistos
 
-## Objeto
+Las actuaciones de fs. 01–194.
 
-Evaluar la posible comisión de delitos relacionados con:
+## Considerando
 
-- la apropiación de bienes;
+Que corresponde evaluar la posible comisión de delitos vinculados con:
+
+- la apropiación de bienes pertenecientes a terceros;
 - daños;
 - falsedad documental;
-- contrataciones;
+- irregularidades en contrataciones públicas;
 - la organización de personas.
 
-## Desarrollo
+Que debe analizarse la situación individual de cada uno de los involucrados y la eventual configuración del delito de **asociación ilícita**, previsto en el artículo 210 del Código Penal.
 
-La Fiscalía analiza la situación individual de cada uno de los involucrados y la posible existencia de una **asociación ilícita**, prevista en el artículo 210 del Código Penal argentino.
+Que las expresiones «agrupación de funcionamiento reservado» y «Los del Fondo» utilizadas en autos son descriptivas, y que la calificación de asociación ilícita solo procede cuando existan elementos sobre una finalidad delictiva concreta.
 
-## Lo que cambia
+## Resuelvo
 
-La causa comienza a traducir la red de prácticas y proyectos en hipótesis jurídicas concretas. Lo que hasta aquí era una descripción tiene que convertirse en una imputación, o no.
+- Formar legajos individuales respecto de cada uno de los involucrados.
+- Evaluar la procedencia de medidas de coerción respecto de quienes registren elementos individualizados de participación en hechos investigados.
 
-## Límites
-
-«Organización secreta», «organización clandestina» y «Los del Fondo» son descripciones narrativas o investigativas. «Asociación ilícita» solo puede utilizarse como calificación cuando existan elementos sobre una finalidad delictiva concreta.
-
-> El derecho necesita nombrar. La red, hasta ahora, había preferido no hacerlo.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

@@ -1,7 +1,7 @@
-### Informe de estado de la investigación
+### Informe de estado
 
-Lunes 2 de noviembre de 2026. La Fiscalía reúne las principales líneas de investigación, los elementos acreditados, las hipótesis pendientes y las medidas aún no ejecutadas.
+Lunes 2 de noviembre de 2026. La Fiscalía reúne las líneas de investigación, los elementos acreditados, las hipótesis pendientes y las medidas no ejecutadas.
 
-El informe no clausura el expediente. Ordena lo reunido hasta la fecha.
+Se encuentran documentados el dispositivo de pulsos de luz, el sistema de repetidores, la Academia de Repetidores y el proyecto de Nueva Toninas.
 
 > La investigación continúa.

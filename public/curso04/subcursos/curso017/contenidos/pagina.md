@@ -1,32 +1,36 @@
 # Identificación de documentación fundacional de Nueva Toninas
 
-**Segunda quincena de julio de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de julio de 2026 · fs. 140–152.
 
-Los planos, las obras superpuestas y los proyectos sin nombre encuentran, en esta diligencia, un documento que los reúne.
+## Antecedentes
 
-## Objeto
+Entre la documentación analizada se identifica un documento interno titulado *Acta de Fundación y Declaración de Existencia de Nueva Toninas*, que se incorpora a las actuaciones.
 
-Incorporar al expediente el documento interno titulado *Acta de Fundación y Declaración de Existencia de Nueva Toninas*.
+## Descripción del documento
 
-## Hallazgos
-
-El acta está acompañada por:
+El acta se acompaña de:
 
 - planos y mapas superpuestos;
 - una distribución de funciones;
 - principios de organización;
-- la referencia a una fecha de fundación anterior.
+- la referencia a una fecha de fundación anterior a su hallazgo.
 
-El documento declara la existencia de una ciudad que, según el propio texto, ya tendría una dimensión material. La frase fundacional invierte el orden habitual: la existencia de la ciudad precede a su declaración.
+El texto declara la existencia de una ciudad a la que atribuye una dimensión material ya construida.
 
-Uno de los anexos cartográficos usa un sistema de coordenadas propio, cuyo origen figura como **«M-00 / Punto Cero»**. La investigación lo identifica con el **Monumento a la Conectividad Atlántica**: la obra fotografiada con «Punto 0» al dorso, cuyo proyecto apareció en el depósito, deja de ser una escultura extravagante y se convierte en la clave de lectura de la ciudad superpuesta.
+## Anexo cartográfico
 
-## Lo que cambia
+Uno de los anexos utiliza un sistema de coordenadas propio cuyo origen consta como **«M-00 / Punto Cero»**. Cotejado con la documentación de autos, el origen corresponde al **Monumento a la Conectividad Atlántica**: la obra fotografiada con la anotación «Punto 0» (fs. 08–11), cuyo proyecto ejecutivo fue secuestrado en el depósito (fs. 64–79).
 
-**Nueva Toninas** deja de ser una hipótesis territorial dispersa y aparece como proyecto político y como declaración de pertenencia de Los del Fondo.
+Se deja constancia de que la nomenclatura «M-00» consignada en el informe pericial de fs. 16–24 encuentra, con este documento, su referencia.
 
-## Límites
+## Valoración
 
-No es una creación jurídica, municipal ni estatal. La fecha del documento y la fecha de su hallazgo deben mantenerse separadas: la fundación interna puede ser bastante anterior a julio de 2026.
+El acta permite atribuir a Los del Fondo un proyecto territorial común, denominado **Nueva Toninas**, del que las obras cotejadas a fs. 111–124 formarían parte. El documento no constituye una creación jurídica, municipal ni estatal. La fecha consignada en el acta y la fecha de su hallazgo se mantienen diferenciadas.
 
-> Una ciudad que no se funda para empezar a existir, sino para reconocer que ya existe.
+## Se dispone
+
+- Agregar el acta y sus anexos.
+- Reconstruir la estructura y el alcance territorial de la agrupación.
+- Disponer la inspección ocular de las obras cotejadas, en particular del monumento.
+
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

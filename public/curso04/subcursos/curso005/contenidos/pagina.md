@@ -1,28 +1,34 @@
 # Análisis documental y técnico del material secuestrado
 
-**Primera quincena de febrero de 2026** · Peritos comisionados por la Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Peritos de la Policía Científica, Delegación Dolores · Primera quincena de febrero de 2026 · fs. 16–24.
 
-Con las personas ya individualizadas, la investigación vuelve sobre el archivo. Los peritos reciben el material secuestrado el 21 de enero en el domicilio de Héctor Daniel Pereyra —planos y cartas (E-01), cuadernos (E-02), documentación técnica (E-03), correspondencia (E-04) y herramientas (E-05)— con un encargo preciso: clasificarlo y establecer las relaciones que puedan observarse entre sus partes.
+## Antecedentes
 
-## Objeto
+Por decreto fiscal se dispone el análisis pericial de los efectos secuestrados el 21 de enero en el domicilio de Héctor Daniel Pereyra (E-01 a E-05, fs. 09).
 
-Ordenar documentos, dispositivos y componentes según su naturaleza, su autoría probable y su función, y registrar las coincidencias entre ellos: fechas, lugares, signos y referencias técnicas que se repiten.
+## Puntos de pericia
 
-## Hallazgos
+1. Clasifiquen los peritos los documentos, dispositivos y componentes según su naturaleza y su función.
+2. Determinen si los manuscritos corresponden a una o a varias manos.
+3. Señalen las referencias, signos o códigos que se repitan en documentos de distinto origen.
+4. Informen si los diagramas técnicos corresponden a estándares comerciales conocidos.
 
-- **Distintas caligrafías.** Los cuadernos y los márgenes de los planos no fueron escritos por una sola mano. Algunas anotaciones corrigen o completan otras.
-- **Códigos compartidos.** Abreviaturas, números y signos que se repiten en documentos de distinto origen, como si respondieran a una convención común.
-- **Registros complementarios.** Lo que falta en un cuaderno aparece en otro; un recorrido anotado en un plano coincide con una tabla de mareas.
-- **Referencias reiteradas a puntos de infraestructura.** La estación de amarre, cámaras, tramos del tendido costero y sectores de playa vuelven una y otra vez.
-- **Una nomenclatura enigmática.** En cuadernos y diagramas se repiten «M-00», «origen» y «cota cero». Todavía no se vinculan con ningún lugar concreto.
-- **Diagramas sin equivalente comercial.** Algunos esquemas describen circuitos de comunicación óptica que no coinciden con estándares comerciales conocidos.
+## Conclusiones periciales
 
-## Lo que cambia
+- **Caligrafías.** Los cuadernos y los márgenes de los planos presentan al menos tres caligrafías distintas. Algunas anotaciones corrigen o completan otras.
+- **Códigos compartidos.** Abreviaturas, números y signos se repiten en documentos de distinto origen, con un uso consistente.
+- **Registros complementarios.** Los datos faltantes en un cuaderno constan en otro; recorridos anotados en los planos coinciden con tablas de mareas.
+- **Referencias a infraestructura.** Se reiteran la estación de amarre, cámaras de inspección, tramos del tendido costero y sectores de playa.
+- **Nomenclatura no identificada.** Se repiten las expresiones «M-00», «origen» y «cota cero», sin que pueda establecerse a qué lugar refieren.
+- **Diagramas técnicos.** Algunos esquemas describen circuitos de comunicación óptica que no corresponden a estándares comerciales conocidos.
 
-La investigación había empezado preguntando por la procedencia de un módulo. Con este análisis, el foco se desplaza hacia algo más amplio: la existencia posible de una práctica sostenida de observación, registro y experimentación, compartida por varias personas a lo largo de años.
+## Alcance
 
-## Límites
+El análisis no permite atribuir cada documento a una persona determinada ni establecer la finalidad de los registros. Las relaciones detectadas se consignan como indicios.
 
-El análisis no prueba la existencia de una organización ni permite atribuir cada documento a una persona determinada. Las relaciones detectadas quedan registradas como indicios para las diligencias posteriores.
+## Se dispone
 
-> Los documentos no explican qué se hacía con ellos. Muestran que alguien —más de uno— los producía con método.
+- Agregar el informe pericial.
+- Requerir informes de identidad, domicilio, titularidad y antecedentes respecto de las personas mencionadas en el material.
+
+*Fdo.: Peritos designados.*

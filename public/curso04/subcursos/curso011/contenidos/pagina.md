@@ -1,38 +1,39 @@
 # Allanamiento y secuestro de documentación del depósito
 
-**Segunda quincena de abril de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores · Segunda quincena de abril de 2026 · fs. 64–79.
 
-Localizado el depósito, la Fiscalía solicita y obtiene autorización para registrarlo. Esta vez la búsqueda no apunta a los componentes, ya inventariados, sino a los papeles: aquello que permita vincular actividades, personas y espacios.
+## Antecedentes
 
-## Objeto
+Constatada la existencia del depósito (fs. 56–63), la Fiscalía solicita y obtiene orden de allanamiento del inmueble con el objeto de secuestrar documentación que permita vincular actividades, personas y lugares.
 
-Documentar el registro del depósito y secuestrar los materiales que permitan relacionar las actividades técnicas con las personas identificadas y con lugares concretos.
-
-## Material secuestrado
+## Documentación secuestrada
 
 - libros de reuniones y actas internas;
 - planos y diagramas;
 - inventarios de componentes y de traslados;
 - documentación de proyectos.
 
-Entre los papeles aparecen **planos de intervenciones urbanas** ya ejecutadas o parcialmente construidas en Las Toninas y en otras localidades: obras que cualquiera puede ver, dibujadas con anotaciones que nadie esperaría encontrar en ellas.
+Entre los planos constan proyectos de intervenciones urbanas ejecutadas o parcialmente construidas en Las Toninas y en otras localidades.
 
-## El proyecto ejecutivo del monumento
+## Proyecto ejecutivo del monumento
 
-Entre los planos aparece el proyecto ejecutivo del **Monumento a la Conectividad Atlántica** (Expte. Mun. N.º 2479/23, revisión R3, 12 de septiembre de 2023), firmado por el arquitecto R. Falcón y el ingeniero civil L. Mazzini, con el sello de recepción de Obras Públicas del 14 de septiembre de 2023. Es la misma obra que aparecía en una fotografía del allanamiento de enero, con «Punto 0» al dorso.
+Se secuestra el proyecto ejecutivo del **Monumento a la Conectividad Atlántica** (Expte. Mun. N.º 2479/23, revisión R3, 12 de septiembre de 2023), firmado por el arquitecto R. Falcón y el ingeniero civil L. Mazzini, con sello de recepción de la Secretaría de Obras Públicas del 14 de septiembre de 2023. Se trata de la misma obra que muestra la fotografía con la anotación «Punto 0» secuestrada el 21 de enero (fs. 08–11).
 
 ![Proyecto ejecutivo del Monumento a la Conectividad Atlántica](/curso04/subcursos/curso011/medios/plano-monumento.jpg) *Proyecto ejecutivo del Monumento a la Conectividad Atlántica: memoria, planta, vistas, corte A-A y detalles. Expte. Mun. N.º 2479/23.*
 
-Es documentación municipal: memoria descriptiva, planta, cuatro vistas, corte y detalles. Dos cosas llaman la atención. El corte muestra una **cámara técnica** y una plataforma de mantenimiento dentro de una de las torres, con un conducto de instalaciones. Y al pie, una observación manuscrita en rojo: «verificar alineación eje visual (270°) con punto de referencia costero».
+Se deja constancia de que:
 
-¿Por qué estaba en un depósito de componentes el proyecto de un monumento?
+- el corte A-A consigna una **cámara técnica** y una plataforma de mantenimiento en el interior de una de las torres, con un conducto de instalaciones;
+- al pie del corte consta, en tinta roja, la observación manuscrita: «verificar alineación eje visual (270°) con punto de referencia costero».
 
-## Lo que cambia
+## Valoración
 
-La causa conecta la actividad técnica con transformaciones visibles del territorio. Los proyectos urbanos dejan de ser un fondo contextual y pasan a ser posibles piezas de una planificación común.
+La documentación vincula la actividad técnica con obras visibles del territorio. Los planos no permiten afirmar que las obras hayan sido promovidas por la agrupación ni que sus funciones declaradas agoten sus usos.
 
-## Límites
+## Se dispone
 
-Los planos no permiten afirmar que todas las obras hayan sido promovidas por Los del Fondo ni que sus funciones visibles agoten sus usos.
+- Agregar la documentación secuestrada.
+- Disponer el peritaje de los dispositivos y diagramas hallados.
+- Requerir a la Municipalidad del Partido de La Costa copia del expediente N.º 2479/23.
 
-> Algunas de las obras del archivo ya están construidas. Están a la vista de todos.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

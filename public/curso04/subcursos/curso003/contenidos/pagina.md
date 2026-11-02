@@ -1,22 +1,22 @@
 # Allanamiento del domicilio de Pereyra
 
-**Miércoles 21 de enero de 2026 · 07:30 h** · Paseo 98 N.º 2156, Las Toninas.
+**IPP 03-00-0047-26/00** · Actuación N.º 021/2026 · Destacamento Costero Las Toninas · Miércoles 21 de enero de 2026, 07:30 h · Paseo 98 N.º 2156, Las Toninas · fs. 08–11.
 
-El examen técnico preliminar identifica el elemento secuestrado en la playa como un componente vinculado a infraestructura de telecomunicaciones. Telemar, la empresa que figura en su etiqueta patrimonial, reconoce el número de serie, pero no logra aclarar cómo circuló ni por qué terminó en el puesto de un vendedor de pareos.
+## Antecedentes
 
-La Fiscalía Descentralizada N.º 2 de Mar del Tuyú solicita entonces una medida acotada: registrar el domicilio de Pereyra para localizar documentación, registros o componentes que permitan establecer la procedencia del módulo. El Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores la autoriza.
+El informe técnico preliminar (fs. 03–05) vincula el elemento secuestrado el 18 de enero con infraestructura de telecomunicaciones. Telemar reconoce su número de serie, pero no informa cómo salió de su patrimonio (fs. 07). A pedido de la Fiscalía Descentralizada N.º 2 de Mar del Tuyú, el Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores ordena el registro del domicilio de Héctor Daniel Pereyra, con el objeto de hallar documentación, registros o componentes que permitan establecer la procedencia del módulo.
 
-## Acta de allanamiento y registro domiciliario
+## Acta de allanamiento
 
-![Acta de allanamiento y registro domiciliario, folio 08](/curso04/subcursos/curso003/medios/acta-allanamiento-fs08.jpg) *IPP 03-00-0047-26/00 · Actuación N.º 021/2026 · Folio 08.*
+![Acta de allanamiento y registro domiciliario, folio 08](/curso04/subcursos/curso003/medios/acta-allanamiento-fs08.jpg) *Actuación N.º 021/2026 · fs. 08.*
 
 > Franqueado el acceso, se inicia la requisa en la sala principal (living comedor con mercadería textil y fardos de pareos). Continuando hacia una habitación secundaria y taller posterior, sobre una mesa de trabajo se constatan carpetas con planos catastrales del litoral marítimo con anotaciones manuscritas, cuadernos con tablas numéricas y herramientas técnicas no comerciales.
 
-## Inventario de lo secuestrado
+## Inventario y secuestro
 
-Acto seguido, y en continuidad con el procedimiento, se individualizan, rotulan y secuestran bajo cadena de custodia los efectos hallados en el inmueble.
+Acto seguido, se individualizan, rotulan y secuestran bajo cadena de custodia los siguientes efectos:
 
-![Acta de allanamiento, planilla de inventario y secuestro, folio 09](/curso04/subcursos/curso003/medios/acta-allanamiento-fs09.jpg) *Actuación N.º 021/2026 · Folio 09: planilla de inventario y secuestro.*
+![Acta de allanamiento, planilla de inventario y secuestro, folio 09](/curso04/subcursos/curso003/medios/acta-allanamiento-fs09.jpg) *Actuación N.º 021/2026 · fs. 09: planilla de inventario y secuestro.*
 
 - **E-01** — Carpeta plástica azul con dieciséis planos catastrales y cartas náuticas del litoral de Las Toninas, con cotas y anotaciones manuscritas en tinta roja y negra.
 - **E-02** — Tres cuadernos tipo escolar con registros cronológicos de mareas, tablas numéricas y observaciones de playa, fechados entre marzo de 2011 y noviembre de 2025.
@@ -24,23 +24,17 @@ Acto seguido, y en continuidad con el procedimiento, se individualizan, rotulan 
 - **E-04** — Caja de cartón con correspondencia, boletas de cooperativas de TV comunitaria y recortes periodísticos locales sobre conectividad.
 - **E-05** — Maletín metálico con herramientas técnicas: cortadora de precisión, peladora de cable dieléctrico, conectores SC/APC estancos y muestras de filamentos de fibra óptica.
 
-Entre los componentes del taller aparecen piezas con identificaciones patrimoniales de Telemar y de otras empresas privadas. Algunas podrían provenir de instalaciones fuera de servicio; otras conservan rótulos que corresponderían a bienes todavía pertenecientes a terceros. Su procedencia permanece abierta.
+Se deja constancia de que entre los componentes del taller se observan piezas con identificaciones patrimoniales de Telemar y de otras empresas privadas. Algunas presentan signos de provenir de instalaciones fuera de servicio; otras conservan rótulos de inventario.
 
-Entre los papeles sueltos hay también un sobre con fotografías de calles, murales, cámaras pluviales y otras obras públicas. Una muestra el monumento de hormigón inaugurado el año anterior frente al mar; al dorso, una fecha, unas coordenadas y una anotación: «Punto 0». El personal actuante la consigna junto con las demás, sin otorgarle relevancia.
+Entre los papeles sueltos de E-04 se encuentra un sobre con fotografías de calles, murales, cámaras pluviales y obras públicas. Una de ellas muestra el monumento de hormigón emplazado frente al mar; al dorso consta una fecha, unas coordenadas y la anotación «Punto 0».
 
-Considerados por separado, estos materiales podrían tener explicaciones ordinarias. En conjunto, sugieren una actividad sostenida de observación y registro de la infraestructura costera. Hay distintas caligrafías y códigos diferentes, y algunos sectores del territorio aparecen registrados por más de una mano.
+## Registro fotográfico de los efectos
 
-## E-01 · Planos y cartas
+![Plano de Las Toninas con anotaciones manuscritas](/curso04/subcursos/curso003/medios/plano-anotado.jpg) *E-01: plano de Las Toninas con recorridos, puntos marcados y anotaciones manuscritas.*
 
-![Plano de Las Toninas con anotaciones manuscritas](/curso04/subcursos/curso003/medios/plano-anotado.jpg) *Elemento E-01: plano de Las Toninas con recorridos, puntos marcados y anotaciones a mano.*
+![Cuadernos de registro sobre la mesa de trabajo, con escala forense](/curso04/subcursos/curso003/medios/cuadernos-registro.jpg) *E-02: cuadernos de registro, sobre la mesa de trabajo del taller posterior.*
 
-## E-02 · Cuadernos de registro
-
-![Cuadernos de registro sobre la mesa de trabajo, con escala forense](/curso04/subcursos/curso003/medios/cuadernos-registro.jpg) *Elemento E-02: cuadernos de registro, sobre la mesa de trabajo del taller posterior.*
-
-## E-03 · Documentación técnica
-
-El sobre «ENLACE / ESQUEMAS» contiene fotocopias de manuales y diagramas de transmisión óptica, intervenidas a mano: preguntas, flechas, recortes de fotografías, tablas de registro de campo y referencias cruzadas entre páginas. Las anotaciones, en birome azul y roja, parecen de más de una mano.
+El sobre E-03 contiene fotocopias de manuales y diagramas de transmisión óptica intervenidas a mano: flechas, recortes de fotografías, tablas de registro de campo y referencias cruzadas entre páginas, en birome azul y roja.
 
 ![Documentación técnica, página 3: equipamiento auxiliar y repetidores manuales](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag03.jpg) *E-03, pág. 3: equipamiento auxiliar, repetidores manuales y mapa de la estación de amarre principal.*
 
@@ -50,12 +44,15 @@ El sobre «ENLACE / ESQUEMAS» contiene fotocopias de manuales y diagramas de tr
 
 ![Documentación técnica, página 12: módulos de transmisión óptica](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag12.jpg) *E-03, pág. 12: módulos de transmisión óptica, consideraciones de instalación y registros de campo.*
 
-## Lo que queda abierto
+## Constancias
 
-- ¿Qué relación existe entre el módulo hallado en la playa y los componentes de Telemar hallados en la vivienda?
-- ¿Quiénes produjeron los cuadernos y las anotaciones?
-- ¿Qué significan las referencias «estación», «punto 04» y «fondo»?
-- ¿Qué es el «Punto 0» anotado al dorso de una fotografía?
-- ¿Los documentos registran una actividad pasada o algo que continúa ocurriendo?
+- Se observan distintas caligrafías en E-01, E-02 y E-03.
+- Una hoja suelta contiene una tabla de recorridos y fechas con las referencias «costa norte», «estación», «punto 04» y «fondo».
+- No se hallan sumas de dinero, listados de compradores ni constancias de venta de componentes.
 
-> La investigación deja de preguntar únicamente de dónde salió un componente electrónico y empieza a preguntarse quiénes observaban la infraestructura, qué registraban y por qué lo hacían.
+## Se dispone
+
+- Remitir los efectos E-01 a E-05 a la Fiscalía Descentralizada N.º 2 de Mar del Tuyú para su análisis.
+- Notificar al morador la orden judicial y entregarle copia del acta.
+
+*Fdo.: Oficial Principal a cargo; testigos de actuación Carlos A. Méndez y Romina V. Duarte; Héctor Daniel Pereyra.*

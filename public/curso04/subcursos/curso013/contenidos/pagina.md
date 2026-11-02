@@ -1,32 +1,31 @@
 # Identificación del sistema de repetidores humanos
 
-**Segunda quincena de mayo de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de mayo de 2026 · fs. 93–101.
 
-El peritaje de mayo había dejado una pista: el dispositivo óptico contemplaba operadores humanos. Esta diligencia reconstruye cómo se organizaba ese trabajo.
+## Antecedentes
 
-## Objeto
+El dictamen pericial (fs. 80–92) establece que el dispositivo de pulsos de luz contempla operadores que intervienen en la transmisión. Se dispone reconstruir la organización operativa del sistema.
 
-Reconstruir la organización operativa del sistema diseñado para recibir y retransmitir señales luminosas.
+## Resultado
 
-## Hallazgos
-
-Diagramas, instrucciones y registros de pruebas describen una red de **repetidores humanos** ubicados en barcazas, embarcaciones o plataformas flotantes. Cada operador funciona como un nodo activo: recibe la señal, la interpreta y la retransmite.
+Los diagramas, instrucciones y registros de prueba secuestrados describen una red de **repetidores humanos** ubicados en barcazas, embarcaciones menores o plataformas flotantes. Cada operador recibe la señal, la interpreta y la retransmite al tramo siguiente.
 
 Los documentos establecen:
 
-- **códigos** para la lectura y la emisión de los pulsos;
+- **códigos** de lectura y emisión de pulsos;
 - **turnos** de guardia;
 - **protocolos de relevo** entre operadores;
-- formas de **coordinación** entre nodos.
+- formas de **coordinación** entre puntos de retransmisión.
 
-La ausencia de alimentación eléctrica estable no aparece como un defecto, sino como una condición del diseño.
+Las instrucciones prevén la operación sin alimentación eléctrica estable.
 
-## Lo que cambia
+## Alcance
 
-La diligencia revela una profesión anticipada por la organización: un oficio que no existe en ningún otro lado y que el sistema necesita para funcionar.
+No se determina el alcance de la red ni la cantidad de operadores formados. Los registros de prueba no acreditan la transmisión completa entre extremos.
 
-## Límites
+## Se dispone
 
-No se determina el alcance real de la red ni la cantidad de operadores formados. Los registros de prueba no alcanzan para saber cuántas veces la red funcionó de punta a punta.
+- Agregar el informe.
+- Investigar la instancia de formación de operadores mencionada en los documentos.
 
-> Donde la infraestructura oficial pone un repetidor eléctrico, este sistema pone a una persona.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

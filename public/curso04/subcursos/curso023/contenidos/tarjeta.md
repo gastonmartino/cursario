@@ -1,7 +1,7 @@
 ### Documentación complementaria
 
-Segunda quincena de octubre de 2026. Se incorporan nuevas declaraciones y elementos secuestrados después de las medidas de coerción.
+Segunda quincena de octubre de 2026. Se incorporan declaraciones y elementos obtenidos con posterioridad a las medidas de coerción.
 
-Los documentos completan en parte la cronología de Los del Fondo y hablan de proyectos todavía no ejecutados y de una etapa de expansión de Nueva Toninas.
+La documentación completa parcialmente la cronología de Los del Fondo y refiere proyectos no ejecutados y una etapa de expansión de Nueva Toninas.
 
-> Lo nuevo complica lo que ya se sabía.
+> La cronología continúa siendo parcial.

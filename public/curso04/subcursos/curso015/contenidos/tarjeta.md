@@ -1,7 +1,7 @@
 ### Proyectos urbanos y obras ejecutadas
 
-Segunda quincena de junio de 2026. La investigación compara planos, permisos, documentación municipal e instalaciones existentes.
+Segunda quincena de junio de 2026. Se cotejan los planos secuestrados con permisos, documentación municipal e instalaciones existentes.
 
-Tres capas se superponen: la ciudad anterior, la ciudad existente y la ciudad proyectada. Algunas obras aparentemente ordinarias podrían cumplir funciones adicionales.
+Seis obras públicas se reiteran en planos de distinta procedencia. Las cartografías que las superponen sugieren un origen de referencia común.
 
-> La ciudad proyectada empieza a coincidir con la visible.
+> Las funciones no declaradas no se encuentran acreditadas.

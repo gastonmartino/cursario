@@ -1,7 +1,7 @@
-### Red de comunicaciones experimental
+### Red de comunicaciones
 
-Primera quincena de septiembre de 2026. La investigación reconstruye las conexiones entre estaciones, puntos de transmisión, tramos de fibra y repetidores humanos.
+Primera quincena de septiembre de 2026. Se reconstruyen las conexiones entre estaciones, puntos de transmisión, tramos de fibra y repetidores humanos, incluido el origen M-00.
 
-Aparecen registros de pruebas, códigos, horarios y protocolos. ¿Qué circuló efectivamente por la red y qué quedó solo proyectado?
+Se incorporan registros de pruebas, códigos, horarios y protocolos.
 
-> De un dispositivo a un sistema.
+> No se acreditan comunicaciones efectivamente cursadas.

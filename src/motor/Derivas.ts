@@ -403,7 +403,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 0,
         ancho: 640,
-        alto: 671,
+        alto: 596,
       },
       {
         id: 'expediente-1126-02',
@@ -419,7 +419,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: -20,
         ancho: 640,
-        alto: 666,
+        alto: 619,
       },
       {
         id: 'expediente-1126-04',
@@ -427,7 +427,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 120,
         ancho: 640,
-        alto: 692,
+        alto: 617,
       },
       {
         id: 'expediente-1126-05',
@@ -435,7 +435,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: -40,
         ancho: 640,
-        alto: 622,
+        alto: 582,
       },
       {
         id: 'expediente-1126-06',
@@ -483,7 +483,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 380,
         y: 1000,
         ancho: 640,
-        alto: 596,
+        alto: 582,
       },
       {
         id: 'expediente-1126-12',
@@ -491,7 +491,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 840,
         ancho: 640,
-        alto: 621,
+        alto: 582,
       },
       {
         id: 'expediente-1126-13',
@@ -515,7 +515,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: 1660,
         ancho: 640,
-        alto: 596,
+        alto: 582,
       },
       {
         id: 'expediente-1126-16',
@@ -523,7 +523,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 1800,
         ancho: 640,
-        alto: 596,
+        alto: 582,
       },
       {
         id: 'expediente-1126-17',
@@ -531,7 +531,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: 1640,
         ancho: 640,
-        alto: 582,
+        alto: 596,
       },
       {
         id: 'expediente-1126-18',
@@ -547,7 +547,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 2620,
         ancho: 640,
-        alto: 596,
+        alto: 582,
       },
       {
         id: 'expediente-1126-20',
@@ -563,7 +563,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 2640,
         ancho: 640,
-        alto: 582,
+        alto: 596,
       },
       {
         id: 'expediente-1126-22',

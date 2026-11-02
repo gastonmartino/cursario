@@ -1,27 +1,28 @@
 # Reuniones y acuerdos internos
 
-**Segunda quincena de marzo de 2026** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+**IPP 03-00-0047-26/00** · Fiscalía Descentralizada N.º 2 de Mar del Tuyú · Segunda quincena de marzo de 2026 · fs. 47–55.
 
-Hasta aquí, la investigación había reunido personas, recorridos y saberes técnicos, pero no una forma de coordinación. Esta diligencia examina los documentos que podrían mostrarla: registros de reuniones, actas internas y correspondencia.
+## Antecedentes
 
-## Objeto
+Conforme lo dispuesto a fs. 46, se analizan los registros de reuniones, las actas internas y la correspondencia obrantes en el material secuestrado.
 
-Analizar los registros de reuniones, las actas, la correspondencia y los documentos que permitan establecer cómo se coordinaban las actividades registradas en el archivo.
+## Resultado del análisis
 
-## Hallazgos
+- **Denominación reiterada.** En actas y cartas de distinto origen consta una misma denominación: **Los del Fondo**.
+- **Recuperación de componentes.** Constan acuerdos sobre recuperación de componentes fuera de servicio: qué se recupera, dónde se guarda y quién lo traslada.
+- **Distribución de tareas** entre personas que, al declarar, manifestaron no conocerse (fs. 34–40).
+- **Dispositivos experimentales**, mencionados por denominaciones internas y descriptos de manera incompleta.
+- **«Obra de referencia».** Un acta parcial menciona la necesidad de preservar la orientación de una «obra de referencia» y una intervención anterior a su inauguración, sin identificarla.
 
-- **Un nombre que se repite.** En actas y cartas de distinto origen aparece una misma referencia: **Los del Fondo**.
-- **Acuerdos sobre recuperación de componentes** fuera de servicio: qué se recupera, dónde se guarda, quién lo traslada.
-- **Distribución de tareas** entre personas que, en sus declaraciones, habían dicho no conocerse.
-- **Desarrollo de dispositivos experimentales**, mencionados por nombres internos y descriptos de manera incompleta.
-- **Una «obra de referencia».** Un acta parcial insiste en preservar su orientación y menciona una intervención realizada antes de su inauguración. No la identifica.
+Se deja constancia de que la referencia «fondo» ya constaba en la tabla de recorridos hallada en el allanamiento del 21 de enero (fs. 08–11).
 
-## Lo que cambia
+## Valoración
 
-Por primera vez, la investigación puede considerar la existencia de una organización estable y no solo de colaboraciones ocasionales. El «fondo» que aparecía en una tabla de recorridos del allanamiento de enero —junto a «estación» y «punto 04»— empieza a tener otra lectura.
+Los documentos permiten considerar la existencia de una agrupación estable y no de colaboraciones ocasionales. La denominación se consigna como indicio documental; la calificación de los hechos queda reservada para una etapa posterior.
 
-## Límites
+## Se dispone
 
-La denominación funciona todavía como indicio documental. La calificación de organización clandestina o de asociación ilícita queda abierta y no puede presentarse como conclusión.
+- Agregar el informe.
+- Investigar el destino de los componentes recuperados que mencionan los acuerdos.
 
-> Un nombre no es una organización. Pero una organización suele empezar por un nombre.
+*Fdo.: Dr. Ignacio P. Salvatierra, Agente Fiscal.*

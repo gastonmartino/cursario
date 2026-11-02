@@ -1,7 +1,7 @@
-### Inspecciones de obras e instalaciones
+### Inspecciones oculares
 
-Segunda quincena de agosto de 2026. Se contrastan los planos de Nueva Toninas con instalaciones, estructuras y modificaciones existentes en distintos puntos del territorio.
+Segunda quincena de agosto de 2026. Se inspeccionan obras e instalaciones consignadas en los planos secuestrados.
 
-En el **Monumento a la Conectividad Atlántica** aparece una lámina del proyecto intervenida con notas internas y el origen **M-00**.
+En el **Monumento a la Conectividad Atlántica** se halla la lámina 02/04 del proyecto, intervenida con notas internas, y se detecta una cavidad compatible con una cápsula de resguardo.
 
-> Una ciudad parcialmente construida.
+> Contenido de la cavidad: no determinado.

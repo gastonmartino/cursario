@@ -1,39 +1,48 @@
 # Procedimiento policial en la playa
 
-**Domingo 18 de enero de 2026 · 17:42 h** · Playa de Las Toninas, Partido de La Costa, Provincia de Buenos Aires.
+**IPP 03-00-0047-26/00** · Actuación N.º 018/2026 · Destacamento Costero Las Toninas · Domingo 18 de enero de 2026, 17:42 h · fs. 01–02.
 
-Temporada alta. Una discusión entre dos vendedores ambulantes por una disputa territorial deriva en golpes. Turistas presentes dan aviso y personal del Destacamento Costero de Las Toninas interviene. Los involucrados son identificados como **Juan Carlos Ríos**, vendedor de barquillos, y **Héctor Daniel Pereyra**, vendedor de pareos y artículos textiles.
+## Hecho
+
+En la localidad de Las Toninas, Partido de La Costa, siendo las 17:42 horas del día de la fecha, el personal de servicio del Destacamento Costero es alertado por turistas acerca de una riña entre dos vendedores ambulantes en el sector de playa. Constituido en el lugar, constata que la discusión, originada en una disputa por el espacio de venta, derivó en agresiones físicas recíprocas.
 
 ![Vista aérea de la playa abarrotada](/curso04/subcursos/curso001/medios/playa-vista-aerea.jpg) *Registro espacial del operativo: turistas, sombrillas, vehículos y móvil policial.*
 
+## Personas identificadas
+
+- **Juan Carlos Ríos**, vendedor ambulante de barquillos.
+- **Héctor Daniel Pereyra**, vendedor ambulante de pareos y artículos textiles.
+
+Ambos presentan lesiones leves. Se requiere asistencia médica y se los identifica conforme a la documentación exhibida.
+
+![Héctor Daniel Pereyra junto a sus textiles](/curso04/subcursos/curso001/medios/vendedor-pareos.jpg) *Héctor Daniel Pereyra. Registro fotográfico del 18/01/2026.*
+
+![Juan Carlos Ríos junto a su conservadora](/curso04/subcursos/curso001/medios/vendedor-barquillos.jpg) *Juan Carlos Ríos. Registro fotográfico del 18/01/2026.*
+
 ## Acta de procedimiento
 
-El acta registra la intervención, la identificación de ambos vendedores, la constatación de lesiones leves y la solicitud de asistencia médica. Registra también algo que no forma parte del equipamiento habitual de un puesto de playa.
+![Acta de procedimiento, folio 01](/curso04/subcursos/curso001/medios/acta-procedimiento-fs01.jpg) *Actuación N.º 018/2026 · fs. 01.*
 
-![Acta de procedimiento, folio 01](/curso04/subcursos/curso001/medios/acta-procedimiento-fs01.jpg) *Actuación N.º 018/2026 · Folio 01.*
+![Acta de procedimiento con anotaciones manuscritas, folio 02](/curso04/subcursos/curso001/medios/acta-procedimiento-fs02.jpg) *fs. 02: continuación del acta, con anexos, firmas y sello.*
 
-![Acta de procedimiento con anotaciones manuscritas, folio 02](/curso04/subcursos/curso001/medios/acta-procedimiento-fs02.jpg) *Folio 02: continuación del acta, con anexos, firmas y sello.*
+## Elemento secuestrado
 
-## El elemento secuestrado
+En el puesto de Pereyra se observa una caja rígida de color gris oscuro que contiene un módulo electrónico con placa de circuito, conectores, etiqueta de Telemar y número de serie visible. Interrogado al respecto, Pereyra manifiesta que el elemento no le pertenece y que desconoce cómo llegó a su puesto. Se procede a su secuestro preventivo, a fin de establecer su procedencia.
 
-En el puesto de Pereyra se observa una caja rígida gris oscuro. En su interior, un módulo electrónico con placa de circuito, conectores, etiqueta de Telemar y número de serie visible. Consultado al respecto, Pereyra manifiesta que el elemento no le pertenece y que desconoce cómo llegó al puesto. Se dispone su secuestro preventivo y la continuación de las actuaciones.
+![Módulo electrónico en su estuche, con escala forense](/curso04/subcursos/curso001/medios/modulo-electronico.jpg) *Elemento secuestrado en el puesto de Pereyra, con escala forense.*
 
-![Módulo electrónico en su estuche, con escala forense](/curso04/subcursos/curso001/medios/modulo-electronico.jpg) *El elemento hallado en el puesto de pareos.*
+Se deja constancia de que lo actuado no permite afirmar que el elemento haya sido sustraído, ni determinar su función o su procedencia.
 
-El acta describe lo observado. No afirma que el módulo haya sido sustraído ni determina su función o su procedencia.
+## Croquis y registro del lugar
 
-## Los involucrados
+![Croquis policial de actuación](/curso04/subcursos/curso001/medios/croquis-actuacion.jpg) *Croquis de actuación: mar, avenida Costanera, puestos de ambos vendedores, lugar del hecho, testigos y móvil policial.*
 
-![Héctor Daniel Pereyra junto a sus textiles](/curso04/subcursos/curso001/medios/vendedor-pareos.jpg) *Héctor Daniel Pereyra, vendedor de pareos. Registro fotográfico del 18/01/2026.*
+![Vigilancia costera en Las Toninas](/curso04/subcursos/curso001/medios/vigilancia-costera.jpg) *Vista elevada del sector, desde la posición de la cámara de monitoreo costero.*
 
-![Juan Carlos Ríos junto a su conservadora](/curso04/subcursos/curso001/medios/vendedor-barquillos.jpg) *Juan Carlos Ríos, vendedor de barquillos. Registro fotográfico del 18/01/2026.*
+## Se dispone
 
-## Croquis de actuación
+- Remitir lo actuado a la Fiscalía Descentralizada N.º 2 de Mar del Tuyú.
+- Mantener el elemento secuestrado bajo cadena de custodia.
+- Recibir declaración testimonial a los turistas presentes.
 
-El croquis permite reconstruir la disposición del episodio: el mar, la avenida Costanera, los puestos de ambos vendedores, el lugar del incidente, los turistas y el móvil policial.
-
-![Croquis policial de actuación](/curso04/subcursos/curso001/medios/croquis-actuacion.jpg) *Croquis de actuación del incidente en la playa.*
-
-![Vigilancia costera en Las Toninas](/curso04/subcursos/curso001/medios/vigilancia-costera.jpg) *Vista elevada de la playa, desde una perspectiva cercana a la de una cámara de vigilancia costera.*
-
-> Un procedimiento de rutina. Una pelea, dos vendedores, lesiones leves. Y un objeto que nadie reconoce como propio.
+*Fdo.: Oficial Principal a cargo, Destacamento Costero Las Toninas.*

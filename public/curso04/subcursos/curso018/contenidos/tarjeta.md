@@ -1,7 +1,7 @@
 ### Estructura y alcance territorial
 
-Primera quincena de agosto de 2026. La Fiscalía cruza actas, registros de reuniones, correspondencia y testimonios para reconstruir áreas de actividad, responsabilidades y mecanismos de incorporación.
+Primera quincena de agosto de 2026. Se cruzan actas, registros de reuniones, correspondencia y testimonios para reconstruir áreas de actividad, funciones y mecanismos de incorporación.
 
-La organización parece haber superado ampliamente su núcleo original de Las Toninas.
+La actividad de la agrupación excede ampliamente la localidad de Las Toninas.
 
-> Más grande de lo que nadie suponía.
+> No se establece el número total de participantes.

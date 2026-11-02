@@ -1,7 +1,7 @@
 ### Identificación de nuevos integrantes
 
-Primera quincena de marzo de 2026. La investigación busca a quienes pudieron aportar conocimientos, herramientas, movilidad o capacidad de planificación.
+Primera quincena de marzo de 2026. La DDI La Costa informa sobre personas que pudieron aportar conocimientos, herramientas o medios de movilidad.
 
-Aparecen perfiles que exceden al núcleo inicial: un ingeniero civil, dos programadores, un arquitecto y el dueño de una concesionaria de cuatriciclos 4x4 para la playa.
+Se individualizan un ingeniero civil, dos programadores, un arquitecto y el propietario de una concesionaria de cuatriciclos para uso en playa.
 
-> Una división informal de capacidades.
+> No se acredita la participación efectiva de los mencionados.
