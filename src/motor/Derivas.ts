@@ -384,14 +384,31 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
   },
   {
     // Expediente 11/26 (Nueva Toninas): a la derecha de la Deriva 01, un poco
-    // más abajo. Todavía sin islas.
+    // más abajo.
     id: 'expediente-1126',
     curso: 'curso04',
     x: 900,
     y: 404,
     ancho: 760,
     alto: 1208,
-    subcursos: [],
+    subcursos: [
+      {
+        id: 'expediente-1126-01',
+        subcurso: 'curso001',
+        x: -380,
+        y: 0,
+        ancho: 640,
+        alto: 671,
+      },
+      {
+        id: 'expediente-1126-02',
+        subcurso: 'curso002',
+        x: 380,
+        y: 160,
+        ancho: 640,
+        alto: 666,
+      },
+    ],
   },
 ];
 

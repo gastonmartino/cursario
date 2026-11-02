@@ -388,6 +388,40 @@ export const ISLAS: IslaDefinition[] = [
     accentColor: '#002FA7', 
     imageCaption: 'AL ENCUENTRO DE OTRO DISEÑO', headerLabel: 'DIS#03',
   },
+
+ //
+ // DERIVA:04 - EXPEDIENTE 11/26 (CAUSA DE FONDO)
+ //
+  {
+    id: 'expediente-1126-01',
+    imageUrl: 'tarjeta.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
+    markdownFile: 'tarjeta.md',
+    pageMarkdownFile: 'pagina.md',
+    code: 'HITO:01',
+    title: 'Procedimiento policial en la playa',
+    subtitle: 'Actuación N.º 018/2026 · Destacamento Costero Las Toninas',
+    tag: '18:ENERO:26',
+    accentColor: '#BF4089',
+    imageCaption: 'ACTA / CROQUIS / REGISTRO FOTOGRÁFICO',
+    imageDate: '18/01/2026',
+    headerLabel: 'PROCEDIMIENTO POLICIAL',
+  },
+  {
+    id: 'expediente-1126-02',
+    imageUrl: 'tarjeta.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
+    markdownFile: 'tarjeta.md',
+    pageMarkdownFile: 'pagina.md',
+    code: 'HITO:03',
+    title: 'Allanamiento del domicilio de Pereyra',
+    subtitle: 'IPP 03-00-0047-26/00 · Folio 08',
+    tag: '21:ENERO:26',
+    accentColor: '#BF4089',
+    imageCaption: 'ACTA DE ALLANAMIENTO Y REGISTRO DOMICILIARIO',
+    imageDate: '21/01/2026',
+    headerLabel: 'ALLANAMIENTO',
+  },
 ];
 
 
