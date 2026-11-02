@@ -104,6 +104,7 @@ function paginasDeInsulas() {
       },
       documento,
       volver: '/',
+      mapa: `/?deriva=${insula.id}`,
     };
     return { id: insula.id, ubicacion, url: ubicacion.urlPagina!, props };
   });

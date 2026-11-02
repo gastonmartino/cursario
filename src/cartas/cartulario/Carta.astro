@@ -9,10 +9,11 @@ import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.a
 import { renderizarBloques } from '../../utils/markdown';
 import type { PropsCarta } from '../index';
 import { CLASES_CARTULARIO } from './clases';
+import { withBase } from '../../utils/paths';
 
 type Props = PropsCarta;
 
-const { pagina, documento, volver, vistas } = Astro.props;
+const { pagina, documento, volver, vistas, mapa } = Astro.props;
 const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
 ---
 
@@ -66,9 +67,21 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
     <main class="mx-auto max-w-4xl px-5 py-7 pagina-ancha:px-8 pagina-ancha:py-10">
       <article class="pagina-ancha:border pagina-ancha:border-ink-border/80 pagina-ancha:bg-white/80 pagina-ancha:p-12 pagina-ancha:shadow-sm">
         <div class="mb-10 border-b border-ink-border/60 pb-6">
-          <div class="mb-4 flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest" style={`color: ${pagina.color};`}>
-            <span class="h-2 w-2 rounded-full" style={`background-color: ${pagina.color};`}></span>
-            {pagina.codigo} // {pagina.etiqueta}
+          <div class="mb-4 flex items-center justify-between gap-4">
+            <div class="flex min-w-0 items-center gap-2 font-mono text-[11px] font-bold tracking-widest" style={`color: ${pagina.color};`}>
+              <span class="h-2 w-2 shrink-0 rounded-full" style={`background-color: ${pagina.color};`}></span>
+              {pagina.codigo} // {pagina.etiqueta}
+            </div>
+            {/* Página de una ínsula: enlace a su lienzo en el Mapa. */}
+            {mapa && (
+              <a
+                href={withBase(mapa)}
+                class="shrink-0 border px-2.5 py-1.5 font-mono text-[11px] font-bold tracking-widest transition-colors hover:bg-paper-sheet"
+                style={`color: ${pagina.color}; border-color: ${pagina.color}66;`}
+              >
+                VER EL MAPA →
+              </a>
+            )}
           </div>
           <p class="font-sans text-lg font-semibold" style={`color: ${pagina.color};`}>{pagina.subtitulo}</p>
         </div>
