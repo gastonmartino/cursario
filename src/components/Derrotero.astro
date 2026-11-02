@@ -44,13 +44,6 @@ interface Props {
 const { enPagina = false } = Astro.props;
 const BotonVista = enPagina ? 'a' : 'button';
 
-// La sección del Currículum en la que aparecen las islas de cada curso.
-const SECCION_DE_CURSO: Record<string, 'obras' | 'bitacora' | 'escritos'> = {
-  'arte-electronico': 'obras',
-  generativa: 'obras',
-  'en-curso': 'bitacora',
-  pensamiento: 'escritos',
-};
 
 const anioDe = (...textos: Array<string | null | undefined>) =>
   textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
@@ -73,6 +66,7 @@ const piezas = ISLAS.map((isla) => {
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
     destacada: Boolean(isla.featured),
+    seccion: isla.derroteroSection ?? null,
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
     textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.headerLabel, curso?.name]
@@ -80,7 +74,9 @@ const piezas = ISLAS.map((isla) => {
   };
 }).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));
 
-const deSeccion = (seccion: string) => piezas.filter((pieza) => SECCION_DE_CURSO[pieza.idCurso] === seccion);
+// Cada isla aparece en la sección que indica su derroteroSection (en
+// src/data/islas.ts); sin ella, en ninguna.
+const deSeccion = (seccion: string) => piezas.filter((pieza) => pieza.seccion === seccion);
 const obras = deSeccion('obras');
 const bitacora = deSeccion('bitacora');
 const escritos = deSeccion('escritos');
