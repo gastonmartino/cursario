@@ -383,7 +383,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     ]
   },
   {
-    // Causa de fondo (Nueva Toninas): a la derecha de la Deriva 01, un poco
+    // Expediente 11/26 (Nueva Toninas): a la derecha de la Deriva 01, un poco
     // más abajo. Todavía sin islas.
     id: 'expediente-1126',
     curso: 'curso04',
