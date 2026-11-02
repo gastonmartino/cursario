@@ -86,10 +86,10 @@ export interface Ubicacion {
 
 // La URL propia de la página de una isla, si la tiene (pageUrl).
 export function urlPropia(id: string): string | undefined {
-  const pageUrl = ISLAS.find((isla) => isla.id === id)?.pageUrl;
+  const pageUrl = (ISLAS.find((isla) => isla.id === id) ?? INSULAS.find((insula) => insula.id === id))?.pageUrl;
   if (!pageUrl) return undefined;
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(pageUrl)) {
-    throw new Error(`La pageUrl "${pageUrl}" de "${id}" (src/data/islas.ts) solo puede tener minúsculas, números y guiones, sin barras`);
+    throw new Error(`La pageUrl "${pageUrl}" de "${id}" (src/data/) solo puede tener minúsculas, números y guiones, sin barras`);
   }
   return `/${pageUrl}/`;
 }
@@ -104,6 +104,8 @@ export function ubicar(id: string): Ubicacion {
         ...base,
         carpetaMedios: `/${deriva.curso}/imagenes`,
         carpetaContenidos: `/${deriva.curso}/contenidos`,
+        // La página editorial de la ínsula, si tiene (pageMarkdownFile).
+        urlPagina: urlPropia(id) ?? `/${deriva.curso}/`,
         x, y, ancho, alto,
       };
     }

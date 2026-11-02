@@ -195,8 +195,10 @@ export function renderizarEnLinea(texto: string, clases: ClasesMimo = {}): strin
   const enlaces: string[] = [];
   const marcarEnlace = (etiqueta: string, href: string) => {
     const marca = `__CURSARIO_LINK_${enlaces.length}__`;
-    // Un correo (mailto:) no se abre en otra pestaña.
-    const destino = href.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"';
+    // Un correo (mailto:) o una página del sitio (/ruta/) no se abren en otra
+    // pestaña; los otros sitios y los archivos (como un PDF), sí.
+    const mismaPestana = href.startsWith('mailto:') || (href.startsWith('/') && href.endsWith('/'));
+    const destino = mismaPestana ? '' : ' target="_blank" rel="noopener noreferrer"';
     enlaces.push(`<a href="${withBase(href)}"${atributoClase(clases.enlace)}${destino}>${etiqueta}</a>`);
     return marca;
   };

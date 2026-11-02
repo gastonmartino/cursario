@@ -45,6 +45,18 @@ export interface InsulaDefinition {
   // incursiona). Sus coordenadas, en src/motor/Derivas.ts, pasan a ser
   // relativas a la ínsula: al moverla, se mueve el conjunto. Por defecto, false.
   refloated?: boolean;
+
+  // Sección del Derrotero en la que aparece la ínsula, en representación de
+  // todo su curso (obras, bitacora o escritos). Sin definir, no aparece. Es
+  // independiente del derroteroSection de sus islas.
+  derroteroSection?: 'obras' | 'bitacora' | 'escritos';
+
+  // Página editorial de la ínsula (Markdown en /{curso}/contenidos/), a la que
+  // se llega desde el Derrotero y el Aparejo, no desde su tarjeta en el Mapa.
+  // Va en /{pageUrl}/ o, sin pageUrl, en /{curso}/. VOLVER lleva al lienzo
+  // principal.
+  pageMarkdownFile?: string | null;
+  pageUrl?: string | null;
 }
 
 export const INSULAS: InsulaDefinition[] = [
@@ -122,7 +134,11 @@ La documentación incorporada permite advertir indicios de una trama secreta de 
     // Violeta eléctrico: se distingue del cobalto de las demás derivas.
     accentColor: '#3F14DB',
     imageUrl: 'nueva-toninas.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
     imageCaption: 'Anteproyecto anarqueológico especulativo',
+    derroteroSection: 'obras',
+    pageMarkdownFile: 'expediente.md',
+    pageUrl: 'expediente-11-26',
     imageMaxHeight: 440,
   },
 ];

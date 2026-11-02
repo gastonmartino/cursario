@@ -1,8 +1,10 @@
 # Cartas
 
 Las **cartas** son las plantillas con las que se arman las páginas de contenido
-del Cursario: las de los subcursos e islotes que tienen `pageMarkdownFile` y las
-páginas sueltas (como "Acerca de"). Cada carta decide por completo cómo se
+del Cursario: las de los subcursos, islotes e ínsulas que tienen
+`pageMarkdownFile` y las páginas sueltas (como "Acerca de"). La página de una
+ínsula se abre desde el Derrotero y el Aparejo (no desde su tarjeta en el
+Mapa), en `/{pageUrl}/` o `/{curso}/`, y su VOLVER lleva al lienzo principal. Cada carta decide por completo cómo se
 muestra el contenido de su archivo Markdown: su estructura, sus estilos, sus
 tipografías y sus scripts. Varias páginas pueden compartir una misma carta.
 

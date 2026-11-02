@@ -19,10 +19,16 @@ const islas = ISLAS.map((isla) => {
   };
 });
 
-// Una sección por curso, con los subcursos que tienen página o enlace propio.
+// Una sección por curso: primero la página de la ínsula, si tiene, y después
+// los subcursos que tienen página o enlace propio.
 const navigationSections = INSULAS.map((deriva) => ({
   ...deriva,
-  subcursos: islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
+  subcursos: [
+    ...(deriva.pageMarkdownFile
+      ? [{ code: deriva.code, title: deriva.title, subcurso: deriva.name, href: ubicar(deriva.id).urlPagina! }]
+      : []),
+    ...islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
+  ],
 }));
 ---
 

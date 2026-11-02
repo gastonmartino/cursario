@@ -1,0 +1,14 @@
+---
+// Página editorial de una ínsula sin pageUrl, en /{curso}/. La arma la carta
+// que elige su archivo Markdown (ver src/cartas/index.ts).
+import { obtenerCarta, type PropsCarta } from '../../cartas';
+import { rutasInsulas } from '../../cartas/rutas';
+
+export const getStaticPaths = rutasInsulas;
+
+type Props = PropsCarta;
+
+const Carta = obtenerCarta(Astro.props.documento.datos.carta);
+---
+
+<Carta {...Astro.props} />

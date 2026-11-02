@@ -72,11 +72,39 @@ const piezas = ISLAS.map((isla) => {
     textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.headerLabel, curso?.name]
       .filter(Boolean).join(' '),
   };
-}).sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso));
+});
 
-// Cada isla aparece en la sección que indica su derroteroSection (en
-// src/data/islas.ts); sin ella, en ninguna.
-const deSeccion = (seccion: string) => piezas.filter((pieza) => pieza.seccion === seccion);
+// Las ínsulas con derroteroSection aparecen como una pieza más, en
+// representación de todo su curso, antes que las islas de ese curso. Enlazan
+// a su página editorial, si tienen (pageMarkdownFile).
+const piezasDeInsulas = INSULAS.filter((insula) => insula.derroteroSection).map((insula) => {
+  const ubicacion = ubicar(insula.id);
+  const sinMarcas = (texto?: string | null) => texto?.replace(/\*\*|__/g, '') ?? '';
+  return {
+    id: insula.id,
+    codigo: insula.code,
+    titulo: insula.title,
+    descripcion: sinMarcas(insula.description) || insula.subtitle || '',
+    etiqueta: insula.tag,
+    anio: anioDe(insula.subtitle, insula.tag),
+    tecnica: insula.name,
+    idCurso: insula.id,
+    href: insula.pageMarkdownFile ? withBase(ubicacion.urlPagina!) : null,
+    destacada: false,
+    seccion: insula.derroteroSection ?? null,
+    miniatura: withBase(resolveFile(ubicacion.carpetaMedios, insula.thumbnailImageUrl)) ?? null,
+    textoBusqueda: [insula.title, insula.code, insula.name, insula.subtitle, sinMarcas(insula.description), insula.tag]
+      .filter(Boolean).join(' '),
+    esInsula: true,
+  };
+});
+
+const todas = [...piezasDeInsulas, ...piezas.map((pieza) => ({ ...pieza, esInsula: false }))]
+  .sort((a, b) => ordenCurso(a.idCurso) - ordenCurso(b.idCurso) || Number(b.esInsula) - Number(a.esInsula));
+
+// Cada isla (o ínsula) aparece en la sección que indica su derroteroSection
+// (en src/data/); sin ella, en ninguna.
+const deSeccion = (seccion: string) => todas.filter((pieza) => pieza.seccion === seccion);
 const obras = deSeccion('obras');
 const bitacora = deSeccion('bitacora');
 const escritos = deSeccion('escritos');

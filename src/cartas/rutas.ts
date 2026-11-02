@@ -6,6 +6,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
 import { tieneLienzo, ubicar, urlPropia } from '../motor/Derivas';
@@ -87,9 +88,37 @@ export function rutasSubcursos(): RutaCarta<{ curso: string; subcurso: string | 
     .map(({ ubicacion, url, props }) => conVistas({ params: { curso: ubicacion.curso, subcurso: ubicacion.subcurso }, props }, url));
 }
 
+// Ínsulas con página editorial (pageMarkdownFile). VOLVER lleva al lienzo
+// principal. La URL es /{pageUrl}/ o, sin pageUrl, /{curso}/.
+function paginasDeInsulas() {
+  return INSULAS.filter((insula) => insula.pageMarkdownFile).map((insula) => {
+    const ubicacion = ubicar(insula.id);
+    const documento = cargarDocumento(resolveFile(ubicacion.carpetaContenidos, insula.pageMarkdownFile)!);
+    const props: PropsCarta = {
+      pagina: {
+        titulo: insula.title,
+        subtitulo: insula.subtitle ?? '',
+        codigo: insula.code,
+        etiqueta: insula.tag,
+        color: insula.accentColor,
+      },
+      documento,
+      volver: '/',
+    };
+    return { id: insula.id, ubicacion, url: ubicacion.urlPagina!, props };
+  });
+}
+
+// Las de /{curso}/ (src/pages/[curso]/index.astro): ínsulas sin pageUrl.
+export function rutasInsulas(): RutaCarta<{ curso: string }>[] {
+  return paginasDeInsulas()
+    .filter(({ id }) => !urlPropia(id))
+    .map(({ ubicacion, url, props }) => conVistas({ params: { curso: ubicacion.curso }, props }, url));
+}
+
 // Las de URL propia, de un solo tramo, como las páginas sueltas.
 function rutasConUrlPropia(): RutaCarta<{ pagina: string }>[] {
-  return paginasDeSubcursos()
+  return [...paginasDeSubcursos(), ...paginasDeInsulas()]
     .filter(({ id }) => urlPropia(id))
     .map(({ url, props }) => conVistas({ params: { pagina: url.slice(1, -1) }, props }, url));
 }
