@@ -16,7 +16,16 @@ Comparar planos, permisos, documentación municipal e instalaciones para identif
 
 ## Hallazgos
 
-Algunas obras aparentemente ordinarias podrían cumplir funciones adicionales dentro de la red. Lo que en la documentación municipal es un refugio, una canalización o un mobiliario urbano, en los planos secuestrados aparece con otro rótulo y otras conexiones.
+Algunas obras aparentemente ordinarias podrían cumplir funciones adicionales dentro de la red. Seis se repiten en planos de distintas procedencias:
+
+- el **plan de saneamiento pluvial** y recuperación de escurrimientos;
+- el **Centro de Formación en Oficios y Tecnologías Costeras**;
+- la **Red de Observatorios Atmosféricos y Costeros**;
+- el **Programa de Murales y Señalética de Identidad Costera**;
+- el **Programa de Infraestructura Náutica de Baja Escala**;
+- el **Monumento a la Conectividad Atlántica**.
+
+En las cartografías que las superponen, distancias y orientaciones sugieren un origen común, que no coincide con la referencia topográfica municipal. En los planos secuestrados, cada obra aparece con otro rótulo y otras conexiones.
 
 La ciudad proyectada comienza a superponerse con la ciudad visible.
 

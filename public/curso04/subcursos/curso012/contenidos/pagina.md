@@ -12,7 +12,11 @@ Examinar los componentes recuperados y los diagramas asociados para reconstruir 
 
 Los peritos identifican un dispositivo que transmite información mediante **pulsos de luz** a través de tramos de **fibra óptica submarina fuera de servicio**. Las fuentes luminosas son improvisadas: linternas adaptadas y emisores de baja potencia.
 
+El dispositivo es **pequeño y portátil**: cabe en una valija chica y estanca. Reúne una estación de emisión —batería recargable con un dínamo de manivela, llave de pulsos, linterna adaptada, lente colimadora y conector para fibra— y una de lectura —pantalla esmerilada con visor o fotodiodo con zumbador—. No necesita red eléctrica ni instalación fija: se conecta al extremo de un tramo de fibra recuperada, se opera y se retira.
+
 El diseño no se parece a un equipo convencional de telecomunicaciones. Contempla estaciones y, sobre todo, operadores humanos: personas que intervienen en la transmisión.
+
+Los peritos contrastan además los diagramas con las anotaciones del proyecto del monumento hallado en el depósito. Estiman técnicamente posible que su geometría sirva como referencia de alineación para pruebas de señalización luminosa de corto alcance, pero no pueden acreditar que esas pruebas se hayan hecho.
 
 ## Lo que cambia
 

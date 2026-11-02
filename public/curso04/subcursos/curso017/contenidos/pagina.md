@@ -19,6 +19,8 @@ El acta está acompañada por:
 
 El documento declara la existencia de una ciudad que, según el propio texto, ya tendría una dimensión material. La frase fundacional invierte el orden habitual: la existencia de la ciudad precede a su declaración.
 
+Uno de los anexos cartográficos usa un sistema de coordenadas propio, cuyo origen figura como **«M-00 / Punto Cero»**. La investigación lo identifica con el **Monumento a la Conectividad Atlántica**: la obra fotografiada con «Punto 0» al dorso, cuyo proyecto apareció en el depósito, deja de ser una escultura extravagante y se convierte en la clave de lectura de la ciudad superpuesta.
+
 ## Lo que cambia
 
 **Nueva Toninas** deja de ser una hipótesis territorial dispersa y aparece como proyecto político y como declaración de pertenencia de Los del Fondo.

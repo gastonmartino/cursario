@@ -483,7 +483,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 380,
         y: 1000,
         ancho: 640,
-        alto: 582,
+        alto: 596,
       },
       {
         id: 'expediente-1126-12',
@@ -547,7 +547,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 2620,
         ancho: 640,
-        alto: 582,
+        alto: 596,
       },
       {
         id: 'expediente-1126-20',

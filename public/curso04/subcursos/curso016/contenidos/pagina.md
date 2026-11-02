@@ -12,6 +12,8 @@ Examinar contrataciones, licitaciones, permisos de obra y proyectos de infraestr
 
 Se analiza si determinadas obras fueron promovidas o aprovechadas para instalar elementos con funciones no declaradas en los pliegos: qué se licitó, quién lo ejecutó, qué se certificó y qué quedó construido.
 
+Entre los expedientes revisados está el del Monumento a la Conectividad Atlántica (Expte. Mun. N.º 2479/23): aprobado en 2023, financiado con la donación de una fundación privada con aportes empresariales e inaugurado en 2025, entre críticas vecinales por su costo, su escala y su aparente inutilidad en una localidad con antecedentes de mala conexión a Internet. El arquitecto R. Falcón y el ingeniero civil L. Mazzini, que firman el proyecto, coinciden con dos de los perfiles identificados en marzo. Se investigan diferencias entre los planos presentados y algunos detalles constructivos.
+
 ## Lo que cambia
 
 La causa incorpora la posibilidad de que proyectos públicos visibles hayan servido también a fines reservados de la organización. La red ya no se mueve solo en los márgenes de la infraestructura: podría estar usando sus procedimientos.

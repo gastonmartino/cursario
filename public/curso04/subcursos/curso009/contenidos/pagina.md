@@ -14,6 +14,7 @@ Analizar los registros de reuniones, las actas, la correspondencia y los documen
 - **Acuerdos sobre recuperación de componentes** fuera de servicio: qué se recupera, dónde se guarda, quién lo traslada.
 - **Distribución de tareas** entre personas que, en sus declaraciones, habían dicho no conocerse.
 - **Desarrollo de dispositivos experimentales**, mencionados por nombres internos y descriptos de manera incompleta.
+- **Una «obra de referencia».** Un acta parcial insiste en preservar su orientación y menciona una intervención realizada antes de su inauguración. No la identifica.
 
 ## Lo que cambia
 

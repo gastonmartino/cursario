@@ -15,6 +15,8 @@ Reconstruir las conexiones entre estaciones, puntos de transmisión, tramos de f
 - **horarios** de operación;
 - **protocolos** de comunicación entre nodos.
 
+Se evalúan también las conexiones del monumento —M-00— con los observatorios, el mural 03 y el puerto náutico.
+
 Con ellos se intenta determinar qué información circuló efectivamente por la red y qué elementos quedaron solamente proyectados.
 
 ## Lo que cambia

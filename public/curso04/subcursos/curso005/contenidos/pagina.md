@@ -14,6 +14,7 @@ Ordenar documentos, dispositivos y componentes según su naturaleza, su autoría
 - **Códigos compartidos.** Abreviaturas, números y signos que se repiten en documentos de distinto origen, como si respondieran a una convención común.
 - **Registros complementarios.** Lo que falta en un cuaderno aparece en otro; un recorrido anotado en un plano coincide con una tabla de mareas.
 - **Referencias reiteradas a puntos de infraestructura.** La estación de amarre, cámaras, tramos del tendido costero y sectores de playa vuelven una y otra vez.
+- **Una nomenclatura enigmática.** En cuadernos y diagramas se repiten «M-00», «origen» y «cota cero». Todavía no se vinculan con ningún lugar concreto.
 - **Diagramas sin equivalente comercial.** Algunos esquemas describen circuitos de comunicación óptica que no coinciden con estándares comerciales conocidos.
 
 ## Lo que cambia

@@ -26,6 +26,8 @@ Acto seguido, y en continuidad con el procedimiento, se individualizan, rotulan 
 
 Entre los componentes del taller aparecen piezas con identificaciones patrimoniales de Telemar y de otras empresas privadas. Algunas podrían provenir de instalaciones fuera de servicio; otras conservan rótulos que corresponderían a bienes todavía pertenecientes a terceros. Su procedencia permanece abierta.
 
+Entre los papeles sueltos hay también un sobre con fotografías de calles, murales, cámaras pluviales y otras obras públicas. Una muestra el monumento de hormigón inaugurado el año anterior frente al mar; al dorso, una fecha, unas coordenadas y una anotación: «Punto 0». El personal actuante la consigna junto con las demás, sin otorgarle relevancia.
+
 Considerados por separado, estos materiales podrían tener explicaciones ordinarias. En conjunto, sugieren una actividad sostenida de observación y registro de la infraestructura costera. Hay distintas caligrafías y códigos diferentes, y algunos sectores del territorio aparecen registrados por más de una mano.
 
 ## E-01 · Planos y cartas
@@ -53,6 +55,7 @@ El sobre «ENLACE / ESQUEMAS» contiene fotocopias de manuales y diagramas de tr
 - ¿Qué relación existe entre el módulo hallado en la playa y los componentes de Telemar hallados en la vivienda?
 - ¿Quiénes produjeron los cuadernos y las anotaciones?
 - ¿Qué significan las referencias «estación», «punto 04» y «fondo»?
+- ¿Qué es el «Punto 0» anotado al dorso de una fotografía?
 - ¿Los documentos registran una actividad pasada o algo que continúa ocurriendo?
 
 > La investigación deja de preguntar únicamente de dónde salió un componente electrónico y empieza a preguntarse quiénes observaban la infraestructura, qué registraban y por qué lo hacían.

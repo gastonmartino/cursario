@@ -17,6 +17,16 @@ Documentar el registro del depósito y secuestrar los materiales que permitan re
 
 Entre los papeles aparecen **planos de intervenciones urbanas** ya ejecutadas o parcialmente construidas en Las Toninas y en otras localidades: obras que cualquiera puede ver, dibujadas con anotaciones que nadie esperaría encontrar en ellas.
 
+## El proyecto ejecutivo del monumento
+
+Entre los planos aparece el proyecto ejecutivo del **Monumento a la Conectividad Atlántica** (Expte. Mun. N.º 2479/23, revisión R3, 12 de septiembre de 2023), firmado por el arquitecto R. Falcón y el ingeniero civil L. Mazzini, con el sello de recepción de Obras Públicas del 14 de septiembre de 2023. Es la misma obra que aparecía en una fotografía del allanamiento de enero, con «Punto 0» al dorso.
+
+![Proyecto ejecutivo del Monumento a la Conectividad Atlántica](/curso04/subcursos/curso011/medios/plano-monumento.jpg) *Proyecto ejecutivo del Monumento a la Conectividad Atlántica: memoria, planta, vistas, corte A-A y detalles. Expte. Mun. N.º 2479/23.*
+
+Es documentación municipal: memoria descriptiva, planta, cuatro vistas, corte y detalles. Dos cosas llaman la atención. El corte muestra una **cámara técnica** y una plataforma de mantenimiento dentro de una de las torres, con un conducto de instalaciones. Y al pie, una observación manuscrita en rojo: «verificar alineación eje visual (270°) con punto de referencia costero».
+
+¿Por qué estaba en un depósito de componentes el proyecto de un monumento?
+
 ## Lo que cambia
 
 La causa conecta la actividad técnica con transformaciones visibles del territorio. Los proyectos urbanos dejan de ser un fondo contextual y pasan a ser posibles piezas de una planificación común.

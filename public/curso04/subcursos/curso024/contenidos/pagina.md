@@ -25,7 +25,8 @@ Permanecen sin determinar:
 - el número de participantes;
 - el grado de ejecución de Nueva Toninas;
 - el funcionamiento efectivo de la red de comunicaciones;
-- el destino final de los desarrollos tecnológicos.
+- el destino final de los desarrollos tecnológicos;
+- el contenido de la cápsula de resguardo del monumento y el sentido de la «Fase II».
 
 ## Recorrido de la causa
 
