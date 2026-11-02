@@ -19,6 +19,14 @@ Los documentos establecen:
 
 Las instrucciones prevén la operación sin alimentación eléctrica estable.
 
+## Registro fotográfico
+
+Entre los registros de prueba se halla una fotografía de un puesto de retransmisión instalado en el camarote de una embarcación menor. Sobre la mesa de trabajo se observan un equipo en maletín conectado a un cable de fibra óptica, un cuaderno con secuencias de pulsos transcriptas y planillas de registro, binoculares y una lámpara de a bordo.
+
+![Puesto de retransmisión en el camarote de una embarcación menor](/curso04/subcursos/curso013/medios/puesto-retransmision.jpg) *Fotografía hallada entre los registros de prueba: puesto de retransmisión a bordo.*
+
+Se deja constancia de que el equipo fotografiado no coincide con la unidad de emisión peritada a fs. 80–92. No se ha establecido la embarcación, la fecha de la toma ni la identidad del operador.
+
 ## Alcance
 
 No se determina el alcance de la red ni la cantidad de operadores formados. Los registros de prueba no acreditan la transmisión completa entre extremos.
