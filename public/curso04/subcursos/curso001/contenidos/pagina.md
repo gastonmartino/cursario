@@ -16,7 +16,7 @@ El acta registra la intervención, la identificación de ambos vendedores, la co
 
 ## El elemento secuestrado
 
-En el puesto de Pereyra se observa una caja rígida gris oscuro. En su interior, un módulo electrónico con placa de circuito, conectores y número de serie visible. Consultado al respecto, Pereyra manifiesta que el elemento no le pertenece y que desconoce cómo llegó al puesto. Se dispone su secuestro preventivo y la continuación de las actuaciones.
+En el puesto de Pereyra se observa una caja rígida gris oscuro. En su interior, un módulo electrónico con placa de circuito, conectores, etiqueta de Telemar y número de serie visible. Consultado al respecto, Pereyra manifiesta que el elemento no le pertenece y que desconoce cómo llegó al puesto. Se dispone su secuestro preventivo y la continuación de las actuaciones.
 
 ![Módulo electrónico en su estuche, con escala forense](/curso04/subcursos/curso001/medios/modulo-electronico.jpg) *El elemento hallado en el puesto de pareos.*
 
