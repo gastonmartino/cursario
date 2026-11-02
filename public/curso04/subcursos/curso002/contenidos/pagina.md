@@ -2,7 +2,7 @@
 
 **Miércoles 21 de enero de 2026 · 07:30 h** · Paseo 98 N.º 2156, Las Toninas.
 
-El examen técnico preliminar identifica el elemento secuestrado en la playa como un componente vinculado a infraestructura de telecomunicaciones. La empresa que figura en su identificación reconoce el número de serie, pero no logra aclarar cómo circuló ni por qué terminó en el puesto de un vendedor de pareos.
+El examen técnico preliminar identifica el elemento secuestrado en la playa como un componente vinculado a infraestructura de telecomunicaciones. Telemar, la empresa que figura en su etiqueta patrimonial, reconoce el número de serie, pero no logra aclarar cómo circuló ni por qué terminó en el puesto de un vendedor de pareos.
 
 La Fiscalía Descentralizada N.º 2 de Mar del Tuyú solicita entonces una medida acotada: registrar el domicilio de Pereyra para localizar documentación, registros o componentes que permitan establecer la procedencia del módulo. El Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores la autoriza.
 
@@ -23,6 +23,8 @@ Acto seguido, y en continuidad con el procedimiento, se individualizan, rotulan 
 - **E-03** — Sobre de papel manila rotulado «ENLACE / ESQUEMAS», con fotocopias de diagramas técnicos de tendido de fibra óptica y esquemas de empalme por fusión.
 - **E-04** — Caja de cartón con correspondencia, boletas de cooperativas de TV comunitaria y recortes periodísticos locales sobre conectividad.
 - **E-05** — Maletín metálico con herramientas técnicas: cortadora de precisión, peladora de cable dieléctrico, conectores SC/APC estancos y muestras de filamentos de fibra óptica.
+
+Entre los componentes del taller aparecen piezas con identificaciones patrimoniales de Telemar y de otras empresas privadas. Algunas podrían provenir de instalaciones fuera de servicio; otras conservan rótulos que corresponderían a bienes todavía pertenecientes a terceros. Su procedencia permanece abierta.
 
 Considerados por separado, estos materiales podrían tener explicaciones ordinarias. En conjunto, sugieren una actividad sostenida de observación y registro de la infraestructura costera. Hay distintas caligrafías y códigos diferentes, y algunos sectores del territorio aparecen registrados por más de una mano.
 
@@ -48,7 +50,7 @@ El sobre «ENLACE / ESQUEMAS» contiene fotocopias de manuales y diagramas de tr
 
 ## Lo que queda abierto
 
-- ¿Qué relación existe entre el módulo hallado en la playa y los componentes de la vivienda?
+- ¿Qué relación existe entre el módulo hallado en la playa y los componentes de Telemar hallados en la vivienda?
 - ¿Quiénes produjeron los cuadernos y las anotaciones?
 - ¿Qué significan las referencias «estación», «punto 04» y «fondo»?
 - ¿Los documentos registran una actividad pasada o algo que continúa ocurriendo?
