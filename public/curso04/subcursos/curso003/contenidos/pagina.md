@@ -20,10 +20,10 @@ Aparece, en cambio, una red de personas heterogénea, sin antecedentes penales, 
 
 - **Héctor Daniel Pereyra** — vendedor ambulante de pareos. Morador del domicilio allanado; conservador de los cuadernos y custodio de los planos.
 - **«Prof. Caletti» (R. C.)** — exdirector de escuela secundaria de Las Toninas, pionero de la televisión comunitaria local. Autor de notas mecanografiadas sobre «zonas de sombra», diagramas de cableoperadoras barriales y cartas a la CNC entre 2001 y 2012.
-- **«Buzo 1» (V. M.)** — buzo comercial de inmersión profunda; trabajó como buzo de apoyo en barcos cableros entre 1999 y 2001. Tablas de descompresión, batimetría frente a Las Toninas, puntos de amarre.
-- **«Buzo 2» (O. S.)** — buzo autónomo, dedicado al rescate de embarcaciones menores y a la pesca artesanal. Registros de mareas y de entradas y salidas nocturnas de gomones sin luces de navegación.
+- **«Buzo 1» (G. Á.)** — buzo comercial de inmersión profunda; trabajó como buzo de apoyo en barcos cableros entre 1999 y 2001. Tablas de descompresión, batimetría frente a Las Toninas, puntos de amarre.
+- **«Buzo 2» (D. S.)** — buzo autónomo, dedicado al rescate de embarcaciones menores y a la pesca artesanal. Registros de mareas y de entradas y salidas nocturnas de gomones sin luces de navegación.
 - **Marta E. Gómez** — propietaria de un hotel tradicional de la calle 1. Facturas comerciales y registros de reuniones en salones cerrados, de mayo a octubre.
-- **Vecino técnico** — agrimensor jubilado, exempleado municipal o de catastro provincial. Minutas sobre servidumbres de paso, copias heliográficas de parcelas fiscales y trazas urbanas no consolidadas.
+- **Vecino técnico (F. H.)** — agrimensor jubilado, exempleado municipal o de catastro provincial. Minutas sobre servidumbres de paso, copias heliográficas de parcelas fiscales y trazas urbanas no consolidadas.
 
 > ¿Qué vincula a un vendedor de pareos con dos buzos de alta profundidad, un docente jubilado de telecomunicaciones analógicas y la dueña de un hotel de temporada? No se advierten transferencias monetarias, adquisición de bienes suntuosos ni conexiones con el crimen organizado.
 
