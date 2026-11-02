@@ -250,4 +250,16 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     headerLabel: '',
     showAction: false,
   },
+  {
+    id: 'islote-expediente-02',
+    showHeader: false,
+    imageUrl: '/curso04/imagenes/logo-los-del-fondo.jpg',
+    markdownFile: '/curso04/subcursos/curso002/contenidos/islote-los-del-fondo.md',
+    code: 'LOS DEL FONDO',
+    tag: '',
+    accentColor: '#3F14DB',
+    imageCaption: '',
+    headerLabel: '',
+    showAction: false,
+  },
 ];
