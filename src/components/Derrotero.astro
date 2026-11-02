@@ -321,7 +321,26 @@ const secciones = [
                   ))}
                 </ul>
               )}
-            </section>
+              <!-- Antes de dibujar: la sección en que estaba el Derrotero en la página
+       anterior (ver "Secciones" en el script), para que no asome INICIO. -->
+  <script is:inline>
+    (() => {
+      try {
+        const guardada = sessionStorage.getItem('cursario:derrotero-seccion');
+        const panel = document.getElementById('derrotero');
+        if (!guardada || !panel || !panel.querySelector('[data-seccion="' + guardada + '"]')) return;
+        panel.querySelectorAll('[data-seccion]').forEach((boton) => {
+          boton.setAttribute('aria-pressed', String(boton.dataset.seccion === guardada));
+        });
+        panel.querySelectorAll('[data-solo-seccion]').forEach((bloque) => {
+          bloque.hidden = bloque.dataset.soloSeccion !== guardada;
+        });
+        const conBusqueda = ['obras', 'bitacora', 'escritos'].includes(guardada);
+        panel.querySelectorAll('[data-con-busqueda]').forEach((bloque) => { bloque.hidden = !conBusqueda; });
+      } catch {}
+    })();
+  </script>
+</section>
           ))}
           {destacadasSueltas.length > 0 && (
             <ul class="derrotero-grilla">
@@ -780,6 +799,7 @@ const secciones = [
     escritos: { singular: 'ESCRITO', plural: 'ESCRITOS', buscar: 'Buscar escritos' },
   };
   let seccion = 'inicio';
+  const CLAVE_SECCION = 'cursario:derrotero-seccion';
   let categoria = '';
 
   const normalizar = (texto: string) => texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -805,6 +825,11 @@ const secciones = [
 
   const elegirSeccion = (nueva: string) => {
     seccion = nueva;
+    try {
+      sessionStorage.setItem(CLAVE_SECCION, nueva);
+    } catch {
+      // Sin almacenamiento, la sección no se recuerda.
+    }
     botonesSeccion.forEach((boton) => boton.setAttribute('aria-pressed', String(boton.dataset.seccion === nueva)));
     panel?.querySelectorAll<HTMLElement>('[data-solo-seccion]').forEach((bloque) => {
       bloque.hidden = bloque.dataset.soloSeccion !== nueva;
@@ -825,6 +850,21 @@ const secciones = [
   botonesSeccion.forEach((boton) => {
     boton.addEventListener('click', () => elegirSeccion(boton.dataset.seccion ?? 'inicio'));
   });
+
+  // Al llegar a otra página (desde el Derrotero o entre páginas), el Derrotero
+  // sigue en la sección en que estaba. Se recuerda por pestaña: una visita
+  // nueva empieza en INICIO. El script del final del panel ya la mostró antes
+  // de dibujar; acá se completa (búsqueda, resumen).
+  const seccionGuardada = (() => {
+    try {
+      return sessionStorage.getItem(CLAVE_SECCION);
+    } catch {
+      return null;
+    }
+  })();
+  if (seccionGuardada && [...botonesSeccion].some((boton) => boton.dataset.seccion === seccionGuardada)) {
+    elegirSeccion(seccionGuardada);
+  }
 
   busqueda?.addEventListener('input', filtrar);
   botonesCategoria.forEach((boton) => {
