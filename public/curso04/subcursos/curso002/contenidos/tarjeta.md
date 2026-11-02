@@ -1,7 +1,7 @@
-### Acta de allanamiento y registro domiciliario
+### Informe técnico preliminar
 
-Miércoles 21 de enero de 2026, 07:30 h. Paseo 98 N.º 2156. Con orden del Juzgado de Garantías N.º 4 de Dolores, la comisión policial ingresa al domicilio de Héctor Daniel Pereyra para establecer la procedencia del módulo secuestrado en la playa.
+Lunes 19 de enero de 2026. Por disposición de la Fiscalía, el módulo secuestrado en la playa es examinado para establecer qué es, para qué sirve y a quién pertenece.
 
-Sobre una mesa de trabajo se constatan carpetas con planos del litoral marítimo con anotaciones manuscritas, cuadernos con tablas numéricas y herramientas técnicas no comerciales.
+No es un componente de uso doméstico: formó parte de un equipo de transmisión óptica. Lleva una etiqueta patrimonial de **Telemar** y un número de serie legible. Se libra oficio a la empresa.
 
-> No aparece una conspiración. Aparece un archivo.
+> La empresa reconoce el objeto. Su procedencia sigue sin explicación.

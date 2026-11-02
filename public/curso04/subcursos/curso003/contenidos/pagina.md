@@ -1,38 +1,58 @@
-# Identificación de personas y vínculos
+# Allanamiento del domicilio de Pereyra
 
-**Lunes 26 de enero de 2026** · con actuaciones testimoniales hasta el 28 de enero · Fiscalía Descentralizada N.º 2 de Mar del Tuyú / Delegación Departamental de Investigaciones (DDI) de La Costa.
+**Miércoles 21 de enero de 2026 · 07:30 h** · Paseo 98 N.º 2156, Las Toninas.
 
-La investigación se desplaza de los objetos a las personas. Tras el allanamiento del 21 de enero, la Fiscalía y los peritos comisionados examinan la documentación secuestrada en el domicilio de Héctor Daniel Pereyra:
+El examen técnico preliminar identifica el elemento secuestrado en la playa como un componente vinculado a infraestructura de telecomunicaciones. Telemar, la empresa que figura en su etiqueta patrimonial, reconoce el número de serie, pero no logra aclarar cómo circuló ni por qué terminó en el puesto de un vendedor de pareos.
 
-- los tres cuadernos escolares de registro continuo (**E-02**), fechados entre marzo de 2011 y noviembre de 2025;
-- la correspondencia, facturas de cooperativas y notas sueltas (**E-04**);
-- las anotaciones al margen de las cartas náuticas y los planos catastrales (**E-01**).
+La Fiscalía Descentralizada N.º 2 de Mar del Tuyú solicita entonces una medida acotada: registrar el domicilio de Pereyra para localizar documentación, registros o componentes que permitan establecer la procedencia del módulo. El Juzgado de Garantías N.º 4 del Departamento Judicial de Dolores la autoriza.
 
-## Una hipótesis que no se sostiene
+## Acta de allanamiento y registro domiciliario
 
-Los investigadores buscaban una banda dedicada al robo, la reducción o el contrabando de componentes de telecomunicaciones. Pero el entrecruzamiento de nombres, iniciales, números telefónicos fijos —todos con el prefijo local 02246— y domicilios no arroja el perfil de una organización delictiva convencional.
+![Acta de allanamiento y registro domiciliario, folio 08](/curso04/subcursos/curso003/medios/acta-allanamiento-fs08.jpg) *IPP 03-00-0047-26/00 · Actuación N.º 021/2026 · Folio 08.*
 
-Aparece, en cambio, una red de personas heterogénea, sin antecedentes penales, compuesta por vecinos de Las Toninas y Costa Chica que no comparten una actividad económica ni lazos de parentesco evidentes.
+> Franqueado el acceso, se inicia la requisa en la sala principal (living comedor con mercadería textil y fardos de pareos). Continuando hacia una habitación secundaria y taller posterior, sobre una mesa de trabajo se constatan carpetas con planos catastrales del litoral marítimo con anotaciones manuscritas, cuadernos con tablas numéricas y herramientas técnicas no comerciales.
 
-![Croquis preliminar de vínculos](/curso04/subcursos/curso003/medios/croquis-vinculos.jpg) *Anexo I, fs. 15: croquis preliminar de vínculos, elaborado a partir de los elementos E-01, E-02 y E-04.*
+## Inventario de lo secuestrado
 
-## Personas individualizadas
+Acto seguido, y en continuidad con el procedimiento, se individualizan, rotulan y secuestran bajo cadena de custodia los efectos hallados en el inmueble.
 
-- **Héctor Daniel Pereyra** — vendedor ambulante de pareos. Morador del domicilio allanado; conservador de los cuadernos y custodio de los planos.
-- **«Prof. Caletti» (R. C.)** — exdirector de escuela secundaria de Las Toninas, pionero de la televisión comunitaria local. Autor de notas mecanografiadas sobre «zonas de sombra», diagramas de cableoperadoras barriales y cartas a la CNC entre 2001 y 2012.
-- **«Buzo 1» (G. Á.)** — buzo comercial de inmersión profunda; trabajó como buzo de apoyo en barcos cableros entre 1999 y 2001. Tablas de descompresión, batimetría frente a Las Toninas, puntos de amarre.
-- **«Buzo 2» (D. S.)** — buzo autónomo, dedicado al rescate de embarcaciones menores y a la pesca artesanal. Registros de mareas y de entradas y salidas nocturnas de gomones sin luces de navegación.
-- **Marta E. Gómez** — propietaria de un hotel tradicional de la calle 1. Facturas comerciales y registros de reuniones en salones cerrados, de mayo a octubre.
-- **Vecino técnico (F. H.)** — agrimensor jubilado, exempleado municipal o de catastro provincial. Minutas sobre servidumbres de paso, copias heliográficas de parcelas fiscales y trazas urbanas no consolidadas.
+![Acta de allanamiento, planilla de inventario y secuestro, folio 09](/curso04/subcursos/curso003/medios/acta-allanamiento-fs09.jpg) *Actuación N.º 021/2026 · Folio 09: planilla de inventario y secuestro.*
 
-> ¿Qué vincula a un vendedor de pareos con dos buzos de alta profundidad, un docente jubilado de telecomunicaciones analógicas y la dueña de un hotel de temporada? No se advierten transferencias monetarias, adquisición de bienes suntuosos ni conexiones con el crimen organizado.
+- **E-01** — Carpeta plástica azul con dieciséis planos catastrales y cartas náuticas del litoral de Las Toninas, con cotas y anotaciones manuscritas en tinta roja y negra.
+- **E-02** — Tres cuadernos tipo escolar con registros cronológicos de mareas, tablas numéricas y observaciones de playa, fechados entre marzo de 2011 y noviembre de 2025.
+- **E-03** — Sobre de papel manila rotulado «ENLACE / ESQUEMAS», con fotocopias de diagramas técnicos de tendido de fibra óptica y esquemas de empalme por fusión.
+- **E-04** — Caja de cartón con correspondencia, boletas de cooperativas de TV comunitaria y recortes periodísticos locales sobre conectividad.
+- **E-05** — Maletín metálico con herramientas técnicas: cortadora de precisión, peladora de cable dieléctrico, conectores SC/APC estancos y muestras de filamentos de fibra óptica.
 
-## Actuaciones de la semana
+Entre los componentes del taller aparecen piezas con identificaciones patrimoniales de Telemar y de otras empresas privadas. Algunas podrían provenir de instalaciones fuera de servicio; otras conservan rótulos que corresponderían a bienes todavía pertenecientes a terceros. Su procedencia permanece abierta.
 
-- **26/01** — Elevación del informe preliminar de análisis documental y vínculos.
-- **27/01** — Solicitud de informes de titularidad de líneas telefónicas y de antecedentes.
-- **28/01** — Primeras declaraciones testimoniales de personas mencionadas reiteradamente en las fojas.
+Considerados por separado, estos materiales podrían tener explicaciones ordinarias. En conjunto, sugieren una actividad sostenida de observación y registro de la infraestructura costera. Hay distintas caligrafías y códigos diferentes, y algunos sectores del territorio aparecen registrados por más de una mano.
 
-Se libran además oficios a las empresas prestadoras de servicios públicos, a la Delegación Municipal y a la Prefectura Naval Argentina, para certificar la matrícula náutica y la habilitación de los buzos.
+## E-01 · Planos y cartas
 
-> Lo que la investigación descubre no es una banda, sino un archivo cruzado de presencias, mareas y saberes técnicos, distribuido entre personas comunes del pueblo.
+![Plano de Las Toninas con anotaciones manuscritas](/curso04/subcursos/curso003/medios/plano-anotado.jpg) *Elemento E-01: plano de Las Toninas con recorridos, puntos marcados y anotaciones a mano.*
+
+## E-02 · Cuadernos de registro
+
+![Cuadernos de registro sobre la mesa de trabajo, con escala forense](/curso04/subcursos/curso003/medios/cuadernos-registro.jpg) *Elemento E-02: cuadernos de registro, sobre la mesa de trabajo del taller posterior.*
+
+## E-03 · Documentación técnica
+
+El sobre «ENLACE / ESQUEMAS» contiene fotocopias de manuales y diagramas de transmisión óptica, intervenidas a mano: preguntas, flechas, recortes de fotografías, tablas de registro de campo y referencias cruzadas entre páginas. Las anotaciones, en birome azul y roja, parecen de más de una mano.
+
+![Documentación técnica, página 3: equipamiento auxiliar y repetidores manuales](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag03.jpg) *E-03, pág. 3: equipamiento auxiliar, repetidores manuales y mapa de la estación de amarre principal.*
+
+![Documentación técnica, página 5: cable de fibra óptica en corte transversal](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag05.jpg) *E-03, pág. 5: cable de fibra óptica en corte transversal, código de colores y esquema de tendido.*
+
+![Documentación técnica, página 7: red de distribución costera](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag07.jpg) *E-03, pág. 7: red de distribución costera, tipos de cámara y plano de referencia del sector costero.*
+
+![Documentación técnica, página 12: módulos de transmisión óptica](/curso04/subcursos/curso003/medios/documentacion-tecnica-pag12.jpg) *E-03, pág. 12: módulos de transmisión óptica, consideraciones de instalación y registros de campo.*
+
+## Lo que queda abierto
+
+- ¿Qué relación existe entre el módulo hallado en la playa y los componentes de Telemar hallados en la vivienda?
+- ¿Quiénes produjeron los cuadernos y las anotaciones?
+- ¿Qué significan las referencias «estación», «punto 04» y «fondo»?
+- ¿Los documentos registran una actividad pasada o algo que continúa ocurriendo?
+
+> La investigación deja de preguntar únicamente de dónde salió un componente electrónico y empieza a preguntarse quiénes observaban la infraestructura, qué registraban y por qué lo hacían.

@@ -18,9 +18,61 @@ La causa se abre con un episodio menor: una pelea entre dos vendedores ambulante
 
 ![Módulo electrónico en su estuche, con escala forense](/curso04/subcursos/curso001/medios/modulo-electronico.jpg) *El elemento secuestrado en el puesto de pareos.*
 
+### Enero de 2026
+
 - **Diligencia 01 · 18/01/2026** — [Procedimiento policial en la playa](/curso04/curso001/)
-- **Diligencia 02 · 19/01/2026** — Identificación técnica del objeto *(en preparación)*
-- **Diligencia 03 · 21/01/2026** — [Allanamiento del domicilio de Pereyra](/curso04/curso002/)
-- **Diligencia 04 · 26/01/2026** — [Identificación de personas y vínculos](/curso04/curso003/)
+- **Diligencia 02 · 19/01/2026** — [Identificación técnica del objeto](/curso04/curso002/)
+- **Diligencia 03 · 21/01/2026** — [Allanamiento del domicilio de Pereyra](/curso04/curso003/)
+- **Diligencia 04 · 26/01/2026** — [Identificación de personas y vínculos](/curso04/curso004/)
+
+### Febrero de 2026
+
+- **Diligencia 05 · 01/02/2026** — [Análisis documental y técnico](/curso04/curso005/)
+- **Diligencia 06 · 15/02/2026** — [Requerimiento de informes](/curso04/curso006/)
+- **Diligencia 07 · 28/02/2026** — [Primeras declaraciones testimoniales](/curso04/curso007/)
+
+### Marzo de 2026
+
+- **Diligencia 08 · 01/03/2026** — [Expansión de la red](/curso04/curso008/)
+- **Diligencia 09 · 15/03/2026** — [Reuniones y acuerdos internos](/curso04/curso009/)
+
+### Abril de 2026
+
+- **Diligencia 10 · 01/04/2026** — [Depósito de componentes](/curso04/curso010/)
+- **Diligencia 11 · 15/04/2026** — [Documentación del depósito](/curso04/curso011/)
+
+### Mayo de 2026
+
+- **Diligencia 12 · 01/05/2026** — [Peritaje del dispositivo óptico](/curso04/curso012/)
+- **Diligencia 13 · 15/05/2026** — [Repetidores humanos](/curso04/curso013/)
+
+### Junio de 2026
+
+- **Diligencia 14 · 01/06/2026** — [Academia de Repetidores](/curso04/curso014/)
+- **Diligencia 15 · 15/06/2026** — [Proyectos urbanos](/curso04/curso015/)
+
+### Julio de 2026
+
+- **Diligencia 16 · 01/07/2026** — [Contrataciones y licitaciones](/curso04/curso016/)
+- **Diligencia 17 · 15/07/2026** — [Acta fundacional de Nueva Toninas](/curso04/curso017/)
+
+### Agosto de 2026
+
+- **Diligencia 18 · 01/08/2026** — [Alcance territorial](/curso04/curso018/)
+- **Diligencia 19 · 15/08/2026** — [Inspecciones de obras](/curso04/curso019/)
+
+### Septiembre de 2026
+
+- **Diligencia 20 · 01/09/2026** — [Red de comunicaciones](/curso04/curso020/)
+- **Diligencia 21 · 15/09/2026** — [Responsabilidades y calificación](/curso04/curso021/)
+
+### Octubre de 2026
+
+- **Diligencia 22 · 01/10/2026** — [Medidas de coerción](/curso04/curso022/)
+- **Diligencia 23 · 15/10/2026** — [Documentación complementaria](/curso04/curso023/)
+
+### Noviembre de 2026
+
+- **Diligencia 24 · 02/11/2026** — [Informe de estado](/curso04/curso024/)
 
 > La investigación continúa.

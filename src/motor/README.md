@@ -167,6 +167,9 @@ Al crear `MotorCursario`, la portada le pasa:
 - **`AlActualizarTelemetria`**: recibe en cada actualización la posición y el
   zoom de la cámara, el nivel, el curso activo y lo que está bajo el puntero
   (`DatosTelemetria`). La portada lo usa para el HUD y el minimapa.
+  En el minimapa del lienzo de un curso, cada isla se rotula con su código; si
+  los códigos completos se pisan (muchas islas en una fila), se muestra solo lo
+  que sigue a ":" (`DILIGENCIA:07` → `07`).
 - **`AlCambiarDeNivel`**: se llama al entrar o salir de un curso.
 
 ## Cuándo dibuja

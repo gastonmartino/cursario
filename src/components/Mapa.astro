@@ -345,10 +345,16 @@ const islotes = ISLOTES.map((islote) => {
         minimapCtx.stroke();
         minimapCtx.setLineDash([]);
 
-        // Render Deriva Item dots
+        // Render Deriva Item dots. Si los códigos completos se pisan (muchas
+        // islas en una fila), se rotula solo lo que sigue a ":" ("DILIGENCIA:07" → "07").
+        minimapCtx.font = '8px "Geist Mono", monospace';
+        const puntos = localItems.map((item) => ({ x: mapX(item.x), y: mapY(item.y), ancho: minimapCtx.measureText(describir(item.id).code).width }));
+        const sePisan = puntos.some((a, i) => puntos.some((b, j) => j > i
+          && Math.abs(a.y - b.y) < 10 && Math.abs(a.x - b.x) < (a.ancho + b.ancho) / 2 + 2));
         for (const item of localItems) {
           const ix = mapX(item.x);
           const iy = mapY(item.y);
+          const codigo = describir(item.id).code;
 
           minimapCtx.fillStyle = describir(item.id).accentColor;
           minimapCtx.beginPath();
@@ -358,7 +364,7 @@ const islotes = ISLOTES.map((islote) => {
           minimapCtx.font = '8px "Geist Mono", monospace';
           minimapCtx.fillStyle = '#16253D';
           minimapCtx.textAlign = 'center';
-          minimapCtx.fillText(describir(item.id).code, ix, iy - 6);
+          minimapCtx.fillText(sePisan ? codigo.split(':').pop() ?? codigo : codigo, ix, iy - 6);
         }
 
         // Encuadre de la cámara en el lienzo local

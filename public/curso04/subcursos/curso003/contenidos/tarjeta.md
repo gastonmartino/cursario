@@ -1,7 +1,7 @@
-### Informe de individualización de personas y vínculos
+### Acta de allanamiento y registro domiciliario
 
-Lunes 26 de enero de 2026. La Fiscalía y la DDI de La Costa examinan los cuadernos, la correspondencia y las anotaciones secuestradas en el domicilio de Pereyra. El entrecruzamiento de nombres, iniciales, teléfonos y domicilios no arroja el perfil de una banda.
+Miércoles 21 de enero de 2026, 07:30 h. Paseo 98 N.º 2156. Con orden del Juzgado de Garantías N.º 4 de Dolores, la comisión policial ingresa al domicilio de Héctor Daniel Pereyra para establecer la procedencia del módulo secuestrado en la playa.
 
-Aparece, en cambio, una red heterogénea de vecinos de Las Toninas y Costa Chica, sin antecedentes y sin una actividad económica en común: dos buzos, un exdirector de escuela, la dueña de un hotel, un vecino técnico.
+Sobre una mesa de trabajo se constatan carpetas con planos del litoral marítimo con anotaciones manuscritas, cuadernos con tablas numéricas y herramientas técnicas no comerciales.
 
-> ¿Qué los vincula?
+> No aparece una conspiración. Aparece un archivo.
