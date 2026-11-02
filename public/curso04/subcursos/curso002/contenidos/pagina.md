@@ -24,6 +24,8 @@ Hay algo, sin embargo, que el examen no puede establecer: cómo llegó el módul
 
 ## Una respuesta ambigua
 
+![Centro de Operaciones Costeras de Telemar en Las Toninas](/curso04/subcursos/curso002/medios/centro-telemar.jpg) *Centro de Operaciones Costeras de Telemar en Las Toninas. Fotografía de archivo, 15/03/2002.*
+
 Telemar no informa un robo. Reconoce el número de serie, pero señala que el equipo no figura entre sus componentes activos. El módulo aparece asociado a una instalación anterior, a un retiro técnico o a un inventario que ya no está vigente.
 
 La respuesta no cierra la pregunta: la desplaza. Ya no se trata de saber de quién es el objeto, sino de entender por qué un componente de una infraestructura de telecomunicaciones terminó en el puesto de un vendedor ambulante de Las Toninas.
