@@ -36,6 +36,4 @@ El croquis permite reconstruir la disposición del episodio: el mar, la avenida 
 
 ![Vigilancia costera en Las Toninas](/curso04/subcursos/curso001/medios/vigilancia-costera.jpg) *Vista elevada de la playa, desde una perspectiva cercana a la de una cámara de vigilancia costera.*
 
-![Sello del Destacamento Costero de Las Toninas](/curso04/subcursos/curso001/medios/sello-destacamento.jpg) *Sello del Destacamento Costero de Las Toninas.*
-
 > Un procedimiento de rutina. Una pelea, dos vendedores, lesiones leves. Y un objeto que nadie reconoce como propio.

@@ -236,4 +236,18 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageDate: '2024-2025', 
   },    
 
+
+  // ISLOTES DEL CURSO:04 / SUBDERIVAS "EXPEDIENTE 11/26"
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  {
+    id: 'islote-expediente-01',
+    showHeader: false,
+    imageUrl: '/curso04/subcursos/curso001/medios/sello-destacamento.jpg',
+    code: 'SELLO DEL DESTACAMENTO COSTERO DE LAS TONINAS',
+    tag: '',
+    accentColor: '#3F14DB',
+    imageCaption: '',
+    headerLabel: '',
+    showAction: false,
+  },
 ];
