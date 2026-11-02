@@ -637,9 +637,9 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     idSuperior: 'expediente-1126-02',
     subcurso: 'islote016',
     x: 380,
-    y: -443,
-    ancho: 260,
-    alto: 300,
+    y: -639,
+    ancho: 600,
+    alto: 692,
   },
 ];
 
