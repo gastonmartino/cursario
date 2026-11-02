@@ -16,10 +16,12 @@ Por decreto de fs. 79 se dispone el peritaje de los componentes secuestrados y d
 ## Dictamen
 
 - **Naturaleza.** Los peritos identifican un dispositivo que transmite información mediante **pulsos de luz** a través de tramos de **fibra óptica submarina fuera de servicio**. Las fuentes luminosas son improvisadas: linternas adaptadas y emisores de baja potencia.
-- **Características.** El dispositivo es portátil y está contenido en una valija pequeña y estanca. Reúne una estación de emisión —batería recargable mediante dínamo de manivela, llave de pulsos, linterna adaptada, lente colimadora y conector para fibra— y una de lectura —pantalla esmerilada con visor o fotodiodo con zumbador—. No requiere red eléctrica ni instalación fija.
+- **Características.** El dispositivo es portátil y está contenido en un maletín metálico. Reúne una estación de emisión —batería recargable mediante dínamo de manivela, llave de pulsos, linterna adaptada, lente colimadora sobre banco de alineación y conector SC/APC para fibra—. La tapa lleva adherida una lámina con el esquema del equipo (DEPL-01), el código de pulsos y el esquema de la estación de lectura —pantalla esmerilada con visor o fotodiodo con zumbador—, que no se halla en el maletín. No requiere red eléctrica ni instalación fija.
 - **Operación.** El diseño contempla estaciones y operadores que intervienen en la transmisión.
-- **Estado.** Se verifica el diseño y se secuestra un prototipo parcial.
+- **Estado.** Se verifica el diseño y se peritan los componentes de la unidad de emisión. La unidad de lectura no ha sido hallada.
 - **Monumento.** Los peritos estiman técnicamente posible que la geometría del monumento sirva de referencia de alineación para pruebas de señalización luminosa de corto alcance.
+
+![Dispositivo de enlace por pulsos luminosos en maletín, con escala forense](/curso04/subcursos/curso012/medios/dispositivo-maletin.jpg) *Unidad de emisión en maletín metálico, con lámina adherida a la tapa y escala forense.*
 
 ## Alcance
 
