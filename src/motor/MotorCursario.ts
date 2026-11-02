@@ -1,7 +1,7 @@
 import { Camara } from './Camara';
 import { CursorEntintado } from './CursorEntintado';
 import { CartografiaGenerativa } from './CartografiaGenerativa';
-import { DERIVAS_ISLOTES, DERIVAS_INSULAS, DERIVAS_REFLOTADAS, estaReflotada, posicionReflotada, type DerivaInsula, type DerivaIsla } from './Derivas';
+import { DERIVAS_ISLOTES, DERIVAS_INSULAS, DERIVAS_REFLOTADAS, posicionReflotada, tieneLienzo, type DerivaInsula, type DerivaIsla } from './Derivas';
 
 /**
  * Lo único del contenido que el motor necesita, pedido por id. Lo provee
@@ -445,8 +445,8 @@ export class MotorCursario {
 
   private handleClick() {
     if (this.level === 'macro' && this.hoveredDeriva) {
-      // Una ínsula reflotada no tiene lienzo propio: no se incursiona.
-      if (!estaReflotada(this.hoveredDeriva.id)) this.incursionar(this.hoveredDeriva.id);
+      // Una ínsula reflotada, o sin islas, no tiene lienzo propio: no se incursiona.
+      if (tieneLienzo(this.hoveredDeriva.id)) this.incursionar(this.hoveredDeriva.id);
     } else if (this.hoveredItem) {
       // In the future: open deep-reading modal/drawer
       this.cursor.hoverLabel = this.appearance.cursorLabel(this.hoveredItem.id, 'select');
@@ -576,7 +576,7 @@ export class MotorCursario {
     }
 
     if (e.key === 'Enter') {
-      if (this.level === 'macro' && this.hoveredDeriva && !estaReflotada(this.hoveredDeriva.id)) {
+      if (this.level === 'macro' && this.hoveredDeriva && tieneLienzo(this.hoveredDeriva.id)) {
         this.incursionar(this.hoveredDeriva.id);
       }
       return;
@@ -600,6 +600,9 @@ export class MotorCursario {
           break;
         case '4':
           this.flyToDeriva('pensamiento');
+          break;
+        case '5':
+          this.flyToDeriva('expediente-1126');
           break;
         case '+':
         case '=':
@@ -665,9 +668,9 @@ export class MotorCursario {
 
     if (!targetDeriva) return;
 
-    // Una ínsula reflotada no tiene lienzo propio: se va hacia ella en el
-    // lienzo principal.
-    if (estaReflotada(targetDeriva.id)) {
+    // Una ínsula reflotada, o un curso todavía sin islas, no tiene lienzo
+    // propio: se va hacia ella en el lienzo principal.
+    if (!tieneLienzo(targetDeriva.id)) {
       if (this.level === 'deriva') this.exitDeriva();
       this.flyToDeriva(targetDeriva.id);
       return;

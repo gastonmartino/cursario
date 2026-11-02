@@ -108,6 +108,23 @@ export const INSULAS: InsulaDefinition[] = [
     imageCaption: 'REFLEXIÓN / ENSAYO',
     imageMaxHeight: 440,
   },
+  {
+    id: 'expediente-1126',
+    code: 'DERIVA:04',
+    name: 'Causa de fondo',
+    headerTypeLabel: '// ANARQUEOLOGÍA PROSPECTIVA',
+    title: 'Expte. 11/26 s/ Tendidos sobrentendidos',
+    subtitle: 'Causa de fondo',
+    description: `El presente expediente tiene por objeto reunir y examinar actuaciones, testimonios y evidencias relativas a las relaciones entre infraestructura y territorio, así como establecer sus posibles vínculos con el proyecto denominado **Nueva Toninas**.
+
+La documentación incorporada permite advertir indicios de una trama secreta de relaciones cuya naturaleza, alcance y jurisdicción permanecen indeterminados, y en la que se reitera una misma referencia: **Los del Fondo**. Entre las líneas de investigación se contempla la posible existencia de un propósito subversivo orientado a la apropiación, recuperación y reutilización de recursos tecnológicos obsoletos, así como al desarrollo de dispositivos, artefactos y sistemas al margen de toda autorización. La investigación continúa.`,
+    tag: 'ANARQUEOLOGÍAS',
+    // Ámbar: llama la atención sin competir con el rojo de los acentos.
+    accentColor: '#B0600C',
+    imageUrl: 'nueva-toninas.jpg',
+    imageCaption: 'Anteproyecto anarqueológico especulativo',
+    imageMaxHeight: 440,
+  },
 ];
 
 

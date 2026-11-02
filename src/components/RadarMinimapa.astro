@@ -91,6 +91,14 @@
             <span class="font-semibold text-cobalt-vibrant">03:DISEÑO</span>
             <span class="text-[9px] text-ink-faint">[4]</span>
           </button>
+
+          <button
+            data-fly-to="expediente-1126"
+            class="deriva-nav-btn col-span-2 text-left px-2 py-1.5 bg-paper-light hover:bg-river-mist hover:text-cobalt border border-ink-border/50 rounded-sm transition-all text-[10px] font-mono flex items-center justify-between"
+          >
+            <span class="font-semibold" style="color: #B0600C;">04:CAUSA_DE_FONDO</span>
+            <span class="text-[9px] text-ink-faint">[5]</span>
+          </button>
         </div>
 
       </div>
@@ -147,7 +155,7 @@
     if (!nav) return;
 
     if (level === 'macro') {
-      nav.style.maxHeight = '80px';
+      nav.style.maxHeight = '120px';
       nav.style.opacity   = '1';
       nav.style.marginTop = '';
       nav.querySelectorAll('button').forEach(b => ((b as HTMLElement).style.pointerEvents = ''));

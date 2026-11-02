@@ -79,6 +79,7 @@ const hasImage = Boolean(imageUrl);
 const hasTitle = Boolean(title);
 const hasSubtitle = Boolean(subtitle);
 const hasDescription = Boolean(description);
+const descriptionHtml = description ? renderMarkdownToHtml(description) : '';
 let resolvedMarkdownHtml = '';
 
 if (markdownFile) {
@@ -150,10 +151,9 @@ const hasMarkdown = Boolean(resolvedMarkdownHtml);
     )}
 
     {hasDescription && (
-    <div class="mb-4 w-full">
-      <p class="font-sans text-[15px] leading-relaxed text-ink-muted">
-        {description}
-      </p>
+    <!-- Admite Markdown en línea y varios párrafos (separados por una línea en blanco). -->
+    <div class="mb-4 w-full font-sans text-[15px] leading-relaxed text-ink-muted [&>p+p]:mt-3">
+      <Fragment set:html={descriptionHtml} />
     </div>
     )}
 

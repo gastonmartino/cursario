@@ -49,6 +49,9 @@ El motor tiene dos niveles, cada uno con su propio sistema de coordenadas:
   asociados a ellas y, si hay ínsulas reflotadas, sus islas e islotes (ver más
   abajo). Click o Enter sobre una ínsula, o su botón INCURSIONAR,
   entra a ese curso.
+- Un curso todavía sin islas no tiene lienzo propio, como una ínsula
+  reflotada (`tieneLienzo`, en `Derivas.ts`): su ínsula no muestra el botón
+  INCURSIONAR y `/?deriva={id}` lleva hacia ella en el lienzo principal.
 - **Lienzo de un curso** (`deriva`): se ven las islas de ese curso, conectadas
   por una línea de recorrido en el orden en que están definidas, y sus islotes.
   Escape o el botón VOLVER regresan al lienzo principal, con la cámara sobre el

@@ -381,7 +381,18 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         alto: 762,
       }
     ]
-  }
+  },
+  {
+    // Causa de fondo (Nueva Toninas): a la derecha de la Deriva 01, un poco
+    // más abajo. Todavía sin islas.
+    id: 'expediente-1126',
+    curso: 'curso04',
+    x: 900,
+    y: 404,
+    ancho: 760,
+    alto: 1208,
+    subcursos: [],
+  },
 ];
 
 // =====================================================================================
@@ -396,6 +407,13 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
 
 export function estaReflotada(idInsula: string): boolean {
   return Boolean(INSULAS.find((insula) => insula.id === idInsula)?.refloated);
+}
+
+// Si se puede incursionar en un curso: tiene lienzo propio (no está
+// reflotado) y algo para mostrar en él (al menos una isla).
+export function tieneLienzo(idInsula: string): boolean {
+  const deriva = DERIVAS_INSULAS.find((entrada) => entrada.id === idInsula);
+  return Boolean(deriva && deriva.subcursos.length > 0 && !estaReflotada(idInsula));
 }
 
 

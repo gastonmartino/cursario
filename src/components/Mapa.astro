@@ -12,7 +12,7 @@ import Islote from './Islote.astro';
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ISLOTES } from '../data/islotes';
-import { estaReflotada, posicionReflotada, ubicar } from '../motor/Derivas';
+import { posicionReflotada, tieneLienzo, ubicar } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { version } from '../../package.json';
 
@@ -99,7 +99,7 @@ const islotes = ISLOTES.map((islote) => {
         markdownFile={insula.markdownFile}
         derivaId={insula.id}
         coordinatesText={formatCoordinates(insula)}
-        showAction={!estaReflotada(insula.id)}
+        showAction={tieneLienzo(insula.id)}
         imageCaption={insula.imageCaption}
         width={insula.ancho}
         height={insula.alto}
@@ -186,7 +186,7 @@ const islotes = ISLOTES.map((islote) => {
 
 <script>
   import { MotorCursario, type DatosTelemetria } from '../motor/MotorCursario';
-  import { DERIVAS_INSULAS, DERIVAS_REFLOTADAS, estaReflotada, posicionReflotada } from '../motor/Derivas';
+  import { DERIVAS_INSULAS, DERIVAS_REFLOTADAS, posicionReflotada, tieneLienzo } from '../motor/Derivas';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
 
@@ -198,9 +198,9 @@ const islotes = ISLOTES.map((islote) => {
   ]);
   const describir = (id: string) =>
     contenidoPorId.get(id) ?? { code: id, label: '', accentColor: '#0038A8' };
-  // Un curso en el que se puede incursionar (las ínsulas reflotadas no tienen
-  // lienzo propio).
-  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id) && !estaReflotada(id);
+  // Un curso en el que se puede incursionar (las ínsulas reflotadas y los
+  // cursos todavía sin islas no tienen lienzo propio).
+  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id) && tieneLienzo(id);
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
