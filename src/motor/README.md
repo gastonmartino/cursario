@@ -84,7 +84,7 @@ a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
 
 - El zoom va de 0,25 a 2,5.
 - La vista inicial de cada lienzo se calcula con el algoritmo de la sección
-  siguiente. CENTRAR (o `0`, `R`) vuelve a ella.
+  siguiente. CENTRAR (o `R`) vuelve a ella.
 - Mientras nadie mueva la vista inicial, se recalcula si cambia el tamaño del
   lienzo (al cargar en el celular, al mover la costura).
 - La última vista de cada lienzo (posición y zoom) se recuerda en el navegador
@@ -100,9 +100,10 @@ a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
   acercándose suavemente al destino. Al llegar, la cámara fija el valor final y
   queda quieta.
 
-Atajos de teclado: `0` o `R` centra la vista; `+` y `-` hacen zoom; en el lienzo
-principal, `1` a `4` vuelan a cada curso y `Enter` entra al curso que tiene el
-puntero encima; `Escape` vuelve desde un curso. Mientras el menú de navegación
+Atajos de teclado: `R` centra la vista (en el lienzo de un curso, también `0`);
+`+` y `-` hacen zoom; en el lienzo principal, `0` a `4` vuelan a la deriva del
+mismo número (DERIVA:00 a 04) y `Enter` entra al curso que tiene el puntero
+encima; `Escape` vuelve desde un curso. Mientras el menú de navegación
 está abierto, el teclado no llega al lienzo.
 
 ## Vista inicial de cada lienzo

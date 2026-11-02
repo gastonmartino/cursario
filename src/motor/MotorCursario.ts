@@ -584,24 +584,24 @@ export class MotorCursario {
 
     if (this.level === 'macro') {
       switch (e.key) {
-        case '0':
         case 'r':
         case 'R':
           this.resetView();
           break;
-        case '1':
+        // Cada número lleva a la deriva del mismo número (DERIVA:00 a 04).
+        case '0':
           this.flyToDeriva('en-curso');
           break;
-        case '2':
+        case '1':
           this.flyToDeriva('arte-electronico');
           break;
-        case '3':
+        case '2':
           this.flyToDeriva('generativa');
           break;
-        case '4':
+        case '3':
           this.flyToDeriva('pensamiento');
           break;
-        case '5':
+        case '4':
           this.flyToDeriva('expediente-1126');
           break;
         case '+':

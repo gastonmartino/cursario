@@ -119,8 +119,9 @@ export const INSULAS: InsulaDefinition[] = [
 
 La documentación incorporada permite advertir indicios de una trama secreta de relaciones cuya naturaleza, alcance y jurisdicción permanecen indeterminados, y en la que se reitera una misma referencia: **Los del Fondo**. Entre las líneas de investigación se contempla la posible existencia de un propósito subversivo orientado a la apropiación, recuperación y reutilización de recursos tecnológicos obsoletos, así como al desarrollo de dispositivos, artefactos y sistemas al margen de toda autorización. La investigación continúa.`,
     tag: 'ANARQUEOLOGÍAS',
-    // Magenta: saturado y distinto del azul y del rojo de los acentos.
-    accentColor: '#C2187A',
+    // Magenta apagado: distinto del azul y del rojo de los acentos, con
+    // contraste suficiente para texto chico sobre blanco (4,9:1).
+    accentColor: '#BF4089',
     imageUrl: 'nueva-toninas.jpg',
     imageCaption: 'Anteproyecto anarqueológico especulativo',
     imageMaxHeight: 440,
