@@ -75,14 +75,17 @@ const contenidoHtml = renderizarBloques(documento.bloques, CLASES_CARTULARIO);
             {/* Página de una ínsula: enlace a su lienzo en el Mapa. Como el
                 botón del Mapa del Derrotero (data-ir-al-mapa, ver Derrotero.astro),
                 antes de ir cierra el Derrotero si está completo: si no, en
-                pantallas chicas la portada mostraría el Derrotero y no el Mapa. */}
+                pantallas chicas la portada mostraría el Derrotero y no el Mapa.
+                Es el único acceso al lienzo de la ínsula (en el Mapa, la
+                ínsula abre esta página), por eso va relleno con el color del
+                curso y texto claro. */}
             {mapa && (
               <a
                 href={withBase(mapa)}
                 data-alternar-vista="cerrado"
                 data-ir-al-mapa
-                class="shrink-0 border px-2.5 py-1.5 font-mono text-[11px] font-bold tracking-widest transition-colors hover:bg-paper-sheet"
-                style={`color: ${pagina.color}; border-color: ${pagina.color}66;`}
+                class="shrink-0 border px-2.5 py-1.5 font-mono text-[11px] font-bold tracking-widest text-white transition-opacity hover:opacity-85"
+                style={`background-color: ${pagina.color}; border-color: ${pagina.color};`}
               >
                 VER EL MAPA →
               </a>
