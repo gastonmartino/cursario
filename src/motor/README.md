@@ -48,7 +48,12 @@ El motor tiene dos niveles, cada uno con su propio sistema de coordenadas:
 - **Lienzo principal** (`macro`): se ven las cuatro ínsulas, los islotes
   asociados a ellas y, si hay ínsulas reflotadas, sus islas e islotes (ver más
   abajo). Click o Enter sobre una ínsula, o su botón INCURSIONAR,
-  entra a ese curso.
+  entra a ese curso (`abrirCurso`).
+- Una ínsula con página editorial (`pageMarkdownFile`, en `src/data/insulas.ts`;
+  `paginaDeInsula`, en `Derivas.ts`) abre esa página en lugar de su lienzo: la
+  portada pasa la función `abrirPagina` al motor, que la consulta antes de
+  incursionar. Al lienzo del curso se llega desde la página (VER EL MAPA), con
+  `/?deriva={id}`, que siempre incursiona.
 - Un curso todavía sin islas no tiene lienzo propio, como una ínsula
   reflotada (`tieneLienzo`, en `Derivas.ts`): su ínsula no muestra el botón
   INCURSIONAR y `/?deriva={id}` lleva hacia ella en el lienzo principal.

@@ -52,7 +52,9 @@ export interface InsulaDefinition {
   derroteroSection?: 'obras' | 'bitacora' | 'escritos';
 
   // Página editorial de la ínsula (Markdown en /{curso}/contenidos/), a la que
-  // se llega desde el Derrotero y el Aparejo, no desde su tarjeta en el Mapa.
+  // se llega desde el Derrotero, el Aparejo y el lienzo principal: el click,
+  // Enter y el botón INCURSIONAR de su tarjeta abren esta página en lugar del
+  // lienzo del curso, al que se llega desde la página (VER EL MAPA).
   // Va en /{pageUrl}/ o, sin pageUrl, en /{curso}/. VOLVER lleva al lienzo
   // principal.
   pageMarkdownFile?: string | null;

@@ -607,6 +607,14 @@ export function estaReflotada(idInsula: string): boolean {
   return Boolean(INSULAS.find((insula) => insula.id === idInsula)?.refloated);
 }
 
+// La página editorial de una ínsula (pageMarkdownFile en src/data/insulas.ts),
+// o null si no tiene. Desde el lienzo principal, la ínsula abre esta página
+// en lugar de su lienzo; al lienzo se llega desde la página (VER EL MAPA).
+export function paginaDeInsula(idInsula: string): string | null {
+  const insula = INSULAS.find((entrada) => entrada.id === idInsula);
+  return insula?.pageMarkdownFile ? ubicar(idInsula).urlPagina ?? null : null;
+}
+
 // Si se puede incursionar en un curso: tiene lienzo propio (no está
 // reflotado) y algo para mostrar en él (al menos una isla).
 export function tieneLienzo(idInsula: string): boolean {

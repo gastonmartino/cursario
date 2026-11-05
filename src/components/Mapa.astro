@@ -186,7 +186,8 @@ const islotes = ISLOTES.map((islote) => {
 
 <script>
   import { MotorCursario, type DatosTelemetria } from '../motor/MotorCursario';
-  import { DERIVAS_INSULAS, DERIVAS_REFLOTADAS, posicionReflotada, tieneLienzo } from '../motor/Derivas';
+  import { DERIVAS_INSULAS, DERIVAS_REFLOTADAS, paginaDeInsula, posicionReflotada, tieneLienzo } from '../motor/Derivas';
+  import { withBase } from '../utils/paths';
   import { INSULAS } from '../data/insulas';
   import { ISLAS } from '../data/islas';
 
@@ -200,7 +201,16 @@ const islotes = ISLOTES.map((islote) => {
     contenidoPorId.get(id) ?? { code: id, label: '', accentColor: '#0038A8' };
   // Un curso en el que se puede incursionar (las ínsulas reflotadas y los
   // cursos todavía sin islas no tienen lienzo propio).
-  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id) && tieneLienzo(id);
+  const esCurso = (id: string) => INSULAS.some((insula) => insula.id === id) && (tieneLienzo(id) || Boolean(paginaDeInsula(id)));
+
+  // Ir a una página del sitio con la misma transición que los enlaces
+  // (TransicionPagina.astro): la capa cubre la vista y después se navega.
+  const irAPagina = (url: string) => {
+    const capa = document.getElementById('page-transition');
+    const espera = !capa || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+    capa?.classList.add('cubriendo');
+    window.setTimeout(() => window.location.assign(url), espera);
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     const mainCanvas = document.getElementById('infinite-canvas') as HTMLCanvasElement;
@@ -489,6 +499,13 @@ const islotes = ISLOTES.map((islote) => {
           if (action === 'select') return `[REGISTRO ACTIVO] ${label}`;
           return esCurso(id) ? `[${code}] INCURSIONAR [CLICK]` : `[${code}] ${label}`;
         },
+        // Una ínsula con página editorial (pageMarkdownFile) abre esa página.
+        abrirPagina: (id) => {
+          const url = paginaDeInsula(id);
+          if (!url) return false;
+          irAPagina(withBase(url) ?? url);
+          return true;
+        },
       }
     );
 
@@ -551,7 +568,7 @@ const islotes = ISLOTES.map((islote) => {
         e.stopPropagation();
         const targetDeriva = btn.getAttribute('data-incursionar');
         if (targetDeriva) {
-          controller.incursionar(targetDeriva);
+          controller.abrirCurso(targetDeriva);
         }
       });
     });

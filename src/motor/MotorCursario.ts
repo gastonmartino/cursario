@@ -13,6 +13,10 @@ export interface AparienciaLienzo {
   // Texto junto al cursor sobre un curso o subcurso: 'hover' al pasar por
   // encima, 'select' al hacer click.
   cursorLabel: (id: string, action: 'hover' | 'select') => string;
+  // Si un curso tiene página editorial, la abre y devuelve true: el click,
+  // Enter y el botón INCURSIONAR del lienzo principal llevan a esa página en
+  // lugar del lienzo del curso. Sin esta función, siempre se incursiona.
+  abrirPagina?: (id: string) => boolean;
 }
 
 // Vista de un lienzo: el punto del mundo en el centro de la pantalla y el zoom.
@@ -445,8 +449,7 @@ export class MotorCursario {
 
   private handleClick() {
     if (this.level === 'macro' && this.hoveredDeriva) {
-      // Una ínsula reflotada, o sin islas, no tiene lienzo propio: no se incursiona.
-      if (tieneLienzo(this.hoveredDeriva.id)) this.incursionar(this.hoveredDeriva.id);
+      this.abrirCurso(this.hoveredDeriva.id);
     } else if (this.hoveredItem) {
       // In the future: open deep-reading modal/drawer
       this.cursor.hoverLabel = this.appearance.cursorLabel(this.hoveredItem.id, 'select');
@@ -576,9 +579,7 @@ export class MotorCursario {
     }
 
     if (e.key === 'Enter') {
-      if (this.level === 'macro' && this.hoveredDeriva && tieneLienzo(this.hoveredDeriva.id)) {
-        this.incursionar(this.hoveredDeriva.id);
-      }
+      if (this.level === 'macro' && this.hoveredDeriva) this.abrirCurso(this.hoveredDeriva.id);
       return;
     }
 
@@ -662,6 +663,14 @@ export class MotorCursario {
   /* -------------------------------------------------------------
      TRANSICIONES DE NIVEL (INCURSIONAR & VOLVER)
   ------------------------------------------------------------- */
+  // Abrir un curso desde el lienzo principal (click, Enter o INCURSIONAR): su
+  // página editorial, si tiene; si no, su lienzo. Una ínsula reflotada, o sin
+  // islas, no tiene lienzo propio: sin página, no se hace nada.
+  public abrirCurso(derivaId: string) {
+    if (this.appearance.abrirPagina?.(derivaId)) return;
+    if (tieneLienzo(derivaId)) this.incursionar(derivaId);
+  }
+
   public incursionar(derivaId?: string) {
     const targetId = derivaId || this.hoveredDeriva?.id || 'en-curso';
     const targetDeriva = DERIVAS_INSULAS.find((d) => d.id === targetId);
