@@ -198,30 +198,74 @@ function rosa(cx: number, cy: number, r: number): string {
   </g>`;
 }
 
-// Rosa de portulano, en tinta: estrella de 32 rumbos con las puntas partidas
-// en una mitad llena y otra vacía, dos anillos finos y una flor en el norte.
+// Rosa de portulano, en tinta: una escala graduada y una banda con los ocho
+// vientos del Mediterráneo alrededor; adentro, los 32 rumbos punteados y una
+// estrella con las puntas partidas en una mitad llena y otra vacía. La flor de
+// lis marca el norte.
 function rosaPortulano(cx: number, cy: number, r: number): string {
   const t = PALETA.tinta, p = PALETA.papel;
   const punto = (ang: number, l: number) => `${n1(Math.cos(ang) * l)},${n1(Math.sin(ang) * l)}`;
+  const chica = r < 60;
+  const escala = chica ? 6 : 10;           // banda de la escala graduada
+  const vientos = chica ? 0 : Math.max(14, r * 0.12); // banda de los vientos
+  const rEscala = r - 3;
+  const rVientos = rEscala - escala;
+  const rEstrella = rVientos - vientos - 2;
+
+  // Escala graduada: un trazo cada 2°, más largo cada 10° y cada 30°.
+  let marcas = '';
+  for (let grado = 0; grado < 360; grado += chica ? 5 : 2) {
+    const a = (grado - 90) * (Math.PI / 180);
+    const largo = grado % 30 === 0 ? escala : grado % 10 === 0 ? escala * 0.65 : escala * 0.35;
+    marcas += `<line x1="${punto(a, rEscala).replace(',', '" y1="')}" x2="${punto(a, rEscala - largo).replace(',', '" y2="')}"/>`;
+  }
+
+  // Los 32 rumbos, punteados, de la estrella a la banda de los vientos.
+  let lineas = '';
+  for (let k = 0; k < 32; k++) {
+    const a = (k * 11.25 - 90) * (Math.PI / 180);
+    lineas += `<line x1="0" y1="0" x2="${punto(a, rVientos).replace(',', '" y2="')}" stroke-dasharray="${k % 4 === 0 ? 'none' : '1.5 3'}"/>`;
+  }
+
+  // Estrella de 32 puntas, de las cortas a las largas.
   let rumbos = '';
-  // De los rumbos cortos a los largos, para que los principales queden encima.
-  const orden = Array.from({ length: 32 }, (_, k) => k).sort((a, b) => (a % 8 === 0 ? 3 : a % 4 === 0 ? 2 : a % 2 === 0 ? 1 : 0) - (b % 8 === 0 ? 3 : b % 4 === 0 ? 2 : b % 2 === 0 ? 1 : 0));
+  const nivel = (k: number) => (k % 8 === 0 ? 3 : k % 4 === 0 ? 2 : k % 2 === 0 ? 1 : 0);
+  const orden = Array.from({ length: 32 }, (_, k) => k).sort((a, b) => nivel(a) - nivel(b));
   for (const k of orden) {
     const a = (k * 11.25 - 90) * (Math.PI / 180);
-    const largo = k % 8 === 0 ? r * 0.94 : k % 4 === 0 ? r * 0.72 : k % 2 === 0 ? r * 0.5 : r * 0.36;
+    const largo = rEstrella * [0.42, 0.56, 0.78, 1][nivel(k)];
     const base = largo * (k % 8 === 0 ? 0.2 : 0.24);
-    const abre = k % 8 === 0 ? 0.2 : k % 4 === 0 ? 0.24 : 0.28;
-    // Mitad llena (a la izquierda del rumbo) y mitad vacía.
+    const abre = [0.28, 0.28, 0.24, 0.2][nivel(k)];
     rumbos += `<path d="M${punto(a, largo)}L${punto(a - abre, base)}L0,0Z" fill="${t}"/>`;
     rumbos += `<path d="M${punto(a, largo)}L${punto(a + abre, base)}L0,0Z" fill="${p}"/>`;
   }
-  const norte = r * 0.94 + 4;
-  return `<g transform="translate(${cx} ${cy})" stroke="${t}" stroke-linejoin="round">
-    <circle r="${r}" fill="none" stroke-width="1"/><circle r="${n1(r - 5)}" fill="none" stroke-width="0.5"/>
-    <circle r="${n1(r * 0.36)}" fill="none" stroke-width="0.5" stroke-dasharray="1.5 2.5"/>
+
+  // Los ocho vientos, sobre la banda; en el norte, la flor de lis.
+  let nombres = '';
+  if (!chica) {
+    const rTexto = rVientos - vientos / 2;
+    const tam = Math.max(7, vientos * 0.5);
+    ['', 'GRECO', 'LEVANTE', 'SIROCO', 'OSTRO', 'LIBECCIO', 'PONENTE', 'MAESTRO'].forEach((nombre, k) => {
+      if (nombre) nombres += `<text transform="rotate(${k * 45}) translate(0 ${n1(-rTexto + tam * 0.35)})" text-anchor="middle">${nombre}</text>`;
+    });
+    nombres = `<g fill="${t}" stroke="none" font-family="'Archivo Narrow', sans-serif" font-weight="600" font-size="${n1(tam)}" letter-spacing="1.5">${nombres}</g>`;
+  }
+  const flor = chica ? rEstrella + 6 : rVientos - vientos / 2;
+  const tamFlor = chica ? r / 140 : vientos / 17;
+
+  return `<g transform="translate(${cx} ${cy})" stroke="${t}" stroke-linejoin="round" fill="none">
+    <circle r="${r}" stroke-width="1.3"/><circle r="${n1(rEscala)}" stroke-width="0.5"/>
+    <g stroke-width="0.5">${marcas}</g>
+    <circle r="${n1(rVientos)}" stroke-width="0.8"/>
+    ${chica ? '' : `<circle r="${n1(rVientos - vientos)}" stroke-width="0.5"/><circle r="${n1(rVientos - vientos - 2)}" stroke-width="0.4"/>`}
+    <g stroke-width="0.35" opacity="0.8">${lineas}</g>
+    <circle r="${n1(rEstrella * 0.56)}" stroke-width="0.5" stroke-dasharray="1 2.5"/>
+    <circle r="${n1(rEstrella * 0.3)}" stroke-width="0.4"/>
+    ${nombres}
     <g stroke-width="0.7">${rumbos}</g>
-    <circle r="${n1(Math.max(2, r * 0.035))}" fill="${p}" stroke-width="0.8"/>
-    <path transform="translate(0 ${n1(-norte)}) scale(${n1(Math.max(0.5, r / 120))})" d="M0,-16C-3,-11 -4,-7 0,-2C4,-7 3,-11 0,-16ZM0,-4C-5,-9 -11,-8 -11,-3C-8,-5 -4,-4 0,-1ZM0,-4C5,-9 11,-8 11,-3C8,-5 4,-4 0,-1ZM-6,0H6" fill="${t}" stroke-width="0.8"/>
+    <circle r="${n1(Math.max(2.5, rEstrella * 0.05))}" fill="${p}" stroke-width="0.8"/>
+    <circle r="${n1(Math.max(1, rEstrella * 0.02))}" fill="${t}" stroke="none"/>
+    <path transform="translate(0 ${n1(-flor)}) scale(${n1(Math.max(0.4, tamFlor))}) translate(0 8)" d="M0,-16C-3,-11 -4,-7 0,-2C4,-7 3,-11 0,-16ZM0,-4C-5,-9 -11,-8 -11,-3C-8,-5 -4,-4 0,-1ZM0,-4C5,-9 11,-8 11,-3C8,-5 4,-4 0,-1ZM-6,0H6" fill="${t}" stroke-width="0.8"/>
   </g>`;
 }
 

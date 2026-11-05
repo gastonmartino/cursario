@@ -161,9 +161,9 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
             ))}
           </defs>
           {!composicion.encabezados && encabezados.map((texto, i) => (
-            <text class="rotulo-curvo"><textPath href={`#curva-${nombre}-${(i + 1) % composicion.rosas.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
+            <text class:list={['rotulo-curvo', `rotulo-curvo--${composicion.rosas[(i + 1) % composicion.rosas.length].estilo ?? 'clasica'}`]}><textPath href={`#curva-${nombre}-${(i + 1) % composicion.rosas.length}`} startOffset="2%">{textoPlano(texto).toUpperCase()}</textPath></text>
           ))}
-          <text class="rotulo-curvo rotulo-curvo--fino"><textPath href={`#curva-${nombre}-0`} startOffset="54%">{pagina.etiqueta}</textPath></text>
+          <text class:list={['rotulo-curvo', 'rotulo-curvo--fino', `rotulo-curvo--${composicion.rosas[0].estilo ?? 'clasica'}`]}><textPath href={`#curva-${nombre}-0`} startOffset="54%">{pagina.etiqueta}</textPath></text>
         </svg>
         {/* Rótulos sueltos, como "PROFUNDIDADES EN METROS" */}
         {composicion.rotulos.map(({ arriba, izquierda, derecha }) => (
@@ -537,6 +537,17 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     font-weight: 700;
     font-size: 15px;
     letter-spacing: 0.32em;
+  }
+
+  /* El rótulo curvo toma el color de su rosa (ver EstiloRosa, en
+     composicion.ts): bermellón la clásica, tinta la de portulano y ultramar
+     la aguja de marear. */
+  .rotulo-curvo--portulano {
+    fill: var(--tinta);
+  }
+
+  .rotulo-curvo--aguja {
+    fill: var(--ultramar);
   }
 
   .rotulo-curvo--fino {
