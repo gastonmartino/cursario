@@ -124,7 +124,9 @@ export function generarGrafica(composicion: Composicion, prefijo: string, semill
   capas.push(`<g stroke="${PALETA.bermellon}" opacity="0.75">${rumbos}</g>`);
 
   // --- rosas de los vientos ---
-  for (const { x, y, r } of rosas) capas.push(rosa(x, y, r));
+  for (const { x, y, r, estilo } of rosas) {
+    capas.push(estilo === 'portulano' ? rosaPortulano(x, y, r) : estilo === 'aguja' ? agujaDeMarear(x, y, r) : rosa(x, y, r));
+  }
 
   // --- símbolos: cruces, triángulos, rocas, oleaje ---
   let simbolos = '';
@@ -193,6 +195,58 @@ function rosa(cx: number, cy: number, r: number): string {
     <circle r="3" fill="${c}"/>
     <text y="${n1(-interior - 22)}" text-anchor="middle" fill="${c}" stroke="none" font-family="Tinos, serif" font-weight="700" font-size="${Math.max(9, r * 0.08).toFixed(0)}">N</text>
     <text y="${n1(interior * 0.45)}" text-anchor="middle" fill="${c}" stroke="none" font-family="'Archivo Narrow', sans-serif" font-size="7" letter-spacing="1">VAR 7°30'W · 2026</text>
+  </g>`;
+}
+
+// Rosa de portulano, en tinta: estrella de 32 rumbos con las puntas partidas
+// en una mitad llena y otra vacía, dos anillos finos y una flor en el norte.
+function rosaPortulano(cx: number, cy: number, r: number): string {
+  const t = PALETA.tinta, p = PALETA.papel;
+  const punto = (ang: number, l: number) => `${n1(Math.cos(ang) * l)},${n1(Math.sin(ang) * l)}`;
+  let rumbos = '';
+  // De los rumbos cortos a los largos, para que los principales queden encima.
+  const orden = Array.from({ length: 32 }, (_, k) => k).sort((a, b) => (a % 8 === 0 ? 3 : a % 4 === 0 ? 2 : a % 2 === 0 ? 1 : 0) - (b % 8 === 0 ? 3 : b % 4 === 0 ? 2 : b % 2 === 0 ? 1 : 0));
+  for (const k of orden) {
+    const a = (k * 11.25 - 90) * (Math.PI / 180);
+    const largo = k % 8 === 0 ? r * 0.94 : k % 4 === 0 ? r * 0.72 : k % 2 === 0 ? r * 0.5 : r * 0.36;
+    const base = largo * (k % 8 === 0 ? 0.2 : 0.24);
+    const abre = k % 8 === 0 ? 0.2 : k % 4 === 0 ? 0.24 : 0.28;
+    // Mitad llena (a la izquierda del rumbo) y mitad vacía.
+    rumbos += `<path d="M${punto(a, largo)}L${punto(a - abre, base)}L0,0Z" fill="${t}"/>`;
+    rumbos += `<path d="M${punto(a, largo)}L${punto(a + abre, base)}L0,0Z" fill="${p}"/>`;
+  }
+  const norte = r * 0.94 + 4;
+  return `<g transform="translate(${cx} ${cy})" stroke="${t}" stroke-linejoin="round">
+    <circle r="${r}" fill="none" stroke-width="1"/><circle r="${n1(r - 5)}" fill="none" stroke-width="0.5"/>
+    <circle r="${n1(r * 0.36)}" fill="none" stroke-width="0.5" stroke-dasharray="1.5 2.5"/>
+    <g stroke-width="0.7">${rumbos}</g>
+    <circle r="${n1(Math.max(2, r * 0.035))}" fill="${p}" stroke-width="0.8"/>
+    <path transform="translate(0 ${n1(-norte)}) scale(${n1(Math.max(0.5, r / 120))})" d="M0,-16C-3,-11 -4,-7 0,-2C4,-7 3,-11 0,-16ZM0,-4C-5,-9 -11,-8 -11,-3C-8,-5 -4,-4 0,-1ZM0,-4C5,-9 11,-8 11,-3C8,-5 4,-4 0,-1ZM-6,0H6" fill="${t}" stroke-width="0.8"/>
+  </g>`;
+}
+
+// Aguja de marear, en ultramar: un anillo graduado en bandas alternas, un
+// círculo punteado y una aguja en rombo, con la mitad norte llena.
+function agujaDeMarear(cx: number, cy: number, r: number): string {
+  const u = PALETA.ultramar;
+  const banda = Math.max(5, r * 0.07);
+  let bandas = '';
+  const pasos = 48;
+  for (let k = 0; k < pasos; k += 2) {
+    const a0 = (k / pasos) * Math.PI * 2, a1 = ((k + 1) / pasos) * Math.PI * 2;
+    const p = (a: number, l: number) => `${n1(Math.cos(a) * l)},${n1(Math.sin(a) * l)}`;
+    bandas += `<path d="M${p(a0, r)}A${r},${r} 0 0,1 ${p(a1, r)}L${p(a1, r - banda)}A${n1(r - banda)},${n1(r - banda)} 0 0,0 ${p(a0, r - banda)}Z"/>`;
+  }
+  const largo = r * 0.78, ancho = r * 0.1, corto = r * 0.42;
+  return `<g transform="translate(${cx} ${cy})" stroke="${u}" fill="none">
+    <circle r="${r}" stroke-width="1.1"/><circle r="${n1(r - banda)}" stroke-width="0.7"/>
+    <g fill="${u}" stroke="none">${bandas}</g>
+    <circle r="${n1(r * 0.62)}" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <path d="M0,${n1(-largo)}L${n1(ancho)},0L0,${n1(largo)}L${n1(-ancho)},0Z" stroke-width="0.9"/>
+    <path d="M0,${n1(-largo)}L${n1(ancho)},0L${n1(-ancho)},0Z" fill="${u}" stroke-width="0.9"/>
+    <path d="M${n1(-corto)},0L0,${n1(ancho * 0.7)}L${n1(corto)},0L0,${n1(-ancho * 0.7)}Z" stroke-width="0.7"/>
+    <circle r="${n1(Math.max(2.5, r * 0.04))}" fill="${PALETA.papel}" stroke-width="1"/>
+    <text y="${n1(-largo - 8)}" text-anchor="middle" fill="${u}" stroke="none" font-family="Tinos, serif" font-weight="700" font-size="${Math.max(9, r * 0.1).toFixed(0)}">N</text>
   </g>`;
 }
 

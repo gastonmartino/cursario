@@ -9,6 +9,12 @@
 
 export type Rect = [x: number, y: number, ancho: number, alto: number];
 export type Circulo = { x: number; y: number; r: number };
+// Una rosa de los vientos y su dibujo (grafica.ts). La clásica, roja y
+// graduada, se usa como mucho dos veces por composición y a escalas distintas
+// (una grande y una chica); las demás rosas son de portulano (tinta, estrella
+// de 32 rumbos) o una aguja de marear (ultramar, anillo en bandas y aguja).
+export type EstiloRosa = 'clasica' | 'portulano' | 'aguja';
+export type Rosa = Circulo & { estilo?: EstiloRosa };
 export type ModoImagen = 'recuadro' | 'papel' | 'transparencia';
 
 export interface Composicion {
@@ -20,7 +26,7 @@ export interface Composicion {
   navegacion: { arriba: number; izquierda: number; derecha: number; fija: boolean };
   // Recuadros negros escalonados; cada uno es la unión de varios rectángulos.
   recuadros: Rect[][];
-  rosas: Circulo[];
+  rosas: Rosa[];
   // Aguas poco profundas (fuera de los recuadros) e islas (dentro de ellos).
   aguas: Circulo[];
   islas: Circulo[];
@@ -54,8 +60,8 @@ const XL: Composicion = {
   ],
   rosas: [
     { x: 400, y: 460, r: 150 },
-    { x: 1070, y: 1180, r: 175 },
-    { x: 1180, y: 1890, r: 125 },
+    { x: 1070, y: 1180, r: 175, estilo: 'portulano' },
+    { x: 1180, y: 1890, r: 125, estilo: 'aguja' },
     { x: 490, y: 2290, r: 45 },
   ],
   aguas: [
@@ -117,7 +123,7 @@ const LG: Composicion = {
   ],
   rosas: [
     { x: 370, y: 450, r: 130 },
-    { x: 880, y: 1060, r: 150 },
+    { x: 880, y: 1060, r: 150, estilo: 'portulano' },
     { x: 330, y: 2240, r: 50 },
   ],
   aguas: [
@@ -180,7 +186,7 @@ const MD: Composicion = {
   ],
   rosas: [
     { x: 280, y: 400, r: 95 },
-    { x: 650, y: 1240, r: 85 },
+    { x: 650, y: 1240, r: 85, estilo: 'portulano' },
     { x: 290, y: 2700, r: 55 },
   ],
   aguas: [
@@ -298,7 +304,7 @@ const XS: Composicion = {
   ],
   rosas: [
     { x: 290, y: 285, r: 48 },
-    { x: 100, y: 1880, r: 35 },
+    { x: 100, y: 1880, r: 35, estilo: 'portulano' },
   ],
   aguas: [
     { x: 110, y: 300, r: 40 },
