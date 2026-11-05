@@ -41,3 +41,7 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # GitHub Pages a veces tarda más de los 10 minutos que espera por
+          # defecto; al agotarlos, cancela el deploy y puede dejarlo trabado.
+          timeout: 1800000
