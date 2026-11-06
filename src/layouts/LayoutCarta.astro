@@ -4,6 +4,7 @@ import Derrotero from '../components/Derrotero.astro';
 import EstadoDerrotero from '../components/EstadoDerrotero.astro';
 import TransicionPagina from '../components/TransicionPagina.astro';
 import CambioVista from '../components/navegacion/CambioVista.astro';
+import VolverArriba from '../components/navegacion/VolverArriba.astro';
 import type { VistasPagina } from '../cartas';
 import { withBase } from '../utils/paths';
 
@@ -11,7 +12,7 @@ import { withBase } from '../utils/paths';
 // tipografías ni colores: cada carta define los suyos. Aporta lo común a todas
 // las páginas: los metadatos, la transición entre páginas, el Aparejo (los
 // atajos a otras páginas, que cada carta abre con su BotonAparejo) y el
-// Derrotero.
+// Derrotero, y el botón flotante para volver arriba (VolverArriba).
 //
 // Con vista compartida (desde 1024 px de ancho; ver Derrotero.astro), la página
 // ocupa el lugar del Mapa: el resto de la ventana que le deja el Derrotero, al
@@ -77,6 +78,7 @@ const urlOriginal = vistas && Astro.site ? new URL(withBase(vistas.original), As
     </div>
     <Derrotero enPagina />
     <Aparejo />
+    <VolverArriba />
     {vistas && <CambioVista vistas={vistas} />}
   </body>
 </html>

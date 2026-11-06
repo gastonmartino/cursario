@@ -1,0 +1,128 @@
+---
+// Botón flotante para volver al principio de la página. Lo incluye LayoutCarta
+// en todas las páginas de contenido: abajo a la izquierda, del lado opuesto al
+// control de modo lectura (CambioVista), con su mismo aspecto. No se ve al
+// dibujar la página: aparece recién cuando el lector empezó a bajar.
+---
+
+<button type="button" class="volver-arriba" aria-label="Volver arriba" tabindex="-1" data-volver-arriba>
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5" />
+    <path d="m5 12 7-7 7 7" />
+  </svg>
+  <span class="volver-arriba__ayuda" aria-hidden="true">Volver arriba</span>
+</button>
+
+<script>
+  // Cuánto hay que bajar (en px) para que aparezca el botón.
+  const UMBRAL = 120;
+
+  document.querySelectorAll<HTMLButtonElement>('[data-volver-arriba]').forEach((boton) => {
+    let visible = false;
+    const actualizar = () => {
+      const debeVerse = window.scrollY > UMBRAL;
+      if (debeVerse === visible) return;
+      visible = debeVerse;
+      boton.classList.toggle('volver-arriba--visible', visible);
+      // Oculto, no se alcanza con el teclado.
+      boton.tabIndex = visible ? 0 : -1;
+    };
+
+    window.addEventListener('scroll', actualizar, { passive: true });
+    actualizar();
+
+    boton.addEventListener('click', () => {
+      const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: sinMovimiento ? 'auto' : 'smooth' });
+    });
+  });
+</script>
+
+<style>
+  /* Estilos completos, sin depender de la carta ni de Tailwind (como
+     CambioVista). */
+  .volver-arriba {
+    position: fixed;
+    z-index: 55;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(208, 214, 226, 0.9);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 2px rgba(22, 37, 61, 0.08);
+    color: #0038A8;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    /* Oculto hasta que se baja: */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms, background-color 150ms ease, color 150ms ease;
+  }
+
+  .volver-arriba--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 0s, background-color 150ms ease, color 150ms ease;
+  }
+
+  .volver-arriba:hover,
+  .volver-arriba:focus-visible {
+    background: #EDF1F5;
+    color: #002270;
+  }
+
+  .volver-arriba:focus-visible {
+    outline: 2px solid #0038A8;
+    outline-offset: 2px;
+  }
+
+  .volver-arriba__ayuda {
+    position: absolute;
+    left: calc(100% + 8px);
+    top: 50%;
+    padding: 6px 9px;
+    border: 1px solid rgba(208, 214, 226, 0.9);
+    border-radius: 2px;
+    background: #FAFBFD;
+    box-shadow: 0 1px 2px rgba(22, 37, 61, 0.08);
+    color: #1A1C20;
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-4px, -50%);
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+
+  .volver-arriba:hover .volver-arriba__ayuda,
+  .volver-arriba:focus-visible .volver-arriba__ayuda {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .volver-arriba,
+    .volver-arriba--visible,
+    .volver-arriba__ayuda {
+      transition: none;
+    }
+  }
+</style>
