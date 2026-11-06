@@ -1,7 +1,7 @@
 ---
 // Botón flotante para volver al principio de la página. Lo incluye LayoutCarta
-// en todas las páginas de contenido: abajo a la izquierda, del lado opuesto al
-// control de modo lectura (CambioVista), con su mismo aspecto. No se ve al
+// en todas las páginas de contenido: abajo a la derecha, con el aspecto del
+// control de modo lectura (CambioVista); si la página lo tiene, va encima. No se ve al
 // dibujar la página: aparece recién cuando el lector empezó a bajar.
 ---
 
@@ -44,7 +44,8 @@
   .volver-arriba {
     position: fixed;
     z-index: 55;
-    left: 20px;
+    /* Abajo a la derecha de la página, del lado de acá del Derrotero. */
+    right: calc(var(--derecha-pagina, 0px) + 20px);
     bottom: 20px;
     display: flex;
     align-items: center;
@@ -69,6 +70,11 @@
     transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms, background-color 150ms ease, color 150ms ease;
   }
 
+  /* Con el control de modo lectura, encima de él. */
+  :global(body:has(.cambio-vista)) .volver-arriba {
+    bottom: 68px;
+  }
+
   .volver-arriba--visible {
     opacity: 1;
     visibility: visible;
@@ -90,7 +96,7 @@
 
   .volver-arriba__ayuda {
     position: absolute;
-    left: calc(100% + 8px);
+    right: calc(100% + 8px);
     top: 50%;
     padding: 6px 9px;
     border: 1px solid rgba(208, 214, 226, 0.9);
@@ -108,7 +114,7 @@
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transform: translate(-4px, -50%);
+    transform: translate(4px, -50%);
     transition: opacity 150ms ease, transform 150ms ease;
   }
 
