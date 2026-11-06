@@ -15,6 +15,8 @@ Las **granjas de clics** son presentadas como sistemas precarizados de engaños,
 
 ![Detalle de las pantallas de acrílico de la instalación en la vidriera de "Casa Belgrado"](/curso01/subcursos/curso002/medios/granja-003.jpg) *La vidriera termina siendo otro elemento clave que ayuda a hablar de la visualidad / invisualidad.*
 
+[youtube:NKtL1YHks0o]
+
 
 ## Montaje de la obra
 Para la granja de clics se montó una estructura en forma de escuadra, construida a partir de perfiles ranurados de chapa y madera, el soporte sobre el que se apoyaron cinco pantallas de acrílico y una sexta de acrílico y MDF (de 50cm x 25cm). Al trabajar con la idea de **“lo que se deja ver y lo que no”**, la instalación propuso un recorrido que permitió a los visitantes observar lo que ocurre al frente de las pantallas así como también su lado posterior, el que desvela las operaciones de **enturbiamiento** que ocurren sistemáticamente sobre dichas pantallas. En favor de esta proposición conceptual, la obra fue presentada en la vidriera de Casa Belgrado, lo que permitió la mencionada forma de observación dual.
