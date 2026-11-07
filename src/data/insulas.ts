@@ -105,6 +105,8 @@ export const INSULAS: InsulaDefinition[] = [
     tag: 'ALGORITMOS & TRAMAS',
     accentColor: '#16253D',
     imageUrl: 'portada-generativa.gif',
+    coverImageUrl: 'portada-seccion.webp',
+    featured: true,
     imageCaption: 'PROCESSING / P5.JS',
     imageMaxHeight: 440,
   },

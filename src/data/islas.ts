@@ -293,6 +293,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-01',
     derroteroSection: 'obras',
+    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:01', 
@@ -308,6 +309,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-02',
     derroteroSection: 'obras',
+    featured: true,
     imageUrl: 'portada-curso.gif',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:02', 
@@ -323,6 +325,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-03',
     derroteroSection: 'obras',
+    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:03', 
@@ -338,6 +341,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-serie-04',
     derroteroSection: 'obras',
+    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:04', 
