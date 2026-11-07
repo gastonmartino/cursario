@@ -42,6 +42,10 @@ const MARGEN_SUPERIOR = 100;
 const ANCHO_MOVIL = 768;
 const TARJETAS_MOVIL = 1.25;
 const MARGEN_IZQUIERDO_MOVIL = 16;
+// Al enfocar una tarjeta (enfocarTarjeta), su esquina superior izquierda queda
+// a MARGEN_SUPERIOR del borde de arriba y a este margen del izquierdo (en
+// pantallas chicas, a MARGEN_IZQUIERDO_MOVIL), debajo del encabezado y del HUD.
+const MARGEN_IZQUIERDO = 24;
 
 // La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
 // en el navegador: al volver a un lienzo, se lo encuentra como se dejó.
@@ -671,7 +675,97 @@ export class MotorCursario {
     if (tieneLienzo(derivaId)) this.incursionar(derivaId);
   }
 
-  public incursionar(derivaId?: string) {
+  // En qué lienzo está la tarjeta de una isla o islote: el id de su curso, o
+  // 'macro' si está en el lienzo principal (las de una ínsula reflotada y los
+  // islotes de una ínsula); null si no existe o no tiene dónde verse.
+  private lienzoDeTarjeta(id: string): string | null {
+    const deriva = DERIVAS_INSULAS.find((entrada) => entrada.subcursos.some((isla) => isla.id === id));
+    if (deriva) {
+      if (tieneLienzo(deriva.id)) return deriva.id;
+      return posicionReflotada({ id, x: 0, y: 0 }) ? 'macro' : null;
+    }
+    const islote = DERIVAS_ISLOTES.find((entrada) => entrada.id === id);
+    if (!islote) return null;
+    if (DERIVAS_INSULAS.some((entrada) => entrada.id === islote.idSuperior)) return 'macro';
+    return this.lienzoDeTarjeta(islote.idSuperior);
+  }
+
+  // La posición de la tarjeta de una isla o islote en el lienzo que se está
+  // viendo (null si no está en él) y su nodo en la página.
+  private tarjetaEnLienzo(id: string): { x: number; y: number; nodo: HTMLElement } | null {
+    const lienzo = this.lienzoDeTarjeta(id);
+    if (!lienzo || lienzo !== (this.level === 'deriva' ? this.activeDeriva?.id : 'macro')) return null;
+    const isla = DERIVAS_INSULAS.flatMap((deriva) => deriva.subcursos).find((entrada) => entrada.id === id);
+    const item = isla ?? DERIVAS_ISLOTES.find((entrada) => entrada.id === id);
+    const nodo = document.getElementById(isla ? `spatial-subnode-${id}` : `spatial-islote-${id}`);
+    if (!item || !nodo) return null;
+    const posicion = (lienzo === 'macro' && posicionReflotada(item)) || item;
+    return { x: posicion.x, y: posicion.y, nodo };
+  }
+
+  // La vista del lienzo actual que deja la esquina superior izquierda de la
+  // tarjeta `id` arriba a la izquierda de la pantalla (ver MARGEN_IZQUIERDO),
+  // con el zoom de la vista inicial del lienzo. La tarjeta se mide en la
+  // página: su alto real puede ser mayor que el de Derivas.ts.
+  private vistaEnTarjeta(id: string): Vista | null {
+    const tarjeta = this.tarjetaEnLienzo(id);
+    if (!tarjeta) return null;
+    const { nodo } = tarjeta;
+    // Oculta, no tiene tamaño: se la muestra un instante para medirla (no
+    // llega a dibujarse).
+    const display = nodo.style.display;
+    if (display === 'none') nodo.style.display = 'flex';
+    const anchoTarjeta = nodo.offsetWidth;
+    const altoTarjeta = nodo.offsetHeight;
+    nodo.style.display = display;
+
+    const ancho = this.anchoVista();
+    const alto = this.altoVista();
+    const { zoom } = this.vistaInicialActual();
+    const margenIzquierdo = ancho < ANCHO_MOVIL ? MARGEN_IZQUIERDO_MOVIL : MARGEN_IZQUIERDO;
+    // El borde izquierdo de la tarjeta queda en la pantalla en
+    // (izquierda - x) * zoom + ancho / 2; el superior, igual con y.
+    return {
+      x: tarjeta.x - anchoTarjeta / 2 - (margenIzquierdo - ancho / 2) / zoom,
+      y: tarjeta.y - altoTarjeta / 2 - (MARGEN_SUPERIOR - alto / 2) / zoom,
+      zoom,
+    };
+  }
+
+  // Abre el lienzo donde está la tarjeta de una isla o islote y la enfoca
+  // (vistaEnTarjeta). Es lo que hace VER EL MAPA en la página de una isla
+  // (/?deriva={curso}&isla={id}). Devuelve false si no hay tal tarjeta.
+  public enfocarTarjeta(id: string): boolean {
+    const lienzo = this.lienzoDeTarjeta(id);
+    if (!lienzo) return false;
+
+    if (lienzo === 'macro') {
+      if (this.level === 'deriva') this.exitDeriva();
+      const vista = this.vistaEnTarjeta(id);
+      if (!vista) return false;
+      this.vistaAutomatica = false;
+      this.camera.flyTo(vista.x, vista.y, vista.zoom);
+      this.despertar(true, true);
+    } else {
+      this.incursionar(lienzo, id);
+    }
+
+    // Las tipografías pueden cambiar el alto de la tarjeta cuando terminan de
+    // cargar: si nadie movió la vista, se la vuelve a enfocar.
+    const destino = { x: this.camera.targetX, y: this.camera.targetY, zoom: this.camera.targetZoom };
+    document.fonts?.ready.then(() => {
+      const quieta = this.camera.targetX === destino.x && this.camera.targetY === destino.y && this.camera.targetZoom === destino.zoom;
+      const vista = quieta && this.vistaEnTarjeta(id);
+      if (!vista) return;
+      this.camera.flyTo(vista.x, vista.y, vista.zoom);
+      this.despertar();
+    });
+    return true;
+  }
+
+  // Entra al lienzo de un curso. Con `enfoque` (el id de una de sus islas o
+  // islotes), la vista enfoca esa tarjeta (ver enfocarTarjeta).
+  public incursionar(derivaId?: string, enfoque?: string) {
     const targetId = derivaId || this.hoveredDeriva?.id || 'en-curso';
     const targetDeriva = DERIVAS_INSULAS.find((d) => d.id === targetId);
 
@@ -700,7 +794,9 @@ export class MotorCursario {
 
     // La vista con que se dejó este lienzo o, la primera vez, la inicial.
     // Se entra desde un poco más lejos, con un acercamiento.
-    const vista = this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
+    const enfocada = enfoque ? this.vistaEnTarjeta(enfoque) : null;
+    if (enfocada) this.vistaAutomatica = false;
+    const vista = enfocada ?? this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
     this.camera.x = vista.x;
     this.camera.y = vista.y;
     this.camera.zoom = Math.min(0.5, vista.zoom);

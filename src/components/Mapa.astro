@@ -511,8 +511,13 @@ const islotes = ISLOTES.map((islote) => {
 
     // Direct links from third-level pages restore CURSO:00 in its local
     // canvas, while the root URL continues to open the macro cartography.
-    const requestedDeriva = new URLSearchParams(window.location.search).get('deriva');
-    if (requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
+    // Con isla (VER EL MAPA en la página de una isla o islote), se abre el
+    // lienzo donde está su tarjeta y se la enfoca.
+    const parametros = new URLSearchParams(window.location.search);
+    const requestedDeriva = parametros.get('deriva');
+    const islaPedida = parametros.get('isla');
+    const enfocada = islaPedida ? controller.enfocarTarjeta(islaPedida) : false;
+    if (!enfocada && requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);
     }
 

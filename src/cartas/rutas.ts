@@ -76,6 +76,9 @@ function paginasDeSubcursos() {
       // VOLVER abre el lienzo del curso de primer nivel que contiene el ítem
       // o, si el curso no tiene lienzo propio (reflotado), el principal.
       volver: tieneLienzo(ubicacion.idDeriva) ? `/?deriva=${ubicacion.idDeriva}` : '/',
+      // VER EL MAPA abre el lienzo donde está su tarjeta y la enfoca
+      // (enfocarTarjeta, en src/motor/MotorCursario.ts).
+      mapa: { url: `/?deriva=${ubicacion.idDeriva}&isla=${data.id}`, destacado: false },
     };
     return { id: data.id, ubicacion, url: ubicacion.urlPagina!, props };
   });
@@ -104,7 +107,7 @@ function paginasDeInsulas() {
       },
       documento,
       volver: '/',
-      mapa: `/?deriva=${insula.id}`,
+      mapa: { url: `/?deriva=${insula.id}`, destacado: true },
     };
     return { id: insula.id, ubicacion, url: ubicacion.urlPagina!, props };
   });

@@ -64,7 +64,11 @@ El motor tiene dos niveles, cada uno con su propio sistema de coordenadas:
 
 Al cambiar de nivel se avisa a la portada (`AlCambiarDeNivel`), que muestra una
 transición. La portada abre directamente el lienzo de un curso cuando la URL
-es `/?deriva={id}` (así vuelven las páginas de los subcursos).
+es `/?deriva={id}` (así vuelven las páginas de los subcursos). Con
+`/?deriva={id}&isla={id de la isla o islote}` (VER EL MAPA, en la página de una
+isla o islote) abre el lienzo donde está esa tarjeta y la enfoca
+(`enfocarTarjeta`): su esquina superior izquierda queda arriba a la izquierda,
+debajo del encabezado y del HUD, con el zoom de la vista inicial del lienzo.
 
 ### Ínsulas reflotadas
 

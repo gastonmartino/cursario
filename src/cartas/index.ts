@@ -37,9 +37,11 @@ export interface PropsCarta {
   documento: DocumentoMimo;
   // Ruta a la que lleva VOLVER (sin el prefijo del sitio; ver Volver.astro).
   volver: string;
-  // Solo en la página de una ínsula: la ruta a su lienzo en el Mapa (VER EL
-  // MAPA, junto al código de la página).
-  mapa?: string;
+  // VER EL MAPA, junto al código de la página: la ruta al Mapa y si el botón
+  // va destacado (relleno con el color de la página: en las ínsulas, que no
+  // tienen otro acceso a su lienzo) o simple (con contorno: en las islas e
+  // islotes, cuya tarjeta enfoca).
+  mapa?: { url: string; destacado: boolean };
   // Las dos versiones de la página, si tiene modo lectura. La carta se las
   // pasa a LayoutCarta, que muestra el control para cambiar de versión.
   vistas?: VistasPagina;
