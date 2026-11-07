@@ -201,7 +201,7 @@ export const ISLAS: IslaDefinition[] = [
     pageMarkdownFile: 'pagina-curso.md',
     code: 'TFIC:09',
     title: 'Descarga en curso',
-    subtitle: 'Propuesta - Proyecto de investigación-creación',
+    subtitle: 'El arroyo no borra el historial',
     description: 'Una descarga puede ser industrial, hidráulica, eléctrica o informática. En todos los casos, algo abandona un sistema y pasa a otro. Pero lo que una industria expulsa no desaparece: circula, se mezcla, sedimenta, se transforma. ¿Qué puede revelar el arroyo sobre las tecnologías y aquello que prefieren dejar atrás?',
     tag: '07:NOVIEMBRE:26',
     accentColor: '#E03E2D',
