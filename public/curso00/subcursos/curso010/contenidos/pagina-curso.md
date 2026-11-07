@@ -24,4 +24,8 @@ Porque descargar también puede ser una forma de desentenderse. El residuo cambi
 
 **¿Cuándo termina una descarga: cuando abandona el sistema que la produjo o cuando sus materiales dejan de producir efectos?**
 
+## Descarga en el Arroyo del Rey
+
+![Río verde entre fábricas: el arroyo atraviesa el parque industrial](/curso00/subcursos/curso010/medios/rio-verde-entre-fabricas.webp) *Río verde entre fábricas.*
+
 La pregunta no es abstracta. En agosto de 2021, *El Diario Sur* informó que [clausuraron una empresa de Burzaco por contaminación en el Arroyo del Rey](https://www.eldiariosur.com/alte-brown/2021/8/25/clausuraron-una-empresa-de-burzaco-por-contaminacion-en-el-arroyo-del-rey-48868.html). La clausura interrumpe una descarga, pero no la deshace: lo vertido ya forma parte del agua, de los sedimentos y de las orillas. La noticia registra el momento en que un sistema reconoce la descarga y la da por cerrada; el arroyo, en cambio, sigue registrando sus efectos.
