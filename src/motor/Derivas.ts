@@ -730,6 +730,15 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     ancho: 400 ,
     alto: 561,
   },
+  {
+    id: 'islote-bitacora-10-01',
+    idSuperior: 'bitacora-10',
+    subcurso: 'islote017',
+    x: 2950,
+    y: -400,
+    ancho: 400,
+    alto: 463,
+  },
     
   // ISLOTES DEL CURSO:01 / NIVEL 1 / "ARTE ELECTRÓNICO"
   // Se muestra junto con los cursos del nivel superior

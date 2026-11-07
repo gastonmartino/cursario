@@ -142,6 +142,19 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageCaption: 'PROPIEDAD REAL / DOMINIO PÚBLICO',
     headerLabel: 'MARCA DE AGUA',
   },
+  {
+    id: 'islote-bitacora-10-01',
+    showHeader: false,
+    imageUrl: '/curso00/subcursos/curso010/medios/rio-toxico-bajo-la-fabrica.webp',
+    code: 'ISLOTE:00.10',
+    title: 'DESCARGA DE RESPONSABILIDADES',
+    subtitle: 'Descargar. Eliminar. Archivar. Hacer desaparecer.',
+    description: `Descargar el efluente. Eliminar el registro. Archivar la denuncia. Hacer desaparecer el problema. Cada verbo promete un final limpio: lo que sale de la fábrica deja de ser asunto de la fábrica. Pero el arroyo no tiene papelera de reciclaje. Lo que se descarga en él no se elimina: se acumula. No se archiva: sedimenta. No desaparece: cambia de lugar.`,
+    tag: 'EFLUENTES / RESIDUOS',
+    accentColor: '#E03E2D',
+    imageCaption: 'VERTIDO / FUERA DEL SISTEMA',
+    headerLabel: 'DESCARGA DE RESPONSABILIDADES',
+  },
     
     
   // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
