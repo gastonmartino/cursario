@@ -193,6 +193,21 @@ export const ISLAS: IslaDefinition[] = [
     imageCaption: 'INVESTIGACIÓN EN ARTES / Victoria Pérez Royo',
     headerLabel: 'EJERCICIO #4 / V. PÉREZ ROYO',
   },
+  {
+    id: 'bitacora-10',
+    derroteroSection: 'bitacora',
+    imageUrl: 'portada-curso.webp',
+    thumbnailImageUrl: 'miniatura.webp',
+    pageMarkdownFile: 'pagina-curso.md',
+    code: 'TFIC:09',
+    title: 'Descarga en curso',
+    subtitle: 'Propuesta - Proyecto de investigación-creación',
+    description: 'Una descarga puede ser industrial, hidráulica, eléctrica o informática. En todos los casos, algo abandona un sistema y pasa a otro. Pero lo que una industria expulsa no desaparece: circula, se mezcla, sedimenta, se transforma. ¿Qué puede revelar el arroyo sobre las tecnologías y aquello que prefieren dejar atrás?',
+    tag: '07:NOVIEMBRE:26',
+    accentColor: '#E03E2D',
+    imageCaption: 'COLLAGE DIGITAL',
+    headerLabel: 'PROPUESTA DE PROYECTO / TFIC',
+  },
 
 //
  // CURSO:01 - ARTES ELECTRÓNICAS
