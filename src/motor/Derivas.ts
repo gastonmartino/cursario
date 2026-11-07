@@ -737,7 +737,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: 2950,
     y: -400,
     ancho: 400,
-    alto: 463,
+    alto: 459,
   },
     
   // ISLOTES DEL CURSO:01 / NIVEL 1 / "ARTE ELECTRÓNICO"
