@@ -730,6 +730,15 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     alto: 393,
   },
   {
+    id: 'islote-bitacora-07-01',
+    idSuperior: 'bitacora-07',
+    subcurso: 'islote018',
+    x: 1450,
+    y: -627,
+    ancho: 640,
+    alto: 494,
+  },
+  {
     id: 'islote-bitacora-08-01',
     idSuperior: 'bitacora-08',
     subcurso: 'islote014',
