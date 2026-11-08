@@ -19,3 +19,10 @@ La iniciativa contempla además un programa de **descarga de responsabilidades**
 El Registro Cromático de Emergencias inaugura así una nueva etapa en la gestión del Arroyo del Rey: **la superación administrativa de la contaminación mediante su incorporación al patrimonio visual**. Ya no será necesario devolverle al agua un color considerado natural, porque la naturaleza, como cualquier sistema de clasificación, puede actualizarse. Cada nueva descarga ampliará el catálogo, cada alteración enriquecerá la paleta y cada emergencia debidamente registrada contribuirá a reducir el número de emergencias pendientes. El objetivo final es alcanzar un arroyo sin anomalías, no porque hayan desaparecido, sino porque todas habrán sido oficialmente reconocidas.
 
 **RCE — Si no podemos cambiar el agua, cambiemos el nombre del color.**
+
+## Antecedentes del catálogo
+
+Las dos primeras variantes del catálogo no son una invención. Las registró la prensa local antes de que existiera el RCE: en octubre de 2020, imágenes del arroyo con el agua color flúor en Burzaco; en julio de 2021, el agua blanca que apareció entre Burzaco y Llavallol, tan blanca que hubo que aclarar que no era nieve. Ninguno de los dos fue certificado.
+
+- [¿Qué pasa en el Arroyo del Rey? En Burzaco difundieron imágenes con el agua color flúor](https://www.eldiariosur.com/alte-brown/2020/10/19/que-pasa-en-el-arroyo-del-rey-en-burzaco-difundieron-imagenes-con-el-agua-color-fluor-43291.html) — *El Diario Sur*, 19 de octubre de 2020.
+- [No es nieve: el Arroyo del Rey apareció con agua blanca entre Burzaco y Llavallol](https://www.eldiariosur.com/2021/7/2/no-es-nieve-el-arroyo-del-rey-aparecio-con-agua-blanca-entre-burzaco-llavallol-47804.html) — *El Diario Sur*, 2 de julio de 2021.
