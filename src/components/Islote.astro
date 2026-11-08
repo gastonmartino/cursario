@@ -92,16 +92,16 @@ const hasImageMetadata = Boolean(hasImage && (imageCaption || imageDate));
       <div class="mb-2 flex items-center justify-between gap-2 border-b border-ink-border/40 pb-2">
         <div class="flex min-w-0 items-center gap-1.5">
           <span class="h-1.5 w-1.5 shrink-0 rounded-full" style={`background-color: ${accentColor};`}></span>
-          <span class="font-mono text-[9px] font-bold tracking-wider" style={`color: ${accentColor};`}>{code}</span>
+          <span class="font-mono text-[10px] font-bold tracking-wider" style={`color: ${accentColor};`}>{code}</span>
         </div>
-        <span class="shrink-0 font-mono text-[8px] tracking-wider text-ink-faint">{tag}</span>
+        <span class="shrink-0 font-mono text-[9px] tracking-wider text-ink-faint">{tag}</span>
       </div>
     )}
 
     {(hasTitle || hasSubtitle) && (
       <div class="mb-2">
-        {hasTitle && <h2 class="font-sans text-base font-bold leading-tight text-ink-primary">{title}</h2>}
-        {hasSubtitle && <p class="mt-0.5 font-sans text-[10px] font-semibold leading-tight" style={`color: ${accentColor};`}>{subtitle}</p>}
+        {hasTitle && <h2 class="font-sans text-[17px]/6 font-bold leading-tight text-ink-primary">{title}</h2>}
+        {hasSubtitle && <p class="mt-0.5 font-sans text-[11px] font-semibold leading-tight" style={`color: ${accentColor};`}>{subtitle}</p>}
       </div>
     )}
 
@@ -109,7 +109,7 @@ const hasImageMetadata = Boolean(hasImage && (imageCaption || imageDate));
 
     {keywordsList.length > 0 && (
       <div class="mb-2 flex flex-wrap gap-1">
-        {keywordsList.map((keyword) => <span class="rounded-sm border border-cobalt/20 bg-cobalt/5 px-1.5 py-0.5 font-mono text-[8px] text-cobalt">{keyword}</span>)}
+        {keywordsList.map((keyword) => <span class="rounded-sm border border-cobalt/20 bg-cobalt/5 px-1.5 py-0.5 font-mono text-[9px] text-cobalt">{keyword}</span>)}
       </div>
     )}
 
@@ -118,10 +118,10 @@ const hasImageMetadata = Boolean(hasImage && (imageCaption || imageDate));
         {hasImage && (
           <figure class="m-0">
             <img src={withBase(imageUrl)} alt={title || headerLabel} class="h-auto w-full rounded-sm object-contain" style={`max-height: ${imageMaxHeightCss};`} loading={imageLoading} decoding="async" draggable="false" />
-            {hasImageMetadata && <figcaption class="mt-1 flex items-center justify-between font-mono text-[8px] text-ink-faint"><span>{imageCaption}</span><span>{imageDate}</span></figcaption>}
+            {hasImageMetadata && <figcaption class="mt-1 flex items-center justify-between font-mono text-[9px] text-ink-faint"><span>{imageCaption}</span><span>{imageDate}</span></figcaption>}
           </figure>
         )}
-        {hasMarkdown && <div class="min-w-0 text-[10px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
+        {hasMarkdown && <div class="min-w-0 text-[11px] leading-relaxed text-ink-primary"><Fragment set:html={markdownHtml} /></div>}
       </div>
     )}
   </div>
@@ -130,7 +130,7 @@ const hasImageMetadata = Boolean(hasImage && (imageCaption || imageDate));
     <div class="mt-3 border-t border-ink-border/40 pt-2">
       <a
         href={withBase(actionHref)}
-        class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[10px] font-bold text-white shadow-sm transition-all hover:scale-[1.02]"
+        class="inline-flex rounded-sm border px-3 py-1.5 font-mono text-[11px] font-bold text-white shadow-sm transition-all hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
         {actionLabel}

@@ -153,11 +153,11 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
     <div class="flex items-center justify-between border-b border-ink-border/50 pb-3 mb-4">
       <div class="flex items-center gap-2.5">
         <span class="w-2.5 h-2.5 rounded-full animate-pulse" style={`background-color: ${accentColor};`}></span>
-        <span class="font-mono text-xs font-bold uppercase tracking-wider" style={`color: ${accentColor};`}>{code}</span>
-        <span class="text-xs text-ink-faint font-mono">{headerTypeLabel}</span>
+        <span class="font-mono text-[13px]/4 font-bold uppercase tracking-wider" style={`color: ${accentColor};`}>{code}</span>
+        <span class="text-[13px]/4 text-ink-faint font-mono">{headerTypeLabel}</span>
       </div>
       <span 
-        class="font-mono text-[10px] px-2 py-1 rounded font-semibold tracking-widest border uppercase"
+        class="font-mono text-[11px] px-2 py-1 rounded font-semibold tracking-widest border uppercase"
         style={`color: ${accentColor}; border-color: ${accentColor}33; background-color: ${accentColor}12;`}
       >
         {tag}
@@ -168,12 +168,12 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
     {(hasTitle || hasSubtitle) && (
     <div class="mb-4">
       {hasTitle && (
-      <h2 class="font-sans font-bold text-2xl text-ink-primary tracking-tight">
+      <h2 class="font-sans font-bold text-[25px]/8 text-ink-primary tracking-tight">
         {title}
       </h2>
       )}
       {hasSubtitle && (
-      <p class="font-sans text-sm font-semibold mt-0.5" style={`color: ${accentColor};`}>
+      <p class="font-sans text-[15px]/5 font-semibold mt-0.5" style={`color: ${accentColor};`}>
         {subtitle}
       </p>
       )}
@@ -182,7 +182,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
 
     {hasDescription && (
     <div class="mb-4 w-full">
-      <p class="font-sans text-[15px] leading-relaxed text-ink-muted">
+      <p class="font-sans text-[16px] leading-relaxed text-ink-muted">
         {description}
       </p>
     </div>
@@ -191,7 +191,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
     {keywordChips.length > 0 && (
     <div class="mb-4 flex w-full flex-wrap gap-2">
       {keywordChips.map((keyword) => (
-        <span class="rounded-sm border border-cobalt/25 bg-cobalt/5 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-wide text-cobalt">
+        <span class="rounded-sm border border-cobalt/25 bg-cobalt/5 px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide text-cobalt">
           {keyword}
         </span>
       ))}
@@ -255,7 +255,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
           )}
         </div>
         {hasMediaMetadata && (
-        <div class="flex items-center justify-between font-mono text-[9px] text-ink-faint px-1">
+        <div class="flex items-center justify-between font-mono text-[10px] text-ink-faint px-1">
           <span>{imageCaption}</span>
           <span>{imageDate}</span>
         </div>
@@ -269,7 +269,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
         'flex flex-col justify-between h-full bg-white/70 p-4 border border-ink-border/30 rounded-sm',
         hasImage ? 'col-span-7' : 'w-full',
       ]}>
-        <div class="font-sans text-ink-primary text-xs leading-relaxed space-y-2">
+        <div class="font-sans text-ink-primary text-[13px]/4 leading-relaxed space-y-2">
           <Fragment set:html={resolvedMarkdownHtml} />
         </div>
       </div>
@@ -279,13 +279,13 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
 
   <!-- Footer Action Button -->
   <div class="mt-4 pt-3 border-t border-ink-border/40 flex items-center justify-between">
-    <div class="font-mono text-[10px] text-ink-muted flex items-center gap-2">
+    <div class="font-mono text-[11px] text-ink-muted flex items-center gap-2">
       <span style={`color: ${accentColor};`}>✦</span> COORDENADAS: {coordinatesText}
     </div>
     {canShowAction && actionHref && (
       <a
         href={withBase(actionHref)}
-        class="px-4 py-2 text-white transition-all font-mono text-xs font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
+        class="px-4 py-2 text-white transition-all font-mono text-[13px]/4 font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
         {actionLabel}
