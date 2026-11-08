@@ -301,7 +301,7 @@ const CLASES_SEPARADORES: ClasesMimo['separadores'] = {
   '+++': 'my-2 h-4 w-full',
 };
 
-// Texto de las tarjetas del Mapa: el de lectura en 16 px, para que sus
+// Texto de las tarjetas del Mapa: el de lectura en 17 px, para que sus
 // columnas ronden las 10 palabras por línea.
 export const CLASES_TARJETA: ClasesMimo = {
   cita: 'border-l-2 border-cobalt pl-3 py-1 my-2 italic text-ink-muted bg-river-mist/30 text-[15px] font-sans',
@@ -311,9 +311,9 @@ export const CLASES_TARJETA: ClasesMimo = {
   codigo: 'font-mono text-[14px] bg-paper-sheet px-1 py-0.5 rounded text-cobalt',
   h1: 'font-sans font-bold text-[19px] leading-snug text-ink-primary mt-2 mb-1',
   h2: 'font-sans font-bold text-[17px] leading-snug text-ink-primary mt-2 mb-1',
-  h3: 'font-sans font-semibold text-[16px] leading-snug text-ink-primary mt-1 mb-1',
-  parrafo: 'text-[16px] text-ink-muted leading-relaxed my-1 font-sans',
-  lista: 'list-disc pl-4 my-1 space-y-0.5 text-[16px] text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
+  h3: 'font-sans font-semibold text-[17px] leading-snug text-ink-primary mt-1 mb-1',
+  parrafo: 'text-[17px] text-ink-muted leading-relaxed my-1 font-sans',
+  lista: 'list-disc pl-4 my-1 space-y-0.5 text-[17px] text-ink-muted leading-relaxed font-sans marker:text-ink-faint',
   figura: 'my-8 w-full',
   imagen: 'h-auto w-full object-contain',
   pie: 'mt-1 text-[13px] text-ink-faint italic leading-relaxed font-sans',

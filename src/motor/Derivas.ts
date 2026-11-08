@@ -163,15 +163,15 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     x: -780,
     y: 1458,
     ancho: 740,
-    alto: 789,
+    alto: 805,
     subcursos: [
       {
         id: 'bitacora-01',
         subcurso: 'curso001',
         x: -720,
-        y: 20,
+        y: 40,
         ancho: 640,
-        alto: 808,
+        alto: 811,
       },
       {
         id: 'bitacora-02',
@@ -179,7 +179,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -20,
         y: -250,
         ancho: 640,
-        alto: 669,
+        alto: 688,
       },
       {
         id: 'bitacora-03',
@@ -187,31 +187,31 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 710,
         y: -190,
         ancho: 640,
-        alto: 859,
+        alto: 916,
       },
       {
         id: 'bitacora-04',
         subcurso: 'curso004',
         x: -780,
-        y: 840,
+        y: 857,
         ancho: 640,
-        alto: 754,
+        alto: 764,
       },
       {
         id: 'bitacora-05',
         subcurso: 'curso005',
         x: 10,
-        y: 664,
+        y: 725,
         ancho: 640,
-        alto: 1099,
+        alto: 1201,
       },
       {
         id: 'bitacora-06',
         subcurso: 'curso006',
         x: 750,
-        y: 667,
+        y: 704,
         ancho: 640,
-        alto: 775,
+        alto: 812,
       },
       {
         id: 'bitacora-07',
@@ -227,31 +227,31 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2186,
         y: -126,
         ancho: 640,
-        alto: 902,
+        alto: 995,
       },
       {
         id: 'bitacora-09',
         subcurso: 'curso009',
         x: 1450,
-        y: 1111,
+        y: 1123,
         ancho: 640,
-        alto: 1006,
+        alto: 1082,
       },
       {
         id: 'bitacora-10',
         subcurso: 'curso010',
         x: 2186,
-        y: 862,
+        y: 910,
         ancho: 640,
-        alto: 983,
+        alto: 1017,
       },
       {
         id: 'bitacora-11',
         subcurso: 'curso011',
         x: 2922,
-        y: -40,
+        y: -39,
         ancho: 640,
-        alto: 834,
+        alto: 840,
       },
     ]
   },
@@ -263,7 +263,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     x: 0,
     y: 0,
     ancho: 760,
-    alto: 1004,
+    alto: 1065,
     subcursos: [
       {
         id: 'arte-electronico-01',
@@ -271,7 +271,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -840,
         y: 424,
         ancho: 640,
-        alto: 1156,
+        alto: 1161,
       },
       {
         id: 'arte-electronico-02',
@@ -279,13 +279,13 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -1620,
         y: 20,
         ancho: 640,
-        alto: 742,
+        alto: 744,
       },
       {
         id: 'arte-electronico-03',
         subcurso: 'curso003',
         x: -2400,
-        y: 364,
+        y: 343,
         ancho: 640,
         alto: 1061,
       },
@@ -295,7 +295,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -3200,
         y: 788,
         ancho: 560,
-        alto: 678,
+        alto: 679,
       },
       {
         id: 'arte-electronico-05',
@@ -303,7 +303,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -3100,
         y: -172,
         ancho: 560,
-        alto: 1039,
+        alto: 1042,
       }
     ]
   },
@@ -313,7 +313,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     x: -1620,
     y: 1004,
     ancho: 760,
-    alto: 1077,
+    alto: 1082,
 
     subcursos: [
       {
@@ -322,7 +322,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -2000,
         y: -60,
         ancho: 640,
-        alto: 1399,
+        alto: 1402,
       },
       {
         id: 'gen-serie-02',
@@ -330,7 +330,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -1200,
         y: 80,
         ancho: 640,
-        alto: 1407,
+        alto: 1409,
       },
       {
         id: 'gen-serie-03',
@@ -338,7 +338,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -400,
         y: -40,
         ancho: 640,
-        alto: 1434,
+        alto: 1437,
       },
       {
         id: 'gen-serie-04',
@@ -346,7 +346,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 400,
         y: 100,
         ancho: 640,
-        alto: 1373,
+        alto: 1375,
       },
       {
         id: 'gen-serie-05',
@@ -354,7 +354,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1200,
         y: -20,
         ancho: 640,
-        alto: 1431,
+        alto: 1434,
       },
       {
         id: 'gen-serie-06',
@@ -362,7 +362,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2000,
         y: 70,
         ancho: 640,
-        alto: 1408,
+        alto: 1409,
       }
     ]
   },
@@ -372,7 +372,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     x: -2460,
     y: 1348,
     ancho: 760,
-    alto: 810,
+    alto: 888,
     subcursos: [
       {
         id: 'dis-ensayo-01',
@@ -380,7 +380,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -720,
         y: 50,
         ancho: 640,
-        alto: 660,
+        alto: 661,
       },
       {
         id: 'dis-ensayo-02',
@@ -388,7 +388,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 0,
         y: 120,
         ancho: 640,
-        alto: 1159,
+        alto: 1161,
       },
       {
         id: 'dis-ensayo-03',
@@ -396,7 +396,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 720,
         y: 70,
         ancho: 640,
-        alto: 770,
+        alto: 773,
       }
     ]
   },
@@ -408,7 +408,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     x: 900,
     y: 404,
     ancho: 760,
-    alto: 1245,
+    alto: 1260,
     // Una isla por diligencia, en orden cronológico: seis por fila, en
     // serpentina (las filas pares van de derecha a izquierda), para que la línea
     // de recorrido siga de una fila a la siguiente sin cruzar el lienzo.
@@ -419,7 +419,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 0,
         ancho: 640,
-        alto: 643,
+        alto: 688,
       },
       {
         id: 'expediente-1126-02',
@@ -427,7 +427,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 380,
         y: 160,
         ancho: 640,
-        alto: 600,
+        alto: 636,
       },
       {
         id: 'expediente-1126-03',
@@ -435,7 +435,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: -20,
         ancho: 640,
-        alto: 641,
+        alto: 660,
       },
       {
         id: 'expediente-1126-04',
@@ -443,7 +443,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 120,
         ancho: 640,
-        alto: 639,
+        alto: 656,
       },
       {
         id: 'expediente-1126-05',
@@ -451,7 +451,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: -40,
         ancho: 640,
-        alto: 617,
+        alto: 661,
       },
       {
         id: 'expediente-1126-06',
@@ -459,7 +459,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 100,
         ancho: 640,
-        alto: 600,
+        alto: 661,
       },
       {
         id: 'expediente-1126-07',
@@ -467,7 +467,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 940,
         ancho: 640,
-        alto: 617,
+        alto: 633,
       },
       {
         id: 'expediente-1126-08',
@@ -475,7 +475,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: 800,
         ancho: 640,
-        alto: 600,
+        alto: 633,
       },
       {
         id: 'expediente-1126-09',
@@ -483,7 +483,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 960,
         ancho: 640,
-        alto: 617,
+        alto: 661,
       },
       {
         id: 'expediente-1126-10',
@@ -491,7 +491,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: 820,
         ancho: 640,
-        alto: 617,
+        alto: 633,
       },
       {
         id: 'expediente-1126-11',
@@ -499,7 +499,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 380,
         y: 1000,
         ancho: 640,
-        alto: 643,
+        alto: 661,
       },
       {
         id: 'expediente-1126-12',
@@ -507,7 +507,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 840,
         ancho: 640,
-        alto: 585,
+        alto: 609,
       },
       {
         id: 'expediente-1126-13',
@@ -515,7 +515,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 1680,
         ancho: 640,
-        alto: 600,
+        alto: 605,
       },
       {
         id: 'expediente-1126-14',
@@ -531,7 +531,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: 1660,
         ancho: 640,
-        alto: 600,
+        alto: 656,
       },
       {
         id: 'expediente-1126-16',
@@ -539,7 +539,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 1800,
         ancho: 640,
-        alto: 617,
+        alto: 633,
       },
       {
         id: 'expediente-1126-17',
@@ -547,7 +547,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: 1640,
         ancho: 640,
-        alto: 643,
+        alto: 661,
       },
       {
         id: 'expediente-1126-18',
@@ -555,7 +555,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 1780,
         ancho: 640,
-        alto: 600,
+        alto: 633,
       },
       {
         id: 'expediente-1126-19',
@@ -563,7 +563,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 3420,
         y: 2620,
         ancho: 640,
-        alto: 585,
+        alto: 636,
       },
       {
         id: 'expediente-1126-20',
@@ -571,7 +571,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2660,
         y: 2480,
         ancho: 640,
-        alto: 600,
+        alto: 605,
       },
       {
         id: 'expediente-1126-21',
@@ -579,7 +579,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1900,
         y: 2640,
         ancho: 640,
-        alto: 617,
+        alto: 633,
       },
       {
         id: 'expediente-1126-22',
@@ -587,7 +587,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 1140,
         y: 2500,
         ancho: 640,
-        alto: 600,
+        alto: 605,
       },
       {
         id: 'expediente-1126-23',
@@ -595,7 +595,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 380,
         y: 2680,
         ancho: 640,
-        alto: 600,
+        alto: 609,
       },
       {
         id: 'expediente-1126-24',
@@ -603,7 +603,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -380,
         y: 2520,
         ancho: 640,
-        alto: 600,
+        alto: 636,
       },
     ],
   },
@@ -676,7 +676,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: -1470,
     y: 1868,
     ancho: 420,
-    alto: 397,
+    alto: 403,
   },
 
     
@@ -691,7 +691,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: -1370,
     y: -22,
     ancho: 420,
-    alto: 1255,
+    alto: 1363,
   },
   {
     id: 'islote-bitacora-01-02',
@@ -700,34 +700,34 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: -720,
     y: -699,
     ancho: 386,
-    alto: 560,
+    alto: 606,
   },
   {
     id: 'islote-bitacora-05-01',
     idSuperior: 'bitacora-05',
     subcurso: 'islote003',
     x: -200,
-    y: 1489,
+    y: 1597,
     ancho: 400,
-    alto: 471,
+    alto: 484,
   },
   {
     id: 'islote-bitacora-05-02',
     idSuperior: 'bitacora-05',
     subcurso: 'islote004',
     x: 260,
-    y: 1530,
+    y: 1587,
     ancho: 400,
-    alto: 425,
+    alto: 464,
   },
   {
     id: 'islote-bitacora-05-03',
     idSuperior: 'bitacora-05',
     subcurso: 'islote005',
     x: 720,
-    y: 1324,
+    y: 1375,
     ancho: 400,
-    alto: 431,
+    alto: 470,
   },
   {
     id: 'islote-bitacora-07-01',
@@ -745,14 +745,14 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: 2922,
     y: -803,
     ancho: 400 ,
-    alto: 583,
+    alto: 628,
   },
   {
     id: 'islote-bitacora-10-01',
     idSuperior: 'bitacora-10',
     subcurso: 'islote017',
     x: 2186,
-    y: 1648,
+    y: 1680,
     ancho: 400,
     alto: 463,
   },
@@ -765,9 +765,9 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     idSuperior: 'arte-electronico-01',
     subcurso: 'islote007',
     x: 0,
-    y: 1122,
+    y: 1166,
     ancho: 580,
-    alto: 1184, 
+    alto: 1207, 
   },
     
   // ISLOTES DEL CURSO:01 / NIVEL 2 / SUBDERIVAS "ARTE ELECTRÓNICO"
@@ -832,7 +832,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: 286,
     y: -841,
     ancho: 420,
-    alto: 426,
+    alto: 431,
   },
 
   // ISLOTES DEL CURSO:04 / SUBDERIVAS "EXPEDIENTE 11/26"
