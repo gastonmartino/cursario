@@ -71,17 +71,11 @@ Then the angel emptied out his bowl into the river and the beast was allowed to 
 
 While the eyes of the world are upon the blood, the lymph flows unnoticed, always in the same direction.
 
-![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-1.webp)
-
 ![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-2.webp)
 
 ![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-3.webp)
 
 ![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-4.webp)
-
-![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-5.webp)
-
-![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-6.webp)
 
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/97)
 
@@ -126,12 +120,6 @@ Aerial shots of the enigmatic signs of old that mark the verdant turtle's back i
 
 ![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-3.webp)
 
-![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-4.webp)
-
-![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-5.webp)
-
-![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-6.webp)
-
 [View collection](https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4)
 
 ## PART 3 - Max Extract
@@ -159,15 +147,9 @@ The big season finale will let nothing but soot.
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-3.webp)
 
-![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-4.webp)
-
-![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-5.webp)
-
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-6.webp)
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-7.webp)
-
-![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-8.webp)
 
 [View collection](https://objkt.com/curations/objkt/fire-season-2e1aa23d)
 
@@ -229,12 +211,6 @@ A series of generative web3 astral cards.
 
 ![Astralium](/curso02/imagenes/editorial/cap17-astralium-3.webp)
 
-![Astralium](/curso02/imagenes/editorial/cap17-astralium-4.webp)
-
-![Astralium](/curso02/imagenes/editorial/cap17-astralium-5.webp)
-
-![Astralium](/curso02/imagenes/editorial/cap17-astralium-6.webp)
-
 [View collection](https://objkt.com/curations/objkt/astralium-2deb015d)
 
 ### Chapter 18 - Lombrela
@@ -246,11 +222,5 @@ In shadows of struggle, our path we sketch.
 ![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-2.webp)
 
 ![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-3.webp)
-
-![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-4.webp)
-
-![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-5.webp)
-
-![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-6.webp)
 
 [View collection](https://objkt.com/curations/objkt/lombrela-73a6a925)
