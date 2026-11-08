@@ -437,6 +437,12 @@ En un enlace como `https://youtu.be/nnM_C6h1D_A`, el identificador es la parte p
 
 La etiqueta debe escribirse sola en una línea. También puede usarse con videos cuyo enlace original tenga el formato `https://www.youtube.com/watch?v=ID`, tomando únicamente el valor de `ID`.
 
+Para un video vertical, como un Short (`https://www.youtube.com/shorts/ID`), se agrega `vertical` después del identificador. El reproductor toma entonces la proporción 9:16, centrado:
+
+```markdown
+[youtube:k5DIJFpFXfs vertical]
+```
+
 ### Insertar un enlace externo
 
 Se puede agregar un enlace con la sintaxis Markdown habitual:

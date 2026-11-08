@@ -25,6 +25,7 @@ export const CLASES_CARTULARIO: ClasesMimo = {
   imagen: 'h-auto w-full object-contain',
   pie: 'mt-2 text-sm text-ink-faint italic leading-relaxed font-sans',
   video: 'my-8 aspect-video w-full overflow-hidden rounded-sm border border-ink-border/60 bg-black',
+  videoVertical: 'my-8 mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-sm border border-ink-border/60 bg-black',
   marcoVideo: 'h-full w-full',
   separadores: SEPARADORES,
   separadoresEnCita: { ...SEPARADORES, '+++': 'my-1 h-2 w-full' },

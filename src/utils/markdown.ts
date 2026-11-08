@@ -26,7 +26,7 @@ export type BloqueMimo =
   | { tipo: 'lista'; items: string[] }
   | { tipo: 'cita'; partes: Array<{ tipo: 'texto'; texto: string } | { tipo: 'separador'; marca: MarcaSeparador }> }
   | { tipo: 'imagen'; src: string; alt: string; pie?: string; lectura?: boolean }
-  | { tipo: 'video'; youtube: string }
+  | { tipo: 'video'; youtube: string; vertical?: boolean }
   | { tipo: 'separador'; marca: MarcaSeparador };
 
 // Los textos de los bloques conservan su Markdown en línea (negritas,
@@ -63,6 +63,9 @@ export interface ClasesMimo {
   imagen?: string;
   pie?: string;
   video?: string;
+  // El contenedor de un video vertical, como un Short ([youtube:ID vertical]);
+  // sin definir, se usa el de video.
+  videoVertical?: string;
   marcoVideo?: string;
   separadores?: Partial<Record<MarcaSeparador, string>>;
   separadoresEnCita?: Partial<Record<MarcaSeparador, string>>;
@@ -146,13 +149,13 @@ export function interpretarBloques(markdown: string): BloqueMimo[] {
     }
     cerrarLista();
 
-    const youtube = linea.match(/^\[youtube:([A-Za-z0-9_-]{11})\]$/i);
+    const youtube = linea.match(/^\[youtube:([A-Za-z0-9_-]{11})(\s+vertical)?\]$/i);
     const imagen = linea.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)(?:\s+\*([^*]+)\*)?(\s+\{lectura\})?$/);
 
     if (esMarca(linea)) {
       bloques.push({ tipo: 'separador', marca: linea });
     } else if (youtube) {
-      bloques.push({ tipo: 'video', youtube: youtube[1] });
+      bloques.push({ tipo: 'video', youtube: youtube[1], ...(youtube[2] && { vertical: true }) });
     } else if (imagen) {
       bloques.push({ tipo: 'imagen', alt: imagen[1], src: imagen[2], pie: imagen[3]?.trim(), ...(imagen[4] && { lectura: true }) });
     } else if (linea.startsWith('# ')) {
@@ -255,7 +258,7 @@ export function renderizarBloque(bloque: BloqueMimo, clases: ClasesMimo = {}): s
       return renderizarSeparador(bloque.marca, clases.separadores?.[bloque.marca]);
     case 'video':
       return `
-        <div${atributoClase(clases.video)}>
+        <div${atributoClase(bloque.vertical ? clases.videoVertical ?? clases.video : clases.video)}>
           <iframe
            ${atributoClase(clases.marcoVideo)}
             src="https://www.youtube-nocookie.com/embed/${bloque.youtube}"
@@ -315,6 +318,7 @@ export const CLASES_TARJETA: ClasesMimo = {
   imagen: 'h-auto w-full object-contain',
   pie: 'mt-1 text-[12px] text-ink-faint italic leading-relaxed font-sans',
   video: 'my-8 aspect-video w-full overflow-hidden rounded-sm border border-ink-border/60 bg-black',
+  videoVertical: 'my-8 mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-sm border border-ink-border/60 bg-black',
   marcoVideo: 'h-full w-full',
   separadores: CLASES_SEPARADORES,
   separadoresEnCita: { ...CLASES_SEPARADORES, '+++': 'my-1 h-2 w-full' },
