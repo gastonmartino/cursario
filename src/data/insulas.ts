@@ -108,6 +108,8 @@ export const INSULAS: InsulaDefinition[] = [
     coverImageUrl: 'portada-seccion.webp',
     featured: true,
     imageCaption: 'PROCESSING / P5.JS',
+    pageMarkdownFile: 'generativa.md',
+    pageUrl: 'grafica-generativa',
     imageMaxHeight: 440,
   },
   {
