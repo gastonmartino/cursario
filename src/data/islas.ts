@@ -208,6 +208,21 @@ export const ISLAS: IslaDefinition[] = [
     imageCaption: 'COLLAGE DIGITAL',
     headerLabel: 'CONTINUIDAD DE PROCESOS',
   },
+  {
+    id: 'bitacora-11',
+    derroteroSection: 'bitacora',
+    imageUrl: 'portada-curso.webp',
+    thumbnailImageUrl: 'miniatura.webp',
+    pageMarkdownFile: 'pagina-curso.md',
+    code: 'TFIC:10',
+    title: 'Registro Cromático de Emergencias (RCE)',
+    subtitle: 'Programa de Normalización del Paisaje Hídrico',
+    description: 'El Arroyo del Rey se reinventa con una audaz paleta de blancos espumosos, verdes fluorescentes, amarillos eléctricos y negros de acabado oleoso. El RCE se propone identificar, clasificar, normalizar y certificar cada una de sus variaciones cromáticas: toda anomalía registrada deja de ser una anomalía.',
+    tag: '08:NOVIEMBRE:26',
+    accentColor: '#E03E2D',
+    imageCaption: 'CATÁLOGO DE EFLUENTES',
+    headerLabel: 'CONTINUIDAD DE PROCESOS',
+  },
 
 //
  // CURSO:01 - ARTES ELECTRÓNICAS
