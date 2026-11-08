@@ -289,6 +289,20 @@ const romanos = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
   html.html-cursario[data-composicion]:not([data-composicion='xl']) #page-transition {
     background: var(--papel);
   }
+
+  /* Barras de desplazamiento: las mismas que el cartulario (finas, en gris
+     claro), para la página y para el Derrotero. */
+  html.html-cursario ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  html.html-cursario ::-webkit-scrollbar-track {
+    background: #F5F7FA;
+  }
+  html.html-cursario ::-webkit-scrollbar-thumb {
+    background: #D0D6E2;
+    border-radius: 2px;
+  }
 </style>
 
 <style>
