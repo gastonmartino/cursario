@@ -8,11 +8,19 @@ Visualization of mereological relationships within —and between— particle sy
 
 Raised for deterministic purposes.
 
+![Stochastic Parrots](/curso02/imagenes/editorial/cap01-stochastic-parrots.webp)
+
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/118)
 
 ### Chapter 2 - Metaversed Nature
 
 Pixel perfect wilderness
+
+![Metaversed Nature: Haemolacria, Plastic Natianta, The Marshal's Queer Aigrette](/curso02/imagenes/editorial/cap02-metaversed-nature-1.webp) *Haemolacria · Plastic Natianta · The Marshal's Queer Aigrette*
+
+![Metaversed Nature: The Three-Body Problem, Diaspores, The Battle](/curso02/imagenes/editorial/cap02-metaversed-nature-2.webp) *The Three-Body Problem · Diaspores · The Battle*
+
+![Metaversed Nature: Fly in the Ointment, Neural Rhythm](/curso02/imagenes/editorial/cap02-metaversed-nature-3.webp) *Fly in the Ointment · Neural Rhythm*
 
 [View collection](https://objkt.com/curations/objkt/metaversed-nature-2a0787a6)
 
@@ -35,6 +43,10 @@ Although the artificiality of harmony goes unnoticed by most dancers, the insist
 
 Authorless anthology narratives that steer the world's dark compass needle.
 
+![Computational Mythology: Blood Moon Turban, Systems of Inequalities](/curso02/imagenes/editorial/cap04-computational-mythology-1.webp) *Blood Moon Turban · Systems of Inequalities*
+
+![Computational Mythology: False Northing, Mbói Tatá](/curso02/imagenes/editorial/cap04-computational-mythology-2.webp) *False Northing · Mbói Tatá*
+
 [View collection](https://objkt.com/curations/objkt/computational-mythology-2863be52)
 
 - **Blood Moon Turban** — Lurking behind the veil of the red moon, the killer is on the prowl. Not as innocuous as a snail can possibly be, but decidedly bloodier.
@@ -46,17 +58,33 @@ Authorless anthology narratives that steer the world's dark compass needle.
 
 Then the angel emptied out his bowl into the river and the beast was allowed to scourge the poor with dispensation.
 
+![Sarandí Revelation](/curso02/imagenes/editorial/cap05-sarand-revelation.webp)
+
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/125)
 
 ### Chapter 6 - Meanwhile, in the Southern Hemisphere, a lymphatic summer
 
 While the eyes of the world are upon the blood, the lymph flows unnoticed, always in the same direction.
 
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-1.webp)
+
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-2.webp)
+
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-3.webp)
+
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-4.webp)
+
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-5.webp)
+
+![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-6.webp)
+
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/97)
 
 ### Chapter 7 - Blue Prowess
 
 A buggy blue superiority buried in our deepest thoughts.
+
+![Blue Prowess](/curso02/imagenes/editorial/cap07-blue-prowess.webp)
 
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/119)
 
@@ -68,6 +96,8 @@ The paths that branch out in the garden reconnect somewhere in the depths, only 
 
 Virtual representations explaining an increasingly opaque world.
 
+![Digital Cartography: Pormenores, Green Velvet Reward](/curso02/imagenes/editorial/cap08-digital-cartography.webp) *Pormenores · Green Velvet Reward*
+
 [View collection](https://objkt.com/curations/objkt/digital-cartography-9bd5f7b2)
 
 - **Pormenores** — In a distant land, a fearless elf set off on a quest to find a pot of gold at the end of the rainbow, only to discover that no one had properly explained the details of the path he needed to take.
@@ -77,11 +107,25 @@ Virtual representations explaining an increasingly opaque world.
 
 Pointless artifacts describing the fateful legacy buried in landfills for future generations.
 
+![Dispensable Treasure Maps](/curso02/imagenes/editorial/cap09-dispensable-treasure-maps.webp)
+
 [View collection](https://objkt.com/curations/objkt/dispensable-treasure-maps-7818d03c)
 
 ### Chapter 10 - Yabotí Lowlands
 
 Aerial shots of the enigmatic signs of old that mark the verdant turtle's back in Yabotí lowlands.
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-1.webp)
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-2.webp)
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-3.webp)
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-4.webp)
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-5.webp)
+
+![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-6.webp)
 
 [View collection](https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4)
 
@@ -93,6 +137,8 @@ A relentlessly extractive machinery designed to build efficient solutions to non
 
 Opportunistic species will benefit most from new fragmented habitats.
 
+![Edge Effects: Windowsill Ill Sprouts, Fertile Regolith](/curso02/imagenes/editorial/cap11-edge-effects.webp) *Windowsill Ill Sprouts · Fertile Regolith*
+
 [View collection](https://objkt.com/curations/objkt/edge-effects-92582e8e)
 
 - **Windowsill Ill Sprouts** — No more marks/spots from acid rain on your windows! Protect your glass surfaces with the new eco-friendly, plant-powered, multi-surface cleaner, and clean your home naturally, without the unpleasant chemical residues.
@@ -102,6 +148,22 @@ Opportunistic species will benefit most from new fragmented habitats.
 
 The big season finale will let nothing but soot.
 
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-1.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-2.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-3.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-4.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-5.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-6.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-7.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-8.webp)
+
 [View collection](https://objkt.com/curations/objkt/fire-season-2e1aa23d)
 
 - **Before flares burn out**
@@ -109,6 +171,8 @@ The big season finale will let nothing but soot.
 ### Chapter 13 - The Ostrich Evidence
 
 There’s a secret in the blushed sand, a silent story buried in the bones of the feathered dinosaur. The runner of the sky.
+
+![The Ostrich Evidence](/curso02/imagenes/editorial/cap13-the-ostrich-evidence.webp)
 
 [View work](https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/57)
 
@@ -120,6 +184,8 @@ Inner spaces violently usurped by a hasty move to the bit.
 
 Every click, every tap, every scroll strategically planned to thicken your digital bubble.
 
+![Bubbled by Design: La Noria, The Order of the Struggle](/curso02/imagenes/editorial/cap14-bubbled-by-design.webp) *La Noria · The Order of the Struggle*
+
 [View collection](https://objkt.com/curations/objkt/bubbled-by-design-ea277aed)
 
 - **La Noria** — Stroboscopic seduction of the wagon-wheel effect during the Tenties Gold Rush.
@@ -128,6 +194,8 @@ Every click, every tap, every scroll strategically planned to thicken your digit
 ### Chapter 15 - Eardrum Negentropy
 
 After hearing the red noise for so long, the exact words of the omen were whispered in their ears.
+
+![Eardrum Negentropy](/curso02/imagenes/editorial/cap15-eardrum-negentropy.webp)
 
 [View work](https://objkt.com/tokens/hicetnunc/848964)
 
@@ -139,6 +207,8 @@ A transient scaffolding that shapes the habitat of digital identities.
 
 Season of vulnerable cities blossoming.
 
+![Sacred Urbanity: Scaffolded Whole, Kite Festival Above, But Temple Below](/curso02/imagenes/editorial/cap16-sacred-urbanity.webp) *Scaffolded Whole · Kite Festival Above, But Temple Below*
+
 [View collection](https://objkt.com/curations/objkt/sacred-urbanity-13322db0)
 
 - **Scaffolded Whole** — The synapse during own thinking also relies on scaffolding.
@@ -148,10 +218,34 @@ Season of vulnerable cities blossoming.
 
 A series of generative web3 astral cards.
 
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-1.webp)
+
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-2.webp)
+
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-3.webp)
+
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-4.webp)
+
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-5.webp)
+
+![Astralium](/curso02/imagenes/editorial/cap17-astralium-6.webp)
+
 [View collection](https://objkt.com/curations/objkt/astralium-2deb015d)
 
 ### Chapter 18 - Lombrela
 
 In shadows of struggle, our path we sketch.
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-1.webp)
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-2.webp)
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-3.webp)
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-4.webp)
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-5.webp)
+
+![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-6.webp)
 
 [View collection](https://objkt.com/curations/objkt/lombrela-73a6a925)
