@@ -1,0 +1,163 @@
+---
+// GENERATIVA
+// Carta con la forma del sitio vTR1n (la versión anterior de la sección de
+// gráfica generativa): tipografía Atkinson Hyperlegible, sus cuerpos de letra
+// y, por cada capítulo, una fila de tres columnas:
+//
+//   resumen de la parte | capítulo | galería
+//
+// El contenido sale de la estructura del Markdown, sin opciones propias:
+//   - "#" y "##" abren una parte: su título y sus párrafos son el resumen, que
+//     se muestra junto a su primer capítulo;
+//   - "###" abre un capítulo: sus párrafos van en la columna del capítulo, y un
+//     párrafo que es solo un enlace ("View work") va al pie del capítulo;
+//   - las imágenes y las listas (las obras) de un capítulo van a la galería.
+//
+// Según el ancho del lugar de la página (no de la ventana: con el Derrotero
+// abierto la página es más angosta) se muestran tres, dos o una columna (ver
+// generativa.css). Los estilos van todos bajo html.html-generativa.
+import LayoutCarta from '../../layouts/LayoutCarta.astro';
+import Volver from '../../components/navegacion/Volver.astro';
+import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
+import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
+import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
+import { withBase } from '../../utils/paths';
+import type { PropsCarta } from '../index';
+import './generativa.css';
+
+type Props = PropsCarta;
+
+const { pagina, documento, volver, vistas, mapa } = Astro.props;
+
+type Imagen = Extract<BloqueMimo, { tipo: 'imagen' }>;
+interface Capitulo { titulo: string; textos: string[]; enlaces: string[]; imagenes: Imagen[]; obras: string[] }
+interface Parte { titulo: string; nivel: number; textos: string[]; capitulos: Capitulo[] }
+
+const partes: Parte[] = [];
+let capitulo: Capitulo | null = null;
+const esEnlaceSolo = (texto: string) => /^\[[^\]]+\]\([^)\s]+\)$/.test(texto.trim());
+
+for (const bloque of documento.bloques) {
+  if (bloque.tipo === 'titulo' && bloque.nivel <= 2) {
+    partes.push({ titulo: bloque.texto, nivel: bloque.nivel, textos: [], capitulos: [] });
+    capitulo = null;
+    continue;
+  }
+  // Contenido antes de cualquier título: una parte sin título.
+  if (partes.length === 0) partes.push({ titulo: '', nivel: 2, textos: [], capitulos: [] });
+  const parte = partes[partes.length - 1];
+  if (bloque.tipo === 'titulo') {
+    capitulo = { titulo: bloque.texto, textos: [], enlaces: [], imagenes: [], obras: [] };
+    parte.capitulos.push(capitulo);
+  } else if (!capitulo) {
+    if (bloque.tipo === 'parrafo') parte.textos.push(bloque.texto);
+  } else if (bloque.tipo === 'parrafo') {
+    (esEnlaceSolo(bloque.texto) ? capitulo.enlaces : capitulo.textos).push(bloque.texto);
+  } else if (bloque.tipo === 'imagen') {
+    capitulo.imagenes.push(bloque);
+  } else if (bloque.tipo === 'lista') {
+    capitulo.obras.push(...bloque.items);
+  }
+}
+
+// Una parte sin capítulos se muestra igual, como una fila con solo su resumen.
+const filas = partes.flatMap((parte) =>
+  (parte.capitulos.length > 0 ? parte.capitulos : [null]).map((cap, i) => ({ parte, capitulo: cap, conResumen: i === 0 })));
+
+const enLinea = (texto: string) => renderizarEnLinea(texto);
+// La línea técnica de una parte ("*HTML5, CSS…*"): un párrafo todo en cursiva.
+const esPie = (texto: string) => /^\*[^*].*[^*]\*$/.test(texto.trim());
+// Una obra de la lista: "**Nombre** — texto".
+const obra = (item: string) => {
+  const m = item.match(/^\*\*(.+?)\*\*\s*(?:—\s*)?(.*)$/);
+  return m ? { nombre: m[1], texto: m[2] } : { nombre: '', texto: item };
+};
+const titulo = partes.find((p) => p.nivel === 1)?.titulo ?? pagina.titulo;
+---
+
+<LayoutCarta
+  vistas={vistas}
+  title={`GASTÓN MARTINO // ${pagina.codigo} • ${pagina.titulo}`}
+  description={documento.datos.descripcion ?? `${titulo}. ${pagina.subtitulo}`}
+  claseHtml="html-generativa"
+  claseCuerpo="cuerpo-generativa"
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </Fragment>
+
+  <div class="gen-pagina">
+    <header class="gen-encabezado">
+      <nav class="gen-nav" aria-label="Navegación de la deriva">
+        <Volver href={volver} class="gen-boton gen-volver" />
+        <BotonAparejo class="gen-boton gen-icono" />
+      </nav>
+      <p class="gen-rotulo">
+        <span class="gen-punto" style={`background-color: ${pagina.color};`}></span>
+        <strong>{pagina.codigo}</strong> // {pagina.etiqueta}
+      </p>
+      <div class="gen-nav gen-nav-derecha">
+        {mapa && (
+          <a
+            href={withBase(mapa.url)}
+            data-alternar-vista="cerrado"
+            data-ir-al-mapa
+            class:list={['gen-boton', mapa.destacado && 'gen-boton-destacado']}
+            style={mapa.destacado ? `background-color: ${pagina.color}; border-color: ${pagina.color};` : `color: ${pagina.color}; border-color: ${pagina.color};`}
+          >VER EL MAPA →</a>
+        )}
+        <BotonMenuDerrotero class="gen-boton gen-icono" />
+      </div>
+    </header>
+
+    <main class="gen-main">
+      {filas.map(({ parte, capitulo: cap, conResumen }, i) => (
+        <section class:list={['gen-fila', i > 0 && 'gen-fila-dividida', !conResumen && 'gen-sin-resumen']}>
+          <div class="gen-resumen">
+            {conResumen && (
+              <Fragment>
+                {parte.titulo && (parte.nivel === 1
+                  ? <h1 set:html={enLinea(parte.titulo)} />
+                  : <h2 set:html={enLinea(parte.titulo)} />)}
+                {parte.textos.map((texto) => esPie(texto)
+                  ? <p class="gen-pie" set:html={enLinea(texto.trim().slice(1, -1))} />
+                  : <p set:html={enLinea(texto)} />)}
+              </Fragment>
+            )}
+          </div>
+
+          {cap && (
+            <div class="gen-capitulo">
+              <h3 set:html={enLinea(cap.titulo)} />
+              {cap.textos.map((texto) => <p set:html={enLinea(texto)} />)}
+              {cap.enlaces.map((texto) => <p class="gen-pie gen-enlace" set:html={enLinea(texto)} />)}
+            </div>
+          )}
+
+          {cap && (cap.imagenes.length > 0 || cap.obras.length > 0) && (
+            <div class="gen-galeria">
+              {cap.imagenes.map((imagen) => (
+                <figure>
+                  <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
+                  {imagen.pie && <figcaption set:html={enLinea(imagen.pie)} />}
+                </figure>
+              ))}
+              {cap.obras.length > 0 && (
+                <ul class="gen-obras">
+                  {cap.obras.map(obra).map(({ nombre, texto }) => (
+                    <li>
+                      {nombre && <h5 set:html={enLinea(nombre)} />}
+                      {texto && <p set:html={enLinea(texto)} />}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </section>
+      ))}
+    </main>
+  </div>
+</LayoutCarta>

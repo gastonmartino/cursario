@@ -1,3 +1,6 @@
+---
+carta: generativa
+---
 # Generative Digital Art
 
 Visualization of mereological relationships within —and between— particle systems.

@@ -266,3 +266,26 @@ genera una vez por composición. El contenido del Markdown se reparte así:
   bermellón en las composiciones que le dan lugar (`encabezados`);
 - los ítems de las listas, como topónimos (la parte en negrita es el nombre);
 - los párrafos después de un `---`, en el cartucho.
+
+## Generativa
+
+La carta de la página de la DERIVA:02 (`/grafica-generativa/`), con la forma
+del sitio anterior de la sección (vTR1n): tipografía Atkinson Hyperlegible y
+sus cuerpos de letra, sobre 16 px (título 19,2 px; partes 16 px; capítulos
+15 px; texto 14 px; obras, pies y enlaces 13 px). Sus estilos están en
+`generativa/generativa.css`, todos bajo `html.html-generativa`.
+
+No tiene opciones: el contenido sale de la estructura del Markdown. Cada
+capítulo (`###`) es una fila de tres columnas:
+
+- **resumen**: el título (`#` o `##`) y los párrafos de la parte, solo en su
+  primer capítulo (un párrafo todo en cursiva es la línea técnica);
+- **capítulo**: su título y sus párrafos; un párrafo que es solo un enlace
+  ("View work") va al pie;
+- **galería**: sus imágenes (con su pie) y su lista de obras
+  (`- **Nombre** — texto`).
+
+Las columnas dependen del ancho del lugar de la página (una *container query*
+sobre `.gen-pagina`), no del de la ventana: desde 1150 px, las tres; desde
+700 px, dos (el resumen arriba, y capítulo y galería lado a lado); por debajo,
+una.

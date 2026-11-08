@@ -1,0 +1,261 @@
+/*
+ * CARTA GENERATIVA
+ * Tipografía, cuerpos y diagramación del sitio vTR1n. Todas las reglas van bajo
+ * html.html-generativa: el CSS de las cartas llega a todas las páginas.
+ *
+ * Cuerpos (sobre 16 px, como en vTR1n): título 19,2 px; partes 16 px;
+ * capítulos 15 px; texto 14 px; obras, pies y enlaces 13 px.
+ */
+
+html.html-generativa {
+  --gen-texto: #000000;
+  --gen-fondo: #ffffff;
+  --gen-borde: rgb(189, 189, 189);
+  --gen-margen: 32px;
+  --gen-hueco: 16px;
+  background: var(--gen-fondo);
+}
+
+html.html-generativa body.cuerpo-generativa {
+  margin: 0;
+  background: var(--gen-fondo);
+  color: var(--gen-texto);
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* El lugar de la página: las columnas dependen de su ancho, no del de la
+   ventana (con el Derrotero abierto, la página es más angosta). */
+html.html-generativa .gen-pagina {
+  container-type: inline-size;
+  container-name: generativa;
+  min-height: 100vh;
+}
+
+html.html-generativa .gen-pagina :where(h1, h2, h3, h5, p, ul, li, figure, figcaption) {
+  margin: 0;
+  padding: 0;
+}
+
+html.html-generativa .gen-pagina :where(a) {
+  color: inherit;
+}
+
+/* --- Encabezado --- */
+html.html-generativa .gen-encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px var(--gen-margen);
+  border-bottom: 1px solid var(--gen-borde);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+}
+
+html.html-generativa .gen-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+html.html-generativa .gen-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--gen-borde);
+  background: var(--gen-fondo);
+  color: var(--gen-texto);
+  font: 700 13px/1 "Atkinson Hyperlegible", sans-serif;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+
+html.html-generativa .gen-boton:hover {
+  background: #f2f2f2;
+}
+
+html.html-generativa .gen-boton-destacado {
+  color: #ffffff;
+}
+
+html.html-generativa .gen-boton-destacado:hover {
+  opacity: 0.85;
+}
+
+html.html-generativa .gen-icono {
+  width: 32px;
+  padding: 0;
+}
+
+html.html-generativa .gen-rotulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html.html-generativa .gen-punto {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+/* --- Filas: una por capítulo --- */
+html.html-generativa .gen-main {
+  padding: 8px var(--gen-margen) 40px;
+}
+
+html.html-generativa .gen-fila {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "resumen" "capitulo" "galeria";
+  gap: 30px var(--gen-hueco);
+  align-items: start;
+  padding: 12px 0 80px;
+}
+
+html.html-generativa .gen-fila-dividida {
+  border-top: 1px solid var(--gen-borde);
+}
+
+html.html-generativa .gen-resumen { grid-area: resumen; }
+html.html-generativa .gen-capitulo { grid-area: capitulo; }
+html.html-generativa .gen-galeria { grid-area: galeria; }
+
+/* Una columna: sin resumen, la fila empieza por el capítulo. */
+html.html-generativa .gen-sin-resumen .gen-resumen {
+  display: none;
+}
+
+/* Dos columnas: el resumen arriba; capítulo y galería, lado a lado. */
+@container generativa (min-width: 700px) {
+  html.html-generativa .gen-fila {
+    grid-template-columns: minmax(165px, 2fr) 5fr;
+    grid-template-areas: "resumen resumen" "capitulo galeria";
+    padding-bottom: 90px;
+  }
+}
+
+/* Tres columnas, como en vTR1n: resumen | capítulo | galería. */
+@container generativa (min-width: 1150px) {
+  html.html-generativa .gen-fila {
+    grid-template-columns: minmax(140px, 16fr) minmax(165px, 20fr) minmax(250px, 56fr);
+    grid-template-areas: "resumen capitulo galeria";
+    padding-bottom: 83px;
+  }
+
+  html.html-generativa .gen-sin-resumen .gen-resumen {
+    display: block;
+  }
+}
+
+@container generativa (max-width: 699px) {
+  html.html-generativa .gen-pagina {
+    --gen-margen: 20px;
+  }
+
+  html.html-generativa .gen-rotulo {
+    display: none;
+  }
+}
+
+/* --- Texto --- */
+html.html-generativa .gen-pagina h1 {
+  font-size: 19.2px;
+  font-weight: 700;
+}
+
+html.html-generativa .gen-pagina h2 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+html.html-generativa .gen-pagina h3 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+html.html-generativa .gen-pagina p {
+  font-size: 14px;
+}
+
+html.html-generativa .gen-resumen > * + *,
+html.html-generativa .gen-capitulo > * + * {
+  margin-top: 8px;
+}
+
+html.html-generativa .gen-pagina .gen-pie,
+html.html-generativa .gen-galeria figcaption {
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+html.html-generativa .gen-enlace a {
+  text-decoration: none;
+}
+
+html.html-generativa .gen-enlace a::before {
+  content: "↗ ";
+  font-style: normal;
+}
+
+html.html-generativa .gen-enlace a:hover {
+  text-decoration: underline;
+}
+
+html.html-generativa .gen-pagina strong {
+  font-weight: 700;
+}
+
+/* --- Galería: imágenes y obras --- */
+html.html-generativa .gen-galeria {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+html.html-generativa .gen-galeria img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+html.html-generativa .gen-galeria figcaption {
+  margin-top: 6px;
+}
+
+html.html-generativa .gen-obras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px 18px;
+  list-style: none;
+}
+
+html.html-generativa .gen-obras h5 {
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+html.html-generativa .gen-obras p {
+  margin-top: 2px;
+  font-size: 13px;
+}
