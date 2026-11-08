@@ -37,6 +37,8 @@ Pixel perfect wilderness
 
 Although the artificiality of harmony goes unnoticed by most dancers, the insistence on the automatically regurgitated repertoire always ends up composing the same melody.
 
+![Orchestrion: fotograma del video](/curso02/imagenes/editorial/cap03-orchestrion.webp)
+
 [View work](https://objkt.com/tokens/hicetnunc/866619)
 
 ### Chapter 4 - Computational Mythology
