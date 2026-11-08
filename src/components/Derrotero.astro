@@ -119,6 +119,8 @@ const cursosDestacados = INSULAS.filter((insula) => insula.featured).map((insula
   nombre: insula.name,
   titulo: insula.title,
   portada: withBase(resolveFile(ubicar(insula.id).carpetaMedios, insula.coverImageUrl)) ?? null,
+  // Con página editorial (pageMarkdownFile), la portada y el texto la abren.
+  pagina: insula.pageMarkdownFile ? withBase(ubicar(insula.id).urlPagina!) : null,
   piezas: destacadas.filter((pieza) => pieza.idCurso === insula.id),
 }));
 const destacadasSueltas = destacadas.filter((pieza) => !cursosDestacados.some((curso) => curso.id === pieza.idCurso));
@@ -305,9 +307,27 @@ const secciones = [
         <div data-solo-seccion="inicio" class="flex flex-col gap-12">
           {cursosDestacados.map((curso) => (
             <section class="derrotero-destacado" aria-label={curso.nombre}>
-              {curso.portada && <img src={curso.portada} alt="" width="1600" height="800" loading="lazy" decoding="async" class="derrotero-portada" />}
-              <p class="font-mono text-[11px] text-ink-muted">{curso.codigo} // {curso.nombre.toUpperCase()}</p>
-              {curso.titulo && <h3 class="derrotero-destacado-titulo">{curso.titulo}</h3>}
+              {curso.pagina ? (
+                <Fragment>
+                  {/* La imagen y el texto llevan a la página editorial del curso; la
+                      imagen queda fuera del orden de tabulación (repite el enlace). */}
+                  {curso.portada && (
+                    <a href={curso.pagina} tabindex="-1" aria-hidden="true" class="derrotero-portada-enlace">
+                      <img src={curso.portada} alt="" width="1600" height="800" loading="lazy" decoding="async" class="derrotero-portada" />
+                    </a>
+                  )}
+                  <a href={curso.pagina} class="derrotero-destacado-enlace">
+                    <p class="font-mono text-[11px] text-ink-muted">{curso.codigo} // {curso.nombre.toUpperCase()}</p>
+                    {curso.titulo && <h3 class="derrotero-destacado-titulo">{curso.titulo}</h3>}
+                  </a>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {curso.portada && <img src={curso.portada} alt="" width="1600" height="800" loading="lazy" decoding="async" class="derrotero-portada" />}
+                  <p class="font-mono text-[11px] text-ink-muted">{curso.codigo} // {curso.nombre.toUpperCase()}</p>
+                  {curso.titulo && <h3 class="derrotero-destacado-titulo">{curso.titulo}</h3>}
+                </Fragment>
+              )}
               {curso.piezas.length > 0 && (
                 <ul class="derrotero-grilla">
                   {curso.piezas.map((obra) => (
@@ -1268,6 +1288,28 @@ const secciones = [
     object-fit: cover;
     object-position: center top;
     background: #EDF1F5;
+  }
+
+  /* Curso destacado con página editorial: la portada y el texto son enlaces. */
+  .derrotero-portada-enlace {
+    display: block;
+    transition: opacity 150ms ease;
+  }
+
+  .derrotero-portada-enlace:hover {
+    opacity: 0.85;
+  }
+
+  .derrotero-destacado-enlace {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .derrotero-destacado-enlace:hover .derrotero-destacado-titulo {
+    color: #0038A8;
   }
 
   .derrotero-destacado-titulo {
