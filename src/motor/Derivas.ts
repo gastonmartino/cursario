@@ -161,7 +161,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     id: 'en-curso',
     curso: 'curso00',
     x: -780,
-    y: 1458,
+    y: 1487,
     ancho: 740,
     alto: 805,
     subcursos: [
@@ -370,7 +370,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     id: 'pensamiento',
     curso: 'curso03',
     x: -2460,
-    y: 1348,
+    y: 1397,
     ancho: 760,
     alto: 888,
     subcursos: [
@@ -765,7 +765,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     idSuperior: 'arte-electronico-01',
     subcurso: 'islote007',
     x: 0,
-    y: 1166,
+    y: 1216,
     ancho: 580,
     alto: 1207, 
   },
