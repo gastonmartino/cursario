@@ -268,3 +268,20 @@ html.html-generativa .gen-obras p {
   margin-top: 2px;
   font-size: 13px;
 }
+
+/* --- Barras de desplazamiento ---
+   Las mismas que el cartulario (finas, en gris claro), para la página y para
+   el Derrotero; sin estas reglas, el navegador usa las suyas. */
+html.html-generativa ::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+html.html-generativa ::-webkit-scrollbar-track {
+  background: #F5F7FA;
+}
+
+html.html-generativa ::-webkit-scrollbar-thumb {
+  background: #D0D6E2;
+  border-radius: 2px;
+}
