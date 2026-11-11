@@ -236,7 +236,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: '11:NOVIEMBRE:26',
     accentColor: '#E03E2D',
     imageCaption: 'COLLAGE DIGITAL',
-    headerLabel: 'DOMINIO POR ABANDONO',
+    headerLabel: 'APROPIACIÓN X CONTAMINACIÓN',
   },
 
 //
