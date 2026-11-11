@@ -543,132 +543,153 @@ Construido modularmente en TypeScript nativo a 60 FPS sobre HTML5 Canvas 2D:
 
 ## 11\. Estado Actual de la Implementación
 
-La primera implementación ya no es solamente un mockup visual: el sitio cuenta con una navegación espacial funcional y con contenido editorial real cargado desde Markdown. La página raíz (`/`) presenta la cartografía macro; cada región puede abrirse como una deriva local; y cada subcurso o islote con `pageMarkdownFile` dispone de una página propia generada de forma estática.
+El sitio ya no es un prototipo de navegación con contenidos de prueba: tiene cinco derivas con contenido real, dos maneras complementarias de recorrerlo (el **Mapa** y el **Derrotero**) y un sistema de plantillas, las **cartas**, para las páginas de lectura. La compilación genera un sitio completamente estático.
+
+La documentación detallada de cada parte vive junto al código:
+
+| Documento | Contenido |
+| --- | --- |
+| [`documentos/contexto.md`](documentos/contexto.md) | Contexto conceptual del proyecto y su jerga |
+| [`documentos/guía.md`](documentos/guía.md) | Instalación, publicación y tareas de mantenimiento (agregar cursos, subcursos, islotes, páginas) |
+| [`src/motor/README.md`](src/motor/README.md) | El motor del lienzo: niveles, cámara, vista inicial, ínsulas reflotadas, dibujo bajo demanda |
+| [`src/cartas/README.md`](src/cartas/README.md) | Las cartas: cómo elige una página su carta, qué recibe, estilos, modo lectura y las tres cartas actuales |
 
 ### 11\.1. Stack y configuración
 
 -   **Astro 5** como framework y generador de páginas estáticas.
--   **TypeScript** en modo estricto, con alias de imports `@/*` configurado en `tsconfig.json`.
--   **Tailwind CSS 3** integrado mediante `@astrojs/tailwind`.
--   **HTML Canvas 2D nativo** para el motor espacial y la superficie generativa.
--   **`simplex-noise`** para la generación de corrientes y perturbaciones cartográficas.
--   **Lucide** y `tailwind-merge` disponibles como dependencias de interfaz.
--   Servidor de desarrollo configurado en el puerto `3000`, accesible desde otros dispositivos de la red (`host: true`).
-
-Los comandos principales son:
+-   **TypeScript** en modo estricto, con alias de imports `@/*` (`tsconfig.json`).
+-   **Tailwind CSS 3** mediante `@astrojs/tailwind`, con la paleta del sitio (`paper`, `ink`, `cobalt`, `cyanotype`, `river`, `accent`) y una variante propia, `pagina-ancha:`, que mide el lugar de la página y no la ventana (`tailwind.config.mjs`).
+-   **Geist** y **Geist Mono** (Google Fonts) como tipografías del sitio; cada carta puede cargar las suyas.
+-   **HTML Canvas 2D nativo** para el lienzo y el cursor, y **`simplex-noise`** para los ríos generados.
+-   **MIMO** (`src/utils/markdown.ts`), un intérprete de Markdown propio y acotado.
+-   Servidor de desarrollo en el puerto `3000`, accesible desde otros dispositivos de la red (`host: true`).
 
 ```bash
-npm run dev       # desarrollo
-npm run build     # compilación estática
+npm run dev       # desarrollo, en http://localhost:3000
+npm run build     # compilación estática en dist/
 npm run preview   # previsualización de la compilación
 ```
+
+#### Dos instancias publicadas
+
+El mismo código se publica en dos direcciones, definidas al compilar por variables de entorno (`astro.config.mjs`):
+
+| Instancia | Dirección | Cómo se publica |
+| --- | --- | --- |
+| Dominio propio | `https://gastonmartino.xyz/` (en la raíz) | `npm run build` sin variables y subida de `dist/` por cPanel |
+| GitHub Pages | `https://gastonmartino.github.io/cursario/` | Automática en cada push a `cursario-v2` (`.github/workflows/deploy.yml`, con `SITE_URL` y `BASE_PATH=/cursario`) |
+
+Los datos y los Markdown siempre usan rutas desde la raíz (`/curso00/...`); el prefijo de la subcarpeta se agrega al generar el HTML (`withBase`, en `src/utils/paths.ts`).
 
 ### 11\.2. Organización del código
 
 ```text
 src/
-├── components/       # Cursario, Isla, Islote, HUD, radar y Derrotero
-├── data/             # Catálogos tipados de subcursos e islotes
-├── motor/            # Cámara, interacción, cursor y superficie generativa
-├── layouts/          # Documento base, metadatos y transiciones de página
-├── pages/            # Inicio y rutas dinámicas de cada subcurso
-└── utils/            # Conversión del Markdown editorial a HTML
+├── cartas/           # Plantillas de las páginas de contenido (cartulario, cursario, generativa)
+├── components/       # Mapa, Derrotero, Aparejo, tarjetas (Insula, Isla, Islote), HUD, radar
+│   └── navegacion/   # Volver, BotonAparejo, BotonMenuDerrotero, CambioVista, VolverArriba
+├── data/             # Contenido de las tarjetas: insulas.ts, islas.ts, islotes.ts
+├── layouts/          # Layout (portada) y LayoutCarta (páginas de contenido)
+├── motor/            # Estructura (Derivas.ts), cámara, motor, fondo generativo y cursor
+├── pages/            # Portada y rutas dinámicas de las páginas de contenido
+└── utils/            # MIMO (markdown.ts) y rutas con prefijo (paths.ts)
 
 public/
-├── curso00/          # Bitácora En Curso
-├── curso01/          # Artes Electrónicas / UNTREF
-├── curso02/          # Gráfica Generativa
-└── curso03/          # Pensamiento & Diseño
+├── curso00/ … curso04/   # Contenidos e imágenes de cada curso y sus subcursos
+├── paginas/              # Páginas sueltas (Acerca de) y textos del Derrotero (bio, contacto)
+├── documentos/           # PDFs descargables
+└── medios/               # Imágenes generales (retrato)
 ```
 
-`Cursario.astro` compone la escena y carga server-side los Markdown de cada curso, subcurso e islote. `CanvasController` conecta el motor con el DOM: el canvas dibuja el territorio, mientras que las tarjetas `Isla.astro` e `Islote.astro` se posicionan como una capa HTML superior para conservar legibilidad, imágenes, enlaces y contenido editorial a cualquier escala. `Derrotero.astro` ofrece el drawer y el índice de navegación.
+### 11\.3. Vocabulario: ínsulas, islas e islotes
 
-### 11\.3. Modelo de contenidos
+El territorio se organiza en tres tipos de elementos, cada uno con su tarjeta:
 
-El catálogo de `src/data/subcursos.ts` define actualmente veinte subderivas, distribuidas así:
+| Elemento | Qué es | Tarjeta | Contenido |
+| --- | --- | --- | --- |
+| **Ínsula** | Un curso de primer nivel (una DERIVA) | `Insula.astro` | `src/data/insulas.ts` |
+| **Isla** | Un subcurso dentro de un curso | `Isla.astro` | `src/data/islas.ts` |
+| **Islote** | Una pieza menor asociada a una ínsula o a una isla; se dibuja en el mismo lienzo que ella y no abre un lienzo propio | `Islote.astro` | `src/data/islotes.ts` |
 
-| Curso | Región | Contenido actual |
-| --- | --- | --- |
-| `curso00` | `en-curso` | Siete registros de bitácora y experimentación |
-| `curso01` | `arte-electronico` | Cinco obras de Artes Electrónicas / MAE |
-| `curso02` | `generativa` | Seis series de Processing, gráfica y video |
-| `curso03` | `pensamiento` | Tres ensayos, apuntes y manifiestos de diseño |
+Cada elemento se define en **dos lugares** vinculados por su `id`:
 
-El catálogo complementario de `src/data/islotes.ts` define islotes que dependen de cursos principales o de subderivas y se dibujan en el mismo canvas que su elemento padre.
+-   **Estructura** (`src/motor/Derivas.ts`): a qué curso pertenece, su carpeta en `public/`, su URL, su posición y su tamaño en el lienzo. Es la única fuente de la estructura.
+-   **Contenido** (`src/data/`): código, títulos, etiqueta, color, imágenes, Markdown, página editorial y su presencia en el Derrotero.
 
-Cada subderiva puede tener una definición tipada —código, título, subtítulo, etiqueta, color, categoría, medios y acciones— junto con archivos Markdown opcionales:
+### 11\.4. Contenidos actuales
 
--   `contenido-curso.md`: resumen que aparece dentro de la tarjeta espacial.
--   `pagina-curso.md`: contenido de la página editorial individual, cuando existe `pageMarkdownFile`.
+| Código | Curso (`id`) | Carpeta | Islas | Particularidades |
+| --- | --- | --- | ---: | --- |
+| `DERIVA:00` | En Curso... (`en-curso`) | `curso00` | 11 | Bitácora del TFIC / MAE |
+| `DERIVA:01` | Artes Electrónicas (`arte-electronico`) | `curso01` | 5 | **Reflotada**: sus islas están en el lienzo principal; destacada |
+| `DERIVA:02` | Gráfica Generativa (`generativa`) | `curso02` | 6 | Página editorial propia en `/grafica-generativa/` (carta *generativa*); destacada |
+| `DERIVA:03` | Pensamiento & Diseño (`pensamiento`) | `curso03` | 3 | — |
+| `DERIVA:04` | Expediente 11/26 (`expediente-1126`) | `curso04` | 24 | Página editorial propia en `/expediente-11-26/` |
 
-Las imágenes y portadas se sirven desde `public/cursoXX/...`, por lo que mantienen rutas públicas estables y no requieren importación desde los componentes Astro.
+Además hay 18 islotes, distribuidos entre el lienzo principal y los lienzos de los cursos.
 
-El conversor de `src/utils/markdown.ts` es deliberadamente pequeño y controlado: soporta títulos de nivel 1 a 3, párrafos, citas, negrita, cursiva y código inline. No es todavía un procesador Markdown completo; listas, tablas, enlaces y otros recursos quedan como trabajo pendiente si el archivo editorial los necesita.
+### 11\.5. La portada: Mapa y Derrotero
 
-### 11\.4. Arquitectura de navegación espacial
+La portada (`/`) se divide en dos mitades separadas por una **costura** vertical:
 
-La navegación se divide en dos niveles:
+-   **Mapa** (`Mapa.astro`, "Gastón Martino // Cursario"): el lienzo infinito para recorrer el territorio a la deriva. Arma cada tarjeta combinando su contenido (`src/data/`) con su ubicación (`Derivas.ts`), y le pasa al motor lo que necesita para dibujar.
+-   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado, `featured`), **Obras**, **Bitácora**, **Escritos** (según el `derroteroSection` de cada isla o ínsula), **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador.
 
-```text
-Nivel macro: cartografía completa
-  ├── CURSO:00  En Curso...              ( 0,     0)
-  ├── CURSO:01  Artes Electrónicas       ( 0, -1400)
-  ├── CURSO:02  Gráfica Generativa       (-1600,  0)
-  └── CURSO:03  Pensamiento & Diseño     ( 1600,  0)
+La manija de la costura se arrastra, se mueve con sus flechas o con el teclado, y se imanta en tres posiciones (cerrado, mitad, completo); la posición se recuerda en el navegador. La costura existe desde 1024 px de ancho; por debajo se ve una vista o la otra, con un botón para pasar de una a otra.
 
-Nivel deriva: recorrido local de una región
-  └── una cantidad variable de tarjetas de subcurso conectadas por una corriente
-```
+### 11\.6. Navegación espacial
 
-En el nivel macro, el usuario puede arrastrar el plano, desplazarse entre regiones, usar el radar o seleccionar una isla para `INCURSIONAR`. La cámara conserva coordenadas de mundo independientes de la pantalla y calcula automáticamente un zoom de encuadre para que cada región resulte visible al llegar.
+El motor (`src/motor/`) tiene dos niveles:
 
-Al entrar en una deriva, la cámara se centra en el sistema local y muestra sus subderivas sobre una retícula fina, unidos por un cauce curvo. La cantidad de tarjetas no está limitada a tres: se determina mediante el arreglo `items` de cada deriva. Los islotes secundarios pueden aparecer alrededor de cursos o subderivas, conectados mediante líneas. Las tarjetas locales incluyen imagen, resumen y acciones hacia páginas editoriales cuando están configuradas.
+-   **Lienzo principal**: las cinco ínsulas, unidas por un curso punteado en rojo, con sus islotes y con las islas de las ínsulas reflotadas.
+-   **Lienzo de un curso**: sus islas, unidas por una línea de recorrido en el orden en que están definidas, y sus islotes.
 
-### 11\.5. Controles disponibles
+Variantes de comportamiento de una ínsula:
+
+-   **Reflotada** (`refloated: true`): no tiene lienzo propio; sus islas salen a flote en el lienzo principal, con coordenadas relativas a la ínsula y rodeadas por una envolvente punteada.
+-   **Con página editorial** (`pageMarkdownFile`): su tarjeta abre esa página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA.
+-   **Sin islas**: no tiene lienzo propio ni botón INCURSIONAR.
+
+La última vista de cada lienzo (posición y zoom) se recuerda en el navegador. El motor dibuja bajo demanda: con todo quieto no consume recursos.
 
 | Acción | Escritorio | Touch / interfaz |
 | --- | --- | --- |
-| Surcar el plano | Arrastrar con el mouse; rueda para desplazar o hacer zoom | Arrastre de un dedo |
-| Zoom | Rueda, `+`, `-` o botones del HUD | Pinch con dos dedos |
-| Centrar | `R`, `0` o `CENTRAR` | Botón del HUD |
-| Ir a una región | `1`–`4` o botones del radar | Botones del radar |
-| Abrir una región | Click sobre una isla, `ENTER` o `INCURSIONAR` | Toque sobre el botón o la isla |
-| Volver al nivel macro | `ESC` o `← VOLVER` | Botón del HUD |
-| Abrir una página editorial | Botón o click sobre la tarjeta | Toque o enlace de la tarjeta |
+| Surcar el plano | Arrastrar; deslizar en el trackpad | Arrastre de un dedo |
+| Zoom | Rueda, pellizco en el trackpad, `+`, `-` o botones del HUD | Pinch con dos dedos |
+| Centrar | `R` (y `0` en el lienzo de un curso) o el botón del HUD | Botón del HUD |
+| Ir a una deriva | `0`–`4` o botones del radar | Botones del radar |
+| Abrir un curso o su página | Click sobre la ínsula, `Enter` o `INCURSIONAR` | Toque sobre la tarjeta o el botón |
+| Volver al lienzo principal | `Esc` o `← VOLVER` | Botón del HUD |
+| Abrir la página de una isla | Click sobre la tarjeta o `INCURSIONAR [ABRIR]` | Toque |
 
-El radar es colapsable y cambia su información según el nivel activo. En macro muestra las cuatro regiones y el encuadre de la cámara; dentro de una deriva muestra todos los elementos locales y el encuadre correspondiente.
+Las URL de la portada aceptan parámetros: `/?deriva={id}` abre el lienzo de ese curso, y `/?deriva={id}&isla={id}` además enfoca una tarjeta (así funcionan VOLVER y VER EL MAPA desde las páginas).
 
-### 11\.6. Renderizado e interacción
+### 11\.7. Páginas de contenido y cartas
 
--   `Camara.ts` transforma coordenadas de pantalla y mundo, aplica inercia al arrastre y suaviza los desplazamientos mediante interpolación.
--   `MotorCursario.ts` ejecuta el ciclo de actualización y renderizado con `requestAnimationFrame`, ajusta los canvas al `devicePixelRatio`, realiza hit-testing y sincroniza la posición de las tarjetas HTML.
--   `CartografiaGenerativa.ts` dibuja el papel texturado, retículas, corrientes hidrográficas, esquemas electrónicos, ventanas atmosféricas y marcas de cada nivel.
--   `CursorEntintado.ts` usa un segundo canvas superpuesto para la mira técnica, la estela de tinta y las salpicaduras que responden a la velocidad del cursor.
--   La cortina de transición emplea la misma textura de papel que el fondo y respeta `prefers-reduced-motion`.
--   La capa HTML reenvía rueda, arrastre y gestos táctiles no interactivos al controlador para que las tarjetas no interrumpan la navegación espacial.
+Astro genera una página estática por cada ínsula, isla o islote con `pageMarkdownFile`, y por cada archivo `.md` de `public/paginas/` (salvo los que dicen `publicar: no`):
 
-### 11\.7. Rutas y deep linking implementado
+| Tipo | URL |
+| --- | --- |
+| Isla o islote | `/{curso}/{subcurso}/` (por ejemplo `/curso00/curso005/`) |
+| Isla o ínsula con `pageUrl` | `/{pageUrl}/` (por ejemplo `/rebelion-en-la-granja-de-clics/`) |
+| Ínsula sin `pageUrl` | `/{curso}/` |
+| Página suelta | `/{nombre-del-archivo}/` (por ejemplo `/acerca-de-cursario/`) |
+| Modo lectura de una página con carta propia | `{URL de la página}cartulario/` |
 
-Astro genera una página por cada combinación declarada en `SUBCURSOS` o `ISLOTES` mediante `getStaticPaths()`:
+Cada página la arma la **carta** que elige su Markdown en el encabezado (`carta: …`); sin indicación se usa el **cartulario**, la carta estándar. Las cartas actuales son:
 
-```text
-/curso00/curso001/
-/curso00/curso002/
-/curso00/curso003/
-...
-/curso03/curso003/
-```
+-   **cartulario**: el aspecto del sitio, con el contenido en una hoja blanca centrada.
+-   **cursario**: una carta náutica con marco graduado, rosas de los vientos y sondeos, con cinco composiciones según el ancho (la usa *Acerca de*).
+-   **generativa**: la forma del sitio anterior de la sección (vTR1n), con capítulos en tres columnas (la usa `/grafica-generativa/`).
 
-Las páginas individuales tienen navegación propia `← VOLVER` e `INICIO`, metadatos dinámicos y lectura editorial con scroll. Al volver, el enlace conserva la región de origen mediante `/?deriva=<id>`; la página raíz interpreta ese parámetro y reabre directamente la deriva correspondiente. La raíz sin parámetros siempre comienza en la cartografía macro.
+Todas las cartas comparten `LayoutCarta`: transición entre páginas, **VOLVER**, el **Aparejo** (un panel de atajos que se abre desde la izquierda) y el **Derrotero**, que con vista compartida (desde 1024 px) ocupa la otra mitad de la pantalla. Las páginas con carta propia ofrecen además un **modo lectura** con el cartulario.
+
+MIMO reconoce títulos (`#`, `##`, `###`), párrafos, negrita, itálica, código en línea, enlaces (también URLs sueltas), listas sin orden, citas, imágenes con pie, videos de YouTube (horizontales y verticales) y cinco tipos de separadores. La sintaxis completa está en la guía.
 
 ### 11\.8. Límites conocidos y próximos pasos
 
-Esta versión debe considerarse un prototipo funcional de navegación y publicación de contenidos. Todavía quedan fuera de implementación:
-
--   Modo “Flujo Continuo” específico para mobile y accesibilidad.
--   Visores de código, reproductores de video y registros sonoros integrados.
--   Persistencia de la posición de cámara entre sesiones.
--   Procesamiento Markdown completo y validación editorial automatizada.
--   Optimización y pruebas sistemáticas de rendimiento en dispositivos de baja potencia.
-
-La siguiente etapa consiste en reemplazar los contenidos de prueba por las fichas definitivas de las obras, completar sus medios y decidir si el acceso editorial seguirá siendo exclusivamente por páginas estáticas o incorporará una lectura inmersiva dentro de la deriva.
+-   Los botones del radar y los atajos `0`–`4` están escritos a mano para las cinco derivas actuales: un curso nuevo requiere agregarlos (ver la guía).
+-   MIMO no reconoce tablas, listas numeradas ni listas anidadas.
+-   No hay todavía visores de código ni reproductores de audio integrados.
+-   No hay validación editorial automatizada más allá de los errores del build (ids inexistentes, URLs repetidas, cartas desconocidas).
+-   Falta una prueba sistemática de rendimiento en dispositivos de baja potencia.

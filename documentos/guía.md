@@ -88,212 +88,195 @@ También puede comprimirse `dist/` en un archivo ZIP, subirlo desde el Administr
 Después de publicar:
 
 - Abrir la página principal en una ventana privada del navegador.
-- Probar el ingreso a los cuatro cursos.
-- Probar una subderiva de cada curso y una página editorial directa.
-- Verificar imágenes, videos de YouTube, enlaces `VOLVER` e `INICIO`.
-- Confirmar que una URL profunda, por ejemplo `/curso00/curso005/`, cargue correctamente.
+- Recorrer el Mapa: las cinco derivas desde el radar (o con las teclas `0` a `4`) y el ingreso a un curso con lienzo propio.
+- Recorrer el Derrotero: Inicio, Obras, Bitácora, Escritos, Bio, Contacto y el buscador.
+- Abrir una página de cada carta: una del cartulario (por ejemplo `/curso00/curso005/`), `/acerca-de-cursario/` (cursario) y `/grafica-generativa/` (generativa), y su modo lectura.
+- Verificar imágenes, videos de YouTube, PDFs y los enlaces VOLVER, VER EL MAPA y el Aparejo.
+- Confirmar que una URL profunda cargue correctamente al entrar directamente o al recargar.
 - Si el hosting muestra un error 404 al actualizar una página profunda, revisar la configuración de reescritura del dominio o del servidor, según la configuración del proveedor.
 
 La publicación no requiere ejecutar `npm run dev` ni `npm run preview` en el hosting. Esos comandos son para desarrollo y revisión local.
 
-## 5. Componentes principales de Astro
+### 4.4. Publicación en GitHub Pages
 
-### `Layout.astro`
+Además del dominio propio, el sitio se publica en `https://gastonmartino.github.io/cursario/`. Esta segunda instancia se actualiza sola: el workflow `.github/workflows/deploy.yml` compila y publica el sitio en cada push a la rama `cursario-v2` (también se puede lanzar a mano desde la pestaña *Actions* del repositorio).
 
-Es la estructura base de las páginas. Define metadatos, tipografías, estilos globales, comportamiento de scroll y el marco visual común.
+Como GitHub Pages sirve el sitio en una subcarpeta, el workflow compila con dos variables de entorno, que `astro.config.mjs` lee:
 
-### `Cursario.astro`
-
-Es la vista principal del sitio. Combina el canvas de navegación, las tarjetas HTML de cursos y subderivas, la cortina de transición, el HUD y el radar. También carga los contenidos Markdown de las tarjetas principales y vincula cada subderiva con su definición de datos.
-
-### `Isla.astro`
-
-Es la tarjeta visual utilizada para representar cursos y subderivas. Puede recibir una imagen, contenido Markdown o ambos. También administra títulos, subtítulos, descripciones, palabras clave, metadatos, acciones de navegación y el comportamiento visual responsive de sus contenidos.
-
-### `Derrotero.astro`
-
-Es el drawer de navegación que se despliega desde el HUD. Contiene los enlaces a las páginas estáticas generales y un acordeón construido a partir de los cursos y subderivas que tienen destino editorial disponible.
-
-### `Islote.astro`
-
-Es la tarjeta secundaria que se dibuja en el mismo canvas que su deriva o subderiva padre. Puede mostrar imagen, Markdown, descripción y palabras clave, y admite acciones hacia páginas editoriales sin abrir un nuevo canvas.
-
-La altura máxima de su imagen puede definirse individualmente mediante `imageMaxHeight` en `src/data/islotes.ts`. Si no se indica, se utiliza el valor predeterminado de `200px`:
-
-```ts
-imageMaxHeight: 280,
+```text
+SITE_URL=https://gastonmartino.github.io
+BASE_PATH=/cursario
 ```
 
-### `HUD.astro`
+Sin esas variables (en desarrollo y en la compilación para cPanel) el sitio va en la raíz de `https://gastonmartino.xyz/`. Los datos y los Markdown se escriben **siempre** con rutas desde la raíz (`/curso00/...`): el prefijo `/cursario` se agrega solo al generar el HTML (`withBase`, en `src/utils/paths.ts`). Para probar localmente la versión de GitHub Pages:
 
-Es la interfaz flotante de orientación. Muestra coordenadas, escala, estado de la navegación y controles para acercar, alejar, centrar y volver desde una deriva.
-
-### `RadarMinimapa.astro`
-
-Es el radar/minimapa colapsable. Representa la posición de la cámara, ofrece accesos rápidos a los cursos principales y cambia su información cuando se ingresa en una deriva local.
-
-### `src/pages/[curso]/[subcurso].astro`
-
-Es la plantilla de las páginas editoriales de tercer nivel. Astro genera una ruta por cada subderiva o islote con `pageMarkdownFile` definido y allí se presenta el contenido largo, la navegación editorial y los medios incluidos en el Markdown.
-
-### Archivos del motor
-
-Los archivos de `src/motor/` controlan la parte espacial:
-
-- `Camara.ts`: cámara, zoom y coordenadas del mundo.
-- `MotorCursario.ts`: interacción, eventos, selección, transiciones y sincronización con la interfaz.
-- `CartografiaGenerativa.ts`: retículas, textura, corrientes, líneas de fuerza y elementos dibujados en el canvas.
-- `CursorEntintado.ts`: cursor gráfico, estela y partículas.
-- `Derivas.ts`: definición de los cursos principales y las posiciones de sus subderivas.
-
-## 6. Atributos de contenido y navegación de `Isla`
-
-Las tarjetas utilizan atributos relacionados con el contenido y la navegación. Algunos se definen en `src/data/subcursos.ts`, otros se calculan en `src/components/Cursario.astro` y finalmente son recibidos por `src/components/Isla.astro`.
-
-### `markdownHtml`
-
-Es contenido Markdown ya convertido a HTML antes de llegar a la tarjeta. Se usa principalmente para el contenido introductorio de los cursos principales:
-
-```astro
-<Isla markdownHtml={curso00MarkdownHtml} />
+```bash
+SITE_URL=https://gastonmartino.github.io BASE_PATH=/cursario npm run build
+npm run preview
 ```
 
-No se define en `subcursos.ts`. Para las subderivas se utiliza normalmente `markdownFile`.
+Cuando `cursario-v2` se una a `main`, hay que cambiar en el workflow la rama que dispara la publicación.
 
-### `markdownFile`
+## 5. Mapa del proyecto
 
-Es la ruta pública al Markdown breve que aparece dentro de la tarjeta de una subderiva. Se define en `src/data/subcursos.ts`:
+### 5.1. Vocabulario
 
-```ts
-markdownFile: '/curso00/subcursos/curso005/contenidos/contenido-curso.md',
-```
+El territorio de *Cursario* se compone de tres tipos de elementos:
 
-Es opcional. Sin este atributo, la tarjeta puede mostrar sólo una imagen. Con el archivo y sin imagen, muestra una sola columna de texto; con ambos, muestra imagen y texto.
-
-### `pageMarkdownFile`
-
-Es la ruta pública al Markdown extendido de la página editorial de tercer nivel:
-
-```ts
-pageMarkdownFile: '/curso00/subcursos/curso005/contenidos/pagina-curso.md',
-```
-
-Ese archivo se presenta en una ruta como `/curso00/curso005/`. Es el indicador de que la subderiva tiene una página editorial disponible. Si no está definido, no aparece el botón de acción ni se habilita el click general de la tarjeta hacia una página de detalle.
-
-### `actionHref`
-
-Es la URL de destino de una acción de navegación. Puede definirse opcionalmente en `subcursos.ts`:
-
-```ts
-actionHref: '/curso00/curso005/',
-```
-
-Si no se indica, `Cursario.astro` construye automáticamente `/${course}/${subcurso}/` cuando existe `pageMarkdownFile`. Define el destino del botón `INCURSIONAR`; el botón sigue dependiendo de que exista una página editorial válida.
-
-### `detailHref`
-
-Es el destino al hacer click sobre cualquier parte de la tarjeta. Al igual que `actionHref`, puede definirse directamente en la definición de la subderiva dentro de `src/data/subcursos.ts`:
-
-```ts
-detailHref: '/curso00/curso005/',
-```
-
-Para las subderivas se pasa desde `Cursario.astro`, con estos valores de fallback:
-
-```astro
-detailHref={subcurso.detailHref || subcurso.actionHref || (subcurso.pageMarkdownFile
-  ? `/${subcurso.course}/${subcurso.subcurso}/`
-  : undefined)}
-```
-
-La navegación completa de la tarjeta es independiente de `showAction`: aunque el botón esté oculto, el click puede seguir llevando a `detailHref`. Si no existe `detailHref`, la tarjeta no navega al hacer click fuera de sus controles.
-
-### `actionLabel`
-
-Es el texto visible del botón de acción:
-
-```astro
-actionLabel="INCURSIONAR [ABRIR]"
-```
-
-Si no se indica, se utiliza `INCURSIONAR [CLICK / ENTER]`. Sólo cambia la etiqueta visual; no define el destino.
-
-### `showAction`
-
-Controla exclusivamente si se incluye el botón de acción. Para una subderiva se define en `src/data/subcursos.ts`:
-
-```ts
-showAction: false,
-```
-
-Es opcional y por defecto vale `true` mediante:
-
-```astro
-showAction={subcurso.showAction ?? true}
-```
-
-Por lo tanto, `showAction: false` oculta el botón, pero no desactiva el click general mediante `detailHref`. Además, si no existe `pageMarkdownFile`, el botón no aparece aunque `showAction` sea `true`.
-
-### Resumen rápido
-
-| Atributo | Función | Lugar habitual |
+| Elemento | Qué es | Tarjeta |
 | --- | --- | --- |
-| `markdownHtml` | HTML ya generado para una tarjeta | `Cursario.astro` |
-| `markdownFile` | Markdown breve dentro de la tarjeta | `src/data/subcursos.ts` |
-| `pageMarkdownFile` | Markdown de la página editorial | `src/data/subcursos.ts` |
-| `actionHref` | Destino del botón de acción | `src/data/subcursos.ts` o calculado |
-| `detailHref` | Destino del click sobre toda la tarjeta | `src/data/subcursos.ts` |
-| `actionLabel` | Texto visible del botón | Instancia de `Isla` |
-| `showAction` | Muestra u oculta el botón | `src/data/subcursos.ts` o `src/data/islotes.ts` |
+| **Ínsula** | Un curso de primer nivel (una DERIVA), en el lienzo principal | `src/components/Insula.astro` |
+| **Isla** | Un subcurso, en el lienzo de su curso | `src/components/Isla.astro` |
+| **Islote** | Una pieza menor asociada a una ínsula o a una isla, dibujada en el mismo lienzo que ella | `src/components/Islote.astro` |
 
-Los islotes utilizan los mismos atributos de contenido y navegación cuando corresponde. Sus definiciones se encuentran en `src/data/islotes.ts` y se renderizan mediante `src/components/Islote.astro`. No utilizan `detailHref` por el momento: si tienen `actionHref` o `pageMarkdownFile`, el destino se abre desde el botón y desde el click sobre la tarjeta.
+Cada elemento se define en **dos archivos**, vinculados por el mismo `id`:
 
-## 7. Cómo añadir un nuevo curso principal
+- **La estructura**, en `src/motor/Derivas.ts`: a qué curso pertenece, su carpeta en `public/`, su URL, su posición y su tamaño.
+- **El contenido**, en `src/data/`: `insulas.ts`, `islas.ts` o `islotes.ts`. Allí están el código, los títulos, la etiqueta, el color, las imágenes, los Markdown y su presencia en el Derrotero.
 
-Un curso principal necesita una definición espacial, una tarjeta visible en la vista macro, una entrada en el radar, una carpeta pública para sus contenidos y, normalmente, subderivas asociadas.
+Si un `id` de `src/data/` no existe en `Derivas.ts`, el build se detiene con un error que lo nombra.
 
-### Pasos
+### 5.2. Carpetas de contenido
 
-1. Crear en `public/` una carpeta con el identificador del curso, por ejemplo `public/curso04/`, y dentro sus carpetas de contenidos, imágenes y subcursos.
-2. En `src/motor/Derivas.ts`, agregar una nueva entrada a `SPATIAL_DERIVAS` con:
-   - `id` único;
-   - `code`, `name`, `subtitle` y `description`;
-   - `x`, `y`, `width` y `height` iniciales;
-   - `accentColor` y `tag`;
-   - `type` apropiado;
-   - arreglo `items` con las subderivas espaciales.
-3. En `src/components/Cursario.astro`, agregar la tarjeta principal del nuevo curso. Allí se indica la imagen, el Markdown inicial, el código, la descripción, la región y las dimensiones de la tarjeta.
-4. En `src/components/RadarMinimapa.astro`, agregar un botón de acceso rápido con `data-fly-to` apuntando al nuevo `id`.
-5. Si el nuevo identificador debe formar parte del catálogo de subderivas, ampliar los tipos de `src/data/subcursos.ts` (`course` y `parentDerivaId`) y agregar las definiciones correspondientes.
-6. Crear los Markdown e imágenes con las rutas que se hayan declarado.
-7. Ejecutar `npm run build` y revisar que la nueva región, sus enlaces y sus páginas se generen correctamente.
+```text
+public/
+├── curso00/                     ← carpeta de un curso (el "curso" de Derivas.ts)
+│   ├── contenidos/              ← Markdown de la ínsula y de sus islotes
+│   ├── imagenes/                ← imágenes de la ínsula y de sus islotes
+│   └── subcursos/
+│       └── curso001/            ← carpeta de una isla (el "subcurso" de Derivas.ts)
+│           ├── contenidos/      ← Markdown de la isla
+│           └── medios/          ← imágenes de la isla
+├── paginas/                     ← páginas sueltas y textos del Derrotero
+├── documentos/                  ← PDFs descargables
+└── medios/                      ← imágenes generales (retrato)
+```
 
-El motor espacial recorre `SPATIAL_DERIVAS` de forma general, pero los cuatro cursos actuales aparecen escritos explícitamente en la tarjeta macro y en los botones del radar. Por eso esos dos archivos requieren una modificación manual al incorporar un quinto curso.
+En `src/data/`, las imágenes y los Markdown se escriben **solo con el nombre del archivo**, que se busca en la carpeta que corresponde:
 
-## 8. Cómo modificar las posiciones en el canvas
+| Elemento | Imágenes | Markdown |
+| --- | --- | --- |
+| Ínsula | `/{curso}/imagenes/` | `/{curso}/contenidos/` |
+| Isla | `/{curso}/subcursos/{subcurso}/medios/` | `/{curso}/subcursos/{subcurso}/contenidos/` |
+| Islote | `/{curso}/imagenes/` (las de su curso) | `/{curso}/contenidos/` (las de su curso) |
 
-Las posiciones de los cursos principales y sus subderivas se definen en `src/motor/Derivas.ts`.
+Una ruta que empieza con `/` se toma tal cual, para usar un archivo de otra carpeta:
 
-- Para mover un curso principal, modificar sus valores `x` y `y` dentro de `SPATIAL_DERIVAS`.
-- Para mover una subderiva, modificar `x` y `y` dentro del arreglo `items` de su curso.
-- `x` positivo desplaza hacia la derecha y `y` positivo hacia abajo.
-- `width` y `height` definen el tamaño espacial de cada tarjeta.
-- En `src/data/subcursos.ts`, `cardWidth` y `cardHeight` permiten ajustar el tamaño de la tarjeta HTML correspondiente sin modificar necesariamente la geometría base del motor.
+```ts
+imageUrl: 'portada-curso.jpg',                          // → /curso00/subcursos/curso002/medios/portada-curso.jpg
+markdownFile: '/curso00/contenidos/islote-01.md',       // → tal cual
+```
 
-Después de cambiar posiciones, revisar el encuadre automático, las conexiones entre tarjetas, el radar y el comportamiento en pantallas pequeñas. No es necesario cambiar la lógica para agregar o quitar elementos del arreglo `items`: el encuadre y el radar se calculan recorriendo todos los elementos existentes.
+### 5.3. Componentes y archivos principales
 
-Para conservar una composición particular, conviene modificar las coordenadas de los elementos en conjunto. Por ejemplo, una fila horizontal usa valores de `x` progresivos y valores de `y` iguales o cercanos; dos filas usan un segundo grupo con un `y` mayor. Si se cambia el orden visual, también puede ser necesario revisar el orden de los elementos en `items`, porque las conexiones siguen ese orden.
+| Archivo | Función |
+| --- | --- |
+| `src/pages/index.astro` | La portada: el Mapa y el Derrotero |
+| `src/components/Mapa.astro` | El lienzo: combina el contenido (`src/data/`) con la estructura (`Derivas.ts`), dibuja las tarjetas y crea el motor |
+| `src/components/Derrotero.astro` | La mitad ordenada del sitio: Inicio, Obras, Bitácora, Escritos, Bio, Contacto y buscador; incluye la costura y su manija |
+| `src/components/Insula.astro`, `Isla.astro`, `Islote.astro` | Las tarjetas del lienzo |
+| `src/components/HUD.astro` | Telemetría (coordenadas, escala, estado) y controles de zoom, centrado y VOLVER |
+| `src/components/RadarMinimapa.astro` | El minimapa colapsable y los accesos rápidos a las derivas |
+| `src/components/Aparejo.astro` | El panel de atajos de las páginas de contenido |
+| `src/components/navegacion/` | Botones comunes de las páginas: VOLVER, Aparejo, menú del Derrotero, cambio de vista, volver arriba |
+| `src/layouts/Layout.astro` | Documento base de la portada |
+| `src/layouts/LayoutCarta.astro` | Documento base de las páginas de contenido: metadatos, transición, Aparejo, Derrotero y vista compartida |
+| `src/cartas/` | Las plantillas de las páginas de contenido (ver `src/cartas/README.md`) |
+| `src/cartas/rutas.ts` | Qué páginas se generan, con qué URL y qué recibe cada carta |
+| `src/utils/markdown.ts` | MIMO, el intérprete de Markdown |
+| `src/utils/paths.ts` | Rutas de archivos y prefijo de la subcarpeta de GitHub Pages |
+| `src/motor/` | Estructura, cámara, motor, fondo generativo y cursor (ver `src/motor/README.md`) |
 
-## 9. Cómo añadir una nueva subderiva
+## 6. Atributos de contenido
 
-Cada subderiva se define en dos lugares relacionados:
+### 6.1. Comunes a ínsulas, islas e islotes
 
-- `src/data/subcursos.ts`: identidad editorial y rutas de contenido.
-- `src/motor/Derivas.ts`: posición y geometría dentro de la deriva local.
+| Atributo | Función |
+| --- | --- |
+| `id` | Vínculo con la estructura en `Derivas.ts` (obligatorio) |
+| `code` | Código visible, por ejemplo `DERIVA:02`, `TFIC:04`, `OBRA:02` |
+| `title`, `subtitle` | Título y subtítulo de la tarjeta y de su página |
+| `description` | Texto breve de la tarjeta (admite negrita e itálica) |
+| `tag` | Etiqueta del encabezado de la tarjeta (una fecha, una categoría) |
+| `accentColor` | Color de acento: borde, línea de recorrido, conexiones de islotes, página |
+| `imageUrl` | Imagen de la tarjeta |
+| `imageCaption` | Pie de la imagen (sin imagen no se muestra) |
+| `markdownFile` | Markdown breve que se muestra dentro de la tarjeta |
+| `pageMarkdownFile` | Markdown de la página editorial. Sin él, el elemento no tiene página |
 
-### Pasos
+Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en columnas; con uno solo, ocupa todo el ancho.
 
-1. Crear la carpeta pública, por ejemplo:
+### 6.2. Ínsulas (`src/data/insulas.ts`)
+
+| Atributo | Función |
+| --- | --- |
+| `name` | Nombre corto del curso, para el HUD y los menús |
+| `headerTypeLabel` | Rótulo del encabezado de la tarjeta, por ejemplo `// BITÁCORA` |
+| `imageMaxHeight` | Altura máxima de la imagen de la tarjeta, en px |
+| `imageBackgroundColor` | Fondo detrás de la imagen |
+| `coverImageUrl` | Portada grande, usada en el Inicio del Derrotero cuando el curso es destacado |
+| `thumbnailImageUrl` | Miniatura cuadrada y liviana, para las grillas del Derrotero |
+| `featured` | `true`: el curso aparece destacado en el Inicio del Derrotero, con sus islas destacadas |
+| `derroteroSection` | `obras`, `bitacora` o `escritos`: la ínsula aparece en esa sección del Derrotero en representación de todo su curso |
+| `refloated` | `true`: el curso no tiene lienzo propio y sus islas salen a flote en el lienzo principal (ver 8.3) |
+| `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
+
+Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren su página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA. La página va en `/{pageUrl}/` o, sin `pageUrl`, en `/{curso}/`.
+
+### 6.3. Islas (`src/data/islas.ts`)
+
+| Atributo | Función |
+| --- | --- |
+| `headerLabel` | Rótulo del encabezado de la tarjeta; también es el título de respaldo si no hay `title` |
+| `keywords` | Palabras clave separadas por comas, que se muestran como etiquetas |
+| `imageDate` | Fecha del pie de la imagen, a la derecha; el Derrotero toma de aquí el año si no lo encuentra en el subtítulo ni en la etiqueta |
+| `imageBackgroundColor` | Fondo detrás de la imagen |
+| `coverImageUrl`, `thumbnailImageUrl` | Portada y miniatura, fuera del lienzo. Sin miniatura, el Derrotero muestra un recuadro gris con el código |
+| `featured` | `true`: aparece en el Inicio del Derrotero |
+| `derroteroSection` | `obras`, `bitacora` o `escritos`: la sección del Derrotero en la que aparece. Sin definir, no aparece en ninguna (salvo en Inicio, si es destacada) |
+| `pageUrl` | URL propia de la página (ver 6.5) |
+| `actionHref` | Destino del botón INCURSIONAR, si debe ser distinto de la página |
+| `detailHref` | Destino del click sobre toda la tarjeta, si debe ser distinto de la página |
+| `showAction` | `false` oculta el botón INCURSIONAR (el click sobre la tarjeta sigue funcionando) |
+
+El botón INCURSIONAR solo aparece si la isla tiene `pageMarkdownFile`.
+
+### 6.4. Islotes (`src/data/islotes.ts`)
+
+| Atributo | Función |
+| --- | --- |
+| `headerLabel` | Rótulo del encabezado |
+| `showHeader` | `false` oculta el encabezado de la tarjeta |
+| `imageMaxHeight` | Altura máxima de la imagen, en px (por defecto, 200) |
+| `backgroundColor` | Color de fondo de la tarjeta |
+| `keywords`, `imageDate` | Como en las islas |
+| `actionHref` | Destino del botón y del click, si no es la página propia |
+| `actionLabel` | Texto del botón (por defecto, `INCURSIONAR [ABRIR]`) |
+| `showAction` | `false` oculta el botón |
+
+Los islotes no aparecen en el Derrotero ni en el Aparejo.
+
+### 6.5. URL de las páginas
+
+| Elemento | URL |
+| --- | --- |
+| Isla | `/{curso}/{subcurso}/`, por ejemplo `/curso00/curso005/` |
+| Islote | `/{curso}/{subcurso del islote}/`, por ejemplo `/curso00/islote003/` |
+| Ínsula | `/{curso}/` |
+| Isla o ínsula con `pageUrl` | `/{pageUrl}/` |
+| Página suelta | `/{nombre-del-archivo}/` |
+
+`pageUrl` se escribe sin barras, solo con minúsculas, números y guiones:
+
+```ts
+pageUrl: 'rebelion-en-la-granja-de-clics',   // → /rebelion-en-la-granja-de-clics/
+```
+
+Los archivos se siguen buscando en la carpeta de siempre. Si una URL propia se repite, o coincide con una carpeta de `public/` (como `curso01`), el build se detiene con un error.
+
+## 7. Cómo añadir una nueva isla (subcurso)
+
+1. Crear la carpeta pública con sus dos subcarpetas:
 
 ```text
 public/curso02/subcursos/curso007/
@@ -301,172 +284,246 @@ public/curso02/subcursos/curso007/
 └── medios/
 ```
 
-2. Copiar o crear dentro de `contenidos/` los archivos `contenido-curso.md` y `pagina-curso.md`, si la subderiva tendrá resumen y página editorial.
-3. Copiar o agregar dentro de `medios/` la portada y los recursos de la subderiva.
-4. Agregar un objeto a `SUBCURSOS` con un `subcurso` y `itemId` únicos. Declarar las rutas con barra inicial, por ejemplo:
+2. Guardar en `contenidos/` los Markdown (el de la tarjeta, el de la página o ambos) y en `medios/` las imágenes. Los nombres son libres; por convención se usan `contenido-curso.md`, `pagina-curso.md`, `portada-curso.jpg` y `miniatura.jpg`.
 
-```ts
-{
-  course: 'curso02',
-  parentDerivaId: 'generativa',
-  subcurso: 'curso007',
-  itemId: 'gen-serie-07',
-  imageUrl: '/curso02/subcursos/curso007/medios/portada-curso.jpg',
-  markdownFile: '/curso02/subcursos/curso007/contenidos/contenido-curso.md',
-  pageMarkdownFile: '/curso02/subcursos/curso007/contenidos/pagina-curso.md',
-  code: 'SUBCURSO:02.7',
-  title: 'Título de la subderiva',
-  subtitle: 'Subtítulo opcional',
-  description: 'Descripción breve opcional.',
-  keywords: 'palabra uno, palabra dos, palabra tres',
-  tag: 'CATEGORÍA',
-  accentColor: '#16253D',
-  categoryLabel: 'TIPO DE PIEZA',
-  timeReference: '2026',
-  captionLabel: 'GEN #07',
-}
-```
-
-5. Agregar en el arreglo `items` del curso correspondiente una definición con el mismo `itemId`, código, tamaño y coordenadas:
+3. En `src/motor/Derivas.ts`, agregar la estructura dentro del arreglo `subcursos` del curso:
 
 ```ts
 {
   id: 'gen-serie-07',
-  code: 'SERIE:07',
-  title: 'Título breve para el canvas',
-  subtitle: 'Referencia breve',
-  summary: 'Resumen de apoyo para la escena espacial.',
-  x: 2800,
+  subcurso: 'curso007',   // su carpeta y el segundo tramo de su URL
+  x: 2800,                // centro de la tarjeta en el lienzo del curso
   y: 0,
-  width: 640,
-  height: 660,
+  ancho: 640,             // ancho de la tarjeta, en px
+  alto: 900,              // altura mínima de la tarjeta, en px
+},
+```
+
+4. En `src/data/islas.ts`, agregar el contenido con el mismo `id`:
+
+```ts
+{
+  id: 'gen-serie-07',
+  derroteroSection: 'obras',
+  imageUrl: 'portada-curso.jpg',
+  thumbnailImageUrl: 'miniatura.jpg',
+  markdownFile: 'contenido-curso.md',
+  pageMarkdownFile: 'pagina-curso.md',
+  code: 'SERIE:07',
+  title: 'Título de la isla',
+  subtitle: 'Subtítulo opcional',
+  tag: '2026',
   accentColor: '#16253D',
-  tag: 'PROCESSING',
-}
+  imageCaption: 'PROCESSING / P5.JS',
+  headerLabel: 'SERIE GENERATIVA',
+},
 ```
 
-6. Si no existe `imageUrl`, la tarjeta sólo mostrará el Markdown. Si no existe `markdownFile`, mostrará únicamente la imagen. Si no existe `pageMarkdownFile`, no mostrará el botón de acceso al detalle.
-7. Ejecutar `npm run build` para que Astro genere automáticamente la nueva ruta `/curso02/curso007/`.
+5. Ejecutar `npm run build`: Astro genera la página `/curso02/curso007/` (o `/{pageUrl}/`), y la isla aparece en el lienzo, el radar, el Aparejo y, según sus atributos, en el Derrotero.
 
-## 10. Cómo crear el Markdown de una subderiva o islote
+El orden de las islas en `subcursos` es el orden de la línea de recorrido que las une en el lienzo.
 
-Hay dos archivos con funciones diferentes:
+## 8. Posiciones y tamaños en el lienzo
 
-- `contenido-curso.md`: resumen breve que aparece dentro de la tarjeta en la deriva local. Es opcional.
-- `pagina-curso.md`: contenido extendido de la página editorial de tercer nivel. Es necesario para que aparezca el botón de detalle de una subderiva.
+Todas las posiciones se definen en `src/motor/Derivas.ts`:
 
-Los archivos deben guardarse en la carpeta pública declarada en `src/data/subcursos.ts` o `src/data/islotes.ts`. Por ejemplo:
+- `x` e `y` son el **centro** de la tarjeta. `x` positivo desplaza hacia la derecha e `y` positivo hacia abajo.
+- `ancho` es el ancho de la tarjeta y `alto` su altura mínima. Conviene que `alto` coincida con la altura real de la tarjeta (se puede medir en el navegador): el motor la usa para centrar la tarjeta, calcular la vista inicial y el minimapa, y dibujar las conexiones.
 
-```text
-public/curso00/subcursos/curso005/contenidos/
-├── contenido-curso.md
-└── pagina-curso.md
+### 8.1. Sistemas de coordenadas
+
+- **Ínsulas**: coordenadas del lienzo principal.
+- **Islas**: coordenadas del lienzo de su curso, independientes del lienzo principal.
+- **Islotes**: las del elemento al que pertenecen (`idSuperior`): un islote de una ínsula usa las del lienzo principal; un islote de una isla, las del lienzo de su curso.
+
+### 8.2. Vista inicial
+
+Al abrir un lienzo, la cámara se centra en el conjunto de las tarjetas, con un zoom del 70 % en escritorio (en el celular, el que hace entrar 1,25 tarjetas de ancho), y se ajusta para que la tarjeta de más arriba quede visible debajo del HUD. Los islotes no cuentan para ese cálculo. El algoritmo completo está en `src/motor/README.md`.
+
+La última vista de cada lienzo se recuerda en el navegador. Para ver la vista inicial después de cambiar posiciones, usar CENTRAR (`R`) o borrar el dato `cursario:vistas` del almacenamiento local del navegador.
+
+### 8.3. Ínsulas reflotadas
+
+En una ínsula con `refloated: true` (en `src/data/insulas.ts`), las coordenadas de sus islas, y de los islotes de esas islas, se escriben **relativas al centro de la ínsula**: al mover la ínsula se mueve todo el conjunto. Así está hoy `arte-electronico` (DERIVA:01).
+
+## 9. Cómo añadir un islote
+
+1. Guardar sus archivos en las carpetas de su curso (`/{curso}/imagenes/` y `/{curso}/contenidos/`), o en otra carpeta escribiendo la ruta completa desde `/`.
+
+2. En `src/motor/Derivas.ts`, agregar la estructura a `DERIVAS_ISLOTES`:
+
+```ts
+{
+  id: 'islote-generativa-02',
+  idSuperior: 'gen-serie-03',   // la ínsula o la isla a la que pertenece
+  subcurso: 'islote019',        // segundo tramo de su URL, si tiene página
+  x: 900,
+  y: -600,
+  ancho: 420,
+  alto: 430,
+},
 ```
 
-El contenido se escribe en Markdown. El conversor actual reconoce:
+3. En `src/data/islotes.ts`, agregar el contenido con el mismo `id`, con los atributos de las secciones 6.1 y 6.4.
+
+El islote se dibuja en el mismo lienzo que su elemento superior, unido a él por una línea fina y punteada.
+
+## 10. Cómo añadir un nuevo curso (ínsula)
+
+1. Crear la carpeta `public/curso05/` con `contenidos/`, `imagenes/` y `subcursos/`.
+
+2. En `src/motor/Derivas.ts`, agregar una entrada a `DERIVAS_INSULAS`:
+
+```ts
+{
+  id: 'nuevo-curso',
+  curso: 'curso05',   // su carpeta y el primer tramo de sus URLs
+  x: 1600,
+  y: 1800,
+  ancho: 760,
+  alto: 1000,
+  subcursos: [],      // sus islas (ver sección 7)
+},
+```
+
+3. En `src/data/insulas.ts`, agregar su contenido con el mismo `id` y un `code` correlativo (`DERIVA:05`). La tarjeta se genera sola en el lienzo principal.
+
+4. Agregar los accesos que hoy están escritos a mano para las cinco derivas:
+   - en `src/components/RadarMinimapa.astro`, un botón con `data-fly-to="nuevo-curso"`;
+   - en `src/motor/MotorCursario.ts`, el atajo de teclado correspondiente (el `switch` de las teclas `0` a `4`).
+
+5. Ejecutar `npm run build` y revisar el lienzo principal, el lienzo del nuevo curso, el radar, el Aparejo y el Derrotero.
+
+El curso punteado en rojo del lienzo principal une las ínsulas en el orden de sus códigos. Un curso sin islas no tiene lienzo propio: su tarjeta no muestra INCURSIONAR.
+
+## 11. Páginas de contenido y cartas
+
+Cada página de contenido la arma una **carta**: una plantilla que decide por completo cómo se muestra su Markdown. El Markdown la elige en su encabezado de datos, entre dos líneas `---` al comienzo del archivo:
+
+```markdown
+---
+carta: cursario
+---
+# Título
+```
+
+Sin encabezado o sin el dato `carta`, se usa el **cartulario**, la carta estándar. Las cartas disponibles son `cartulario`, `cursario` y `generativa`. Si el nombre no corresponde a ninguna, el build falla con un mensaje que lista las disponibles.
+
+Las páginas con una carta distinta del cartulario tienen además una versión en **modo lectura**, armada con el cartulario, en `{URL de la página}cartulario/`, y un control flotante para pasar de una versión a otra. Para elegir qué imágenes aparecen en el modo lectura, se agrega `{lectura}` al final de su línea; con `lectura-imagenes: ninguna` en el encabezado, no aparece ninguna.
+
+Todo lo relativo a las cartas está en `src/cartas/README.md`: qué recibe cada una, cómo se escriben sus estilos para no afectar a las demás, cómo reparten el contenido la carta *cursario* y la *generativa*, y cómo crear una carta nueva (alcanza con crear su carpeta con un `Carta.astro`).
+
+### 11.1. Páginas sueltas
+
+Cada archivo `.md` de `public/paginas/` se publica en `/{nombre-del-archivo}/`. Sus datos van en el encabezado:
+
+```markdown
+---
+carta: cursario
+titulo: Cursario
+codigo: ACERCA DE
+etiqueta: MANIFIESTO V1.0
+color: #0038A8
+descripcion: Acerca del proyecto CURSARIO.
+---
+```
+
+Un archivo con `publicar: no` no se publica como página. Así están `bio.md` y `contacto.md`, que usa el Derrotero:
+
+- `bio.md`: el texto de la sección Bio; el retrato se indica con `retrato:` en el encabezado.
+- `contacto.md`: un dato por título `##`, con su valor debajo; un separador `---` pasa a la columna siguiente.
+
+## 12. Cómo escribir el Markdown
+
+Los Markdown se leen durante la compilación con MIMO (`src/utils/markdown.ts`), un intérprete acotado. Si falta el Markdown de una página (`pageMarkdownFile`), el build se detiene; si falta el de una tarjeta (`markdownFile`), la tarjeta se genera sin texto y el error solo aparece en la consola del build.
+
+### 12.1. Sintaxis reconocida
 
 ```markdown
 # Título principal
 ## Título secundario
 ### Título terciario
 
-Párrafos normales con **negrita**, *cursiva* y `código inline`.
+Párrafos con **negrita**, *itálica*, ***ambas*** y `código en línea`.
+
+- Ítem de una lista sin orden
+* También con asterisco
 
 > Una cita destacada.
 ```
 
-También se pueden insertar separadores y espacios estructurales colocando la cadena correspondiente sola en una línea:
+No se reconocen tablas, listas numeradas ni listas anidadas. Las líneas en blanco no cortan una lista; cualquier otro bloque sí.
+
+### 12.2. Separadores
+
+Una de estas cadenas, sola en una línea (con o sin espacios alrededor), genera un separador:
 
 ```markdown
----   <!-- línea gris con espaciado medio -->
-___   <!-- línea gris fina con poco espaciado -->
-***   <!-- línea negra gruesa con más espaciado -->
-===   <!-- línea doble gris -->
-++   <!-- bloque blanco de separación -->
+---
+___
+***
+===
++++
 ```
 
-Estas cadenas deben ocupar una línea completa, aunque pueden tener espacios en blanco alrededor. La cadena `***` sólo se interpreta como divisor cuando aparece sola; por eso no interfiere con énfasis como `***Cursario***` dentro de un párrafo.
+- `---`: línea gris con espaciado medio.
+- `___`: línea gris fina, con la mitad del espaciado de `---`.
+- `***`: línea negra gruesa con más espaciado. Solo se interpreta así cuando está sola, así que no interfiere con `***énfasis***` dentro de un párrafo.
+- `===`: línea doble gris, sin margen vertical.
+- `+++`: bloque blanco de separación.
 
-Los mismos separadores también pueden utilizarse dentro de una cita, colocando `>` al comienzo de la línea:
+También pueden usarse dentro de una cita, con `>` al comienzo de la línea (`> ---`); allí `+++` reduce su espacio a la mitad.
 
-```markdown
-> ---
-> ___
-> ***
-> ===
-> +++
-```
+El aspecto final de cada separador depende de la carta: lo descripto corresponde al cartulario. Algunas cartas, como *cursario*, usan `---` para repartir el contenido.
 
-`___` utiliza aproximadamente la mitad del espaciado vertical de `---`. `===` no agrega margen ni padding vertical. `+++` genera un bloque de separación reducido; dentro de una cita, ese bloque vuelve a reducirse a la mitad. Los demás separadores conservan sus espaciados diferenciados.
+### 12.3. Imágenes
 
-La lectura del Markdown se hace durante la compilación. Si la ruta no existe o el archivo está vacío, no se generará contenido para esa sección.
-
-### Insertar una imagen
-
-Guardar la imagen dentro de `public/` y referenciarla desde el Markdown con una ruta pública absoluta, comenzando por `/`. Por ejemplo, si el archivo está en:
-
-```text
-public/curso00/subcursos/curso005/medios/recorrido-001.jpg
-```
-
-el Markdown debe contener:
+Guardar la imagen dentro de `public/` y referenciarla con una ruta desde la raíz, comenzando por `/`:
 
 ```markdown
 ![Recorrido por el Arroyo del Rey](/curso00/subcursos/curso005/medios/recorrido-001.jpg)
 ```
 
-No usar una ruta relativa al propio archivo Markdown como `./medios/recorrido-001.jpg`. En el sitio, `/` representa la raíz pública del dominio. Las imágenes de las páginas editoriales se muestran de manera responsive, ocupan el ancho disponible y utilizan `lazy loading`.
+No usar rutas relativas al propio Markdown como `./medios/recorrido-001.jpg`. El prefijo de GitHub Pages se agrega solo.
 
-Para agregar una leyenda, escribir el texto en cursiva inmediatamente después del Markdown de la imagen, en la misma línea:
+Para agregar un pie, escribir el texto en itálica inmediatamente después de la imagen, en la misma línea:
 
 ```markdown
 ![Recorrido por el Arroyo del Rey](/curso00/subcursos/curso005/medios/recorrido-001.jpg) *Recorrido del Arroyo del Rey, Longchamps — 31 de agosto de 2026.*
 ```
 
-La leyenda se genera como un elemento `figcaption`, con un tamaño menor y estilo diferenciado del cuerpo editorial.
+En las páginas con modo lectura, la marca `{lectura}` al final de la línea indica que la imagen también se muestra en esa versión.
 
-### Insertar un video de YouTube
+### 12.4. Videos de YouTube
 
-Usar una línea independiente con el identificador de once caracteres del video:
+Una línea independiente con el identificador de once caracteres del video:
 
 ```markdown
 [youtube:nnM_C6h1D_A]
 ```
 
-En un enlace como `https://youtu.be/nnM_C6h1D_A`, el identificador es la parte posterior a la última barra. No incluir la URL completa dentro de la etiqueta. El sitio genera un iframe responsive y lo carga de manera diferida.
-
-La etiqueta debe escribirse sola en una línea. También puede usarse con videos cuyo enlace original tenga el formato `https://www.youtube.com/watch?v=ID`, tomando únicamente el valor de `ID`.
-
-Para un video vertical, como un Short (`https://www.youtube.com/shorts/ID`), se agrega `vertical` después del identificador. El reproductor toma entonces la proporción 9:16, centrado:
+En `https://youtu.be/nnM_C6h1D_A` o `https://www.youtube.com/watch?v=nnM_C6h1D_A`, el identificador es `nnM_C6h1D_A`. Para un video vertical, como un Short, se agrega `vertical`; el reproductor toma la proporción 9:16:
 
 ```markdown
 [youtube:k5DIJFpFXfs vertical]
 ```
 
-### Insertar un enlace externo
+Los videos se cargan en diferido desde `youtube-nocookie.com`.
 
-Se puede agregar un enlace con la sintaxis Markdown habitual:
+### 12.5. Enlaces
 
 ```markdown
 [Repositorio de Cursario en GitHub](https://github.com/gastonmartino/cursario)
 ```
 
-También se reconocen las URLs externas escritas directamente en una línea o dentro de un párrafo:
+También se reconocen las URLs escritas directamente. Los enlaces a otros sitios y a archivos (como un PDF de `public/documentos/`) se abren en una pestaña nueva; los correos (`mailto:`) y las páginas del propio sitio (`/ruta/`), en la misma.
 
-```markdown
-https://github.com/gastonmartino/cursario
-```
+## 13. Comprobaciones antes de publicar
 
-Los enlaces se muestran con el estilo editorial correspondiente y se abren en una pestaña nueva.
-
-## 11. Comprobaciones antes de publicar
-
-Antes de subir una nueva versión:
-
-1. Revisar que todos los nombres de archivos coincidan exactamente con las rutas declaradas, incluyendo mayúsculas y extensiones.
-2. Confirmar que cada `itemId` de `src/data/subcursos.ts` coincida con un `id` del curso correspondiente en `Derivas.ts`.
-3. Comprobar que `pageMarkdownFile` sólo esté definido cuando el archivo existe.
+1. Revisar que los nombres de archivo coincidan exactamente con los declarados, incluyendo mayúsculas, acentos y extensiones (el hosting distingue mayúsculas de minúsculas aunque la computadora no lo haga).
+2. Confirmar que cada `id` de `src/data/` tenga su entrada en `src/motor/Derivas.ts`.
+3. Comprobar que `alto` de las tarjetas nuevas se corresponda con su altura real.
 4. Ejecutar `npm run build` y corregir cualquier error.
-5. Probar la navegación local con `npm run preview`.
-6. Subir el contenido de `dist/` al directorio público del hosting.
+5. Probar la navegación local con `npm run preview`, en escritorio y en un ancho de celular.
+6. Subir el contenido de `dist/` al directorio público del hosting (la instancia de GitHub Pages se publica sola con el push).
 7. Limpiar la caché del navegador o del proveedor si todavía se muestra una versión anterior.
