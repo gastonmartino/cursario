@@ -223,6 +223,21 @@ export const ISLAS: IslaDefinition[] = [
     imageCaption: 'CATÁLOGO DE EFLUENTES',
     headerLabel: 'EMERGENCIA CONVERTIDA EN NORMA',
   },
+  {
+    id: 'bitacora-12',
+    derroteroSection: 'bitacora',
+    imageUrl: 'portada-curso.webp',
+    thumbnailImageUrl: 'miniatura.webp',
+    pageMarkdownFile: 'pagina-curso.md',
+    code: 'TFIC:11',
+    title: 'Marca de agua',
+    subtitle: 'La impropiedad se gana por abandono',
+    description: 'Hay muchas maneras de conquistar un territorio sin necesidad de alambrados, escrituras ni confiscaciones. A veces alcanza simplemente con darlo por disponible. El arroyo conoce bien el procedimiento. Desechar y desentenderse son operaciones mediante las cuales lo propio se vuelve ajeno sin dejar de ejercer dominio. Quien descarga se retira, pero sus efectos se acumulan; quien recibe hereda una carga que nunca eligió. Empresas, instituciones, vecinos: las responsabilidades hacen agua mientras el descuido gana terreno. El arroyo sigue su curso, arrastrando las huellas de presencias que quizás ya no existan. El agua circula pero las marcas persisten. Nadie parece hacerse cargo, pero alguien sigue ganando por abandono.',
+    tag: '11:NOVIEMBRE:26',
+    accentColor: '#E03E2D',
+    imageCaption: 'COLLAGE DIGITAL',
+    headerLabel: 'DOMINIO POR ABANDONO',
+  },
 
 //
  // CURSO:01 - ARTES ELECTRÓNICAS
