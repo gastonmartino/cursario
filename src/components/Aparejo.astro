@@ -30,6 +30,9 @@ const navigationSections = INSULAS.map((deriva) => ({
     ...islas.filter((subcurso) => subcurso.idDeriva === deriva.id && Boolean(subcurso.href)),
   ],
 }));
+
+// Cursos que empiezan plegados en el acordeón, aunque tengan contenido.
+const PLEGADOS_AL_ABRIR = ['en-curso'];
 ---
 
 <!-- Ocupa el lugar de la página y se abre desde su borde izquierdo (el de la
@@ -69,10 +72,11 @@ const navigationSections = INSULAS.map((deriva) => ({
           Inicio
         </a>
 
-        <!-- Los cursos con contenido se muestran desplegados. -->
+        <!-- Los cursos con contenido se muestran desplegados, salvo los de
+             PLEGADOS_AL_ABRIR (la Bitácora, DERIVA:00), que empiezan plegados. -->
         <div class="space-y-1">
           {navigationSections.map((deriva) => {
-            const desplegado = deriva.subcursos.length > 0;
+            const desplegado = deriva.subcursos.length > 0 && !PLEGADOS_AL_ABRIR.includes(deriva.id);
             return (
             <div class="border-b border-ink-border/50">
               <button
