@@ -168,6 +168,19 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageCaption: 'VERTIDO / FUERA DEL SISTEMA',
     headerLabel: 'DESCARGA DE RESPONSABILIDADES',
   },
+  {
+    id: 'islote-bitacora-12-01',
+    showHeader: false,
+    imageUrl: '/curso00/subcursos/curso012/medios/arroyo-del-rey-grabado.webp',
+    code: 'ISLOTE:00.12',
+    title: 'Arroyo del Rey',
+    subtitle: 'Primera marca de apropiación',
+    tag: 'MARCAS / APROPIACIÓN',
+    accentColor: '#E03E2D',
+    imageMaxHeight: 600,
+    imageCaption: 'GRABADO / ARROYO DEL REY',
+    headerLabel: 'ARROYO DEL REY',
+  },
     
     
   // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
