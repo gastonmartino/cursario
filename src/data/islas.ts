@@ -247,9 +247,10 @@ export const ISLAS: IslaDefinition[] = [
     code: 'TFIC:12',
     title: 'Tratado sobre la Impropiedad',
     subtitle: 'La impropiedad se gana por abandono',
-    tag: '15:NOVIEMBRE:26',
+    description: 'La **impropiedad** es el ejerzo o perpetúo facultades de apropiación sin legitimidad suficiente, o más allá de sus límites, haciendo recaer sobre otros las consecuencias.',
+    tag: '11:NOVIEMBRE:26',
     accentColor: '#E03E2D',
-    imageCaption: 'COLLAGE DIGITAL',
+    imageCaption: 'WALKOVER (W.O)',
     headerLabel: 'GLOSARIO INAPROPIADO',
   },
 

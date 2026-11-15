@@ -49,8 +49,10 @@ datos.
 ## Qué recibe una carta (`PropsCarta`)
 
 - **`pagina`**: `titulo`, `subtitulo`, `codigo`, `etiqueta` y `color`. En los
-  subcursos e islotes salen de `src/data/islas.ts` o `islotes.ts`; en las
-  páginas sueltas, del encabezado de datos.
+  subcursos e islotes salen de `src/data/islas.ts` o `islotes.ts` (el
+  subtítulo se puede reemplazar con `subtitulo:` en el encabezado de datos
+  del Markdown, sin cambiar el de la tarjeta); en las páginas sueltas, del
+  encabezado de datos.
 - **`documento`**: el Markdown interpretado por MIMO (`src/utils/markdown.ts`):
   - `datos`: el encabezado de datos, incluidas las opciones de la carta.
   - `bloques`: la lista de bloques en orden (`titulo`, `parrafo`, `lista`,

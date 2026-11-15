@@ -195,8 +195,8 @@ markdownFile: '/curso00/contenidos/islote-01.md',       // → tal cual
 | --- | --- |
 | `id` | Vínculo con la estructura en `Derivas.ts` (obligatorio) |
 | `code` | Código visible, por ejemplo `DERIVA:02`, `TFIC:04`, `OBRA:02` |
-| `title`, `subtitle` | Título y subtítulo de la tarjeta y de su página |
-| `description` | Texto breve de la tarjeta (admite negrita e itálica) |
+| `title`, `subtitle` | Título y subtítulo de la tarjeta y de su página (el de la página se puede reemplazar desde el Markdown; ver 11.2) |
+| `description` | Texto breve de la tarjeta, arriba de la imagen (admite negrita, itálica y enlaces; en el Derrotero se muestra sin marcas) |
 | `tag` | Etiqueta del encabezado de la tarjeta (una fecha, una categoría) |
 | `accentColor` | Color de acento: borde, línea de recorrido, conexiones de islotes, página |
 | `imageUrl` | Imagen de la tarjeta |
@@ -432,6 +432,19 @@ Un archivo con `publicar: no` no se publica como página. Así están `bio.md` y
 
 - `bio.md`: el texto de la sección Bio; el retrato se indica con `retrato:` en el encabezado.
 - `contacto.md`: un dato por título `##`, con su valor debajo; un separador `---` pasa a la columna siguiente.
+
+### 11.2. Otro subtítulo en la página
+
+En las páginas de ínsulas, islas e islotes, el subtítulo que aparece en color arriba del título sale del `subtitle` de `src/data/`, el mismo de la tarjeta. Para usar otro solo en la página, se lo indica en el encabezado de datos del Markdown:
+
+```markdown
+---
+subtitulo: BREVE TRATADO INAPROPIADO
+---
+# La impropiedad se gana por abandono
+```
+
+La tarjeta conserva su `subtitle`.
 
 ## 12. Cómo escribir el Markdown
 

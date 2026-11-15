@@ -3,7 +3,7 @@
 // Lleva a la página del subcurso cuando la tiene.
 import fs from 'node:fs';
 import path from 'node:path';
-import { renderMarkdownToHtml } from '../utils/markdown';
+import { CLASES_TARJETA, renderMarkdownToHtml, renderizarEnLinea } from '../utils/markdown';
 import { withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
@@ -100,6 +100,8 @@ const hasImage = Boolean(imageUrl);
 const hasTitle = Boolean(title);
 const hasSubtitle = Boolean(subtitle);
 const hasDescription = Boolean(description);
+// La descripción admite Markdown en línea: negritas, itálicas y enlaces.
+const descriptionHtml = description ? renderizarEnLinea(description, CLASES_TARJETA) : '';
 const keywordChips = keywords
   ? keywords.split(',').map((keyword) => keyword.trim()).filter(Boolean)
   : [];
@@ -182,9 +184,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
 
     {hasDescription && (
     <div class="mb-4 w-full">
-      <p class="font-sans text-[17px] leading-relaxed text-ink-muted">
-        {description}
-      </p>
+      <p class="font-sans text-[17px] leading-relaxed text-ink-muted" set:html={descriptionHtml} />
     </div>
     )}
 

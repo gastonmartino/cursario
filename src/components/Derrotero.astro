@@ -50,6 +50,10 @@ const anioDe = (...textos: Array<string | null | undefined>) =>
 
 const ordenCurso = (id: string) => INSULAS.findIndex((curso) => curso.id === id);
 
+// Las descripciones pueden tener negritas e itálicas en Markdown; en el
+// Derrotero se muestran como texto llano.
+const sinMarcas = (texto?: string | null) => texto?.replace(/\*+|__/g, '') ?? '';
+
 const piezas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
   const curso = INSULAS.find((insula) => insula.id === ubicacion.idDeriva);
@@ -59,7 +63,7 @@ const piezas = ISLAS.map((isla) => {
     id: isla.id,
     codigo: isla.code,
     titulo,
-    descripcion: isla.description ?? isla.subtitle ?? '',
+    descripcion: sinMarcas(isla.description) || isla.subtitle || '',
     etiqueta: isla.tag,
     anio: anioDe(isla.subtitle, isla.tag, isla.imageDate),
     tecnica: curso?.name ?? '',
@@ -69,7 +73,7 @@ const piezas = ISLAS.map((isla) => {
     seccion: isla.derroteroSection ?? null,
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
-    textoBusqueda: [titulo, isla.code, isla.subtitle, isla.description, isla.tag, isla.keywords, isla.headerLabel, curso?.name]
+    textoBusqueda: [titulo, isla.code, isla.subtitle, sinMarcas(isla.description), isla.tag, isla.keywords, isla.headerLabel, curso?.name]
       .filter(Boolean).join(' '),
   };
 });
@@ -79,7 +83,6 @@ const piezas = ISLAS.map((isla) => {
 // a su página editorial, si tienen (pageMarkdownFile).
 const piezasDeInsulas = INSULAS.filter((insula) => insula.derroteroSection).map((insula) => {
   const ubicacion = ubicar(insula.id);
-  const sinMarcas = (texto?: string | null) => texto?.replace(/\*\*|__/g, '') ?? '';
   return {
     id: insula.id,
     codigo: insula.code,
