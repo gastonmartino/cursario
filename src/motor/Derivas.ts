@@ -261,6 +261,14 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         ancho: 640,
         alto: 1382,
       },
+      {
+        id: 'bitacora-13',
+        subcurso: 'curso013',
+        x: 3658,
+        y: 131,
+        ancho: 640,
+        alto: 919,
+      },
     ]
   },
   {

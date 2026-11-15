@@ -238,6 +238,20 @@ export const ISLAS: IslaDefinition[] = [
     imageCaption: 'COLLAGE DIGITAL',
     headerLabel: 'APROPIACIÓN X CONTAMINACIÓN',
   },
+  {
+    id: 'bitacora-13',
+    derroteroSection: 'bitacora',
+    imageUrl: 'portada-curso.webp',
+    thumbnailImageUrl: 'miniatura.webp',
+    pageMarkdownFile: 'pagina-curso.md',
+    code: 'TFIC:12',
+    title: 'Tratado sobre la Impropiedad',
+    subtitle: 'La impropiedad se gana por abandono',
+    tag: '15:NOVIEMBRE:26',
+    accentColor: '#E03E2D',
+    imageCaption: 'COLLAGE DIGITAL',
+    headerLabel: 'GLOSARIO INAPROPIADO',
+  },
 
 //
  // CURSO:01 - ARTES ELECTRÓNICAS
