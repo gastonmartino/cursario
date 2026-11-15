@@ -1,6 +1,3 @@
----
-subtitulo: BREVE TRATADO INAPROPIADO
----
 # La impropiedad se gana por abandono
 
 La **impropiedad** es el conjunto de operaciones mediante las cuales lo que se declara disponible puede ser apropiado, utilizado o degradado sin necesidad de poseerlo legítimamente. Una forma de dominio que se ejerce mediante marcas persistentes, derechos presumidos, responsabilidades desplazadas y usos que exceden lo propio. La **impropiedad** no es, entonces, la ausencia de propiedad, sino una manera impropia de ejercerla, reclamarla o sustituirla. Una forma de apropiarse sin poseer, de beneficiarse sin hacerse cargo y, en definitiva, de **ganar por abandono**.

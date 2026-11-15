@@ -67,9 +67,7 @@ function paginasDeSubcursos() {
     const props: PropsCarta = {
       pagina: {
         titulo: data.title ?? '',
-        // El encabezado de datos del Markdown puede reemplazar el subtítulo
-        // en la página (subtitulo: …), sin cambiar el de la tarjeta.
-        subtitulo: documento.datos.subtitulo ?? data.subtitle ?? '',
+        subtitulo: data.subtitle ?? '',
         codigo: data.code,
         etiqueta: data.tag,
         color: data.accentColor,
@@ -102,7 +100,7 @@ function paginasDeInsulas() {
     const props: PropsCarta = {
       pagina: {
         titulo: insula.title,
-        subtitulo: documento.datos.subtitulo ?? insula.subtitle ?? '',
+        subtitulo: insula.subtitle ?? '',
         codigo: insula.code,
         etiqueta: insula.tag,
         color: insula.accentColor,
