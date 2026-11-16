@@ -3,16 +3,30 @@
 // - las sueltas (como "Acerca de"): cada archivo .md de public/paginas/ se
 //   publica en /{nombre-del-archivo}/. Sus datos (título, código, etiqueta,
 //   color, descripción) van en el encabezado del archivo;
-// - las de los subcursos con URL propia (pageUrl, en src/data/islas.ts).
-// Cada una la arma la carta que elige su Markdown (ver src/cartas/index.ts).
+// - las de los subcursos con URL propia (pageUrl, en src/data/islas.ts);
+// - los atajos a los lienzos de los cursos (alias, en src/data/insulas.ts):
+//   el Mapa de la portada, abierto en el lienzo del curso con todas sus islas
+//   a la vista.
+// Cada página de contenido la arma la carta que elige su Markdown (ver
+// src/cartas/index.ts).
+import Layout from '../layouts/Layout.astro';
+import Mapa from '../components/Mapa.astro';
 import { obtenerCarta, type PropsCarta } from '../cartas';
 import { rutasDeUnTramo } from '../cartas/rutas';
 
 export const getStaticPaths = rutasDeUnTramo;
 
-type Props = PropsCarta;
+type Props = PropsCarta | { atajo: { deriva: string } };
 
-const Carta = obtenerCarta(Astro.props.documento.datos.carta);
+const props = Astro.props;
+const atajo = 'atajo' in props ? props.atajo : null;
+const Carta = atajo ? null : obtenerCarta((props as PropsCarta).documento.datos.carta);
 ---
 
-<Carta {...Astro.props} />
+{atajo ? (
+  <Layout title="GASTÓN MARTINO // CURSARIO • Bitácora de Derivas">
+    <main class="w-full h-full relative overflow-hidden">
+      <Mapa derivaInicial={atajo.deriva} />
+    </main>
+  </Layout>
+) : Carta && <Carta {...(props as PropsCarta)} />}

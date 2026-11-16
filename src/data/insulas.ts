@@ -59,6 +59,12 @@ export interface InsulaDefinition {
   // principal.
   pageMarkdownFile?: string | null;
   pageUrl?: string | null;
+
+  // Atajo al lienzo del curso: una URL corta, /{alias}/, que abre el Mapa
+  // directamente en ese lienzo con todas sus islas e islotes a la vista (ver
+  // encuadrar, en src/motor/MotorCursario.ts). Solo minúsculas, números y
+  // guiones, sin barras. /?deriva={id} sigue funcionando como siempre.
+  alias?: string;
 }
 
 export const INSULAS: InsulaDefinition[] = [
@@ -75,6 +81,7 @@ export const INSULAS: InsulaDefinition[] = [
     markdownFile: 'curso00-inicio.md',
     imageCaption: 'BITÁCORA / TFIC / MAE',
     imageMaxHeight: 380,
+    alias: 'bitacora',
   },
   {
     id: 'arte-electronico',

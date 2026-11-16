@@ -70,6 +70,15 @@ isla o islote) abre el lienzo donde está esa tarjeta y la enfoca
 (`enfocarTarjeta`): su esquina superior izquierda queda arriba a la izquierda,
 debajo del encabezado y del HUD, con el zoom de la vista inicial del lienzo.
 
+Un curso con `alias` (en `src/data/insulas.ts`) tiene además un atajo,
+`/{alias}/` (por ejemplo, `/bitacora/`): la misma portada, que abre el lienzo
+del curso con todas sus islas e islotes a la vista (`encuadrar` y
+`vistaEncuadre`), debajo del encabezado y del HUD. Para que entren, ese
+encuadre puede alejarse hasta un zoom de 0,22 (`ZOOM_MINIMO_ENCUADRE`), algo
+más que el mínimo de la cámara; si aun así no entran, el conjunto se centra a
+lo ancho y se muestra desde arriba. La vista se guarda como automática, así
+que `/?deriva={id}` conserva su vista inicial de siempre.
+
 ### Ínsulas reflotadas
 
 Una ínsula con `refloated: true` (en `src/data/insulas.ts`) no tiene lienzo

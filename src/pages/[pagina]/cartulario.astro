@@ -2,9 +2,11 @@
 // Versión de modo lectura de las páginas de un solo tramo con carta propia:
 // el mismo contenido, armado con el cartulario (ver src/cartas/rutas.ts).
 import { obtenerCarta, type PropsCarta } from '../../cartas';
-import { rutasDeLectura, rutasDeUnTramo } from '../../cartas/rutas';
+import { esAtajo, rutasDeLectura, rutasDeUnTramo, type RutaCarta } from '../../cartas/rutas';
 
-export const getStaticPaths = () => rutasDeLectura(rutasDeUnTramo());
+// Los atajos (alias de los cursos) no son páginas de contenido: no tienen modo lectura.
+export const getStaticPaths = () =>
+  rutasDeLectura(rutasDeUnTramo().filter((ruta): ruta is RutaCarta<{ pagina: string }> => !esAtajo(ruta)));
 
 type Props = PropsCarta;
 

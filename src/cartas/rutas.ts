@@ -13,7 +13,7 @@ import { tieneLienzo, ubicar, urlPropia } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { cargarDocumento, documentoDeLectura, tieneModoLectura, type PropsCarta } from './index';
 
-interface RutaCarta<P> {
+export interface RutaCarta<P> {
   params: P;
   props: PropsCarta;
 }
@@ -127,16 +127,37 @@ function rutasConUrlPropia(): RutaCarta<{ pagina: string }>[] {
     .map(({ url, props }) => conVistas({ params: { pagina: url.slice(1, -1) }, props }, url));
 }
 
-// Todas las páginas de un solo tramo (src/pages/[pagina].astro): las sueltas y
-// las de URL propia. Si una URL se repite, o coincide con una carpeta de
+// Atajos a los lienzos de los cursos (alias, en src/data/insulas.ts): /{alias}/
+// muestra el Mapa con ese lienzo abierto y todas sus islas a la vista.
+export interface RutaAtajo {
+  params: { pagina: string };
+  props: { atajo: { deriva: string } };
+}
+
+export const esAtajo = (ruta: RutaCarta<unknown> | RutaAtajo): ruta is RutaAtajo => 'atajo' in ruta.props;
+
+export function rutasDeAtajos(): RutaAtajo[] {
+  return INSULAS.filter((insula) => insula.alias).map((insula) => {
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(insula.alias!)) {
+      throw new Error(`El alias "${insula.alias}" de "${insula.id}" (src/data/insulas.ts) solo puede tener minúsculas, números y guiones, sin barras`);
+    }
+    if (!tieneLienzo(insula.id)) {
+      throw new Error(`El alias "${insula.alias}" es de "${insula.id}", que no tiene lienzo propio`);
+    }
+    return { params: { pagina: insula.alias! }, props: { atajo: { deriva: insula.id } } };
+  });
+}
+
+// Todas las páginas de un solo tramo (src/pages/[pagina].astro): las sueltas,
+// las de URL propia y los atajos. Si una URL se repite, o coincide con una carpeta de
 // public/ (como /curso01/), el build se detiene.
-export function rutasDeUnTramo(): RutaCarta<{ pagina: string }>[] {
-  const rutas = [...rutasPaginasSueltas(), ...rutasConUrlPropia()];
+export function rutasDeUnTramo(): Array<RutaCarta<{ pagina: string }> | RutaAtajo> {
+  const rutas = [...rutasPaginasSueltas(), ...rutasConUrlPropia(), ...rutasDeAtajos()];
   const enPublic = new Set(fs.readdirSync(path.join(process.cwd(), 'public')));
   const usadas = new Set<string>();
   for (const { params: { pagina } } of rutas) {
     if (usadas.has(pagina) || enPublic.has(pagina)) {
-      throw new Error(`La URL /${pagina}/ ya está en uso (otra página suelta, una pageUrl de src/data/islas.ts o una carpeta de public/)`);
+      throw new Error(`La URL /${pagina}/ ya está en uso (otra página suelta, una pageUrl, un alias de src/data/ o una carpeta de public/)`);
     }
     usadas.add(pagina);
   }

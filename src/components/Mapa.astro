@@ -16,6 +16,13 @@ import { posicionReflotada, tieneLienzo, ubicar } from '../motor/Derivas';
 import { resolveFile } from '../utils/paths';
 import { version } from '../../package.json';
 
+// Con derivaInicial (las páginas de atajo, /{alias}/; ver src/pages/[pagina].astro),
+// el Mapa abre ese lienzo con todas sus islas a la vista.
+interface Props {
+  derivaInicial?: string;
+}
+const { derivaInicial } = Astro.props;
+
 const displayVersion = version.split('.').slice(0, 2).join('.');
 
 const formatCoordinate = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
@@ -78,6 +85,7 @@ const islotes = ISLOTES.map((islote) => {
   <canvas 
     id="infinite-canvas" 
     class="absolute inset-0 w-full h-full block touch-none z-10"
+    data-deriva-inicial={derivaInicial}
   ></canvas>
 
   <!-- HTML Spatial Overlay Layer for Islands -->
@@ -516,8 +524,12 @@ const islotes = ISLOTES.map((islote) => {
     const parametros = new URLSearchParams(window.location.search);
     const requestedDeriva = parametros.get('deriva');
     const islaPedida = parametros.get('isla');
+    // En un atajo (/{alias}/), el lienzo del curso con todas sus islas a la vista.
+    const derivaDelAtajo = mainCanvas.dataset.derivaInicial;
     const enfocada = islaPedida ? controller.enfocarTarjeta(islaPedida) : false;
-    if (!enfocada && requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
+    if (!enfocada && derivaDelAtajo) {
+      controller.encuadrar(derivaDelAtajo);
+    } else if (!enfocada && requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);
     }
 

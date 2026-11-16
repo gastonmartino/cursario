@@ -46,6 +46,10 @@ const MARGEN_IZQUIERDO_MOVIL = 16;
 // a MARGEN_SUPERIOR del borde de arriba y a este margen del izquierdo (en
 // pantallas chicas, a MARGEN_IZQUIERDO_MOVIL), debajo del encabezado y del HUD.
 const MARGEN_IZQUIERDO = 24;
+// El encuadre completo de los atajos (vistaEncuadre) puede alejarse algo más
+// que el zoom mínimo de la cámara, hasta donde las tarjetas siguen visibles
+// (por debajo de 0,22 se ocultan; ver syncSpatialDomNodes).
+const ZOOM_MINIMO_ENCUADRE = 0.22;
 
 // La última vista de cada lienzo ("macro" o el id de cada curso) se recuerda
 // en el navegador: al volver a un lienzo, se lo encuentra como se dejó.
@@ -297,10 +301,65 @@ export class MotorCursario {
   // todavía no tiene su ancho definitivo, y también cambia con la costura.
   private vistaAutomatica = false;
 
+  // Encuadre completo (los atajos, /{alias}/): mientras dure, la vista inicial
+  // del lienzo es la que muestra todas sus islas e islotes (vistaEncuadre).
+  private encuadreCompleto = false;
+
   private vistaInicialActual(): Vista {
-    return this.level === 'deriva' && this.activeDeriva
-      ? this.vistaInicialCurso(this.activeDeriva)
-      : this.vistaInicialMacro();
+    if (this.level === 'deriva' && this.activeDeriva) {
+      return this.encuadreCompleto ? this.vistaEncuadre(this.activeDeriva) : this.vistaInicialCurso(this.activeDeriva);
+    }
+    return this.vistaInicialMacro();
+  }
+
+  // La vista que hace entrar en la pantalla todas las islas e islotes del
+  // lienzo de un curso, debajo del encabezado y del HUD (MARGEN_SUPERIOR) y a
+  // MARGEN_IZQUIERDO de los costados y del borde de abajo (en pantallas chicas,
+  // a MARGEN_IZQUIERDO_MOVIL). El zoom no baja de ZOOM_MINIMO_ENCUADRE: si el
+  // conjunto no entra, se centra a lo ancho y se muestra desde arriba.
+  private vistaEncuadre(deriva: DerivaInsula): Vista {
+    const tarjetas = [
+      ...deriva.subcursos,
+      ...DERIVAS_ISLOTES.filter((islote) => this.lienzoDeTarjeta(islote.id) === deriva.id),
+    ];
+    if (tarjetas.length === 0) return this.vistaInicialCurso(deriva);
+    const ancho = this.anchoVista();
+    const alto = this.altoVista();
+    const margen = ancho < ANCHO_MOVIL ? MARGEN_IZQUIERDO_MOVIL : MARGEN_IZQUIERDO;
+    const izquierda = Math.min(...tarjetas.map((t) => t.x - t.ancho / 2));
+    const derecha = Math.max(...tarjetas.map((t) => t.x + t.ancho / 2));
+    const arriba = Math.min(...tarjetas.map((t) => t.y - t.alto / 2));
+    const abajo = Math.max(...tarjetas.map((t) => t.y + t.alto / 2));
+    const anchoUtil = Math.max(1, ancho - margen * 2);
+    const altoUtil = Math.max(1, alto - MARGEN_SUPERIOR - margen);
+    const zoom = Math.max(ZOOM_MINIMO_ENCUADRE, Math.min(this.camera.maxZoom,
+      anchoUtil / (derecha - izquierda), altoUtil / (abajo - arriba)));
+    const x = (izquierda + derecha) / 2;
+    // El centro del espacio útil queda en la pantalla en MARGEN_SUPERIOR +
+    // altoUtil / 2; si el conjunto es más alto que ese espacio, se alinea arriba.
+    const y = (abajo - arriba) * zoom <= altoUtil
+      ? (arriba + abajo) / 2 - (MARGEN_SUPERIOR + altoUtil / 2 - alto / 2) / zoom
+      : arriba - (MARGEN_SUPERIOR - alto / 2) / zoom;
+    return { x, y, zoom };
+  }
+
+  // El zoom mínimo de los vuelos de la cámara: el del encuadre completo
+  // mientras dure; si no, el de la cámara.
+  private zoomMinimo() {
+    return this.encuadreCompleto && this.level === 'deriva' ? ZOOM_MINIMO_ENCUADRE : this.camera.minZoom;
+  }
+
+  // Abre el lienzo de un curso con todas sus islas a la vista (los atajos,
+  // /{alias}/). La vista sigue siendo la automática: se recalcula si cambia el
+  // tamaño del lienzo, y se guarda como tal, así que /?deriva={id} conserva
+  // su vista inicial de siempre.
+  public encuadrar(derivaId: string) {
+    if (!tieneLienzo(derivaId)) {
+      this.incursionar(derivaId);
+      return;
+    }
+    this.encuadreCompleto = true;
+    this.incursionar(derivaId);
   }
 
   // La vista recordada de un lienzo, o la inicial si no hay o era automática.
@@ -796,11 +855,19 @@ export class MotorCursario {
     // Se entra desde un poco más lejos, con un acercamiento.
     const enfocada = enfoque ? this.vistaEnTarjeta(enfoque) : null;
     if (enfocada) this.vistaAutomatica = false;
-    const vista = enfocada ?? this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
+    let vista: Vista;
+    if (enfocada) {
+      vista = enfocada;
+    } else if (this.encuadreCompleto) {
+      vista = this.vistaEncuadre(targetDeriva);
+      this.vistaAutomatica = true;
+    } else {
+      vista = this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
+    }
     this.camera.x = vista.x;
     this.camera.y = vista.y;
     this.camera.zoom = Math.min(0.5, vista.zoom);
-    this.camera.flyTo(vista.x, vista.y, vista.zoom);
+    this.camera.flyTo(vista.x, vista.y, vista.zoom, this.zoomMinimo());
     this.despertar(true, true);
   }
 
@@ -816,6 +883,7 @@ export class MotorCursario {
 
     this.level = 'macro';
     this.activeDeriva = null;
+    this.encuadreCompleto = false;
     this.hoveredItem = null;
 
     // El lienzo principal como se dejó o, si nunca se lo vio (se llegó
@@ -850,7 +918,7 @@ export class MotorCursario {
   public resetView() {
     const vista = this.vistaInicialActual();
     this.vistaAutomatica = true;
-    this.camera.flyTo(vista.x, vista.y, vista.zoom);
+    this.camera.flyTo(vista.x, vista.y, vista.zoom, this.zoomMinimo());
     this.despertar();
   }
 

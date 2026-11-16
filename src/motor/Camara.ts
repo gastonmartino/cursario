@@ -89,7 +89,9 @@ export class Camara {
 
   public zoomAt(deltaZoom: number, screenX: number, screenY: number, viewportWidth: number, viewportHeight: number) {
     const prevZoom = this.targetZoom;
-    const newZoom = Math.min(this.maxZoom, Math.max(this.minZoom, prevZoom * deltaZoom));
+    // Si la vista quedó por debajo del mínimo (el encuadre de los atajos puede
+    // alejarse un poco más), alejarse no la acerca de golpe al mínimo.
+    const newZoom = Math.min(this.maxZoom, Math.max(Math.min(this.minZoom, prevZoom), prevZoom * deltaZoom));
     
     if (newZoom === prevZoom) return;
 
@@ -109,10 +111,11 @@ export class Camara {
     this.targetY += dy / this.zoom;
   }
 
-  public flyTo(worldX: number, worldY: number, zoomLevel = 1.0) {
+  // `minimo` permite, en casos puntuales, un zoom menor que minZoom.
+  public flyTo(worldX: number, worldY: number, zoomLevel = 1.0, minimo = this.minZoom) {
     this.targetX = worldX;
     this.targetY = worldY;
-    this.targetZoom = Math.min(this.maxZoom, Math.max(this.minZoom, zoomLevel));
+    this.targetZoom = Math.min(this.maxZoom, Math.max(minimo, zoomLevel));
     this.vx = 0;
     this.vy = 0;
   }
