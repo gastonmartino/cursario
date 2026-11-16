@@ -188,7 +188,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     code: 'ISLOTE:00.13',
     title: 'ENTREGA DEL ESCRITO FINAL',
     subtitle: 'Taller de Trabajo Final 2026',
-    description: 'Enlace para descargar el escrito: [escrito-entrega-taller-TFIC.pdf](/documentos/escrito-entrega-taller-tfic.pdf)',
+    description: 'Enlace para descargar el escrito: [escrito-taller-tfic.pdf](/documentos/escrito-taller-tfic.pdf)',
     tag: '17:NOVIEMBRE:26',
     accentColor: '#E03E2D',
     imageMaxHeight: 600,
