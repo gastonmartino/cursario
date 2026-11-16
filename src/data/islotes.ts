@@ -183,7 +183,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
   },
   {
     id: 'islote-bitacora-13-01',
-    showHeader: false,
+    showHeader: true,
     imageUrl: '/curso00/subcursos/curso013/medios/plano-catastral-arroyo-del-rey.webp',
     code: 'ISLOTE:00.13',
     title: 'ENTREGA DEL ESCRITO FINAL',
