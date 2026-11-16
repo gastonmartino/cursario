@@ -181,6 +181,20 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageCaption: 'GRABADO / ARROYO DEL REY',
     headerLabel: 'ARROYO DEL REY',
   },
+  {
+    id: 'islote-bitacora-13-01',
+    showHeader: false,
+    imageUrl: '/curso00/subcursos/curso013/medios/plano-catastral-arroyo-del-rey.webp',
+    code: 'ISLOTE:00.13',
+    title: 'ENTREGA DEL ESCRITO FINAL',
+    subtitle: 'Taller de Trabajo Final 2026',
+    description: 'Enlace para descargar el escrito: [escrito-entrega-taller-TFIC.pdf](/documentos/escrito-entrega-taller-tfic.pdf)',
+    tag: '17:NOVIEMBRE:26',
+    accentColor: '#E03E2D',
+    imageMaxHeight: 600,
+    imageCaption: 'PLANO CATASTRAL / ARROYO DEL REY',
+    headerLabel: 'ENTREGA DEL ESCRITO FINAL',
+  },
     
     
   // ISLOTES DEL CURSO:01 / SUBDERIVAS "ARTE ELECTRÓNICO"
