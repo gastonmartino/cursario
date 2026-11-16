@@ -185,7 +185,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     id: 'islote-bitacora-13-01',
     showHeader: true,
     imageUrl: '/curso00/subcursos/curso013/medios/plano-catastral-arroyo-del-rey.webp',
-    code: 'ISLOTE:00.13',
+    code: 'CIERRE DE CURSADA 2026',
     title: 'ENTREGA DEL ESCRITO FINAL',
     subtitle: 'Taller de Trabajo Final 2026',
     description: 'Enlace para descargar el escrito: [escrito-taller-tfic.pdf](/documentos/escrito-taller-tfic.pdf)',
