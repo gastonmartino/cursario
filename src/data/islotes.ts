@@ -200,7 +200,8 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showHeader: false,
     code: 'ISLOTE:00.13',
     title: 'Preguntas de investigación',
-    subtitle: 'Marcas de impropiedad',
+    subtitle: 'MARCAS DE IMPROPIEDAD',
+    backgroundColor: '#ffffff',
     description: `- ¿De qué maneras puede ejercerse dominio o demarcar territorios sin necesidad de poseerlos?
 - ¿Cómo intervienen las marcas históricas de propiedad, las prácticas contemporáneas de contaminación y los mecanismos de desplazamiento de responsabilidades en la producción de estas formas de impropiedad?
 - ¿Qué formas de conocimiento pueden producirse mediante operaciones artísticas que trabajan con esas marcas? ¿Es posible investigar un territorio sin también marcarlo y convertirlo en objeto de conocimiento, representación o autoría?`,
