@@ -8,15 +8,27 @@
 // mitad (ver los estilos de Derrotero.astro), salvo sin vista compartida
 // (menos de 1024 px): ahí se arranca con el Derrotero completo, es decir, en
 // la portada se ve solo el Derrotero y no el Mapa.
+//
+// En los atajos a los lienzos (/{alias}/, con alMapa) se tiene que ver el
+// Mapa: si el Derrotero lo cubriría (completo, guardado o por defecto en el
+// celular), se cierra, como al pasar al Mapa con su botón.
+interface Props {
+  alMapa?: boolean;
+}
+
+const { alMapa = false } = Astro.props;
 ---
 
-<script is:inline>
+<script is:inline define:vars={{ alMapa }}>
   try {
     const guardada = localStorage.getItem('cursario:derrotero');
+    let posicion = null;
     if (guardada === 'cerrado' || guardada === 'mitad' || guardada === 'completo') {
-      document.documentElement.dataset.derrotero = guardada;
+      posicion = guardada;
     } else if (window.matchMedia('(max-width: 1023.98px)').matches) {
-      document.documentElement.dataset.derrotero = 'completo';
+      posicion = 'completo';
     }
+    if (alMapa && posicion === 'completo') posicion = 'cerrado';
+    if (posicion) document.documentElement.dataset.derrotero = posicion;
   } catch {}
 </script>

@@ -8,9 +8,13 @@ import { withBase } from '../utils/paths';
 interface Props {
   title?: string;
   description?: string;
+  // En los atajos a los lienzos (/{alias}/): se abre siempre en el Mapa,
+  // nunca con el Derrotero cubriéndolo (ver EstadoDerrotero.astro).
+  alMapa?: boolean;
 }
 
 const { 
+  alMapa = false,
   title = "GASTÓN MARTINO // EN CURSO • Bitácora de Derivas",
   description = "Espacio vivo de producción e investigación. Bitácora de artes electrónicas, prácticas generativas, código creativo, diseño y pensamiento.",
 } = Astro.props;
@@ -20,7 +24,7 @@ const {
 <html lang="es" class="contexto-mapa h-full select-none bg-paper-base">
   <head>
     <meta charset="UTF-8" />
-    <EstadoDerrotero />
+    <EstadoDerrotero alMapa={alMapa} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />

@@ -77,7 +77,9 @@ del curso con todas sus islas e islotes a la vista (`encuadrar` y
 encuadre puede alejarse hasta un zoom de 0,22 (`ZOOM_MINIMO_ENCUADRE`), algo
 más que el mínimo de la cámara; si aun así no entran, el conjunto se centra a
 lo ancho y se muestra desde arriba. La vista se guarda como automática, así
-que `/?deriva={id}` conserva su vista inicial de siempre.
+que `/?deriva={id}` conserva su vista inicial de siempre. Un atajo siempre
+muestra el Mapa: si el Derrotero lo cubriría (la costura en completo, guardada
+o por defecto en el celular), se cierra (`EstadoDerrotero.astro`).
 
 ### Ínsulas reflotadas
 

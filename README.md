@@ -664,6 +664,14 @@ La última vista de cada lienzo (posición y zoom) se recuerda en el navegador. 
 
 Las URL de la portada aceptan parámetros: `/?deriva={id}` abre el lienzo de ese curso, y `/?deriva={id}&isla={id}` además enfoca una tarjeta (así funcionan VOLVER y VER EL MAPA desde las páginas).
 
+#### Atajos a los lienzos
+
+Un curso con `alias` (en `src/data/insulas.ts`) tiene además una URL corta que abre directamente su lienzo con todas sus islas e islotes a la vista. Hoy la tiene la Bitácora: **`/bitacora/`**.
+
+-   Es la misma portada, con el lienzo del curso encuadrado debajo del encabezado y del HUD. Para que entre todo, el zoom puede alejarse hasta 0,22.
+-   Siempre muestra el Mapa: si el Derrotero lo cubriría (en el celular, o en escritorio con la costura en *completo*), se cierra.
+-   `/?deriva={id}` sigue funcionando como siempre, con su vista inicial.
+
 ### 11\.7. Páginas de contenido y cartas
 
 Astro genera una página estática por cada ínsula, isla o islote con `pageMarkdownFile`, y por cada archivo `.md` de `public/paginas/` (salvo los que dicen `publicar: no`):
@@ -674,6 +682,7 @@ Astro genera una página estática por cada ínsula, isla o islote con `pageMark
 | Isla o ínsula con `pageUrl` | `/{pageUrl}/` (por ejemplo `/rebelion-en-la-granja-de-clics/`) |
 | Ínsula sin `pageUrl` | `/{curso}/` |
 | Página suelta | `/{nombre-del-archivo}/` (por ejemplo `/acerca-de-cursario/`) |
+| Atajo al lienzo de un curso (`alias`) | `/{alias}/` (por ejemplo `/bitacora/`); no es una página de contenido, sino la portada abierta en ese lienzo |
 | Modo lectura de una página con carta propia | `{URL de la página}cartulario/` |
 
 Cada página la arma la **carta** que elige su Markdown en el encabezado (`carta: …`); sin indicación se usa el **cartulario**, la carta estándar. Las cartas actuales son:

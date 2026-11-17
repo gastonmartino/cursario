@@ -220,7 +220,7 @@ Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en col
 | `derroteroSection` | `obras`, `bitacora` o `escritos`: la ínsula aparece en esa sección del Derrotero en representación de todo su curso |
 | `refloated` | `true`: el curso no tiene lienzo propio y sus islas salen a flote en el lienzo principal (ver 8.3) |
 | `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
-| `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo con todas sus islas e islotes a la vista (por ejemplo, `alias: 'bitacora'` → `/bitacora/`). Solo minúsculas, números y guiones. `/?deriva={id}` sigue funcionando igual |
+| `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo con todas sus islas e islotes a la vista (por ejemplo, `alias: 'bitacora'` → `/bitacora/`). Solo minúsculas, números y guiones. Siempre abre el Mapa, aunque el Derrotero haya quedado abierto. `/?deriva={id}` sigue funcionando igual |
 
 Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren su página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA. La página va en `/{pageUrl}/` o, sin `pageUrl`, en `/{curso}/`.
 
