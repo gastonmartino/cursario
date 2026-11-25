@@ -303,11 +303,16 @@ ventana: con el Derrotero abierto, la página es más angosta):
 
 - **ancha** (desde 1360 px): sobre una lámina de 1280 px, con el texto de cada
   capítulo a dos columnas y sus ventanas al costado;
-- **media** (por debajo, como una tableta): sobre una lámina de 880 px, con el
-  texto en una sola columna y las ventanas flotando a un lado, intercaladas
-  entre los párrafos (y el video a todo el ancho).
+- **media** (de 960 a 1359 px, como una tableta): sobre una lámina de 880 px,
+  con el texto en una sola columna y las ventanas flotando a un lado,
+  intercaladas entre los párrafos (y el video a todo el ancho);
+- **angosta** (por debajo de 960 px, del celular a una tableta vertical
+  chica): fluida, sin escalar, hasta 720 px de ancho. Todo en una sola columna
+  y en el orden de lectura: las ventanas van entre los párrafos, a todo el
+  ancho; las barras del sistema muestran solo lo esencial (la barra de tareas,
+  solo los números de los capítulos).
 
-La lámina se escala (`zoom`) al lugar de la página. Un script en línea elige
+En la ancha y la media, la lámina se escala (`zoom`) al lugar de la página. Un script en línea elige
 la composición antes de dibujar (`data-hm-composicion` en `<html>`), y la
 cambia si cambia el ancho. Arriba, una barra de menú con la navegación
 (VOLVER, el Aparejo, VER EL MAPA y el Derrotero); abajo, una barra de tareas

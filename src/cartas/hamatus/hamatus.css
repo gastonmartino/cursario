@@ -1486,3 +1486,318 @@ html.html-hamatus[data-hm-composicion='media'] .hm-referencias {
 html.html-hamatus[data-hm-composicion='media'] .hm-referencias__susurro {
   margin: 50px 0 0 120px;
 }
+
+/* ===========================================================================
+   COMPOSICIÓN ANGOSTA (lugar de la página de menos de 960 px, del celular a
+   una tableta vertical chica): fluida, sin escalar. Todo en una sola columna,
+   en el orden de lectura; las medidas que dependen del ancho usan cqw (el
+   ancho de la lámina).
+   =========================================================================== */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-lamina {
+  container-type: inline-size;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 18px 0 46px;
+}
+
+/* --- Barras del sistema: lo esencial --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-menu-sistema__item {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-tareas__nombre {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-tareas__lista a {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 560px) {
+  html.html-hamatus[data-hm-composicion='angosta'] .hm-menu-sistema__rotulo,
+  html.html-hamatus[data-hm-composicion='angosta'] .hm-tareas__reloj {
+    display: none;
+  }
+}
+
+/* --- Portada --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  padding: 36px 0 70px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__mapa {
+  top: 40px;
+  right: -55cqw;
+  width: 120cqw;
+  opacity: 0.55;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__etiqueta,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__titulo,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__bajada,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-escritorio {
+  position: relative;
+  top: auto;
+  left: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__etiqueta {
+  font-size: 11px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__titulo {
+  margin-top: 18px;
+  font-size: min(25cqw, 168px);
+}
+
+/* El alargamiento (scaleY) no ocupa lugar: se lo compensa con el margen. */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__titulo .hm-falla {
+  margin-bottom: 0.27em;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__bajada {
+  width: auto;
+  max-width: 13em;
+  margin-top: 6px;
+  font-size: min(6.4cqw, 30px);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-portada__foto {
+  position: relative !important;
+  top: auto;
+  left: auto;
+  align-self: flex-end;
+  width: min(100%, 440px);
+  margin-top: 34px;
+  transform: rotate(1.2deg);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-escritorio {
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 36px;
+}
+
+/* --- Prólogo --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  padding: 0 0 90px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-ficha,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-sitios {
+  width: 100%;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-ficha__nombre {
+  font-size: min(7.5cqw, 34px);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-ficha__texto {
+  font-size: 18px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-lista-chequeo {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pestanas span:nth-child(n + 3) {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-sitios {
+  transform: rotate(-0.8deg);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__laminas {
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: 0;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina + .hm-prologo__lamina {
+  margin-top: 0;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina--vertical {
+  width: min(100%, 420px);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina--vertical .hm-lamina-img {
+  width: 100%;
+  height: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__susurro {
+  position: static;
+  align-self: center;
+  font-size: 22px;
+}
+
+/* --- Estratos: el texto y, entre los párrafos, las piezas a todo el ancho --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato {
+  display: block;
+  padding: 64px 0 90px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__mapa,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato--espejo .hm-estrato__mapa {
+  top: 30px;
+  width: 130cqw;
+  opacity: 0.25;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__mapa {
+  right: -70cqw;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato--espejo .hm-estrato__mapa {
+  right: auto;
+  left: -70cqw;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__encabezado {
+  margin-bottom: 30px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__encabezado .hm-etiqueta {
+  font-size: 10.5px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__titulo {
+  font-size: min(14cqw, 96px);
+  margin-bottom: 0.2em;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__texto,
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__piezas {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__flujo {
+  position: relative;
+  z-index: 3;
+  display: flow-root;
+  font: 400 17px/1.6 var(--hm-sans);
+  hyphens: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__flujo > p + p {
+  margin-top: 0.9em;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato__flujo > p:not(.hm-susurro):first-of-type::first-line {
+  font-family: var(--hm-mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pieza--flotante {
+  display: block;
+  width: 100%;
+  margin: 30px 0 34px;
+  transform: rotate(0.7deg);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pieza--flotante:nth-of-type(even) {
+  transform: rotate(-0.9deg);
+}
+
+/* Una foto sola, un poco más angosta y corrida hacia un lado. */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pieza--flotante.hm-pieza--foto {
+  width: min(88%, 460px);
+  margin-left: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-estrato--espejo .hm-pieza--flotante.hm-pieza--foto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pieza--flotante.hm-pieza--vertical {
+  width: min(100%, 420px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-pieza--flotante.hm-pieza--vertical .hm-lamina-img {
+  width: 100%;
+  height: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-susurro--nota {
+  margin: 22px 0 22px 14px;
+  font-size: 22px;
+  mix-blend-mode: multiply;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-susurro--nota::before {
+  content: "“";
+  font-family: var(--hm-serif);
+  color: var(--hm-rojo);
+}
+
+/* Las láminas de fondo, contra los bordes y tenues. */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-lamina-fondo {
+  width: 62cqw;
+  opacity: 0.4;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-lamina-fondo--1 {
+  top: 220px;
+  right: -36cqw;
+  left: auto;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-lamina-fondo--2 {
+  top: 55%;
+  left: -40cqw;
+  right: auto;
+}
+
+/* --- Referencias: cada fuente como un renglón de la carpeta --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-referencias {
+  padding: 60px 0 120px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-detalles thead {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-detalles tr {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 6px 4px;
+  border-bottom: 1px dotted var(--hm-sombra);
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-detalles td {
+  padding: 2px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-detalles td:last-child {
+  grid-column: 1 / -1;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-referencias__susurro {
+  margin: 40px 0 0;
+  font-size: 22px;
+}
+
+/* --- Visor --- */
+html.html-hamatus[data-hm-composicion='angosta'] .hm-visor {
+  padding: 8px;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-visor__herramientas {
+  flex-wrap: wrap;
+}
