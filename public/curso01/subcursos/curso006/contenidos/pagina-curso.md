@@ -1,5 +1,3 @@
-# Fuera de temporada
-
 ![Afiche de Fuera de temporada: una manzana negra mordida, con la mordida en rojo y un LED en lugar de la hoja. Dispositivos impenitentes: la reincidencia como nuevo pecado original](/curso01/subcursos/curso006/medios/afiche.webp)
 
 ## El pecado de persistir

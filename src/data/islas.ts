@@ -324,7 +324,7 @@ export const ISLAS: IslaDefinition[] = [
     code: 'OBRA:06',
     title: 'Fuera de temporada',
     subtitle: 'Dispositivos impenitentes: la reincidencia como nuevo pecado original',
-    description: 'Cinco dispositivos que el mercado dio por muertos siguen encendidos sobre un cajón de manzanas negras. Te seducen, te piden que los toques y, cuando cedés, responden: «todavía no acabé». Persistir después de la obsolescencia es el nuevo pecado original.',
+    description: '¿Qué ocurre con los objetos que se resisten a cumplir su sentencia? ¿Qué hacemos con aquello que continúa funcionando después de haber sido declarado obsoleto? ¿Es posible que un dispositivo se vuelva anacrónico sin haber agotado sus posibilidades?',
     tag: 'ARTES ELECTRÓNICAS',
     accentColor: '#0038A8',
     imageCaption: 'OBSOLESCENCIA / REINCIDENCIA / IMPENITENCIA',

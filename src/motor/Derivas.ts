@@ -877,10 +877,10 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     id: 'islote-obra-06',
     idSuperior: 'arte-electronico-06',
     subcurso: 'islote022',
-    x: 1420,
-    y: 1018,
-    ancho: 240,
-    alto: 208,
+    x: 1500,
+    y: 1086,
+    ancho: 400,
+    alto: 343,
   },
     
 
