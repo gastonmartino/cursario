@@ -1,11 +1,14 @@
 // Genera los mapas de Latinoamérica de la carta hamatus (sitios de hallazgo).
 // No es parte del sitio: necesita world-atlas@2, topojson-client@3 y d3-geo@3,
 // instalados aparte (npm i en una carpeta temporal), y se corre desde ahí:
+// Los íconos de los sitios (los ganchos del Homo hamatus) están en iconos.mjs,
+// que va en la misma carpeta.
 //   node mapas.mjs <ruta a src/cartas/hamatus/mapas>
 
 import fs from 'node:fs';
 import { feature } from 'topojson-client';
 import { geoMercator, geoPath, geoGraticule10, geoGraticule } from 'd3-geo';
+import { ICONOS } from './iconos.mjs';
 const out = process.argv[2];
 fs.mkdirSync(out, { recursive: true });
 const load = (f) => JSON.parse(fs.readFileSync(`node_modules/world-atlas/${f}`));
@@ -16,14 +19,14 @@ const paises110 = feature(load('countries-110m.json'), load('countries-110m.json
 
 // Sitios de hallazgo (ficticios, en lugares reales).
 const SITIOS = [
-  { id: 'HH-01', nombre: 'Conurbano bonaerense', lon: -58.4, lat: -34.75 },
-  { id: 'HH-02', nombre: 'Montevideo', lon: -56.17, lat: -34.88, lado: 'abajo' },
-  { id: 'HH-03', nombre: 'Asunción', lon: -57.6, lat: -25.28 },
-  { id: 'HH-04', nombre: 'La Paz', lon: -68.15, lat: -16.5 },
-  { id: 'HH-05', nombre: 'Lima', lon: -77.03, lat: -12.05 },
-  { id: 'HH-06', nombre: 'São Paulo', lon: -46.63, lat: -23.55 },
-  { id: 'HH-07', nombre: 'Ciudad de México', lon: -99.13, lat: 19.43 },
-  { id: 'HH-08', nombre: 'Santiago', lon: -70.65, lat: -33.45 },
+  { id: 'HH-01', nombre: 'Conurbano bonaerense', objeto: 'broche', lon: -58.4, lat: -34.75 },
+  { id: 'HH-02', nombre: 'Montevideo', objeto: 'alfiler', lon: -56.17, lat: -34.88, lado: 'abajo' },
+  { id: 'HH-03', nombre: 'Asunción', objeto: 'percha', lon: -57.6, lat: -25.28 },
+  { id: 'HH-04', nombre: 'La Paz', objeto: 'anzuelo', lon: -68.15, lat: -16.5 },
+  { id: 'HH-05', nombre: 'Lima', objeto: 'carpeta', lon: -77.03, lat: -12.05 },
+  { id: 'HH-06', nombre: 'São Paulo', objeto: 'crochet', lon: -46.63, lat: -23.55 },
+  { id: 'HH-07', nombre: 'Ciudad de México', objeto: 'alfiler', lon: -99.13, lat: 19.43 },
+  { id: 'HH-08', nombre: 'Santiago', objeto: 'percha', lon: -70.65, lat: -33.45 },
 ];
 
 const coord = (v, pos, neg) => `${Math.abs(v).toFixed(2)}°${v >= 0 ? pos : neg}`;
@@ -64,9 +67,8 @@ function mapa({ nombre, paisesFuente = 50, letra = 11, land, ancho, alto, centro
     <rect x="-13" y="-13" width="26" height="26" fill="#f1efe9" fill-opacity=".75" stroke="#c8102e" stroke-width="1" stroke-dasharray="3 2"/>
     <path d="M0 -13V13M-13 0H13" stroke="#c8102e" stroke-width=".5" stroke-opacity=".45"/>
     <path d="M-15 -15h4v4h-4zM11 -15h4v4h-4zM-15 11h4v4h-4zM11 11h4v4h-4z" fill="#c8102e"/>
-    <!-- Bifaz: piedra tallada, con sus lascados. -->
-    <path d="M0 -10.5L3.2 -6.4L4.6 -2.2L6 1.6L5 6L2.2 8.8L-1.8 9L-4.8 6.6L-6 2.2L-4.8 -2.6L-3 -6.8Z" fill="#c8102e" fill-opacity=".16" stroke="#c8102e" stroke-width="1.1" stroke-linejoin="miter"/>
-    <path d="M0 -10.5L-0.6 -3.2L1.4 2.8L-1.8 9M-0.6 -3.2L4.6 -2.2M-0.6 -3.2L-4.8 -2.6M1.4 2.8L6 1.6M1.4 2.8L5 6M-0.6 -3.2L-3 -6.8M1.4 2.8L-4.8 6.6" fill="none" stroke="#c8102e" stroke-width=".55" stroke-opacity=".85"/>
+    <!-- El hallazgo: uno de los ganchos del Homo hamatus (ver iconos.mjs). -->
+    ${ICONOS[sitio.objeto]}
   </g>
   <text x="${tx}" y="${ty}" font-weight="600" fill="#c8102e">${sitio.id}</text>
   <text x="${tx}" y="${ty + 1.15 * letra}">${sitio.nombre.toUpperCase()}</text>

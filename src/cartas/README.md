@@ -337,4 +337,7 @@ No tiene opciones: el contenido sale de la estructura del Markdown.
 Los recursos se preparan con los scripts de `hamatus/herramientas/`:
 `fotos.py` (recorte, versión color y versión tramada de las fotos de
 `media/homo-hamatus/`) y `mapas.mjs` (los mapas de `hamatus/mapas/`, que la
-carta importa).
+carta importa). En los mapas, cada sitio de hallazgo es una cuadrícula de
+excavación con uno de los ganchos del Homo hamatus: broche de ropa, alfiler de
+gancho, gancho de percha, anzuelo, gancho de carpeta y aguja de crochet,
+dibujados como grabados en `iconos.mjs`.
