@@ -214,7 +214,7 @@ Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en col
 | `headerTypeLabel` | Rótulo del encabezado de la tarjeta, por ejemplo `// BITÁCORA` |
 | `imageMaxHeight` | Altura máxima de la imagen de la tarjeta, en px |
 | `imageBackgroundColor` | Fondo detrás de la imagen |
-| `coverImageUrl` | Portada grande, usada en el Inicio del Derrotero cuando el curso tiene allí su bloque (ver 6.6) |
+| `coverImageUrl` | Portada grande. En el Inicio del Derrotero, una ínsula con portada abre un bloque; sin portada, aparece como una obra más (ver 6.6) |
 | `thumbnailImageUrl` | Miniatura cuadrada y liviana, para las grillas del Derrotero |
 | `refloated` | `true`: el curso no tiene lienzo propio y sus islas salen a flote en el lienzo principal (ver 8.3) |
 | `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
@@ -290,7 +290,7 @@ export const DERROTERO = {
 };
 ```
 
-- **Inicio:** cada ínsula de la lista abre un bloque con su curso (su portada, `coverImageUrl`, y su título); cada isla va al bloque de su curso. Los bloques y las islas aparecen en el orden de la lista. Las islas de un curso que no tiene bloque van al final, juntas.
+- **Inicio:** se arma por posición. Una ínsula **con portada** (`coverImageUrl`) abre un bloque, con su portada y su título; todo lo que sigue en la lista (islas, o ínsulas sin portada) va en ese bloque, aunque sea de otro curso. Por ejemplo, el Expediente 11/26 aparece como una obra más del bloque de Artes Electrónicas. Lo que está antes del primer bloque se muestra suelto, al final.
 - **Obras, Bitácora y Escritos:** los trabajos en el orden de la lista, pudiendo mezclar cursos. Una ínsula aparece como un trabajo más, en representación de todo su curso (así está el Expediente 11/26 en Obras) y enlaza a su página editorial.
 - Lo que no está en una lista no aparece en esa sección.
 - Si una lista nombra un id que no existe, o lo repite, el build se detiene y lo avisa.

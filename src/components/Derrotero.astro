@@ -122,27 +122,35 @@ const obras = deSeccion('obras');
 const bitacora = deSeccion('bitacora');
 const escritos = deSeccion('escritos');
 
-// Inicio: un bloque por cada ínsula de la lista (el curso destacado, con su
-// portada), con las islas de la lista que son de ese curso; las islas de
-// cursos sin bloque, juntas al final. Todo en el orden de la lista.
+// Inicio, por posición en la lista: una ínsula con portada (coverImageUrl)
+// abre un bloque (el curso destacado, con su portada y su título); todo lo
+// demás (islas, o ínsulas sin portada) va al bloque bajo el cual está escrito,
+// aunque sea de otro curso. Lo que está antes del primer bloque se muestra
+// suelto, al final.
+type PiezaInicio = ReturnType<typeof piezaDeIsla> | ReturnType<typeof piezaDeInsula>;
 const listaInicio = revisarLista('inicio');
-const cursosDestacados = listaInicio.filter((id) => insulaPorId.has(id)).map((id) => {
-  const insula = insulaPorId.get(id)!;
-  return {
-    id: insula.id,
-    codigo: insula.code,
-    nombre: insula.name,
-    titulo: insula.title,
-    portada: withBase(resolveFile(ubicar(insula.id).carpetaMedios, insula.coverImageUrl)) ?? null,
-    // Con página editorial (pageMarkdownFile), la portada y el texto la abren.
-    pagina: insula.pageMarkdownFile ? withBase(ubicar(insula.id).urlPagina!) : null,
-    piezas: [] as ReturnType<typeof piezaDeIsla>[],
-  };
-});
-const destacadasSueltas: ReturnType<typeof piezaDeIsla>[] = [];
-for (const id of listaInicio.filter((id) => islaPorId.has(id))) {
-  const pieza = piezaDeIsla(islaPorId.get(id)!);
-  (cursosDestacados.find((curso) => curso.id === pieza.idCurso)?.piezas ?? destacadasSueltas).push(pieza);
+const cursosDestacados: Array<{
+  id: string; codigo: string; nombre: string; titulo: string;
+  portada: string | null; pagina: string | null; piezas: PiezaInicio[];
+}> = [];
+const destacadasSueltas: PiezaInicio[] = [];
+for (const id of listaInicio) {
+  const insula = insulaPorId.get(id);
+  if (insula?.coverImageUrl) {
+    cursosDestacados.push({
+      id: insula.id,
+      codigo: insula.code,
+      nombre: insula.name,
+      titulo: insula.title,
+      portada: withBase(resolveFile(ubicar(insula.id).carpetaMedios, insula.coverImageUrl)) ?? null,
+      // Con página editorial (pageMarkdownFile), la portada y el texto la abren.
+      pagina: insula.pageMarkdownFile ? withBase(ubicar(insula.id).urlPagina!) : null,
+      piezas: [],
+    });
+    continue;
+  }
+  const pieza = insula ? piezaDeInsula(insula) : piezaDeIsla(islaPorId.get(id)!);
+  (cursosDestacados.at(-1)?.piezas ?? destacadasSueltas).push(pieza);
 }
 
 // Aviso (sin detener el build): islas con página que no están en ninguna

@@ -16,11 +16,10 @@ export const DERROTERO: {
   bitacora: string[];
   escritos: string[];
 } = {
-  // INICIO: los cursos destacados, cada uno con su portada (coverImageUrl) y
-  // debajo sus obras destacadas. Un id de una ínsula abre un bloque de curso,
-  // en el orden de la lista; un id de una isla va al bloque de su curso, en el
-  // orden de la lista. Las islas de cursos que no tienen bloque van al final,
-  // juntas.
+  // INICIO, por posición: una ínsula con portada (coverImageUrl) abre un
+  // bloque, con su portada y su título; lo que sigue (islas, o ínsulas sin
+  // portada) va en ese bloque, en el orden de la lista y aunque sea de otro
+  // curso. Lo que está antes del primer bloque va suelto, al final.
   inicio: [
     'arte-electronico',       // CURSO: Artes Electrónicas
       'arte-electronico-01',  // Siervos del Obnubilante Scrolling (S.O.S)
@@ -28,8 +27,7 @@ export const DERROTERO: {
       'arte-electronico-03',  // Homo Hamatus. Fenomenología de la vulnerabilidad
       'arte-electronico-04',  // GPS (Goce Positioning System)
       'arte-electronico-06',  // Fuera de temporada
-
-    'expediente-1126',        // CURSO: Expediente 11/26 (Nueva Toninas)
+      'expediente-1126',      // Expte. 11/26 (Nueva Toninas): una obra más del bloque
 
     'generativa',             // CURSO: Gráfica Generativa
       'gen-serie-01',         // Sarandí Revelation
