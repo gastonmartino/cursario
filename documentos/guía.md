@@ -214,10 +214,8 @@ Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en col
 | `headerTypeLabel` | Rótulo del encabezado de la tarjeta, por ejemplo `// BITÁCORA` |
 | `imageMaxHeight` | Altura máxima de la imagen de la tarjeta, en px |
 | `imageBackgroundColor` | Fondo detrás de la imagen |
-| `coverImageUrl` | Portada grande, usada en el Inicio del Derrotero cuando el curso es destacado |
+| `coverImageUrl` | Portada grande, usada en el Inicio del Derrotero cuando el curso tiene allí su bloque (ver 6.6) |
 | `thumbnailImageUrl` | Miniatura cuadrada y liviana, para las grillas del Derrotero |
-| `featured` | `true`: el curso aparece destacado en el Inicio del Derrotero, con sus islas destacadas |
-| `derroteroSection` | `obras`, `bitacora` o `escritos`: la ínsula aparece en esa sección del Derrotero en representación de todo su curso |
 | `refloated` | `true`: el curso no tiene lienzo propio y sus islas salen a flote en el lienzo principal (ver 8.3) |
 | `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
 | `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo con todas sus islas e islotes a la vista (por ejemplo, `alias: 'bitacora'` → `/bitacora/`). Solo minúsculas, números y guiones. Siempre abre el Mapa, aunque el Derrotero haya quedado abierto. `/?deriva={id}` sigue funcionando igual |
@@ -233,8 +231,6 @@ Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren s
 | `imageDate` | Fecha del pie de la imagen, a la derecha; el Derrotero toma de aquí el año si no lo encuentra en el subtítulo ni en la etiqueta |
 | `imageBackgroundColor` | Fondo detrás de la imagen |
 | `coverImageUrl`, `thumbnailImageUrl` | Portada y miniatura, fuera del lienzo. Sin miniatura, el Derrotero muestra un recuadro gris con el código |
-| `featured` | `true`: aparece en el Inicio del Derrotero |
-| `derroteroSection` | `obras`, `bitacora` o `escritos`: la sección del Derrotero en la que aparece. Sin definir, no aparece en ninguna (salvo en Inicio, si es destacada) |
 | `pageUrl` | URL propia de la página (ver 6.5) |
 | `actionHref` | Destino del botón INCURSIONAR, si debe ser distinto de la página |
 | `detailHref` | Destino del click sobre toda la tarjeta, si debe ser distinto de la página |
@@ -275,29 +271,30 @@ pageUrl: 'rebelion-en-la-granja-de-clics',   // → /rebelion-en-la-granja-de-cl
 
 Los archivos se siguen buscando en la carpeta de siempre. Si una URL propia se repite, o coincide con una carpeta de `public/` (como `curso01`), el build se detiene con un error.
 
-### 6.6. Orden del Derrotero (`src/data/derrotero.ts`)
+### 6.6. El Derrotero (`src/data/derrotero.ts`)
 
-Qué trabajos aparecen en el Derrotero, y en qué sección, se define en cada ínsula e isla (`featured` y `derroteroSection`). En qué **orden** aparecen se define aparte, en `src/data/derrotero.ts`, con una lista de ids por sección:
+Qué trabajos aparecen en el Derrotero, en qué sección y en qué orden se define en un solo lugar, `src/data/derrotero.ts`, con una lista de ids por sección. El contenido de cada trabajo (títulos, textos, miniatura, portada, página) sigue en `insulas.ts` e `islas.ts`.
 
 ```ts
-export const ORDEN_DERROTERO = {
+export const DERROTERO = {
   inicio: [
-    'generativa',          // un curso destacado: el orden de los bloques
-    'gen-serie-03',        // sus islas destacadas: el orden dentro del bloque
-    'gen-serie-01',
+    'generativa',            // una ínsula: abre el bloque de su curso, con su portada
+      'gen-serie-03',        // islas de ese curso: las obras del bloque
+      'gen-serie-01',
     'arte-electronico',
-    'arte-electronico-03',
+      'arte-electronico-03',
   ],
-  obras: ['expediente-1126', 'arte-electronico-03', 'gen-serie-02'],
-  bitacora: [],
-  escritos: [],
+  obras: ['expediente-1126', 'arte-electronico-03', 'gen-serie-02', …],
+  bitacora: ['bitacora-13', 'bitacora-12', …],
+  escritos: ['dis-ensayo-01', 'dis-ensayo-02'],
 };
 ```
 
-- **Inicio:** los cursos destacados se muestran en el orden en que aparecen en la lista, cada uno con su portada y sus islas destacadas en el orden de la lista. Las islas destacadas de cursos no destacados van al final, también en ese orden.
-- **Obras, Bitácora y Escritos:** los trabajos en el orden de la lista, pudiendo mezclar cursos.
-- Lo que no está en una lista se muestra igual, después de lo listado y en el orden de siempre: por curso (el de `insulas.ts`) y, dentro de cada curso, en el orden de `islas.ts`. Una lista vacía deja ese orden.
-- Si una lista nombra un id que no existe, o que no aparece en esa sección (por ejemplo, una isla no destacada en `inicio`), el build se detiene y lo avisa.
+- **Inicio:** cada ínsula de la lista abre un bloque con su curso (su portada, `coverImageUrl`, y su título); cada isla va al bloque de su curso. Los bloques y las islas aparecen en el orden de la lista. Las islas de un curso que no tiene bloque van al final, juntas.
+- **Obras, Bitácora y Escritos:** los trabajos en el orden de la lista, pudiendo mezclar cursos. Una ínsula aparece como un trabajo más, en representación de todo su curso (así está el Expediente 11/26 en Obras) y enlaza a su página editorial.
+- Lo que no está en una lista no aparece en esa sección.
+- Si una lista nombra un id que no existe, o lo repite, el build se detiene y lo avisa.
+- Si una isla con página no está en ninguna de las tres secciones (y tampoco la ínsula de su curso), el build lo avisa en la consola, sin detenerse: `[Derrotero] Islas con página que no están en ninguna sección…`. Suele ser un olvido al crear una isla.
 
 ## 7. Cómo añadir una nueva isla (subcurso)
 
@@ -329,7 +326,6 @@ public/curso02/subcursos/curso007/
 ```ts
 {
   id: 'gen-serie-07',
-  derroteroSection: 'obras',
   imageUrl: 'portada-curso.jpg',
   thumbnailImageUrl: 'miniatura.jpg',
   markdownFile: 'contenido-curso.md',
@@ -344,7 +340,9 @@ public/curso02/subcursos/curso007/
 },
 ```
 
-5. Ejecutar `npm run build`: Astro genera la página `/curso02/curso007/` (o `/{pageUrl}/`), y la isla aparece en el lienzo, el radar, el Aparejo y, según sus atributos, en el Derrotero.
+5. Para que aparezca en el Derrotero, agregar su `id` en la sección que corresponda de `src/data/derrotero.ts` (y en `inicio`, si va destacada): ver 6.6.
+
+6. Ejecutar `npm run build`: Astro genera la página `/curso02/curso007/` (o `/{pageUrl}/`), y la isla aparece en el lienzo, el radar, el Aparejo y en el Derrotero.
 
 El orden de las islas en `subcursos` es el orden de la línea de recorrido que las une en el lienzo.
 

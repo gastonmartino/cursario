@@ -621,8 +621,8 @@ Cada elemento se define en **dos lugares** vinculados por su `id`:
 | Código | Curso (`id`) | Carpeta | Islas | Particularidades |
 | --- | --- | --- | ---: | --- |
 | `DERIVA:00` | En Curso... (`en-curso`) | `curso00` | 11 | Bitácora del TFIC / MAE |
-| `DERIVA:01` | Artes Electrónicas (`arte-electronico`) | `curso01` | 5 | **Reflotada**: sus islas están en el lienzo principal; destacada |
-| `DERIVA:02` | Gráfica Generativa (`generativa`) | `curso02` | 6 | Página editorial propia en `/grafica-generativa/` (carta *generativa*); destacada |
+| `DERIVA:01` | Artes Electrónicas (`arte-electronico`) | `curso01` | 5 | **Reflotada**: sus islas están en el lienzo principal; bloque en el Inicio del Derrotero |
+| `DERIVA:02` | Gráfica Generativa (`generativa`) | `curso02` | 6 | Página editorial propia en `/grafica-generativa/` (carta *generativa*); bloque en el Inicio del Derrotero |
 | `DERIVA:03` | Pensamiento & Diseño (`pensamiento`) | `curso03` | 3 | — |
 | `DERIVA:04` | Expediente 11/26 (`expediente-1126`) | `curso04` | 24 | Página editorial propia en `/expediente-11-26/` |
 
@@ -633,7 +633,7 @@ Además hay 18 islotes, distribuidos entre el lienzo principal y los lienzos de 
 La portada (`/`) se divide en dos mitades separadas por una **costura** vertical:
 
 -   **Mapa** (`Mapa.astro`, "Gastón Martino // Cursario"): el lienzo infinito para recorrer el territorio a la deriva. Arma cada tarjeta combinando su contenido (`src/data/`) con su ubicación (`Derivas.ts`), y le pasa al motor lo que necesita para dibujar.
--   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado, `featured`), **Obras**, **Bitácora**, **Escritos** (según el `derroteroSection` de cada isla o ínsula), **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador. El orden de los trabajos en cada sección, y el de los cursos y obras del Inicio, se define en `src/data/derrotero.ts`.
+-   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado), **Obras**, **Bitácora**, **Escritos**, **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador. Qué trabajos aparecen en cada sección, y en qué orden, se define en `src/data/derrotero.ts`.
 
 La manija de la costura se arrastra, se mueve con sus flechas o con el teclado, y se imanta en tres posiciones (cerrado, mitad, completo); la posición se recuerda en el navegador. La costura existe desde 1024 px de ancho; por debajo se ve una vista o la otra, con un botón para pasar de una a otra.
 

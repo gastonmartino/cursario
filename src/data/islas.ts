@@ -50,15 +50,6 @@ export interface IslaDefinition {
   // Sin miniatura, el Derrotero muestra un recuadro gris con el código.
   coverImageUrl?: string | null;
   thumbnailImageUrl?: string | null;
-
-  // Destacado (true) o no (false, o sin definir): aparece en INICIO, en el
-  // Derrotero. Es independiente de derroteroSection.
-  featured?: boolean;
-
-  // Sección del Derrotero en la que aparece la isla: obras, bitacora o
-  // escritos. Sin definir, no aparece en ninguna (puede aparecer igual en
-  // INICIO si es featured).
-  derroteroSection?: 'obras' | 'bitacora' | 'escritos';
 }
 
 export const ISLAS: IslaDefinition[] = [
@@ -79,7 +70,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-02',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
@@ -93,7 +83,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-03',
-    derroteroSection: 'bitacora',
     thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
     pageMarkdownFile: 'pagina-curso.md',
@@ -107,7 +96,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-04',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'TFIC:03', 
@@ -121,7 +109,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-05',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'contenido-curso.md',
@@ -137,7 +124,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-06',
-    derroteroSection: 'bitacora',
     imageUrl: 'arroyo-macrofitas-v01.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'macrofitas.md',
@@ -151,7 +137,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-07',
-    derroteroSection: 'bitacora',
     imageUrl: 'collage-emergencia-01.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'emergencia.md',
@@ -165,7 +150,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-08',
-    derroteroSection: 'bitacora',
     imageUrl: 'stranger-visions.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     markdownFile: 'actividad-consigna.md',
@@ -180,7 +164,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-09',
-    derroteroSection: 'bitacora',
     thumbnailImageUrl: 'miniatura.jpg',
     description: 'A partir del texto de Pérez Royo, pensar un sentimiento “amoroso” o positivo, que nutra y potencie su proyecto de TFIC en curso; pensar un sentimiento negativo (trabas, miedos, apatía, desorientación, etc) que dificulte el avance del mismo.',
     markdownFile: 'discurso-amoroso.md',
@@ -195,7 +178,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-10',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.webp',
     thumbnailImageUrl: 'miniatura.webp',
     pageMarkdownFile: 'pagina-curso.md',
@@ -210,7 +192,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-11',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.webp',
     thumbnailImageUrl: 'miniatura.webp',
     pageMarkdownFile: 'pagina-curso.md',
@@ -225,7 +206,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-12',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.webp',
     thumbnailImageUrl: 'miniatura.webp',
     pageMarkdownFile: 'pagina-curso.md',
@@ -240,7 +220,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'bitacora-13',
-    derroteroSection: 'bitacora',
     imageUrl: 'portada-curso.webp',
     thumbnailImageUrl: 'miniatura.webp',
     pageMarkdownFile: 'pagina-curso.md',
@@ -259,8 +238,6 @@ export const ISLAS: IslaDefinition[] = [
  //
   {
     id: 'arte-electronico-01',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-sos.gif',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -277,8 +254,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'arte-electronico-02',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-granja.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -295,8 +270,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'arte-electronico-03',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -312,8 +285,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'arte-electronico-04',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-gps.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -330,7 +301,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'arte-electronico-05',
-    derroteroSection: 'obras',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     pageMarkdownFile: 'pagina-curso.md',
@@ -352,8 +322,6 @@ export const ISLAS: IslaDefinition[] = [
  //
   {
     id: 'gen-serie-01',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:01', 
@@ -368,8 +336,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'gen-serie-02',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-curso.gif',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:02', 
@@ -384,8 +350,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'gen-serie-03',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:03', 
@@ -400,8 +364,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'gen-serie-04',
-    derroteroSection: 'obras',
-    featured: true,
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:04', 
@@ -416,7 +378,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'gen-serie-05',
-    derroteroSection: 'obras',
     imageUrl: 'portada-curso.gif',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:05', 
@@ -431,7 +392,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'gen-serie-06',
-    derroteroSection: 'obras',
     imageUrl: 'portada-curso.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     code: 'GEN:06', 
@@ -450,7 +410,6 @@ export const ISLAS: IslaDefinition[] = [
  //
   {
     id: 'dis-ensayo-01',
-    derroteroSection: 'escritos',
     imageUrl: 'portada-interaccion.jpg',
     code: 'NOTA:01', 
     title: '¿Qué sostiene la experiencia del usuario?', 
@@ -460,7 +419,6 @@ export const ISLAS: IslaDefinition[] = [
   },
   {
     id: 'dis-ensayo-02',
-    derroteroSection: 'escritos',
     imageUrl: 'portada-curso.jpg',
     code: 'NOTA:02', 
     title: 'Interacción: ¿cita entre dos?', 

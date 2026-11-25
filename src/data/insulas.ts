@@ -37,19 +37,11 @@ export interface InsulaDefinition {
   coverImageUrl?: string | null;
   thumbnailImageUrl?: string | null;
 
-  // Destacado (true) o no (false, o sin definir).
-  featured?: boolean;
-
   // Reflotada (true): sus islas, con sus islotes, salen a flote en el lienzo
   // principal junto a la ínsula, y el curso no tiene lienzo propio (no se
   // incursiona). Sus coordenadas, en src/motor/Derivas.ts, pasan a ser
   // relativas a la ínsula: al moverla, se mueve el conjunto. Por defecto, false.
   refloated?: boolean;
-
-  // Sección del Derrotero en la que aparece la ínsula, en representación de
-  // todo su curso (obras, bitacora o escritos). Sin definir, no aparece. Es
-  // independiente del derroteroSection de sus islas.
-  derroteroSection?: 'obras' | 'bitacora' | 'escritos';
 
   // Página editorial de la ínsula (Markdown en /{curso}/contenidos/), a la que
   // se llega desde el Derrotero, el Aparejo y el lienzo principal: el click,
@@ -97,7 +89,6 @@ export const INSULAS: InsulaDefinition[] = [
     imageBackgroundColor: '#ffffff',
     markdownFile: 'curso01-inicio.md',
     coverImageUrl: 'portada-seccion.jpg',
-    featured: true,
     imageCaption: 'EJES: TIEMPO / ESPACIO / MOVIMIENTO',
     imageMaxHeight: 440,
   },
@@ -113,7 +104,6 @@ export const INSULAS: InsulaDefinition[] = [
     accentColor: '#16253D',
     imageUrl: 'portada-generativa.gif',
     coverImageUrl: 'portada-seccion.webp',
-    featured: true,
     imageCaption: 'PROCESSING / P5.JS',
     pageMarkdownFile: 'generativa.md',
     pageUrl: 'grafica-generativa',
@@ -149,7 +139,6 @@ La documentación incorporada permite advertir indicios de una trama secreta de 
     imageUrl: 'nueva-toninas.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     imageCaption: 'Anteproyecto anarqueológico especulativo',
-    derroteroSection: 'obras',
     pageMarkdownFile: 'expediente.md',
     pageUrl: 'expediente-11-26',
     imageMaxHeight: 440,

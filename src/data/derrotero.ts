@@ -1,45 +1,82 @@
 /**
- * ORDEN DEL DERROTERO
- * En qué orden se muestran los trabajos en el Derrotero
- * (src/components/Derrotero.astro). Qué trabajos aparecen y en qué sección
- * se sigue definiendo en src/data/ (featured y derroteroSection); acá solo se
- * define el orden, con los ids de las ínsulas e islas.
+ * DERROTERO
+ * Qué trabajos aparecen en el Derrotero (src/components/Derrotero.astro), en
+ * qué sección y en qué orden. Cada lista nombra ínsulas e islas por su id; el
+ * contenido de cada trabajo (títulos, textos, miniatura, portada, página)
+ * sigue en src/data/insulas.ts e islas.ts.
  *
- * Lo que no está en una lista se muestra igual, después de lo listado y en el
- * orden de siempre (por curso, y dentro de cada curso, en el orden de
- * src/data/islas.ts). Una lista vacía deja el orden de siempre.
- *
- * Si un id no existe, o no corresponde a lo que se muestra en esa lista, el
- * build se detiene y lo avisa.
+ * Lo que no está en una lista no aparece en esa sección. Si una lista nombra
+ * un id que no existe, o lo repite, el build se detiene y lo avisa. Si una
+ * isla con página no está en ninguna sección (ni la ínsula de su curso), el
+ * build lo avisa, sin detenerse, por si es un olvido.
  */
-export const ORDEN_DERROTERO: {
+export const DERROTERO: {
   inicio: string[];
   obras: string[];
   bitacora: string[];
   escritos: string[];
 } = {
-  // INICIO: los cursos destacados (featured en src/data/insulas.ts), cada uno
-  // con su portada y sus islas destacadas, y al final las islas destacadas de
-  // otros cursos. El orden de los cursos de esta lista es el de sus bloques;
-  // el de las islas, el de cada bloque.
+  // INICIO: los cursos destacados, cada uno con su portada (coverImageUrl) y
+  // debajo sus obras destacadas. Un id de una ínsula abre un bloque de curso,
+  // en el orden de la lista; un id de una isla va al bloque de su curso, en el
+  // orden de la lista. Las islas de cursos que no tienen bloque van al final,
+  // juntas.
   inicio: [
-    'arte-electronico',
-    'arte-electronico-01',
-    'arte-electronico-02',
-    'arte-electronico-03',
-    'arte-electronico-04',
+    'arte-electronico',       // CURSO: Artes Electrónicas
+      'arte-electronico-01',  // Siervos del Obnubilante Scrolling (S.O.S)
+      'arte-electronico-02',  // Rebelión en la Granja de Clics
+      'arte-electronico-03',  // Homo Hamatus. Fenomenología de la vulnerabilidad
+      'arte-electronico-04',  // GPS (Goce Positioning System)
 
-    'generativa',
-    'gen-serie-01',
-    'gen-serie-02',
-    'gen-serie-03',
-    'gen-serie-04',
+    'generativa',             // CURSO: Gráfica Generativa
+      'gen-serie-01',         // Sarandí Revelation
+      'gen-serie-02',         // Meticulously Unplanned
+      'gen-serie-03',         // Plastic Natianta
+      'gen-serie-04',         // Diasporas
   ],
 
-  // OBRAS, BITÁCORA y ESCRITOS: los trabajos de cada sección
-  // (derroteroSection), islas o ínsulas, en cualquier orden y mezclando
-  // cursos.
-  obras: [],
-  bitacora: [],
-  escritos: [],
+  // OBRAS, BITÁCORA y ESCRITOS: los trabajos de cada sección, en el orden de
+  // la lista y mezclando cursos si hace falta. Una ínsula aparece como un
+  // trabajo más, en representación de todo su curso (como el Expediente
+  // 11/26), y enlaza a su página editorial.
+  obras: [
+    // DERIVA:01 · Artes Electrónicas
+    'arte-electronico-01',    // Siervos del Obnubilante Scrolling (S.O.S)
+    'arte-electronico-02',    // Rebelión en la Granja de Clics
+    'arte-electronico-03',    // Homo Hamatus. Fenomenología de la vulnerabilidad
+    'arte-electronico-04',    // GPS (Goce Positioning System)
+    'arte-electronico-05',    // Diálogos Desavenidos
+
+    // DERIVA:02 · Gráfica Generativa
+    'gen-serie-01',           // Sarandí Revelation
+    'gen-serie-02',           // Meticulously Unplanned
+    'gen-serie-03',           // Plastic Natianta
+    'gen-serie-04',           // Diasporas
+    'gen-serie-05',           // Meanwhile, in the Southern Hemisphere, a lymphatic summer
+    'gen-serie-06',           // Regolito fértil
+
+    // DERIVA:04 · Expediente 11/26
+    'expediente-1126',        // [ÍNSULA] Expte. 11/26 s/ Tendidos sobrentendidos
+  ],
+
+  // De lo más reciente a lo más antiguo.
+  bitacora: [
+    'bitacora-13',            // TFIC:12 · Acerca de la impropiedad
+    'bitacora-12',            // TFIC:11 · Marca de agua
+    'bitacora-11',            // TFIC:10 · Registro Cromático de Emergencias (RCE)
+    'bitacora-10',            // TFIC:09 · Descarga en curso
+    'bitacora-09',            // TFIC:08 · Fragmentos de un discurso amoroso
+    'bitacora-08',            // TFIC:07 · Estrategias estéticas, cruces y agrupamientos
+    'bitacora-07',            // TFIC:06 · Emergencias del Territorio
+    'bitacora-06',            // TFIC:05 · Macrófitas - Visualización de un territorio generativo
+    'bitacora-05',            // TFIC:04 · Ejercicio de Recorrido
+    'bitacora-04',            // TFIC:03 · Camino de las Flores
+    'bitacora-03',            // TFIC:02 · Statement de Artista
+    'bitacora-02',            // TFIC:01 · Intereses, objetos, amuletos y miedos
+  ],
+
+  escritos: [
+    'dis-ensayo-01',          // ¿Qué sostiene la experiencia del usuario?
+    'dis-ensayo-02',          // Interacción: ¿cita entre dos?
+  ],
 };
