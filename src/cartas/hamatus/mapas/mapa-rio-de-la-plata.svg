@@ -18,17 +18,31 @@
 <use href="#costa" fill="url(#trama)"/>
 <use href="#costa" fill="none" stroke="#2b2f36" stroke-width="1.3" stroke-linejoin="round"/>
 <g font-family="'IBM Plex Mono', monospace" font-size="16" fill="#2b2f36">
-  <circle cx="474.3362938564078" cy="428.6505070813382" r="13.090909090909092" fill="none" stroke="#c8102e" stroke-width="1.7454545454545454"/>
-  <path d="M453.9726574927714 428.6505070813382h40.72727272727273M474.3362938564078 408.28687071770185v40.72727272727273" stroke="#c8102e" stroke-width="1.4545454545454546"/>
-  <text x="494.69993022004417" y="418.46868889952003" font-weight="600" fill="#c8102e">HH-01</text>
-  <text x="494.69993022004417" y="436.86868889952">CONURBANO BONAERENSE</text>
-  <text x="494.69993022004417" y="455.26868889952004" fill-opacity=".7">34.75°S 58.40°O</text>
+  <g transform="translate(474.3362938564078 428.6505070813382) scale(1.4545454545454546)">
+    <!-- Cuadrícula de excavación: el cuadro, sus ejes y las estacas. -->
+    <rect x="-13" y="-13" width="26" height="26" fill="#f1efe9" fill-opacity=".75" stroke="#c8102e" stroke-width="1" stroke-dasharray="3 2"/>
+    <path d="M0 -13V13M-13 0H13" stroke="#c8102e" stroke-width=".5" stroke-opacity=".45"/>
+    <path d="M-15 -15h4v4h-4zM11 -15h4v4h-4zM-15 11h4v4h-4zM11 11h4v4h-4z" fill="#c8102e"/>
+    <!-- Bifaz: piedra tallada, con sus lascados. -->
+    <path d="M0 -10.5L3.2 -6.4L4.6 -2.2L6 1.6L5 6L2.2 8.8L-1.8 9L-4.8 6.6L-6 2.2L-4.8 -2.6L-3 -6.8Z" fill="#c8102e" fill-opacity=".16" stroke="#c8102e" stroke-width="1.1" stroke-linejoin="miter"/>
+    <path d="M0 -10.5L-0.6 -3.2L1.4 2.8L-1.8 9M-0.6 -3.2L4.6 -2.2M-0.6 -3.2L-4.8 -2.6M1.4 2.8L6 1.6M1.4 2.8L5 6M-0.6 -3.2L-3 -6.8M1.4 2.8L-4.8 6.6" fill="none" stroke="#c8102e" stroke-width=".55" stroke-opacity=".85"/>
+  </g>
+  <text x="500.518112038226" y="415.55959799042915" font-weight="600" fill="#c8102e">HH-01</text>
+  <text x="500.518112038226" y="433.95959799042913">CONURBANO BONAERENSE</text>
+  <text x="500.518112038226" y="452.35959799042917" fill-opacity=".7">34.75°S 58.40°O</text>
 </g>
 <g font-family="'IBM Plex Mono', monospace" font-size="16" fill="#2b2f36">
-  <circle cx="824.6238747316693" cy="453.523060823316" r="13.090909090909092" fill="none" stroke="#c8102e" stroke-width="1.7454545454545454"/>
-  <path d="M804.2602383680329 453.523060823316h40.72727272727273M824.6238747316693 433.1594244596796v40.72727272727273" stroke="#c8102e" stroke-width="1.4545454545454546"/>
-  <text x="844.9875110953056" y="506.4685153687705" font-weight="600" fill="#c8102e">HH-02</text>
-  <text x="844.9875110953056" y="524.8685153687705">MONTEVIDEO</text>
-  <text x="844.9875110953056" y="543.2685153687705" fill-opacity=".7">34.88°S 56.17°O</text>
+  <g transform="translate(824.6238747316693 453.523060823316) scale(1.4545454545454546)">
+    <!-- Cuadrícula de excavación: el cuadro, sus ejes y las estacas. -->
+    <rect x="-13" y="-13" width="26" height="26" fill="#f1efe9" fill-opacity=".75" stroke="#c8102e" stroke-width="1" stroke-dasharray="3 2"/>
+    <path d="M0 -13V13M-13 0H13" stroke="#c8102e" stroke-width=".5" stroke-opacity=".45"/>
+    <path d="M-15 -15h4v4h-4zM11 -15h4v4h-4zM-15 11h4v4h-4zM11 11h4v4h-4z" fill="#c8102e"/>
+    <!-- Bifaz: piedra tallada, con sus lascados. -->
+    <path d="M0 -10.5L3.2 -6.4L4.6 -2.2L6 1.6L5 6L2.2 8.8L-1.8 9L-4.8 6.6L-6 2.2L-4.8 -2.6L-3 -6.8Z" fill="#c8102e" fill-opacity=".16" stroke="#c8102e" stroke-width="1.1" stroke-linejoin="miter"/>
+    <path d="M0 -10.5L-0.6 -3.2L1.4 2.8L-1.8 9M-0.6 -3.2L4.6 -2.2M-0.6 -3.2L-4.8 -2.6M1.4 2.8L6 1.6M1.4 2.8L5 6M-0.6 -3.2L-3 -6.8M1.4 2.8L-4.8 6.6" fill="none" stroke="#c8102e" stroke-width=".55" stroke-opacity=".85"/>
+  </g>
+  <text x="850.8056929134874" y="521.5957880960433" font-weight="600" fill="#c8102e">HH-02</text>
+  <text x="850.8056929134874" y="539.9957880960433">MONTEVIDEO</text>
+  <text x="850.8056929134874" y="558.3957880960432" fill-opacity=".7">34.88°S 56.17°O</text>
 </g>
 </g></svg>

@@ -56,11 +56,18 @@ function mapa({ nombre, paisesFuente = 50, letra = 11, land, ancho, alto, centro
   for (const sitio of sitios) {
     const [x, y] = proj([sitio.lon, sitio.lat]);
     if (x < 0 || y < 0 || x > ancho || y > alto) continue;
-    const k = letra / 11, r = 9 * k, c = 14 * k;
+    const k = letra / 11, c = 18 * k;
     const tx = x + c, ty = sitio.lado === 'abajo' ? y + 2.6 * c : y - 0.5 * c;
     s += `<g font-family="'IBM Plex Mono', monospace" font-size="${letra}" fill="${tinta}">
-  <circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="#c8102e" stroke-width="${1.2 * k}"/>
-  <path d="M${x - c} ${y}h${2 * c}M${x} ${y - c}v${2 * c}" stroke="#c8102e" stroke-width="${k}"/>
+  <g transform="translate(${x} ${y}) scale(${k})">
+    <!-- Cuadrícula de excavación: el cuadro, sus ejes y las estacas. -->
+    <rect x="-13" y="-13" width="26" height="26" fill="#f1efe9" fill-opacity=".75" stroke="#c8102e" stroke-width="1" stroke-dasharray="3 2"/>
+    <path d="M0 -13V13M-13 0H13" stroke="#c8102e" stroke-width=".5" stroke-opacity=".45"/>
+    <path d="M-15 -15h4v4h-4zM11 -15h4v4h-4zM-15 11h4v4h-4zM11 11h4v4h-4z" fill="#c8102e"/>
+    <!-- Bifaz: piedra tallada, con sus lascados. -->
+    <path d="M0 -10.5L3.2 -6.4L4.6 -2.2L6 1.6L5 6L2.2 8.8L-1.8 9L-4.8 6.6L-6 2.2L-4.8 -2.6L-3 -6.8Z" fill="#c8102e" fill-opacity=".16" stroke="#c8102e" stroke-width="1.1" stroke-linejoin="miter"/>
+    <path d="M0 -10.5L-0.6 -3.2L1.4 2.8L-1.8 9M-0.6 -3.2L4.6 -2.2M-0.6 -3.2L-4.8 -2.6M1.4 2.8L6 1.6M1.4 2.8L5 6M-0.6 -3.2L-3 -6.8M1.4 2.8L-4.8 6.6" fill="none" stroke="#c8102e" stroke-width=".55" stroke-opacity=".85"/>
+  </g>
   <text x="${tx}" y="${ty}" font-weight="600" fill="#c8102e">${sitio.id}</text>
   <text x="${tx}" y="${ty + 1.15 * letra}">${sitio.nombre.toUpperCase()}</text>
   <text x="${tx}" y="${ty + 2.3 * letra}" fill-opacity=".7">${coord(sitio.lat, 'N', 'S')} ${coord(sitio.lon, 'E', 'O')}</text>
