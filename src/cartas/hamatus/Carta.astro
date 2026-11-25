@@ -327,11 +327,20 @@ const seccionReferencias = secciones.find((s) => s.referencias);
             <img class="hm-sitios__mapa" src={mapaConoSur} alt="Mapa del Cono Sur con los sitios de hallazgo del Homo hamatus" />
           </Ventana>
 
-          {laminasPrologo.map((imagen, i) => (
-            <Ventana titulo={`${nombreArchivo(imagen.src)} — Lámina ${String(i + 1).padStart(2, '0')}`} class="hm-prologo__lamina" estado={[imagen.alt]}>
-              <img class="hm-lamina-img" src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
-            </Ventana>
-          ))}
+          {laminasPrologo.length > 0 && (
+            <div class="hm-prologo__laminas">
+              {laminasPrologo.map((imagen, i) => (
+                <Ventana
+                  titulo={`${nombreArchivo(imagen.src)} — Lámina ${String(i + 1).padStart(2, '0')}`}
+                  class:list={['hm-prologo__lamina', esVertical(imagen.src) && 'hm-prologo__lamina--vertical']}
+                  estado={[imagen.alt]}
+                  inactiva={i > 0}
+                >
+                  <img class="hm-lamina-img" src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
+                </Ventana>
+              ))}
+            </div>
+          )}
           <p class="hm-susurro hm-prologo__susurro">nadie se sostiene solo</p>
         </section>
       )}

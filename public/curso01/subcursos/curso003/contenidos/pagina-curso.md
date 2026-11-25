@@ -12,7 +12,8 @@ carta: hamatus
 > **Palabras claves**: hamatus, red, gancho, sostén, precariedad, carga, gravedad
 
 
-![Homo hamatus. Hominización especulativa](/curso01/subcursos/curso003/medios/homo-hamatus-001.jpg)
+![Homo hamatus. El sujeto sujeto](/curso01/subcursos/curso003/medios/homo-hamatus-001-a.jpg)
+![Homo hamatus. Hominización especulativa](/curso01/subcursos/curso003/medios/homo-hamatus-001-b.jpg)
 
 ## Introducción 
 Mientras que en los últimos años el norte global se desvive orgulloso por su infame hijo pródigo, el ***Homo economicus***, la presencia de su abnegado hermano gemelo y habitante de estas latitudes sociopolíticas, el ***Homo hamatus***, no recibe el mismo grado de atención o, al menos, no públicamente. Donde el primero asciende por el impulso de la meritocracia, la razón y el individualismo, el segundo, privado de su cuota de manutención, se aferra para no caer, en una búsqueda constante de redes auxiliares que lo sostengan.
