@@ -1,5 +1,7 @@
 ![Fuera de temporada: una manzana negra mordida, con la mordida en rojo y un LED en lugar de la hoja](/curso01/subcursos/curso006/medios/afiche.webp)
 
+> [Ver el escrito completo de "Fuera de temporada" como documento PDF](/documentos/fuera-de-temporada.pdf)
+
 ## El pecado de persistir
 
 *¿Qué ocurre con los objetos que se resisten a cumplir su sentencia? ¿Qué hacemos con aquello que continúa funcionando después de haber sido declarado obsoleto? ¿Es posible que un dispositivo se vuelva anacrónico sin haber agotado sus posibilidades?*
