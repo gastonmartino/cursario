@@ -321,12 +321,19 @@ html.html-hamatus .hm-enlace:visited {
   color: #551a8b;
 }
 
+/* Los mapas sangran por el borde de la pantalla y, del lado de adentro (y
+   arriba y abajo), se desvanecen en el papel: nunca se ve un corte. */
 html.html-hamatus .hm-mapa-fondo {
   position: absolute;
   z-index: 0;
   mix-blend-mode: multiply;
   pointer-events: none;
   user-select: none;
+  --hm-mascara-lado: linear-gradient(to right, transparent 0, #000 34%);
+  -webkit-mask-image: var(--hm-mascara-lado), linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%);
+  mask-image: var(--hm-mascara-lado), linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 /* --- Ventanas del sistema falso -------------------------------------------- */
@@ -492,6 +499,12 @@ html.html-hamatus .hm-foto {
   position: relative;
   overflow: hidden;
   background: var(--hm-tinta);
+  cursor: zoom-in;
+}
+
+html.html-hamatus .hm-foto:focus-visible {
+  outline: 2px dotted var(--hm-azul);
+  outline-offset: 2px;
 }
 
 html.html-hamatus .hm-foto img {
@@ -540,11 +553,12 @@ html.html-hamatus .hm-portada {
 }
 
 html.html-hamatus .hm-portada__mapa {
-  top: 40px;
-  right: -30px;
-  width: 640px;
+  top: -40px;
+  right: -260px;
+  width: 980px;
   opacity: 0.9;
   transform: rotate(-5deg);
+  --hm-mascara-lado: linear-gradient(to right, transparent 0, #000 28%);
 }
 
 html.html-hamatus .hm-portada__etiqueta {
@@ -789,18 +803,50 @@ html.html-hamatus .hm-estrato--espejo {
 }
 
 html.html-hamatus .hm-estrato__mapa {
-  top: 150px;
-  right: -60px;
-  width: 720px;
+  top: 60px;
+  right: -330px;
+  width: 1040px;
   opacity: 0.55;
   transform: rotate(4deg);
 }
 
+/* Del lado izquierdo: el mapa espejado sangra por la izquierda. La máscara se
+   aplica antes del espejo, así que el degradé va hacia el mismo lado. */
 html.html-hamatus .hm-estrato--espejo .hm-estrato__mapa {
   right: auto;
-  left: -60px;
+  left: -330px;
   transform: rotate(-3deg) scaleX(-1);
 }
+
+/* Láminas integradas al fondo del capítulo: se funden con el papel y sus
+   bordes se desvanecen. */
+html.html-hamatus .hm-lamina-fondo {
+  position: absolute;
+  z-index: 1;
+  width: 430px;
+  mix-blend-mode: multiply;
+  opacity: 0.78;
+  filter: grayscale(1) contrast(1.08);
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
+}
+
+html.html-hamatus .hm-lamina-fondo--1 {
+  top: 330px;
+  right: 40px;
+  transform: rotate(-4deg);
+}
+
+html.html-hamatus .hm-lamina-fondo--2 {
+  top: 980px;
+  right: 330px;
+  transform: rotate(3deg);
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-lamina-fondo--1 { right: auto; left: 40px; }
+html.html-hamatus .hm-estrato--espejo .hm-lamina-fondo--2 { right: auto; left: 330px; }
 
 html.html-hamatus .hm-estrato__encabezado {
   position: relative;
@@ -878,6 +924,19 @@ html.html-hamatus .hm-pieza:nth-child(even) {
 html.html-hamatus .hm-pieza--foto {
   width: 78%;
   align-self: flex-end;
+}
+
+/* Lámina vertical: una ventana angosta y alta, a la medida de la imagen. */
+html.html-hamatus .hm-pieza--vertical {
+  width: fit-content;
+  max-width: 100%;
+  align-self: center;
+}
+
+html.html-hamatus .hm-pieza--vertical .hm-lamina-img {
+  width: auto;
+  max-width: 100%;
+  height: 640px;
 }
 
 html.html-hamatus .hm-estrato--espejo .hm-pieza--foto {
@@ -1027,4 +1086,143 @@ html.html-hamatus .hm-detalles tbody tr:hover {
 
 html.html-hamatus .hm-detalles tbody tr:hover .hm-italica {
   color: #fff;
+}
+
+/* --- Visor de imágenes ----------------------------------------------------- */
+html.html-hamatus.hm-con-visor {
+  overflow: hidden;
+}
+
+html.html-hamatus .hm-visor {
+  position: fixed;
+  inset: var(--hm-barra) var(--derecha-pagina, 0px) var(--hm-tareas) 0;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 18px 28px;
+}
+
+html.html-hamatus .hm-visor[hidden] {
+  display: none;
+}
+
+/* Fondo tramado, como un escritorio atenuado. */
+html.html-hamatus .hm-visor__fondo {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(rgba(27, 31, 39, 0.72) 0 25%, rgba(27, 31, 39, 0.5) 0 50%) 0 0 / 2px 2px;
+}
+
+html.html-hamatus .hm-visor__ventana {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 1240px);
+  height: 100%;
+  box-sizing: border-box;
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px #e8e6e0, inset -2px -2px var(--hm-sombra), inset 2px 2px var(--hm-luz), 10px 12px 0 rgba(0, 0, 0, 0.35);
+}
+
+html.html-hamatus .hm-visor__ventana .hm-ventana__barra {
+  cursor: default;
+}
+
+html.html-hamatus .hm-visor__ventana .hm-ventana__botones button {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 14px;
+  margin-left: 2px;
+  padding: 0;
+  border: 0;
+  background: var(--hm-cara);
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+  color: #000;
+  font: 700 11px/1 var(--hm-sistema);
+  cursor: pointer;
+}
+
+html.html-hamatus .hm-visor__herramientas {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 2px;
+}
+
+html.html-hamatus .hm-visor__separador {
+  width: 2px;
+  height: 20px;
+  margin: 0 4px;
+  box-shadow: inset 1px 0 var(--hm-sombra), inset -1px 0 var(--hm-luz);
+}
+
+html.html-hamatus .hm-visor__contador {
+  margin-left: auto;
+  padding-right: 6px;
+}
+
+html.html-hamatus .hm-visor__lienzo {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #1b1f27;
+}
+
+/* Ajustada a la ventana. */
+html.html-hamatus .hm-visor__lienzo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+/* Tamaño real: la imagen a su medida, con barras de desplazamiento. */
+html.html-hamatus .hm-visor__lienzo--real {
+  overflow: auto;
+}
+
+html.html-hamatus .hm-visor__lienzo--real img {
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  cursor: zoom-out;
+}
+
+html.html-hamatus .hm-visor__tira {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+  padding: 6px 4px;
+  overflow-x: auto;
+  background: #fff;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz), inset 2px 2px var(--hm-oscuro);
+}
+
+html.html-hamatus .hm-visor__miniatura {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  padding: 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+html.html-hamatus .hm-visor__miniatura img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+html.html-hamatus .hm-visor__miniatura.hm-activa {
+  background: var(--hm-azul);
+  outline: 1px dotted #fff;
+  outline-offset: -2px;
 }

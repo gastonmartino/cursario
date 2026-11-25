@@ -1,0 +1,32 @@
+---
+// Una foto de la carta: la versión tramada encima (si tiene) y, al pasar el
+// cursor, el color. Al hacer clic (o Enter) se abre en el visor, con la
+// versión original sin intervenir (ver el script de Carta.astro).
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  src: string;
+  alt: string;
+  trama?: string | null;
+  original: string;
+  nombre: string;
+  carga?: 'eager' | 'lazy';
+}
+
+const { src, alt, trama, original, nombre, carga = 'lazy' } = Astro.props;
+---
+
+<figure
+  class:list={['hm-foto', trama && 'hm-foto--trama']}
+  data-foto
+  data-original={withBase(original)}
+  data-miniatura={withBase(src)}
+  data-nombre={nombre}
+  data-alt={alt}
+  tabindex="0"
+  role="button"
+  aria-label={`Ampliar: ${alt}`}
+>
+  <img src={withBase(src)} alt={alt} loading={carga} decoding="async" />
+  {trama && <img class="hm-foto__trama" src={withBase(trama)} alt="" aria-hidden="true" loading={carga} decoding="async" />}
+</figure>

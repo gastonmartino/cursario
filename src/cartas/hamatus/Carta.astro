@@ -33,6 +33,7 @@ import Volver from '../../components/navegacion/Volver.astro';
 import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
 import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import Ventana from './Ventana.astro';
+import Foto from './Foto.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -40,6 +41,8 @@ import mapaLatinoamerica from './mapas/mapa-latinoamerica.svg?url';
 import mapaConoSur from './mapas/mapa-cono-sur.svg?url';
 import mapaAndes from './mapas/mapa-andes.svg?url';
 import mapaRioDeLaPlata from './mapas/mapa-rio-de-la-plata.svg?url';
+import fondoLowTech from './fondos/low-tech.jpg?url';
+import fondoTrabajoFeminizado from './fondos/trabajo-feminizado.jpg?url';
 import './hamatus.css';
 
 type Props = PropsCarta;
@@ -77,6 +80,44 @@ const tramaDe = (src: string) => {
   return fs.existsSync(path.join(process.cwd(), 'public', trama)) ? trama : null;
 };
 
+// La versión original de una foto, sin intervenir, para el visor (mismo
+// nombre y "-original.webp"); sin ella, la misma imagen.
+const originalDe = (src: string) => {
+  const original = src.replace(/\.webp$/i, '-original.webp');
+  return original !== src && fs.existsSync(path.join(process.cwd(), 'public', original)) ? original : src;
+};
+
+// Ancho y alto de una imagen de public/, leídos de su encabezado (JPEG, PNG o
+// WebP), para saber si una lámina es vertical.
+const medidas = (src: string): { ancho: number; alto: number } | null => {
+  try {
+    const b = fs.readFileSync(path.join(process.cwd(), 'public', src));
+    if (b.toString('ascii', 1, 4) === 'PNG') return { ancho: b.readUInt32BE(16), alto: b.readUInt32BE(20) };
+    if (b.toString('ascii', 8, 12) === 'WEBP') {
+      const tipo = b.toString('ascii', 12, 16);
+      if (tipo === 'VP8X') return { ancho: 1 + b.readUIntLE(24, 3), alto: 1 + b.readUIntLE(27, 3) };
+      if (tipo === 'VP8 ') return { ancho: b.readUInt16LE(26) & 0x3fff, alto: b.readUInt16LE(28) & 0x3fff };
+      if (tipo === 'VP8L') { const v = b.readUInt32LE(21); return { ancho: (v & 0x3fff) + 1, alto: ((v >> 14) & 0x3fff) + 1 }; }
+    }
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      for (let i = 2; i < b.length;) {
+        const marca = b[i + 1];
+        if (marca >= 0xc0 && marca <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marca)) return { ancho: b.readUInt16BE(i + 7), alto: b.readUInt16BE(i + 5) };
+        i += 2 + b.readUInt16BE(i + 2);
+      }
+    }
+  } catch {}
+  return null;
+};
+const esVertical = (src: string) => { const m = medidas(src); return Boolean(m && m.alto > m.ancho); };
+
+// Láminas que en esta página van integradas al fondo de su capítulo, en lugar
+// de en una ventana: contienen ventanas, y adentro de otra se ven extrañas. En
+// el modo lectura siguen como imágenes. (La carta es propia de esta página.)
+const LAMINAS_DE_FONDO: Record<string, string[]> = {
+  '/curso01/subcursos/curso003/medios/homo-hamatus-005.jpg': [fondoLowTech, fondoTrabajoFeminizado],
+};
+
 // Frases cortas entre comillas: los susurros de cada capítulo.
 const susurrosDe = (textos: string[]) => [...new Set(textos.flatMap((t) =>
   [...t.matchAll(/“([^”]{3,28})”/g)].map((m) => sinMarcas(m[1]).toLowerCase())))];
@@ -94,6 +135,7 @@ const piezasDe = (lista: BloqueMimo[]) => {
     const ultima = piezas[piezas.length - 1];
     if (b.tipo === 'imagen') {
       // Solo las fotos seguidas se agrupan; una lámina va siempre sola.
+      if (LAMINAS_DE_FONDO[b.src]) continue;
       const esFoto = Boolean(tramaDe(b.src));
       if (esFoto && ultima?.tipo === 'imagenes' && ultima.imagenes.every((i) => tramaDe(i.src))) ultima.imagenes.push(b);
       else piezas.push({ tipo: 'imagenes', imagenes: [b] });
@@ -147,6 +189,7 @@ const secciones = capitulos.map((cap, i) => {
     piezas: piezasDe(cap.bloques),
     susurros: susurrosDe(parrafos),
     referencias: esReferencias ? refs.map((m) => ({ autor: m![1], anio: m![2], titulo: m![3] })) : null,
+    fondos: cap.bloques.flatMap((b) => (b.tipo === 'imagen' && LAMINAS_DE_FONDO[b.src]) || []),
     mapa: MAPAS[i % MAPAS.length],
     espejo: i % 2 === 1,
   };
@@ -222,13 +265,10 @@ const seccionReferencias = secciones.find((s) => s.referencias);
             <Ventana
               titulo={`${nombreArchivo(fotoPortada.src).replace(/\.\w+$/, '.bmp')} — Visor de especímenes`}
               menu={['Archivo', 'Edición', 'Ver', 'Ayuda']}
-              estado={[trama ? '4 colores · tramado ordenado' : 'Lámina', 'HH-01 · Hallazgo in situ']}
+              estado={[trama ? '4 colores · tramado ordenado · clic para ampliar' : 'Lámina', 'HH-01 · Hallazgo in situ']}
               class="hm-portada__foto"
             >
-              <figure class:list={['hm-foto', trama && 'hm-foto--trama']}>
-                <img src={withBase(fotoPortada.src)} alt={fotoPortada.alt} loading="eager" decoding="async" />
-                {trama && <img class="hm-foto__trama" src={withBase(trama)} alt="" aria-hidden="true" loading="eager" decoding="async" />}
-              </figure>
+              <Foto src={fotoPortada.src} alt={fotoPortada.alt} trama={trama} original={originalDe(fotoPortada.src)} nombre={nombreArchivo(originalDe(fotoPortada.src))} carga="eager" />
             </Ventana>
           );
         })()}
@@ -300,6 +340,9 @@ const seccionReferencias = secciones.find((s) => s.referencias);
       {capitulosConTexto.map((sec, i) => (
         <section class:list={['hm-estrato', sec.espejo && 'hm-estrato--espejo']} id={sec.id}>
           <img class="hm-mapa-fondo hm-estrato__mapa" src={sec.mapa} alt="" aria-hidden="true" loading="lazy" />
+          {sec.fondos.map((fondo, k) => (
+            <img class:list={['hm-lamina-fondo', `hm-lamina-fondo--${k + 1}`]} src={fondo} alt="" aria-hidden="true" loading="lazy" />
+          ))}
           <header class="hm-estrato__encabezado">
             <p class="hm-etiqueta">ESTRATO {sec.numero} · PROF. {profundidad(i)} · CAPA DE OCUPACIÓN</p>
             <h2 class="hm-display hm-estrato__titulo"><span class="hm-falla" data-texto={sec.titulo}>{sec.titulo}</span></h2>
@@ -324,16 +367,13 @@ const seccionReferencias = secciones.find((s) => s.referencias);
                 <blockquote class="hm-pieza hm-nota" set:html={enLinea(pieza.texto)} />
               );
               if (pieza.imagenes.length > 1) return (
-                <Ventana titulo={`C:\\HAMATUS\\ESTRATO_${sec.numero}`} icono="carpeta" menu={['Archivo', 'Edición', 'Ver', 'Favoritos']} estado={[`${pieza.imagenes.length} objetos`, 'Pasá el cursor para revelar']} class="hm-pieza hm-carpeta">
+                <Ventana titulo={`C:\\HAMATUS\\ESTRATO_${sec.numero}`} icono="carpeta" menu={['Archivo', 'Edición', 'Ver', 'Favoritos']} estado={[`${pieza.imagenes.length} objetos`, 'Cursor: revelar · Clic: ampliar']} class="hm-pieza hm-carpeta">
                   <ul class="hm-carpeta__grilla">
                     {pieza.imagenes.map((imagen) => {
                       const trama = tramaDe(imagen.src);
                       return (
                         <li>
-                          <figure class:list={['hm-foto', trama && 'hm-foto--trama']}>
-                            <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
-                            {trama && <img class="hm-foto__trama" src={withBase(trama)} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
-                          </figure>
+                          <Foto src={imagen.src} alt={imagen.alt} trama={trama} original={originalDe(imagen.src)} nombre={nombreArchivo(originalDe(imagen.src))} />
                           <span class="hm-carpeta__nombre">{nombreArchivo(imagen.src).replace(/\.\w+$/, '.bmp')}</span>
                         </li>
                       );
@@ -349,13 +389,10 @@ const seccionReferencias = secciones.find((s) => s.referencias);
                   icono={trama ? 'imagen' : 'texto'}
                   estado={[imagen.alt]}
                   inactiva={j % 2 === 1}
-                  class:list={['hm-pieza', trama ? 'hm-pieza--foto' : 'hm-pieza--lamina']}
+                  class:list={['hm-pieza', trama ? 'hm-pieza--foto' : 'hm-pieza--lamina', !trama && esVertical(imagen.src) && 'hm-pieza--vertical']}
                 >
                   {trama ? (
-                    <figure class="hm-foto hm-foto--trama">
-                      <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
-                      <img class="hm-foto__trama" src={withBase(trama)} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                    </figure>
+                    <Foto src={imagen.src} alt={imagen.alt} trama={trama} original={originalDe(imagen.src)} nombre={nombreArchivo(originalDe(imagen.src))} />
                   ) : (
                     <img class="hm-lamina-img" src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
                   )}
@@ -390,6 +427,36 @@ const seccionReferencias = secciones.find((s) => s.referencias);
         </section>
       )}
     </div>
+  </div>
+
+  <!-- Visor de imágenes: las fotos originales, sin intervenir, a escala real. -->
+  <div class="hm-visor" data-visor hidden role="dialog" aria-modal="true" aria-label="Visor de imágenes">
+    <div class="hm-visor__fondo" data-visor-cerrar></div>
+    <section class="hm-ventana hm-visor__ventana">
+      <header class="hm-ventana__barra">
+        <span class="hm-icono hm-icono--imagen" aria-hidden="true"></span>
+        <span class="hm-ventana__titulo" data-visor-titulo>Visor de imágenes</span>
+        <span class="hm-ventana__botones">
+          <span aria-hidden="true">_</span><span aria-hidden="true">□</span>
+          <button type="button" data-visor-cerrar aria-label="Cerrar el visor">×</button>
+        </span>
+      </header>
+      <nav class="hm-visor__herramientas">
+        <button type="button" class="hm-boton-sistema" data-visor-paso="-1">◄ Anterior</button>
+        <button type="button" class="hm-boton-sistema" data-visor-paso="1">Siguiente ►</button>
+        <span class="hm-visor__separador" aria-hidden="true"></span>
+        <button type="button" class="hm-boton-sistema" data-visor-escala aria-pressed="false">Tamaño real</button>
+        <span class="hm-visor__contador" data-visor-contador></span>
+      </nav>
+      <div class="hm-ventana__cuerpo hm-visor__lienzo" data-visor-lienzo>
+        <img data-visor-img alt="" />
+      </div>
+      <div class="hm-visor__tira" data-visor-tira></div>
+      <footer class="hm-ventana__estado">
+        <span data-visor-alt></span>
+        <span data-visor-medidas></span>
+      </footer>
+    </section>
   </div>
 
   <!-- Barra de tareas: los estratos y el reloj. -->
@@ -456,6 +523,92 @@ const seccionReferencias = secciones.find((s) => s.referencias);
   };
   window.addEventListener('scroll', alBajar, { passive: true });
   alBajar();
+
+  // Visor: clic (o Enter) en una foto la abre, original y sin intervenir.
+  const visor = document.querySelector<HTMLElement>('[data-visor]');
+  const visorImg = visor?.querySelector<HTMLImageElement>('[data-visor-img]');
+  const visorLienzo = visor?.querySelector<HTMLElement>('[data-visor-lienzo]');
+  const visorTira = visor?.querySelector<HTMLElement>('[data-visor-tira]');
+  const botonEscala = visor?.querySelector<HTMLButtonElement>('[data-visor-escala]');
+  // Una entrada por foto (la misma foto puede aparecer más de una vez).
+  const fotos = [...new Map([...document.querySelectorAll<HTMLElement>('[data-foto]')]
+    .map((f) => [f.dataset.original!, f])).values()];
+  let actual = 0;
+  let volverA: HTMLElement | null = null;
+
+  fotos.forEach((foto, i) => {
+    const miniatura = document.createElement('button');
+    miniatura.type = 'button';
+    miniatura.className = 'hm-visor__miniatura';
+    miniatura.setAttribute('aria-label', foto.dataset.alt ?? '');
+    miniatura.innerHTML = `<img src="${foto.dataset.miniatura}" alt="" loading="lazy">`;
+    miniatura.addEventListener('click', () => mostrar(i));
+    visorTira?.append(miniatura);
+  });
+
+  const escalaReal = (real: boolean) => {
+    visorLienzo?.classList.toggle('hm-visor__lienzo--real', real);
+    botonEscala?.setAttribute('aria-pressed', String(real));
+    if (botonEscala) botonEscala.textContent = real ? 'Ajustar a la ventana' : 'Tamaño real';
+  };
+
+  const mostrar = (i: number) => {
+    if (!visor || !visorImg) return;
+    actual = (i + fotos.length) % fotos.length;
+    const foto = fotos[actual];
+    escalaReal(false);
+    visorImg.src = foto.dataset.original!;
+    visorImg.alt = foto.dataset.alt ?? '';
+    visor.querySelector('[data-visor-titulo]')!.textContent = `${foto.dataset.nombre} — Visor de imágenes`;
+    visor.querySelector('[data-visor-alt]')!.textContent = foto.dataset.alt ?? '';
+    visor.querySelector('[data-visor-contador]')!.textContent = `${actual + 1} de ${fotos.length}`;
+    visor.querySelector('[data-visor-medidas]')!.textContent = 'Cargando…';
+    visorTira?.querySelectorAll('button').forEach((b, k) => b.classList.toggle('hm-activa', k === actual));
+    visorTira?.children[actual]?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  };
+
+  visorImg?.addEventListener('load', () => {
+    visor!.querySelector('[data-visor-medidas]')!.textContent = `${visorImg.naturalWidth} × ${visorImg.naturalHeight} px · original`;
+  });
+
+  const abrir = (i: number) => {
+    if (!visor) return;
+    volverA = document.activeElement as HTMLElement;
+    visor.hidden = false;
+    document.documentElement.classList.add('hm-con-visor');
+    mostrar(i);
+    visor.querySelector<HTMLButtonElement>('button[data-visor-cerrar]')?.focus();
+  };
+
+  const cerrar = () => {
+    if (!visor || visor.hidden) return;
+    visor.hidden = true;
+    document.documentElement.classList.remove('hm-con-visor');
+    visorImg?.removeAttribute('src');
+    volverA?.focus();
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-foto]').forEach((foto) => {
+    const i = fotos.findIndex((f) => f.dataset.original === foto.dataset.original);
+    foto.addEventListener('click', () => abrir(i));
+    foto.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(i); }
+    });
+  });
+  visor?.querySelectorAll('[data-visor-cerrar]').forEach((b) => b.addEventListener('click', cerrar));
+  visor?.querySelectorAll<HTMLElement>('[data-visor-paso]').forEach((b) =>
+    b.addEventListener('click', () => mostrar(actual + Number(b.dataset.visorPaso))));
+  botonEscala?.addEventListener('click', () => escalaReal(!visorLienzo?.classList.contains('hm-visor__lienzo--real')));
+  visorImg?.addEventListener('click', () => escalaReal(!visorLienzo?.classList.contains('hm-visor__lienzo--real')));
+  document.addEventListener('keydown', (e) => {
+    if (!visor || visor.hidden) return;
+    if (e.key === 'Escape') cerrar();
+    else if (e.key === 'ArrowRight') mostrar(actual + 1);
+    else if (e.key === 'ArrowLeft') mostrar(actual - 1);
+    else return;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
 
   // Reloj de la barra de tareas.
   const reloj = document.querySelector<HTMLElement>('[data-reloj]');

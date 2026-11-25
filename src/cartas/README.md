@@ -303,7 +303,8 @@ La composición se arma sobre una lámina de 1280 px de ancho que se escala
 (VOLVER, el Aparejo, VER EL MAPA y el Derrotero); abajo, una barra de tareas
 con un botón por capítulo y un reloj; a la izquierda, una regla
 estratigráfica que marca la profundidad al bajar. Las ventanas se arrastran
-por su barra de título.
+por su barra de título. Los mapas del fondo sangran por el borde de la
+pantalla y se desvanecen hacia adentro (con máscaras de degradé).
 
 No tiene opciones: el contenido sale de la estructura del Markdown.
 
@@ -318,7 +319,16 @@ No tiene opciones: el contenido sale de la estructura del Markdown.
 - Una **foto** es una imagen `.webp` con una versión tramada al lado, con el
   mismo nombre y `-trama.png`: se muestra la trama y, al pasar el cursor, el
   color. Las fotos seguidas van juntas en una carpeta; una foto sola o una
-  lámina (cualquier otra imagen), en su propia ventana.
+  lámina (cualquier otra imagen), en su propia ventana; una lámina vertical,
+  en una ventana alta y angosta.
+- Al hacer clic en una foto se abre el **visor**: la foto original, sin
+  intervenir (`-original.webp` al lado, si existe), ajustada a la ventana o a
+  tamaño real, con anterior y siguiente (también con las flechas), una tira de
+  miniaturas de todas las fotos de la página y Escape para cerrar.
+- Las láminas que contienen ventanas (la 005) no van en otra ventana: se
+  integran al fondo de su capítulo, con fusión y los bordes desvanecidos
+  (`LAMINAS_DE_FONDO` en `Carta.astro`, con sus recortes en
+  `hamatus/fondos/`). En el modo lectura se ven como siempre.
 - Las frases cortas entre comillas (“…”) de cada capítulo flotan entre sus
   ventanas, en minúsculas.
 - Un capítulo cuyos párrafos son todos `**Autor** (año). Título…` se muestra

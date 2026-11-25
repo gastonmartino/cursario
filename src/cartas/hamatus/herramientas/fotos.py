@@ -1,6 +1,7 @@
 # Prepara las fotos de Homo Hamatus para la carta hamatus: recorte, versión
 # color en WebP y versión tramada (4 tonos, tramado ordenado, a mitad de
-# resolución) en PNG; algunas con corrimiento de franjas.
+# resolución) en PNG, algunas con corrimiento de franjas; y la original, sin
+# recortar ni intervenir (hasta 2000 px), para el visor.
 # Uso, desde la raíz del repositorio: python3 src/cartas/hamatus/herramientas/fotos.py
 # Lee los originales de media/homo-hamatus/ y escribe en
 # public/curso01/subcursos/curso003/medios/fotos/.
@@ -62,6 +63,8 @@ def corrimiento(im, semilla):
 
 for i, (nombre, (archivo, (x0, y0, x1, y1), ancho, glitch)) in enumerate(FOTOS.items()):
     im = ImageOps.exif_transpose(Image.open(f'{SRC}/{archivo}')).convert('RGB')
+    original = im.copy(); original.thumbnail((2000, 2000), Image.LANCZOS)
+    original.save(f'{OUT}/{nombre}-original.webp', quality=76, method=6)
     W, H = im.size
     im = im.crop((int(x0 * W), int(y0 * H), int(x1 * W), int(y1 * H)))
     alto = round(ancho * im.size[1] / im.size[0])
