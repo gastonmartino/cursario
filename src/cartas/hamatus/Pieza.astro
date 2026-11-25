@@ -1,0 +1,65 @@
+---
+// Una pieza de un capítulo: una foto, una carpeta de fotos, una lámina, el
+// video o una nota. La usan las dos composiciones de la carta (ver Carta.astro).
+import Ventana from './Ventana.astro';
+import Foto from './Foto.astro';
+import { esVertical, nombreArchivo, originalDe, tramaDe, type PiezaHamatus } from './archivos';
+import { renderizarEnLinea } from '../../utils/markdown';
+import { withBase } from '../../utils/paths';
+
+
+interface Props {
+  pieza: PiezaHamatus;
+  // Número romano del capítulo, para el nombre de la carpeta.
+  numero: string;
+  // Lugar de la pieza en su capítulo: alterna ventanas activas e inactivas.
+  indice: number;
+  class?: string;
+}
+
+const { pieza, numero, indice, class: clase } = Astro.props;
+const CLASES_TEXTO = { negrita: 'hm-seleccion', italica: 'hm-italica', enlace: 'hm-enlace', codigo: 'hm-codigo' };
+const enLinea = (texto: string) => renderizarEnLinea(texto, CLASES_TEXTO);
+const imagen = pieza.tipo === 'imagenes' ? pieza.imagenes[0] : null;
+const trama = imagen ? tramaDe(imagen.src) : null;
+---
+
+{pieza.tipo === 'video' && (
+  <Ventana titulo="registro_de_campo.avi — Reproductor de medios" icono="video" estado={['Reproduciendo', 'Sitio HH-01']} class:list={['hm-pieza', 'hm-video', clase]}>
+    <div class="hm-video__marco">
+      <iframe src={`https://www.youtube-nocookie.com/embed/${pieza.youtube}`} title="Video de Homo hamatus" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="hm-video__controles" aria-hidden="true"><span>►</span><span>❚❚</span><span>■</span><span class="hm-video__barra"></span></div>
+  </Ventana>
+)}
+
+{pieza.tipo === 'cita' && <blockquote class:list={['hm-pieza', 'hm-nota', clase]} set:html={enLinea(pieza.texto)} />}
+
+{pieza.tipo === 'imagenes' && pieza.imagenes.length > 1 && (
+  <Ventana titulo={`C:\\HAMATUS\\ESTRATO_${numero}`} icono="carpeta" menu={['Archivo', 'Edición', 'Ver', 'Favoritos']} estado={[`${pieza.imagenes.length} objetos`, 'Cursor: revelar · Clic: ampliar']} class:list={['hm-pieza', 'hm-carpeta', clase]}>
+    <ul class="hm-carpeta__grilla">
+      {pieza.imagenes.map((foto) => (
+        <li>
+          <Foto src={foto.src} alt={foto.alt} trama={tramaDe(foto.src)} original={originalDe(foto.src)} nombre={nombreArchivo(originalDe(foto.src))} />
+          <span class="hm-carpeta__nombre">{nombreArchivo(foto.src).replace(/\.\w+$/, '.bmp')}</span>
+        </li>
+      ))}
+    </ul>
+  </Ventana>
+)}
+
+{imagen && pieza.tipo === 'imagenes' && pieza.imagenes.length === 1 && (
+  <Ventana
+    titulo={`${nombreArchivo(imagen.src).replace(/\.\w+$/, trama ? '.bmp' : '.jpg')} — ${trama ? 'Visor de especímenes' : 'Lámina'}`}
+    icono={trama ? 'imagen' : 'texto'}
+    estado={[imagen.alt]}
+    inactiva={indice % 2 === 1}
+    class:list={['hm-pieza', trama ? 'hm-pieza--foto' : 'hm-pieza--lamina', !trama && esVertical(imagen.src) && 'hm-pieza--vertical', clase]}
+  >
+    {trama ? (
+      <Foto src={imagen.src} alt={imagen.alt} trama={trama} original={originalDe(imagen.src)} nombre={nombreArchivo(originalDe(imagen.src))} />
+    ) : (
+      <img class="hm-lamina-img" src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
+    )}
+  </Ventana>
+)}

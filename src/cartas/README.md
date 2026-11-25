@@ -298,8 +298,18 @@ de un sistema operativo de fines de los noventa, con mapas de Latinoamérica
 como sitios de hallazgo. Sus estilos están en `hamatus/hamatus.css`, todos bajo
 `html.html-hamatus`.
 
-La composición se arma sobre una lámina de 1280 px de ancho que se escala
-(`zoom`) al lugar de la página. Arriba, una barra de menú con la navegación
+Tiene dos composiciones, según el ancho del lugar de la página (no el de la
+ventana: con el Derrotero abierto, la página es más angosta):
+
+- **ancha** (desde 1360 px): sobre una lámina de 1280 px, con el texto de cada
+  capítulo a dos columnas y sus ventanas al costado;
+- **media** (por debajo, como una tableta): sobre una lámina de 880 px, con el
+  texto en una sola columna y las ventanas flotando a un lado, intercaladas
+  entre los párrafos (y el video a todo el ancho).
+
+La lámina se escala (`zoom`) al lugar de la página. Un script en línea elige
+la composición antes de dibujar (`data-hm-composicion` en `<html>`), y la
+cambia si cambia el ancho. Arriba, una barra de menú con la navegación
 (VOLVER, el Aparejo, VER EL MAPA y el Derrotero); abajo, una barra de tareas
 con un botón por capítulo y un reloj; a la izquierda, una regla
 estratigráfica que marca la profundidad al bajar. Las ventanas se arrastran

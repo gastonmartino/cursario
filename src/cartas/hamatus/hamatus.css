@@ -1258,3 +1258,231 @@ html.html-hamatus .hm-visor__miniatura.hm-activa {
   outline: 1px dotted #fff;
   outline-offset: -2px;
 }
+
+/* ===========================================================================
+   COMPOSICIÓN MEDIA (lugar de la página de menos de 1360 px, como una
+   tableta): compuesta a 880 px. Texto en una sola columna, con las piezas
+   flotando a un lado, intercaladas entre los párrafos (.hm-estrato__flujo).
+   La elige el script de Carta.astro (data-hm-composicion en <html>).
+   =========================================================================== */
+
+/* En la ancha, el flujo de una columna no se muestra. */
+html.html-hamatus .hm-estrato__flujo {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-lamina {
+  width: 880px;
+  margin: 0 auto;
+}
+
+/* --- Portada --- */
+html.html-hamatus[data-hm-composicion='media'] .hm-portada {
+  height: 1150px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__mapa {
+  top: -10px;
+  right: -330px;
+  width: 820px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__etiqueta {
+  top: 56px;
+  left: 48px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__titulo {
+  top: 112px;
+  left: 40px;
+  font-size: 168px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__titulo .hm-falla {
+  margin-bottom: 44px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__foto {
+  top: 585px;
+  left: 450px;
+  width: 390px;
+  transform: rotate(1.6deg);
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-portada__bajada {
+  top: 610px;
+  left: 48px;
+  width: 330px;
+  font-size: 28px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-escritorio {
+  top: 790px;
+  left: 40px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* --- Prólogo: ficha, mapa y láminas, uno debajo del otro --- */
+html.html-hamatus[data-hm-composicion='media'] .hm-prologo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 60px;
+  padding: 0 48px 120px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-ficha {
+  width: 620px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-sitios {
+  align-self: flex-end;
+  width: 540px;
+  transform: rotate(-1.4deg);
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-prologo__laminas {
+  width: 100%;
+  gap: 40px;
+  margin-top: 0;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-prologo__lamina--vertical .hm-lamina-img {
+  height: 500px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-prologo__susurro {
+  position: static;
+  align-self: center;
+}
+
+/* --- Estratos: una columna con las piezas flotando --- */
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato {
+  display: block;
+  padding: 90px 48px 130px;
+}
+
+/* El texto ocupa todo el ancho: el mapa, más tenue, para no estorbar. */
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__mapa {
+  top: 40px;
+  right: -400px;
+  width: 900px;
+  opacity: 0.3;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato--espejo .hm-estrato__mapa {
+  right: auto;
+  left: -400px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__encabezado {
+  margin-bottom: 40px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__titulo {
+  font-size: 92px;
+  margin-bottom: 18px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__texto,
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__piezas {
+  display: none;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__flujo {
+  position: relative;
+  z-index: 3;
+  display: flow-root;
+  font: 400 17px/1.6 var(--hm-sans);
+  hyphens: auto;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__flujo > p + p {
+  margin-top: 0.9em;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato__flujo > p:not(.hm-susurro):first-of-type::first-line {
+  font-family: var(--hm-mono);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Las piezas flotan del lado de afuera (a la derecha; en los capítulos
+   espejados, a la izquierda), y el texto las rodea. */
+html.html-hamatus[data-hm-composicion='media'] .hm-pieza--flotante {
+  float: right;
+  clear: right;
+  width: 380px;
+  margin: 8px -6px 34px 38px;
+  transform: rotate(1deg);
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-pieza--flotante:nth-of-type(even) {
+  transform: rotate(-1.3deg);
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-estrato--espejo .hm-pieza--flotante {
+  float: left;
+  clear: left;
+  margin: 8px 38px 34px -6px;
+}
+
+/* Una lámina vertical, más angosta; el video, a todo el ancho. */
+html.html-hamatus[data-hm-composicion='media'] .hm-pieza--flotante.hm-pieza--vertical {
+  width: fit-content;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-pieza--flotante.hm-pieza--vertical .hm-lamina-img {
+  height: 520px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-pieza--flotante.hm-video {
+  float: none;
+  clear: both;
+  width: 100%;
+  margin: 40px 0 10px;
+  transform: rotate(-0.6deg);
+}
+
+/* Los susurros, como notas al margen entre los párrafos. */
+html.html-hamatus[data-hm-composicion='media'] .hm-susurro--nota {
+  margin: 26px 0 26px 34px;
+  font-size: 25px;
+  mix-blend-mode: multiply;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-susurro--nota::before {
+  content: "“";
+  font-family: var(--hm-serif);
+  color: var(--hm-rojo);
+}
+
+/* Las láminas de fondo, más tenues y hacia los márgenes: ahora el texto
+   ocupa todo el ancho. */
+html.html-hamatus[data-hm-composicion='media'] .hm-lamina-fondo {
+  width: 360px;
+  opacity: 0.5;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-lamina-fondo--1 {
+  top: 260px;
+  right: -170px;
+  left: auto;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-lamina-fondo--2 {
+  top: 1150px;
+  left: -170px;
+  right: auto;
+}
+
+/* --- Referencias --- */
+html.html-hamatus[data-hm-composicion='media'] .hm-referencias {
+  padding: 80px 48px 160px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-referencias__susurro {
+  margin: 50px 0 0 120px;
+}

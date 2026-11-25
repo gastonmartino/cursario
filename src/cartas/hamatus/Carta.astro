@@ -34,6 +34,7 @@ import BotonAparejo from '../../components/navegacion/BotonAparejo.astro';
 import BotonMenuDerrotero from '../../components/navegacion/BotonMenuDerrotero.astro';
 import Ventana from './Ventana.astro';
 import Foto from './Foto.astro';
+import Pieza from './Pieza.astro';
 import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
@@ -71,45 +72,7 @@ for (const b of iPrimerCapitulo < 0 ? [] : bloques.slice(iPrimerCapitulo)) {
 const textoCita = (cita: Cita) => cita.partes.map((p) => (p.tipo === 'texto' ? p.texto : '')).join(' ').trim();
 const enlaceSolo = (texto: string) => texto.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
 const sinMarcas = (texto: string) => texto.replace(/\*+|_/g, '').trim();
-const nombreArchivo = (src: string) => src.split('/').pop() ?? src;
-
-// Foto con versión tramada al lado (mismo nombre, "-trama.png").
-const tramaDe = (src: string) => {
-  if (!/\.webp$/i.test(src)) return null;
-  const trama = src.replace(/\.webp$/i, '-trama.png');
-  return fs.existsSync(path.join(process.cwd(), 'public', trama)) ? trama : null;
-};
-
-// La versión original de una foto, sin intervenir, para el visor (mismo
-// nombre y "-original.webp"); sin ella, la misma imagen.
-const originalDe = (src: string) => {
-  const original = src.replace(/\.webp$/i, '-original.webp');
-  return original !== src && fs.existsSync(path.join(process.cwd(), 'public', original)) ? original : src;
-};
-
-// Ancho y alto de una imagen de public/, leídos de su encabezado (JPEG, PNG o
-// WebP), para saber si una lámina es vertical.
-const medidas = (src: string): { ancho: number; alto: number } | null => {
-  try {
-    const b = fs.readFileSync(path.join(process.cwd(), 'public', src));
-    if (b.toString('ascii', 1, 4) === 'PNG') return { ancho: b.readUInt32BE(16), alto: b.readUInt32BE(20) };
-    if (b.toString('ascii', 8, 12) === 'WEBP') {
-      const tipo = b.toString('ascii', 12, 16);
-      if (tipo === 'VP8X') return { ancho: 1 + b.readUIntLE(24, 3), alto: 1 + b.readUIntLE(27, 3) };
-      if (tipo === 'VP8 ') return { ancho: b.readUInt16LE(26) & 0x3fff, alto: b.readUInt16LE(28) & 0x3fff };
-      if (tipo === 'VP8L') { const v = b.readUInt32LE(21); return { ancho: (v & 0x3fff) + 1, alto: ((v >> 14) & 0x3fff) + 1 }; }
-    }
-    if (b[0] === 0xff && b[1] === 0xd8) {
-      for (let i = 2; i < b.length;) {
-        const marca = b[i + 1];
-        if (marca >= 0xc0 && marca <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marca)) return { ancho: b.readUInt16BE(i + 7), alto: b.readUInt16BE(i + 5) };
-        i += 2 + b.readUInt16BE(i + 2);
-      }
-    }
-  } catch {}
-  return null;
-};
-const esVertical = (src: string) => { const m = medidas(src); return Boolean(m && m.alto > m.ancho); };
+import { esVertical, nombreArchivo, originalDe, tramaDe } from './archivos';
 
 // Láminas que en esta página van integradas al fondo de su capítulo, en lugar
 // de en una ventana: contienen ventanas, y adentro de otra se ven extrañas. En
@@ -125,12 +88,12 @@ const susurrosDe = (textos: string[]) => [...new Set(textos.flatMap((t) =>
 const referencia = (texto: string) => texto.match(/^\*\*(.+?)\*\*\s*\((\d{4})\)\.?\s*(.*)$/);
 
 // Agrupa las imágenes seguidas.
-type Pieza =
+type TipoPieza =
   | { tipo: 'imagenes'; imagenes: Imagen[] }
   | { tipo: 'video'; youtube: string }
   | { tipo: 'cita'; texto: string };
 const piezasDe = (lista: BloqueMimo[]) => {
-  const piezas: Pieza[] = [];
+  const piezas: TipoPieza[] = [];
   for (const b of lista) {
     const ultima = piezas[piezas.length - 1];
     if (b.tipo === 'imagen') {
@@ -189,6 +152,7 @@ const secciones = capitulos.map((cap, i) => {
     piezas: piezasDe(cap.bloques),
     susurros: susurrosDe(parrafos),
     referencias: esReferencias ? refs.map((m) => ({ autor: m![1], anio: m![2], titulo: m![3] })) : null,
+    flujo: [] as EntradaFlujo[],
     fondos: cap.bloques.flatMap((b) => (b.tipo === 'imagen' && LAMINAS_DE_FONDO[b.src]) || []),
     mapa: MAPAS[i % MAPAS.length],
     espejo: i % 2 === 1,
@@ -196,6 +160,26 @@ const secciones = capitulos.map((cap, i) => {
 });
 
 const capitulosConTexto = secciones.filter((s) => !s.referencias);
+
+// Composición media: los párrafos de un capítulo con sus piezas intercaladas.
+// Las piezas se reparten entre los párrafos (antes del primero, del medio…),
+// y los susurros (hasta tres) van como notas al margen entre ellas.
+type EntradaFlujo =
+  | { tipo: 'parrafo'; texto: string }
+  | { tipo: 'susurro'; texto: string }
+  | { tipo: 'pieza'; pieza: TipoPieza; indice: number };
+const flujoDe = (parrafos: string[], piezas: TipoPieza[], susurros: string[]): EntradaFlujo[] => {
+  const despues = new Map<number, EntradaFlujo[]>();
+  const agregar = (lugar: number, entrada: EntradaFlujo) => despues.set(lugar, [...(despues.get(lugar) ?? []), entrada]);
+  piezas.forEach((pieza, j) => {
+    const lugar = Math.min(parrafos.length - 1, Math.floor((j * parrafos.length) / Math.max(1, piezas.length)));
+    agregar(lugar, { tipo: 'pieza', pieza, indice: j });
+  });
+  susurros.slice(0, 3).forEach((texto, k) => agregar(Math.min(parrafos.length - 1, k + 1), { tipo: 'susurro', texto }));
+  // Las piezas van antes del párrafo que les toca, para que el texto las rodee.
+  return parrafos.flatMap((texto, i) => [...(despues.get(i) ?? []), { tipo: 'parrafo', texto } as EntradaFlujo]);
+};
+for (const sec of secciones) sec.flujo = flujoDe(sec.parrafos, sec.piezas, sec.susurros);
 
 // Reparte los susurros (menos el primero, que va arriba) entre las piezas.
 const susurrosTras = (susurros: string[], j: number, total: number) => {
@@ -247,6 +231,18 @@ const seccionReferencias = secciones.find((s) => s.referencias);
 
   <div class="hm-pagina" data-pagina>
     <div class="hm-lamina" data-lamina>
+      <script is:inline>
+        // Antes de dibujar: la composición según el ancho del lugar de la
+        // página (ancha desde 1360 px, media por debajo) y su escala.
+        (() => {
+          const lamina = document.currentScript.parentElement;
+          const ancho = lamina.parentElement.clientWidth;
+          const media = ancho < 1360;
+          const base = media ? 880 : 1280;
+          document.documentElement.dataset.hmComposicion = media ? 'media' : 'ancha';
+          lamina.style.zoom = String(Math.min(media ? 1.3 : 1.35, Math.max(0.6, ancho / base)));
+        })();
+      </script>
 
       <!-- PORTADA -->
       <section class="hm-portada" id="superficie">
@@ -361,55 +357,22 @@ const seccionReferencias = secciones.find((s) => s.referencias);
             {sec.parrafos.map((texto) => <p set:html={enLinea(texto)} />)}
           </div>
 
+          <!-- Composición media: una sola columna de texto con las piezas
+               flotando a un lado, intercaladas entre los párrafos. -->
+          <div class="hm-estrato__flujo">
+            {sec.flujo.map((entrada) => entrada.tipo === 'parrafo'
+              ? <p set:html={enLinea(entrada.texto)} />
+              : entrada.tipo === 'susurro'
+                ? <p class="hm-susurro hm-susurro--nota">{entrada.texto}</p>
+                : <Pieza pieza={entrada.pieza} numero={sec.numero} indice={entrada.indice} class="hm-pieza--flotante" />)}
+          </div>
+
           <div class="hm-estrato__piezas">
             {sec.susurros.length > 0 && <p class="hm-susurro hm-susurro--suelto">{sec.susurros[0]}</p>}
-            {sec.piezas.map((pieza, j) => [(() => {
-              if (pieza.tipo === 'video') return (
-                <Ventana titulo="registro_de_campo.avi — Reproductor de medios" icono="video" estado={['Reproduciendo', 'Sitio HH-01']} class="hm-pieza hm-video">
-                  <div class="hm-video__marco">
-                    <iframe src={`https://www.youtube-nocookie.com/embed/${pieza.youtube}`} title="Video de Homo hamatus" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  </div>
-                  <div class="hm-video__controles" aria-hidden="true"><span>►</span><span>❚❚</span><span>■</span><span class="hm-video__barra"></span></div>
-                </Ventana>
-              );
-              if (pieza.tipo === 'cita') return (
-                <blockquote class="hm-pieza hm-nota" set:html={enLinea(pieza.texto)} />
-              );
-              if (pieza.imagenes.length > 1) return (
-                <Ventana titulo={`C:\\HAMATUS\\ESTRATO_${sec.numero}`} icono="carpeta" menu={['Archivo', 'Edición', 'Ver', 'Favoritos']} estado={[`${pieza.imagenes.length} objetos`, 'Cursor: revelar · Clic: ampliar']} class="hm-pieza hm-carpeta">
-                  <ul class="hm-carpeta__grilla">
-                    {pieza.imagenes.map((imagen) => {
-                      const trama = tramaDe(imagen.src);
-                      return (
-                        <li>
-                          <Foto src={imagen.src} alt={imagen.alt} trama={trama} original={originalDe(imagen.src)} nombre={nombreArchivo(originalDe(imagen.src))} />
-                          <span class="hm-carpeta__nombre">{nombreArchivo(imagen.src).replace(/\.\w+$/, '.bmp')}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </Ventana>
-              );
-              const imagen = pieza.imagenes[0];
-              const trama = tramaDe(imagen.src);
-              return (
-                <Ventana
-                  titulo={`${nombreArchivo(imagen.src).replace(/\.\w+$/, trama ? '.bmp' : '.jpg')} — ${trama ? 'Visor de especímenes' : 'Lámina'}`}
-                  icono={trama ? 'imagen' : 'texto'}
-                  estado={[imagen.alt]}
-                  inactiva={j % 2 === 1}
-                  class:list={['hm-pieza', trama ? 'hm-pieza--foto' : 'hm-pieza--lamina', !trama && esVertical(imagen.src) && 'hm-pieza--vertical']}
-                >
-                  {trama ? (
-                    <Foto src={imagen.src} alt={imagen.alt} trama={trama} original={originalDe(imagen.src)} nombre={nombreArchivo(originalDe(imagen.src))} />
-                  ) : (
-                    <img class="hm-lamina-img" src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
-                  )}
-                </Ventana>
-              );
-            })(),
-            // Después de cada pieza, los susurros que le tocan (el resto, al final).
-            ...susurrosTras(sec.susurros, j, sec.piezas.length).map((susurro) => <p class="hm-susurro hm-susurro--suelto">{susurro}</p>),
+            {sec.piezas.map((pieza, j) => [
+              <Pieza pieza={pieza} numero={sec.numero} indice={j} />,
+              // Después de cada pieza, los susurros que le tocan (el resto, al final).
+              ...susurrosTras(sec.susurros, j, sec.piezas.length).map((susurro) => <p class="hm-susurro hm-susurro--suelto">{susurro}</p>),
             ])}
           </div>
         </section>
@@ -481,13 +444,18 @@ const seccionReferencias = secciones.find((s) => s.referencias);
 </LayoutCarta>
 
 <script>
-  // Escala de la lámina: se compone a 1280 px y se ajusta al lugar de la página.
+  // Composición y escala de la lámina según el ancho del lugar de la página:
+  // ancha (compuesta a 1280 px) desde 1360 px; media (a 880 px) por debajo.
+  // La primera vez lo decide el script en línea de la lámina, antes de dibujar.
+  const ANCHO_COMPOSICION_ANCHA = 1360;
   const pagina = document.querySelector<HTMLElement>('[data-pagina]');
   const lamina = document.querySelector<HTMLElement>('[data-lamina]');
   let zoom = 1;
   const ajustar = () => {
     if (!pagina || !lamina) return;
-    zoom = Math.min(1.35, Math.max(0.5, pagina.clientWidth / 1280));
+    const media = pagina.clientWidth < ANCHO_COMPOSICION_ANCHA;
+    document.documentElement.dataset.hmComposicion = media ? 'media' : 'ancha';
+    zoom = Math.min(media ? 1.3 : 1.35, Math.max(0.6, pagina.clientWidth / (media ? 880 : 1280)));
     lamina.style.setProperty('zoom', String(zoom));
   };
   ajustar();
