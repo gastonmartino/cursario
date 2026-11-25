@@ -275,6 +275,30 @@ pageUrl: 'rebelion-en-la-granja-de-clics',   // → /rebelion-en-la-granja-de-cl
 
 Los archivos se siguen buscando en la carpeta de siempre. Si una URL propia se repite, o coincide con una carpeta de `public/` (como `curso01`), el build se detiene con un error.
 
+### 6.6. Orden del Derrotero (`src/data/derrotero.ts`)
+
+Qué trabajos aparecen en el Derrotero, y en qué sección, se define en cada ínsula e isla (`featured` y `derroteroSection`). En qué **orden** aparecen se define aparte, en `src/data/derrotero.ts`, con una lista de ids por sección:
+
+```ts
+export const ORDEN_DERROTERO = {
+  inicio: [
+    'generativa',          // un curso destacado: el orden de los bloques
+    'gen-serie-03',        // sus islas destacadas: el orden dentro del bloque
+    'gen-serie-01',
+    'arte-electronico',
+    'arte-electronico-03',
+  ],
+  obras: ['expediente-1126', 'arte-electronico-03', 'gen-serie-02'],
+  bitacora: [],
+  escritos: [],
+};
+```
+
+- **Inicio:** los cursos destacados se muestran en el orden en que aparecen en la lista, cada uno con su portada y sus islas destacadas en el orden de la lista. Las islas destacadas de cursos no destacados van al final, también en ese orden.
+- **Obras, Bitácora y Escritos:** los trabajos en el orden de la lista, pudiendo mezclar cursos.
+- Lo que no está en una lista se muestra igual, después de lo listado y en el orden de siempre: por curso (el de `insulas.ts`) y, dentro de cada curso, en el orden de `islas.ts`. Una lista vacía deja ese orden.
+- Si una lista nombra un id que no existe, o que no aparece en esa sección (por ejemplo, una isla no destacada en `inicio`), el build se detiene y lo avisa.
+
 ## 7. Cómo añadir una nueva isla (subcurso)
 
 1. Crear la carpeta pública con sus dos subcarpetas:

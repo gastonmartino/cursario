@@ -28,6 +28,7 @@
 // "Menú del Derrotero desplegado").
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
+import { ORDEN_DERROTERO } from '../data/derrotero';
 import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
 import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
@@ -49,6 +50,23 @@ const anioDe = (...textos: Array<string | null | undefined>) =>
   textos.map((texto) => texto?.match(/\b(19|20)\d{2}\b/)?.[0]).find(Boolean) ?? null;
 
 const ordenCurso = (id: string) => INSULAS.findIndex((curso) => curso.id === id);
+
+// Ordena según una lista de ORDEN_DERROTERO (src/data/derrotero.ts): primero
+// lo listado, en el orden de la lista; después el resto, en el orden que
+// traía. Si la lista nombra algo que no está entre los elementos, el build se
+// detiene y lo avisa.
+const ordenarSegun = <T,>(nombreLista: string, lista: string[], elementos: T[], id: (elemento: T) => string): T[] => {
+  const ids = new Set(elementos.map(id));
+  const ajenos = lista.filter((entrada) => !ids.has(entrada));
+  if (ajenos.length > 0) {
+    throw new Error(`ORDEN_DERROTERO.${nombreLista} (src/data/derrotero.ts) nombra ids que no aparecen en esa sección del Derrotero: ${ajenos.join(', ')}`);
+  }
+  const lugar = new Map(lista.map((entrada, i) => [entrada, i]));
+  return elementos
+    .map((elemento, i) => ({ elemento, i, lugar: lugar.get(id(elemento)) ?? lista.length }))
+    .sort((a, b) => a.lugar - b.lugar || a.i - b.i)
+    .map(({ elemento }) => elemento);
+};
 
 // Las descripciones pueden tener negritas e itálicas en Markdown; en el
 // Derrotero se muestran como texto llano.
@@ -107,7 +125,8 @@ const todas = [...piezasDeInsulas, ...piezas.map((pieza) => ({ ...pieza, esInsul
 
 // Cada isla (o ínsula) aparece en la sección que indica su derroteroSection
 // (en src/data/); sin ella, en ninguna.
-const deSeccion = (seccion: string) => todas.filter((pieza) => pieza.seccion === seccion);
+const deSeccion = (seccion: 'obras' | 'bitacora' | 'escritos') =>
+  ordenarSegun(seccion, ORDEN_DERROTERO[seccion], todas.filter((pieza) => pieza.seccion === seccion), (pieza) => pieza.id);
 const obras = deSeccion('obras');
 const bitacora = deSeccion('bitacora');
 const escritos = deSeccion('escritos');
@@ -127,6 +146,24 @@ const cursosDestacados = INSULAS.filter((insula) => insula.featured).map((insula
   piezas: destacadas.filter((pieza) => pieza.idCurso === insula.id),
 }));
 const destacadasSueltas = destacadas.filter((pieza) => !cursosDestacados.some((curso) => curso.id === pieza.idCurso));
+
+// El orden del Inicio (ORDEN_DERROTERO.inicio): los cursos de la lista ordenan
+// los bloques, y las islas, cada bloque y las sueltas.
+{
+  const lista = ORDEN_DERROTERO.inicio;
+  const validos = new Set([...cursosDestacados.map((curso) => curso.id), ...destacadas.map((pieza) => pieza.id)]);
+  const ajenos = lista.filter((entrada) => !validos.has(entrada));
+  if (ajenos.length > 0) {
+    throw new Error(`ORDEN_DERROTERO.inicio (src/data/derrotero.ts) nombra ids que no son cursos ni islas destacados (featured): ${ajenos.join(', ')}`);
+  }
+}
+const listaInicio = ORDEN_DERROTERO.inicio;
+const enLista = (ids: Set<string>) => listaInicio.filter((entrada) => ids.has(entrada));
+const idsCursos = new Set(cursosDestacados.map((curso) => curso.id));
+const cursosEnOrden = ordenarSegun('inicio', enLista(idsCursos), cursosDestacados, (curso) => curso.id)
+  .map((curso) => ({ ...curso, piezas: ordenarSegun('inicio', enLista(new Set(curso.piezas.map((p) => p.id))), curso.piezas, (pieza) => pieza.id) }));
+const sueltasEnOrden = ordenarSegun('inicio', enLista(new Set(destacadasSueltas.map((p) => p.id))), destacadasSueltas, (pieza) => pieza.id);
+
 
 const categorias = INSULAS.map((insula) => ({
   id: insula.id,
@@ -308,7 +345,7 @@ const secciones = [
 
         <!-- Inicio: las obras destacadas, por curso destacado -->
         <div data-solo-seccion="inicio" class="flex flex-col gap-12">
-          {cursosDestacados.map((curso) => (
+          {cursosEnOrden.map((curso) => (
             <section class="derrotero-destacado" aria-label={curso.nombre}>
               {curso.pagina ? (
                 <Fragment>
@@ -365,9 +402,9 @@ const secciones = [
   </script>
 </section>
           ))}
-          {destacadasSueltas.length > 0 && (
+          {sueltasEnOrden.length > 0 && (
             <ul class="derrotero-grilla">
-              {destacadasSueltas.map((obra) => (
+              {sueltasEnOrden.map((obra) => (
                 <li>
                   <a href={obra.href ?? undefined} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>

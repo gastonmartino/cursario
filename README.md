@@ -633,7 +633,7 @@ Además hay 18 islotes, distribuidos entre el lienzo principal y los lienzos de 
 La portada (`/`) se divide en dos mitades separadas por una **costura** vertical:
 
 -   **Mapa** (`Mapa.astro`, "Gastón Martino // Cursario"): el lienzo infinito para recorrer el territorio a la deriva. Arma cada tarjeta combinando su contenido (`src/data/`) con su ubicación (`Derivas.ts`), y le pasa al motor lo que necesita para dibujar.
--   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado, `featured`), **Obras**, **Bitácora**, **Escritos** (según el `derroteroSection` de cada isla o ínsula), **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador.
+-   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado, `featured`), **Obras**, **Bitácora**, **Escritos** (según el `derroteroSection` de cada isla o ínsula), **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador. El orden de los trabajos en cada sección, y el de los cursos y obras del Inicio, se define en `src/data/derrotero.ts`.
 
 La manija de la costura se arrastra, se mueve con sus flechas o con el teclado, y se imanta en tres posiciones (cerrado, mitad, completo); la posición se recuerda en el navegador. La costura existe desde 1024 px de ancho; por debajo se ve una vista o la otra, con un botón para pasar de una a otra.
 
