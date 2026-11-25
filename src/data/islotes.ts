@@ -289,6 +289,7 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showHeader: false,
     imageUrl: '/curso01/subcursos/curso006/medios/manzana-grabado.webp',
     imageMaxHeight: 400,
+    backgroundColor: '#ffffff',
     code: 'FUERA DE TEMPORADA',
     tag: '',
     accentColor: '#0038A8',
