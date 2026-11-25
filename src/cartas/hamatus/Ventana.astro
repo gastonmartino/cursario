@@ -1,0 +1,38 @@
+---
+// Una ventana del sistema operativo falso: barra de título (que se arrastra;
+// ver el script de Carta.astro), menú opcional, contenido y barra de estado.
+interface Props {
+  titulo: string;
+  icono?: 'imagen' | 'carpeta' | 'ficha' | 'mapa' | 'video' | 'texto';
+  menu?: string[];
+  estado?: string[];
+  class?: string;
+  style?: string;
+  inactiva?: boolean;
+}
+
+const { titulo, icono = 'imagen', menu, estado, class: clase, style, inactiva = false } = Astro.props;
+---
+
+<section class:list={['hm-ventana', inactiva && 'hm-ventana--inactiva', clase]} style={style} data-ventana>
+  <header class="hm-ventana__barra" data-arrastre>
+    <span class={`hm-icono hm-icono--${icono}`} aria-hidden="true"></span>
+    <span class="hm-ventana__titulo">{titulo}</span>
+    <span class="hm-ventana__botones" aria-hidden="true">
+      <span>_</span><span>□</span><span>×</span>
+    </span>
+  </header>
+  {menu && (
+    <nav class="hm-ventana__menu" aria-hidden="true">
+      {menu.map((item) => <span><u>{item.slice(0, 1)}</u>{item.slice(1)}</span>)}
+    </nav>
+  )}
+  <div class="hm-ventana__cuerpo">
+    <slot />
+  </div>
+  {estado && (
+    <footer class="hm-ventana__estado">
+      {estado.map((celda) => <span>{celda}</span>)}
+    </footer>
+  )}
+</section>

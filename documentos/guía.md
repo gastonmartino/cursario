@@ -408,7 +408,7 @@ carta: cursario
 # Título
 ```
 
-Sin encabezado o sin el dato `carta`, se usa el **cartulario**, la carta estándar. Las cartas disponibles son `cartulario`, `cursario` y `generativa`. Si el nombre no corresponde a ninguna, el build falla con un mensaje que lista las disponibles.
+Sin encabezado o sin el dato `carta`, se usa el **cartulario**, la carta estándar. Las cartas disponibles son `cartulario`, `cursario`, `generativa` y `hamatus` (experimental, para la página de Homo Hamatus). Si el nombre no corresponde a ninguna, el build falla con un mensaje que lista las disponibles.
 
 Las páginas con una carta distinta del cartulario tienen además una versión en **modo lectura**, armada con el cartulario, en `{URL de la página}cartulario/`, y un control flotante para pasar de una versión a otra. Para elegir qué imágenes aparecen en el modo lectura, se agrega `{lectura}` al final de su línea; con `lectura-imagenes: ninguna` en el encabezado, no aparece ninguna.
 

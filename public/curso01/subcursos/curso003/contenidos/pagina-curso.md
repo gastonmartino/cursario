@@ -1,6 +1,9 @@
+---
+carta: hamatus
+---
 # Homo Hamatus
 ## Una fenomenología de la vulnerabilidad.
-![Instalación Homo Hamatus - Torres de redes de sostén](/curso01/subcursos/curso003/medios/homo-hamatus-000.jpg)
+![Homo hamatus: la torre de redes circulares en la sala de exposición](/curso01/subcursos/curso003/medios/fotos/hh-torre.webp)
 > [Ver el escrito completo de "Homo Hamatus" como documento PDF](/documentos/homo_hamatus.pdf)
 
 ### *PROLES AVSTRALIS*
@@ -17,21 +20,33 @@ Al igual que la blasfemia de Haraway con su mítica figura del cíborg, el *Homo
 
 Curiosamente, las modalidades económicas y tecnológicas actuales, vinculadas directamente con el desmantelamiento del estado de bienestar a nivel planetario, han arreado al *Homo hamatus* por fuera de las fronteras de su hábitat original para llevarlo a ocupar la misma casa paterna en la que nunca había sido del todo bienvenido. Más aún, la nueva “economía del trabajo doméstico” propuesta por Richard Gordon ha conseguido incluso feminizar la figura del *Homo hamatus* como consecuencia de una reestructuración del trabajo que comienza a adquirir las características históricamente atribuidas al trabajo femenino: flexibilidad extrema, temporalidad, disponibilidad permanente, invisibilización, fragmentación y vulnerabilidad. En palabras de Haraway “[...] las proyecciones para el desempleo estructural a nivel mundial, derivado de las nuevas tecnologías, son parte de la imagen de la economía del trabajo doméstico. A medida que la robótica y las tecnologías afines llevan a los hombres al desempleo en los países «desarrollados» y dificultan cada vez más la generación de puestos de trabajo masculinos en el «desarrollo» del tercer mundo, y a medida que la oficina automatizada se convierte en norma, incluso en países con excedente de mano de obra, la feminización del trabajo se intensifica” (Haraway, 2023, p. 266).
 
+![La torre entre el público](/curso01/subcursos/curso003/medios/fotos/hh-sala.webp)
+![Los anillos y sus redes, de perfil](/curso01/subcursos/curso003/medios/fotos/hh-perfil.webp)
+
 ![Los ganchos del Homo hamatus: artilugio especulativo](/curso01/subcursos/curso003/medios/homo-hamatus-002.jpg)
 
 ## Fenomenología de la vulnerabilidad
 El **gancho** del *Homo hamatus* no es más que un artilugio especulativo, una especie de prótesis conceptual para pensar las formas contemporáneas de los vínculos, las dependencias y el sostén, principalmente, en contextos de inestabilidad y vulnerabilidad. El gancho constituye el dispositivo que hace posible la formación de conexiones siempre provisorias dentro del mundo social, un espacio atravesado por jerarquías, asimetrías y desigualdades donde, como advierte Latour, “no hay entusiasmo, libre albedrío o ingenio que pueda eliminar esas asimetrías” (2008, p. 95). Para este autor, lo social “es el nombre de un movimiento, un desplazamiento, una transformación, una traducción, un enrolamiento. Es una asociación entre entidades que de ninguna manera son reconocibles como sociales en el sentido habitual, excepto en el breve momento en que son reorganizadas” (2008, p. 97). En este sentido, el *Homo hamatus* puede comprenderse como una de esas entidades transitoriamente asociadas que describe la “Teoría del Actor-Red”: un actor que participa en la conformación de redes de mediaciones siempre cambiantes. Sin embargo, siguiendo a Latour, ese actor no constituye siempre el origen de la acción, por el contrario, “un actor es aquello que muchos otros hacen actuar…, no es la fuente de una acción sino el blanco móvil de una enorme cantidad de entidades que convergen hacia él” (2008, p. 73). En resumen, la concepción de lo social como movimientos y desplazamientos, la constitución de asociaciones provisorias y vínculos dinámicos en contextos de desigualdad y, por último, las acciones del actor como efecto distribuido entre múltiples entidades de la red, conforman el marco conceptual del que emerge el *Homo hamatus* y que desplaza la teoría original hacia una **fenomenología de la vulnerabilidad**. En lugar de preguntarse por cómo se forman las redes y sus asociaciones, busca visibilizar cómo se siente vivir de ellas cuando la capacidad de sostén es incierta y la existencia misma consiste en gestionar el riego de la caída. El *Homo hamatus* "**gravitacionaliza**" la teoría de Latour al introducir la propia gravedad como un agente político que distribuye diferencialmente las posibilidades de sostén, permanencia o expulsión. No es casualidad que gran parte del vocabulario cotidiano con el que describimos la vulnerabilidad esté invadido por imágenes gravitacionales:  “caerse del sistema”, “estar colgado”, “hacer pie”, “atar con alambre”, “pender de un hilo”, “dejar caer”, “dar una mano”, “tener un sostén familiar” o "apoyarse en alguien". Lejos de ser simples metáforas, estas expresiones revelan una experiencia compartida en la que la vida social se comprende, se narra y se disputa en términos de sostén, equilibrio y caída.
 
-![La caída del Homo Hamatus a través de las redes](/curso01/subcursos/curso003/medios/homo-hamatus-003.jpg)
+![Ganchos suspendidos sobre la columna de redes](/curso01/subcursos/curso003/medios/fotos/hh-ganchos.webp)
+
+![La caída del Homo Hamatus a través de las redes](/curso01/subcursos/curso003/medios/homo-hamatus-003-diagrama.jpg)
 
 ## Víctimas de gravedad
 La **gravedad** pasa a ser, entonces, la fuerza que distribuye las tensiones dentro de la red de asociaciones y que es aprovechada —y sistemáticamente instrumentalizada— por algunos actores insidiosos como potencia expulsiva para desprenderse de supuestos “pesos muertos” cuya sola permanencia se asume como una sobrecarga prescindible. Al hacerlo, se desligan de toda responsabilidad y convierten a estos últimos en aparentes “víctimas de gravedad”, como si su caída fuese el resultado inevitable de una ley natural y no el efecto de decisiones políticas. Pero la gravedad también puede entenderse como una fuerza movilizadora y cohesiva, capaz de tensar un entramado más solidario, resistente y contenedor, donde el peso se redistribuye en lugar de descargarse sobre los más vulnerables.
 Si bien para Latour **la red** es sólo un concepto, “es una herramienta para ayudar a describir algo, no algo que se está describiendo” (2008, p. 190), el abordaje del *Homo hamatus* desde una perspectiva fenomenológica precisa darle espesura a esas redes, conferirles una materialidad y una configuración que enfatice la verticalidad del descenso que ellas mismas propician o, a veces, amortiguan. Desde esta perspectiva, la obra se plantea como una interfaz espacial: un modelo del mundo del *Homo hamatus* que sitúa al observador, en principio, fuera de ese universo —una simulación metafórica de su propio mundo—, como testigo de los fenómenos representados. Sin embargo, esa exterioridad nunca es absoluta. La intervención del visitante siempre resulta inevitable, ya que, como señala Weibel, “la realidad y la contingencia relativas al observador que tienen las manifestaciones del mundo…, la diferencia entre los fenómenos internos y externos al observador, aportan valiosas formas de discurso para la estética de la autorreferencia (…), la virtualidad(…) y la interactividad (la relatividad de la imagen respecto al observador) tal y como las define el arte electrónico” (2001, p. 24). 
 
+![Las redes vistas a través del tubo transparente](/curso01/subcursos/curso003/medios/fotos/hh-redes.webp)
+![El fondo de la torre, a través del acrílico](/curso01/subcursos/curso003/medios/fotos/hh-fondo.webp)
+
 ## Circular por redes circulares
 La **interfaz** del *Homo hamatus* dispone las redes como una **sucesión de círculos suspendidos**, prolijamente apilados unos sobre otros, con la distancia justa para que cada uno pueda ejercer su propia forma de sostener (o de dejar caer). Mediante electrónica, motores y dispositivos robóticos se administran sus movimientos con la precisión de una burocracia automatizada: tensan, aflojan, vibran, ceden o simplemente permanecen indiferentes ante el paso del *Homo hamatus*. Alineadas sobre un mismo eje, las redes conforman un canal cilíndrico vertical, una torre translúcida atravesada por tramas que regulan el tránsito. Algunas amortiguan provisoriamente la caída; otras la aceleran eficientemente; otras ofrecen apenas la ilusión de que todavía existe un asidero donde sujetarse. Cada círculo escenifica un régimen particular de relaciones —el Estado, la Iglesia, los mercados, la tecnología, la farmacología, las organizaciones del tercer sector, la comunidad, la familia, entre otros—, un repertorio de instituciones que prometen sostener mientras negocian, clasifican y redistribuyen el peso de quienes dependen de ellas. La espesura de la red varía en función de sus materialidades, densidades, configuraciones de tejido y respuestas mecánicas: cada trama posee una política propia del sostén. Algunas distribuyen la carga; otras la concentran; otras filtran cuidadosamente a quienes merecen seguir suspendidos y quienes son considerados una carga innecesaria y prescindible.
 
-![Políticas de sosteén de las redes](/curso01/subcursos/curso003/medios/homo-hamatus-004.jpg)
+![Políticas de sostén de las redes](/curso01/subcursos/curso003/medios/homo-hamatus-004.jpg)
+
+![Una red en estrella, vista desde arriba](/curso01/subcursos/curso003/medios/fotos/hh-estrella.webp)
+![Vista cenital de la columna de redes](/curso01/subcursos/curso003/medios/fotos/hh-cenital.webp)
+![Los anillos superiores](/curso01/subcursos/curso003/medios/fotos/hh-anillos.webp)
 
 En el extremo inferior aguarda una última red, más oscura y espesa. No necesita expulsar a nadie: le alcanza con esperar. Ahí abajo, el reenganche ya deja de presentarse como una posibilidad. La disposición vertical de los círculos insinúa un itinerario eventualmente infernal: el de quienes descubren que la caída nunca es un accidente, sino una tecnología cuidadosamente administrada por las mismas infraestructuras que afirman impedirla.
 
@@ -42,6 +57,10 @@ La respuesta se materializa en una interfaz deliberadamente austera, reivindicad
 ![Estética low-tech para los ganchos del Homo hamatus](/curso01/subcursos/curso003/medios/homo-hamatus-005.jpg)
 
 Así, la electrónica más elemental se convierte en el principio de activación que resignifica un conjunto de objetos cotidianos tradicionalmente vinculados al trabajo doméstico —un ámbito históricamente feminizado y sistemáticamente desvalorizado—. Perchas, ganchos para carpetas escolares, broches para la ropa, agujas de crochet y alfileres de gancho resignan su función utilitaria para hibridarse con dispositivos low-tech y convertirse en nuevos y osados mediadores. Suspendidos sobre la columna de redes circulares, asumen el desafío gravitacional de buscar puntos de enganche y resistir las políticas de sostén que cada nivel impone o dejarse llevar por ellas. La obra extiende esa responsabilidad al público, invitando a los visitantes a intervenir directamente sobre la instalación mediante la incorporación manual de estos actores en los círculos superiores, alterando así el comportamiento de las redes y participando activamente en la producción —siempre provisoria— de nuevas condiciones de sostén.
+
+![Un espécimen en su caja de madera](/curso01/subcursos/curso003/medios/fotos/hh-especimen.webp)
+![La bitácora de Homo hamatus junto a la instalación](/curso01/subcursos/curso003/medios/fotos/hh-libro.webp)
+![La electrónica de los motores](/curso01/subcursos/curso003/medios/fotos/hh-electronica.webp)
 
 [youtube:TL4flY-kJGs]
 

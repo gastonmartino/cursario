@@ -1,0 +1,1030 @@
+/*
+ * CARTA HAMATUS
+ * Expediente de excavación en el escritorio de un sistema operativo de fines de
+ * los noventa. Todas las reglas van bajo html.html-hamatus: el CSS de las cartas
+ * llega a todas las páginas. Solo para escritorio, por ahora.
+ *
+ * Tipografías: Instrument Serif (títulos, alargados), Instrument Sans (lectura y
+ * susurros), IBM Plex Mono (etiquetas de campo) y la del sistema falso (Tahoma).
+ */
+
+html.html-hamatus {
+  --hm-papel: #e7e5df;
+  --hm-tinta: #1b1f27;
+  --hm-pizarra: #4a5563;
+  --hm-cara: #d4d0c8;
+  --hm-luz: #ffffff;
+  --hm-sombra: #808080;
+  --hm-oscuro: #404040;
+  --hm-azul: #0a246a;
+  --hm-celeste: #a6caf0;
+  --hm-rojo: #c8102e;
+  --hm-sistema: Tahoma, "Segoe UI", Verdana, Geneva, sans-serif;
+  --hm-serif: "Instrument Serif", "Times New Roman", serif;
+  --hm-sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --hm-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --hm-barra: 28px;
+  --hm-tareas: 30px;
+  background: var(--hm-papel);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--hm-barra) + 12px);
+}
+
+html.html-hamatus body.cuerpo-hamatus {
+  margin: 0;
+  color: var(--hm-tinta);
+  font-family: var(--hm-sans);
+  -webkit-font-smoothing: antialiased;
+  /* Papel de escaneo: grano y una retícula de mesa de luz. */
+  background-color: var(--hm-papel);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.12  0 0 0 0 0.15  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.35'/></svg>"),
+    linear-gradient(to right, rgba(27, 31, 39, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 31, 39, 0.05) 1px, transparent 1px);
+  background-size: 220px 220px, 64px 64px, 64px 64px;
+}
+
+html.html-hamatus ::selection {
+  background: var(--hm-azul);
+  color: #fff;
+}
+
+html.html-hamatus .hm-pagina :where(h1, h2, h3, p, ul, li, figure, blockquote, fieldset, table) {
+  margin: 0;
+  padding: 0;
+}
+
+/* La página ocupa el lugar entre la barra de menú y la barra de tareas. */
+html.html-hamatus .hm-pagina {
+  padding: var(--hm-barra) 0 var(--hm-tareas);
+  overflow-x: clip;
+}
+
+/* La lámina se compone a 1280 px y se escala (zoom) al lugar de la página. */
+html.html-hamatus .hm-lamina {
+  position: relative;
+  width: 1280px;
+}
+
+/* --- Barra de menú y barra de tareas -------------------------------------- */
+html.html-hamatus .hm-menu-sistema,
+html.html-hamatus .hm-tareas {
+  position: fixed;
+  left: 0;
+  right: var(--derecha-pagina, 0px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  background: var(--hm-cara);
+  font: 11px var(--hm-sistema);
+  color: #000;
+}
+
+html.html-hamatus .hm-menu-sistema {
+  top: 0;
+  height: var(--hm-barra);
+  justify-content: space-between;
+  padding: 0 4px 0 40px;
+  border-bottom: 1px solid var(--hm-sombra);
+  box-shadow: inset 0 -1px var(--hm-luz), 0 1px 0 var(--hm-oscuro);
+}
+
+html.html-hamatus .hm-menu-sistema__lado {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+html.html-hamatus .hm-menu-sistema__item {
+  padding: 3px 7px;
+  cursor: default;
+}
+
+html.html-hamatus .hm-menu-sistema__item:hover {
+  background: var(--hm-azul);
+  color: #fff;
+}
+
+html.html-hamatus .hm-menu-sistema__rotulo {
+  margin: 0;
+  font: 500 11px var(--hm-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+html.html-hamatus .hm-punto {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: 1px;
+}
+
+/* Botón con relieve del sistema falso. */
+html.html-hamatus .hm-boton-sistema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 20px;
+  padding: 1px 8px;
+  border: 0;
+  background: var(--hm-cara);
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra), inset 2px 2px #e8e6e0;
+  font: 11px var(--hm-sistema);
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+html.html-hamatus .hm-boton-sistema:active {
+  box-shadow: inset 1px 1px var(--hm-oscuro), inset -1px -1px var(--hm-luz), inset 2px 2px var(--hm-sombra);
+}
+
+html.html-hamatus .hm-boton-sistema--icono {
+  width: 24px;
+  padding: 0;
+}
+
+html.html-hamatus .hm-boton-sistema--icono svg {
+  width: 14px;
+  height: 14px;
+}
+
+html.html-hamatus .hm-tareas {
+  bottom: 0;
+  height: var(--hm-tareas);
+  padding: 2px;
+  border-top: 1px solid var(--hm-cara);
+  box-shadow: inset 0 1px var(--hm-luz), 0 -1px 0 var(--hm-sombra);
+}
+
+html.html-hamatus .hm-tareas a {
+  color: #000;
+  text-decoration: none;
+}
+
+html.html-hamatus .hm-tareas__inicio,
+html.html-hamatus .hm-tareas__lista a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 6px;
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+  white-space: nowrap;
+}
+
+html.html-hamatus .hm-tareas__inicio {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+html.html-hamatus .hm-tareas__lista {
+  display: flex;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+html.html-hamatus .hm-tareas__lista a {
+  flex: 0 1 170px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html.html-hamatus .hm-tareas__lista a.hm-activa {
+  box-shadow: inset 1px 1px var(--hm-oscuro), inset -1px -1px var(--hm-luz), inset 2px 2px var(--hm-sombra);
+  background: repeating-conic-gradient(#e8e6e0 0 25%, var(--hm-cara) 0 50%) 0 0 / 2px 2px;
+  font-weight: 700;
+}
+
+html.html-hamatus .hm-tareas__reloj {
+  padding: 3px 10px;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz);
+}
+
+/* Volver arriba y el cambio de vista, encima de la barra de tareas. */
+html.html-hamatus .volver-arriba,
+html.html-hamatus .cambio-vista {
+  bottom: calc(var(--hm-tareas) + 14px) !important;
+}
+
+html.html-hamatus body:has(.cambio-vista) .volver-arriba {
+  bottom: calc(var(--hm-tareas) + 62px) !important;
+}
+
+/* --- Regla estratigráfica --------------------------------------------------- */
+html.html-hamatus .hm-regla {
+  position: fixed;
+  top: var(--hm-barra);
+  bottom: var(--hm-tareas);
+  left: 0;
+  z-index: 40;
+  width: 30px;
+  border-right: 1px solid rgba(27, 31, 39, 0.35);
+  background:
+    repeating-linear-gradient(to bottom, rgba(27, 31, 39, 0.55) 0 1px, transparent 1px 40px) right / 14px 100% no-repeat,
+    repeating-linear-gradient(to bottom, rgba(27, 31, 39, 0.35) 0 1px, transparent 1px 8px) right / 6px 100% no-repeat,
+    rgba(231, 229, 223, 0.85);
+}
+
+html.html-hamatus .hm-regla__lectura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  padding: 2px 6px;
+  background: var(--hm-tinta);
+  color: var(--hm-papel);
+  font: 500 10px var(--hm-mono);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* --- Tipografía ------------------------------------------------------------- */
+html.html-hamatus .hm-display {
+  font-family: var(--hm-serif);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.84;
+  color: var(--hm-tinta);
+}
+
+/* Falla: dos copias del texto, cortadas en franjas y corridas a los lados. */
+html.html-hamatus .hm-falla {
+  position: relative;
+  display: inline-block;
+}
+
+html.html-hamatus .hm-falla::before,
+html.html-hamatus .hm-falla::after {
+  content: attr(data-texto);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  white-space: inherit;
+}
+
+html.html-hamatus .hm-falla::before {
+  clip-path: inset(47% 0 49% 0);
+  transform: translateX(0.07em);
+  color: var(--hm-pizarra);
+}
+
+html.html-hamatus .hm-falla::after {
+  clip-path: inset(81% 0 15.5% 0);
+  transform: translateX(-0.045em);
+  color: var(--hm-azul);
+  opacity: 0.75;
+}
+
+html.html-hamatus .hm-etiqueta {
+  font: 500 12px/1.5 var(--hm-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hm-pizarra);
+}
+
+html.html-hamatus .hm-susurro {
+  font: 400 24px/1.15 var(--hm-sans);
+  letter-spacing: -0.01em;
+  color: var(--hm-tinta);
+}
+
+html.html-hamatus .hm-seleccion {
+  padding: 0 2px;
+  background: var(--hm-azul);
+  color: #fff;
+  font-weight: 500;
+}
+
+html.html-hamatus .hm-italica {
+  font-family: var(--hm-serif);
+  font-style: italic;
+  font-size: 1.16em;
+  line-height: 1;
+}
+
+html.html-hamatus .hm-enlace {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+html.html-hamatus .hm-enlace:visited {
+  color: #551a8b;
+}
+
+html.html-hamatus .hm-mapa-fondo {
+  position: absolute;
+  z-index: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Ventanas del sistema falso -------------------------------------------- */
+html.html-hamatus .hm-ventana {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 3px;
+  background: var(--hm-cara);
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px #e8e6e0, inset -2px -2px var(--hm-sombra), inset 2px 2px var(--hm-luz), 6px 8px 0 rgba(27, 31, 39, 0.16);
+  font: 11px var(--hm-sistema);
+  color: #000;
+}
+
+html.html-hamatus .hm-ventana__barra {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  padding: 0 2px 0 3px;
+  background: linear-gradient(90deg, var(--hm-azul), var(--hm-celeste));
+  color: #fff;
+  font-weight: 700;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+html.html-hamatus .hm-ventana__barra:active {
+  cursor: grabbing;
+}
+
+html.html-hamatus .hm-ventana--inactiva .hm-ventana__barra {
+  background: linear-gradient(90deg, var(--hm-sombra), #c0c0c0);
+  color: var(--hm-cara);
+}
+
+html.html-hamatus .hm-ventana__titulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html.html-hamatus .hm-ventana__botones {
+  display: flex;
+  gap: 2px;
+}
+
+html.html-hamatus .hm-ventana__botones span {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 14px;
+  background: var(--hm-cara);
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+  color: #000;
+  font: 700 10px/1 var(--hm-sistema);
+}
+
+html.html-hamatus .hm-ventana__botones span:last-child {
+  margin-left: 2px;
+}
+
+html.html-hamatus .hm-ventana__menu {
+  display: flex;
+  gap: 2px;
+  padding: 2px 0;
+}
+
+html.html-hamatus .hm-ventana__menu span {
+  padding: 1px 6px;
+}
+
+html.html-hamatus .hm-ventana__cuerpo {
+  margin-top: 2px;
+  background: #fff;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz), inset 2px 2px var(--hm-oscuro);
+  padding: 2px;
+}
+
+html.html-hamatus .hm-ventana__estado {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+html.html-hamatus .hm-ventana__estado span {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz);
+}
+
+html.html-hamatus .hm-ventana__estado span:last-child {
+  flex: 0 1 auto;
+}
+
+/* --- Íconos (16 px y 32 px), dibujados en SVG ----------------------------- */
+html.html-hamatus .hm-icono {
+  flex: none;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
+html.html-hamatus .hm-icono--imagen {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect x='1' y='2' width='14' height='12' fill='%23fff' stroke='%23000'/><path d='M2 13l4-5 3 3 2-2 4 4z' fill='%23408040'/><rect x='10' y='4' width='3' height='3' fill='%23ffd700'/></svg>");
+}
+
+html.html-hamatus .hm-icono--carpeta {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><path d='M1 4h5l1 1h8v9H1z' fill='%23f6d55c' stroke='%23806000'/><path d='M1 6h14' stroke='%23fff3b0'/></svg>");
+}
+
+html.html-hamatus .hm-icono--ficha,
+html.html-hamatus .hm-icono--texto {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><path d='M3 1h7l3 3v11H3z' fill='%23fff' stroke='%23000'/><path d='M5 6h6M5 8h6M5 10h6M5 12h4' stroke='%230a246a'/></svg>");
+}
+
+html.html-hamatus .hm-icono--mapa {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><path d='M1 3l4-1 6 2 4-1v11l-4 1-6-2-4 1z' fill='%23e8e2c8' stroke='%23000'/><path d='M5 2v11M11 4v11' stroke='%23808080'/><circle cx='8' cy='8' r='1.5' fill='%23c8102e'/></svg>");
+}
+
+html.html-hamatus .hm-icono--video {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect x='1' y='3' width='14' height='10' fill='%23000'/><path d='M3 4h1M3 11h1M6 4h1M6 11h1M9 4h1M9 11h1M12 4h1M12 11h1' stroke='%23fff'/><path d='M6 6v4l4-2z' fill='%2342d0ff'/></svg>");
+}
+
+html.html-hamatus .hm-icono--especimen {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='3' r='2' fill='%23000'/><path d='M8 5v5M8 7l-4-1M8 7l4 2M8 10l-3 5M8 10l3 5M4 6c-1 1-1 2 0 3M12 9c1 1 1 2 0 3' stroke='%23000' stroke-width='1.5' fill='none'/></svg>");
+}
+
+html.html-hamatus .hm-icono-grande {
+  display: block;
+  width: 34px;
+  height: 34px;
+  background: center / contain no-repeat;
+}
+
+html.html-hamatus .hm-icono-grande--documento {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'><path d='M6 2h14l6 6v22H6z' fill='%23fff' stroke='%23000'/><path d='M20 2v6h6' fill='%23ddd' stroke='%23000'/><rect x='6' y='18' width='20' height='8' fill='%23c8102e'/><text x='16' y='24.5' font-family='Tahoma' font-size='7' font-weight='bold' fill='%23fff' text-anchor='middle'>PDF</text><path d='M9 11h12M9 14h12' stroke='%23808080'/></svg>");
+}
+
+html.html-hamatus .hm-icono-grande--carpeta {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'><path d='M2 8h10l2 3h16v17H2z' fill='%23f6d55c' stroke='%23806000'/><path d='M2 13h28' stroke='%23fff3b0' stroke-width='2'/></svg>");
+}
+
+html.html-hamatus .hm-icono-grande--texto {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'><path d='M7 2h13l6 6v22H7z' fill='%23fff' stroke='%23000'/><path d='M10 11h13M10 14h13M10 17h13M10 20h13M10 23h9' stroke='%230a246a'/></svg>");
+}
+
+html.html-hamatus .hm-icono-grande--especimen {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' fill='%23fff' stroke='%23000'/><circle cx='16' cy='7' r='3.5' fill='%23000'/><path d='M16 11v9M16 14l-7-2M16 14l7 3M16 20l-5 9M16 20l5 9M9 12c-2 2-2 4 0 6M23 17c2 2 2 4 0 6' stroke='%23000' stroke-width='2' fill='none'/></svg>");
+}
+
+/* --- Fotos: la trama encima; al pasar el cursor, el color ------------------ */
+html.html-hamatus .hm-foto {
+  position: relative;
+  overflow: hidden;
+  background: var(--hm-tinta);
+}
+
+html.html-hamatus .hm-foto img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+html.html-hamatus .hm-foto__trama {
+  position: absolute;
+  inset: 0;
+  height: 100% !important;
+  object-fit: cover;
+  image-rendering: pixelated;
+  transition: opacity 400ms steps(4);
+}
+
+/* Una textura de mapa sobre la trama, como una calca. */
+html.html-hamatus .hm-foto--trama::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./mapas/mapa-rio-de-la-plata.svg") center / 180% no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.32;
+  pointer-events: none;
+  transition: opacity 400ms steps(4);
+}
+
+html.html-hamatus .hm-foto--trama:hover .hm-foto__trama,
+html.html-hamatus .hm-foto--trama:hover::after {
+  opacity: 0;
+}
+
+html.html-hamatus .hm-lamina-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(0.4) contrast(1.05);
+}
+
+/* --- Portada ---------------------------------------------------------------- */
+html.html-hamatus .hm-portada {
+  position: relative;
+  height: 1060px;
+}
+
+html.html-hamatus .hm-portada__mapa {
+  top: 40px;
+  right: -30px;
+  width: 640px;
+  opacity: 0.9;
+  transform: rotate(-5deg);
+}
+
+html.html-hamatus .hm-portada__etiqueta {
+  position: absolute;
+  top: 70px;
+  left: 70px;
+  z-index: 3;
+}
+
+html.html-hamatus .hm-portada__titulo {
+  position: absolute;
+  top: 130px;
+  left: 56px;
+  z-index: 4;
+  font-size: 226px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+html.html-hamatus .hm-portada__titulo .hm-falla {
+  display: block;
+  transform: scaleY(1.32);
+  transform-origin: 0 0;
+  margin-bottom: 60px;
+}
+
+html.html-hamatus .hm-portada__bajada {
+  position: absolute;
+  top: 700px;
+  left: 74px;
+  z-index: 4;
+  width: 360px;
+  font-size: 30px;
+}
+
+html.html-hamatus .hm-portada__foto {
+  position: absolute !important;
+  top: 300px;
+  left: 610px;
+  width: 400px;
+  transform: rotate(1.2deg);
+}
+
+html.html-hamatus .hm-escritorio {
+  position: absolute;
+  left: 60px;
+  top: 860px;
+  z-index: 3;
+  display: flex;
+  gap: 18px;
+}
+
+html.html-hamatus .hm-icono-escritorio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 84px;
+  font: 11px var(--hm-sistema);
+  color: var(--hm-tinta);
+  text-align: center;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+html.html-hamatus .hm-icono-escritorio span:last-child {
+  padding: 0 3px;
+}
+
+html.html-hamatus .hm-icono-escritorio:hover span:last-child,
+html.html-hamatus .hm-icono-escritorio:focus span:last-child {
+  background: var(--hm-azul);
+  color: #fff;
+  outline: 1px dotted #fff;
+}
+
+/* --- Prólogo: ficha, sitios y láminas ------------------------------------- */
+html.html-hamatus .hm-prologo {
+  position: relative;
+  display: grid;
+  grid-template-columns: 70px 560px 50px 540px 1fr;
+  grid-template-rows: auto auto;
+  padding: 20px 0 140px;
+}
+
+html.html-hamatus .hm-ficha {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: start;
+  z-index: 3;
+}
+
+html.html-hamatus .hm-sitios {
+  grid-column: 4;
+  grid-row: 1;
+  transform: rotate(-1deg);
+}
+
+html.html-hamatus .hm-sitios__mapa {
+  display: block;
+  width: 100%;
+  background: var(--hm-papel);
+}
+
+html.html-hamatus .hm-prologo__lamina {
+  grid-column: 3 / 5;
+  grid-row: 2;
+  margin: -40px 0 0 -10px;
+  z-index: 4;
+  transform: rotate(1.4deg);
+}
+
+html.html-hamatus .hm-prologo__susurro {
+  position: absolute;
+  left: 860px;
+  bottom: 70px;
+  z-index: 5;
+}
+
+html.html-hamatus .hm-pestanas {
+  display: flex;
+  gap: 2px;
+  padding: 6px 6px 0;
+  background: var(--hm-cara);
+  box-shadow: inset 0 -1px var(--hm-luz);
+}
+
+html.html-hamatus .hm-pestanas span {
+  padding: 3px 9px;
+  box-shadow: inset 1px 1px var(--hm-luz), inset -1px 0 var(--hm-oscuro);
+}
+
+html.html-hamatus .hm-pestanas__activa {
+  margin-bottom: -1px;
+  background: var(--hm-cara);
+  font-weight: 700;
+}
+
+html.html-hamatus .hm-ficha .hm-ventana__cuerpo {
+  background: var(--hm-cara);
+  box-shadow: none;
+}
+
+html.html-hamatus .hm-ficha__cuerpo {
+  display: grid;
+  gap: 12px;
+  padding: 14px 12px 12px;
+  box-shadow: inset 1px 0 var(--hm-luz), inset -1px -1px var(--hm-oscuro);
+}
+
+html.html-hamatus .hm-ficha__encabezado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hm-sombra);
+  box-shadow: 0 1px var(--hm-luz);
+}
+
+html.html-hamatus .hm-ficha__nombre {
+  font: 400 34px/1 var(--hm-serif);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+html.html-hamatus .hm-ficha__tipo {
+  margin-top: 4px;
+  color: #333;
+}
+
+html.html-hamatus .hm-ficha__texto {
+  padding: 10px 12px;
+  background: #fff;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz);
+  font: 400 19px/1.4 var(--hm-serif);
+  color: var(--hm-tinta);
+}
+
+html.html-hamatus .hm-ficha__texto .hm-italica {
+  font-size: 1em;
+}
+
+html.html-hamatus .hm-grupo {
+  padding: 8px 10px 10px;
+  border: 1px solid var(--hm-sombra);
+  box-shadow: 1px 1px var(--hm-luz), inset 1px 1px var(--hm-luz);
+}
+
+html.html-hamatus .hm-grupo legend {
+  padding: 0 4px;
+  font-weight: 400;
+}
+
+html.html-hamatus .hm-lista-chequeo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px 10px;
+  list-style: none;
+}
+
+html.html-hamatus .hm-chequeo {
+  display: inline-grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  background: #fff;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz), inset 2px 2px var(--hm-oscuro);
+  font-size: 9px;
+  vertical-align: -2px;
+}
+
+html.html-hamatus .hm-ficha__botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+html.html-hamatus .hm-ficha__botones span {
+  min-width: 64px;
+  padding: 3px 8px;
+  text-align: center;
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+}
+
+html.html-hamatus .hm-ficha__botones span:first-child {
+  outline: 1px solid #000;
+}
+
+/* --- Estratos (capítulos) --------------------------------------------------- */
+html.html-hamatus .hm-estrato {
+  position: relative;
+  display: grid;
+  grid-template-columns: 650px 1fr;
+  column-gap: 70px;
+  padding: 110px 70px 170px 70px;
+  border-top: 1px dashed rgba(27, 31, 39, 0.35);
+}
+
+html.html-hamatus .hm-estrato--espejo {
+  grid-template-columns: 1fr 650px;
+}
+
+html.html-hamatus .hm-estrato__mapa {
+  top: 150px;
+  right: -60px;
+  width: 720px;
+  opacity: 0.55;
+  transform: rotate(4deg);
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-estrato__mapa {
+  right: auto;
+  left: -60px;
+  transform: rotate(-3deg) scaleX(-1);
+}
+
+html.html-hamatus .hm-estrato__encabezado {
+  position: relative;
+  z-index: 3;
+  grid-column: 1 / -1;
+  margin-bottom: 54px;
+}
+
+html.html-hamatus .hm-estrato__titulo {
+  margin-top: 14px;
+  font-size: 132px;
+  transform: scaleY(1.22);
+  transform-origin: 0 0;
+  margin-bottom: 28px;
+  mix-blend-mode: multiply;
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-estrato__encabezado {
+  text-align: right;
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-estrato__titulo {
+  transform-origin: 100% 0;
+}
+
+html.html-hamatus .hm-estrato__texto {
+  position: relative;
+  z-index: 3;
+  column-count: 2;
+  column-gap: 34px;
+  column-rule: 1px solid rgba(27, 31, 39, 0.18);
+  font: 400 16px/1.58 var(--hm-sans);
+  hyphens: auto;
+}
+
+html.html-hamatus .hm-estrato__texto p + p {
+  margin-top: 0.9em;
+}
+
+/* Primera línea de cada estrato, en versalitas de etiqueta de campo. */
+html.html-hamatus .hm-estrato__texto p:first-child::first-line {
+  font-family: var(--hm-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-estrato__texto {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+html.html-hamatus .hm-estrato__piezas {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+  padding-top: 10px;
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-estrato__piezas {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+html.html-hamatus .hm-pieza:nth-child(odd) {
+  transform: rotate(1.1deg) translateX(18px);
+}
+
+html.html-hamatus .hm-pieza:nth-child(even) {
+  transform: rotate(-1.4deg) translateX(-26px);
+}
+
+html.html-hamatus .hm-pieza--foto {
+  width: 78%;
+  align-self: flex-end;
+}
+
+html.html-hamatus .hm-estrato--espejo .hm-pieza--foto {
+  align-self: flex-start;
+}
+
+html.html-hamatus .hm-susurro--suelto {
+  position: relative;
+  z-index: 5;
+  max-width: 360px;
+  margin: -18px 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Corridos a uno y otro lado, como notas sueltas entre las ventanas. */
+html.html-hamatus .hm-susurro--suelto:nth-of-type(3n + 1) { align-self: flex-start; margin-left: 10px; }
+html.html-hamatus .hm-susurro--suelto:nth-of-type(3n + 2) { align-self: flex-end; margin-right: 20px; }
+html.html-hamatus .hm-susurro--suelto:nth-of-type(3n) { align-self: center; }
+
+html.html-hamatus .hm-susurro--suelto::before {
+  content: "“";
+  font-family: var(--hm-serif);
+  color: var(--hm-rojo);
+}
+
+html.html-hamatus .hm-nota {
+  padding: 10px 14px;
+  border-left: 3px solid var(--hm-rojo);
+  background: rgba(255, 255, 255, 0.7);
+  font: 400 15px/1.45 var(--hm-sans);
+}
+
+/* Carpeta: miniaturas como en un explorador de archivos. */
+html.html-hamatus .hm-carpeta__grilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 12px;
+  padding: 10px;
+  list-style: none;
+}
+
+html.html-hamatus .hm-carpeta__grilla li {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+}
+
+html.html-hamatus .hm-carpeta__grilla .hm-foto {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  outline: 1px solid var(--hm-sombra);
+}
+
+html.html-hamatus .hm-carpeta__grilla .hm-foto img {
+  height: 100%;
+  object-fit: cover;
+}
+
+html.html-hamatus .hm-carpeta__nombre {
+  padding: 0 3px;
+}
+
+html.html-hamatus .hm-carpeta__grilla li:hover .hm-carpeta__nombre {
+  background: var(--hm-azul);
+  color: #fff;
+}
+
+/* Reproductor de medios. */
+html.html-hamatus .hm-video__marco {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+html.html-hamatus .hm-video__marco iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+html.html-hamatus .hm-video__controles {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 2px 1px;
+}
+
+html.html-hamatus .hm-video__controles span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 18px;
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+  font-size: 9px;
+}
+
+html.html-hamatus .hm-video__controles .hm-video__barra {
+  flex: 1;
+  height: 6px;
+  margin-left: 8px;
+  box-shadow: inset 1px 1px var(--hm-sombra), inset -1px -1px var(--hm-luz);
+  background: linear-gradient(90deg, var(--hm-azul) 0 38%, #fff 38%);
+}
+
+/* --- Referencias ------------------------------------------------------------ */
+html.html-hamatus .hm-referencias {
+  position: relative;
+  padding: 90px 160px 200px;
+  border-top: 1px dashed rgba(27, 31, 39, 0.35);
+}
+
+html.html-hamatus .hm-referencias__susurro {
+  margin: 60px 0 0 220px;
+}
+
+html.html-hamatus .hm-detalles {
+  width: 100%;
+  border-collapse: collapse;
+  font: 12px/1.35 var(--hm-sistema);
+}
+
+html.html-hamatus .hm-detalles th {
+  padding: 3px 6px;
+  background: var(--hm-cara);
+  box-shadow: inset -1px -1px var(--hm-oscuro), inset 1px 1px var(--hm-luz), inset -2px -2px var(--hm-sombra);
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+}
+
+html.html-hamatus .hm-detalles td {
+  padding: 5px 6px;
+  vertical-align: top;
+}
+
+html.html-hamatus .hm-detalles td:first-child {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+html.html-hamatus .hm-detalles tbody tr:hover {
+  background: var(--hm-azul);
+  color: #fff;
+}
+
+html.html-hamatus .hm-detalles tbody tr:hover .hm-italica {
+  color: #fff;
+}

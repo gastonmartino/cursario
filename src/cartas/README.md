@@ -289,3 +289,42 @@ Las columnas dependen del ancho del lugar de la página (una *container query*
 sobre `.gen-pagina`), no del de la ventana: desde 1150 px, las tres; desde
 700 px, dos (el resumen arriba, y capítulo y galería lado a lado); por debajo,
 una.
+
+## Hamatus
+
+Una carta experimental para la página de Homo Hamatus (`/homo-hamatus/`), solo
+para escritorio por ahora: un expediente de excavación abierto en el escritorio
+de un sistema operativo de fines de los noventa, con mapas de Latinoamérica
+como sitios de hallazgo. Sus estilos están en `hamatus/hamatus.css`, todos bajo
+`html.html-hamatus`.
+
+La composición se arma sobre una lámina de 1280 px de ancho que se escala
+(`zoom`) al lugar de la página. Arriba, una barra de menú con la navegación
+(VOLVER, el Aparejo, VER EL MAPA y el Derrotero); abajo, una barra de tareas
+con un botón por capítulo y un reloj; a la izquierda, una regla
+estratigráfica que marca la profundidad al bajar. Las ventanas se arrastran
+por su barra de título.
+
+No tiene opciones: el contenido sale de la estructura del Markdown.
+
+- `#` es el título de la portada, y un `##` inmediatamente después, su bajada.
+- Hasta el siguiente `##`, el prólogo: la primera imagen va en la ventana de la
+  portada; una cita que es solo un enlace, como un ícono del escritorio; un
+  `###` con sus párrafos, como una ficha de propiedades; una cita
+  `**Rótulo**: a, b, c`, como una lista de casillas.
+- Cada `##` es un capítulo (un estrato): título enorme, texto a dos columnas y,
+  al costado, sus imágenes y su video en ventanas. Los capítulos alternan de
+  lado.
+- Una **foto** es una imagen `.webp` con una versión tramada al lado, con el
+  mismo nombre y `-trama.png`: se muestra la trama y, al pasar el cursor, el
+  color. Las fotos seguidas van juntas en una carpeta; una foto sola o una
+  lámina (cualquier otra imagen), en su propia ventana.
+- Las frases cortas entre comillas (“…”) de cada capítulo flotan entre sus
+  ventanas, en minúsculas.
+- Un capítulo cuyos párrafos son todos `**Autor** (año). Título…` se muestra
+  como una carpeta en vista de detalles.
+
+Los recursos se preparan con los scripts de `hamatus/herramientas/`:
+`fotos.py` (recorte, versión color y versión tramada de las fotos de
+`media/homo-hamatus/`) y `mapas.mjs` (los mapas de `hamatus/mapas/`, que la
+carta importa).

@@ -690,6 +690,7 @@ Cada página la arma la **carta** que elige su Markdown en el encabezado (`carta
 -   **cartulario**: el aspecto del sitio, con el contenido en una hoja blanca centrada.
 -   **cursario**: una carta náutica con marco graduado, rosas de los vientos y sondeos, con cinco composiciones según el ancho (la usa *Acerca de*).
 -   **generativa**: la forma del sitio anterior de la sección (vTR1n), con capítulos en tres columnas (la usa `/grafica-generativa/`).
+-   **hamatus**: experimental y solo para escritorio, un expediente de excavación en el escritorio de un sistema operativo de los noventa, con mapas de Latinoamérica y fotos tramadas en ventanas (la usa `/homo-hamatus/`).
 
 Todas las cartas comparten `LayoutCarta`: transición entre páginas, **VOLVER**, el **Aparejo** (un panel de atajos que se abre desde la izquierda) y el **Derrotero**, que con vista compartida (desde 1024 px) ocupa la otra mitad de la pantalla. Las páginas con carta propia ofrecen además un **modo lectura** con el cartulario.
 
