@@ -46,6 +46,7 @@ export const DERROTERO: {
     'arte-electronico-03',    // Homo Hamatus. Fenomenología de la vulnerabilidad
     'arte-electronico-04',    // GPS (Goce Positioning System)
     'arte-electronico-05',    // Diálogos Desavenidos
+    'arte-electronico-06',    // Fuera de temporada
 
     // DERIVA:02 · Gráfica Generativa
     'gen-serie-01',           // Sarandí Revelation

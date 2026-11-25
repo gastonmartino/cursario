@@ -315,6 +315,22 @@ export const ISLAS: IslaDefinition[] = [
     headerLabel: 'HÁPTICA',
     imageDate: '1C 2026', 
   },
+  {
+    id: 'arte-electronico-06',
+    imageUrl: 'portada-curso.jpg',
+    thumbnailImageUrl: 'miniatura.jpg',
+    pageMarkdownFile: 'pagina-curso.md',
+    pageUrl: 'fuera-de-temporada',
+    code: 'OBRA:06',
+    title: 'Fuera de temporada',
+    subtitle: 'Dispositivos impenitentes: la reincidencia como nuevo pecado original',
+    description: 'Noviembre de 2026. Arte Electrónico Latinoamericano / MAE / UNTREF',
+    tag: 'ARTES ELECTRÓNICAS',
+    accentColor: '#0038A8',
+    imageCaption: 'OBSOLESCENCIA / REINCIDENCIA / IMPENITENCIA',
+    headerLabel: 'TEMPORADA',
+    imageDate: '2C 2026',
+  },
     
     
  //

@@ -282,6 +282,16 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     alto: 1065,
     subcursos: [
       {
+        // Debajo de Nueva Toninas (Expediente 11/26). Va primera para que el
+        // recorrido desde la ínsula no cruce todo el lienzo.
+        id: 'arte-electronico-06',
+        subcurso: 'curso006',
+        x: 900,
+        y: 1294,
+        ancho: 640,
+        alto: 759,
+      },
+      {
         id: 'arte-electronico-01',
         subcurso: 'curso001',
         x: -840,
@@ -422,7 +432,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
     id: 'expediente-1126',
     curso: 'curso04',
     x: 900,
-    y: 404,
+    y: 204,
     ancho: 760,
     alto: 1260,
     // Una isla por diligencia, en orden cronológico: seis por fila, en
