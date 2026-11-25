@@ -48,6 +48,7 @@ export const DERROTERO: {
     'arte-electronico-04',    // GPS (Goce Positioning System)
     'arte-electronico-05',    // Diálogos Desavenidos
     'arte-electronico-06',    // Fuera de temporada
+    'expediente-1126',        // [ÍNSULA] Expte. 11/26 s/ Tendidos sobrentendidos (Nueva Toninas)
 
     // DERIVA:02 · Gráfica Generativa
     'gen-serie-01',           // Sarandí Revelation
@@ -56,9 +57,6 @@ export const DERROTERO: {
     'gen-serie-04',           // Diasporas
     'gen-serie-05',           // Meanwhile, in the Southern Hemisphere, a lymphatic summer
     'gen-serie-06',           // Regolito fértil
-
-    // DERIVA:04 · Expediente 11/26
-    'expediente-1126',        // [ÍNSULA] Expte. 11/26 s/ Tendidos sobrentendidos
   ],
 
   // De lo más reciente a lo más antiguo.
