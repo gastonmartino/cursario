@@ -324,11 +324,11 @@ export const ISLAS: IslaDefinition[] = [
     code: 'OBRA:06',
     title: 'Fuera de temporada',
     subtitle: 'Dispositivos impenitentes: la reincidencia como nuevo pecado original',
-    description: 'Noviembre de 2026. Arte Electrónico Latinoamericano / MAE / UNTREF',
+    description: 'Cinco dispositivos que el mercado dio por muertos siguen encendidos sobre un cajón de manzanas negras. Te seducen, te piden que los toques y, cuando cedés, responden: «todavía no acabé». Persistir después de la obsolescencia es el nuevo pecado original.',
     tag: 'ARTES ELECTRÓNICAS',
     accentColor: '#0038A8',
     imageCaption: 'OBSOLESCENCIA / REINCIDENCIA / IMPENITENCIA',
-    headerLabel: 'TEMPORADA',
+    headerLabel: 'OBSOLESCENCIA PROGRAMADA',
     imageDate: '2C 2026',
   },
     

@@ -137,6 +137,7 @@ La documentación incorporada permite advertir indicios de una trama secreta de 
     // Violeta eléctrico: se distingue del cobalto de las demás derivas.
     accentColor: '#3F14DB',
     imageUrl: 'nueva-toninas.jpg',
+    coverImageUrl: 'portada-seccion.jpg',
     thumbnailImageUrl: 'miniatura.jpg',
     imageCaption: 'Anteproyecto anarqueológico especulativo',
     pageMarkdownFile: 'expediente.md',

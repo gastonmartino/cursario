@@ -27,6 +27,9 @@ export const DERROTERO: {
       'arte-electronico-02',  // Rebelión en la Granja de Clics
       'arte-electronico-03',  // Homo Hamatus. Fenomenología de la vulnerabilidad
       'arte-electronico-04',  // GPS (Goce Positioning System)
+      'arte-electronico-06',  // Fuera de temporada
+
+    'expediente-1126',        // CURSO: Expediente 11/26 (Nueva Toninas)
 
     'generativa',             // CURSO: Gráfica Generativa
       'gen-serie-01',         // Sarandí Revelation

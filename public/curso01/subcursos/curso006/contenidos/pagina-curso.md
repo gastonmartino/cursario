@@ -1,10 +1,12 @@
 # Fuera de temporada
 
-![Manzana negra mordida, con la mordida en rojo y un LED en lugar de la hoja](/curso01/subcursos/curso006/medios/manzana-grabado.webp)
+![Afiche de Fuera de temporada: una manzana negra mordida, con la mordida en rojo y un LED en lugar de la hoja. Dispositivos impenitentes: la reincidencia como nuevo pecado original](/curso01/subcursos/curso006/medios/afiche.webp)
 
 ## El pecado de persistir
 
 *¿Qué ocurre con los objetos que se resisten a cumplir su sentencia? ¿Qué hacemos con aquello que continúa funcionando después de haber sido declarado obsoleto? ¿Es posible que un dispositivo se vuelva anacrónico sin haber agotado sus posibilidades?*
+
+![Fuera de temporada: cinco dispositivos Apple sobre un cajón de verdulería repleto de manzanas negras](/curso01/subcursos/curso006/medios/instalacion.webp) *Cinco dispositivos Apple de distintas generaciones sobre un cajón de verdulería repleto de manzanas negras.*
 
 La obsolescencia no siempre llega como una avería. A veces se anuncia como una novedad. Un nuevo modelo, una prestación adicional, una interfaz ligeramente distinta. Lo que ayer era extraordinario hoy resulta insuficiente; lo que todavía funciona comienza a parecer viejo. Y lo viejo, tarde o temprano, adquiere esa incómoda condición de estar ocupando un lugar que debería pertenecerle a otra cosa.
 
@@ -15,8 +17,6 @@ En este punto, la propuesta de ***Fuera de temporada*** encuentra puntos en com�
 La operación tiene algo de herejía. Si el mandato tecnoeconómico exige renovación, reemplazo y descarte, persistir puede convertirse en una falta. Seguir funcionando después de la obsolescencia sería entonces una forma de **desobediencia**; volver a hacerlo, una **reincidencia**. Y hacerlo sin arrepentimiento, una **impenitencia**.
 
 Quizás estemos frente a un nuevo **pecado original**: no el de haber probado el fruto prohibido, sino el de negarse a desaparecer cuando termina la temporada. Y por estos pagos, somos muchos los dispuestos a dejarnos tentar.
-
-![Fuera de temporada: cinco dispositivos Apple sobre un cajón de verdulería repleto de manzanas negras](/curso01/subcursos/curso006/medios/instalacion.webp) *Cinco dispositivos Apple de distintas generaciones sobre un cajón de verdulería repleto de manzanas negras.*
 
 ## (Des)echos y (des)hechos
 

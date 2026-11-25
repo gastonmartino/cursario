@@ -287,9 +287,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'arte-electronico-06',
         subcurso: 'curso006',
         x: 900,
-        y: 1294,
+        y: 1335,
         ancho: 640,
-        alto: 759,
+        alto: 842,
       },
       {
         id: 'arte-electronico-01',
@@ -871,6 +871,16 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     y: -172,
     ancho: 160,
     alto: 160,
+  },
+  {
+    // A la derecha de Fuera de temporada (arriba está Nueva Toninas).
+    id: 'islote-obra-06',
+    idSuperior: 'arte-electronico-06',
+    subcurso: 'islote022',
+    x: 1420,
+    y: 1018,
+    ancho: 240,
+    alto: 208,
   },
     
 

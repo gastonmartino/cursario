@@ -283,6 +283,18 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     imageCaption: '',
     headerLabel: '',
     showAction: false,
+  },
+  {
+    id: 'islote-obra-06',
+    showHeader: false,
+    imageUrl: '/curso01/subcursos/curso006/medios/manzana-grabado.webp',
+    imageMaxHeight: 400,
+    code: 'FUERA DE TEMPORADA',
+    tag: '',
+    accentColor: '#0038A8',
+    imageCaption: '',
+    headerLabel: '',
+    showAction: false,
   }, 
     
     
