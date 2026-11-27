@@ -357,6 +357,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 1/8',
     accentColor: '#16253D',
     headerLabel: 'METAVERSED NATURE',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/120',
   },
   {
     id: 'gen-serie-03',
