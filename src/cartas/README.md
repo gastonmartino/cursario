@@ -285,9 +285,9 @@ capítulo (`###`) es una fila de tres columnas:
 - **galería**: sus imágenes (con su pie) y sus videos de YouTube
   (`[youtube:ID]`, o `[youtube:ID vertical]` para un Short, angosto y
   centrado), en el orden del Markdown, y su lista de obras
-  (`- **Nombre** — texto`). Un video vertical seguido de imágenes forma un
-  par, como las obras de dos paneles (capítulos 14 y 16): el video a la
-  izquierda, con el alto de las imágenes, y ellas apiladas a la derecha; si la
+  (`- **Nombre** — texto`). Un video vertical y las imágenes que lo siguen
+  (hasta tres; las demás van debajo) forman un par, como las obras de dos
+  paneles (capítulos 14 y 16): el video a la izquierda, con el alto de las imágenes, y ellas apiladas a la derecha; si la
   galería mide menos de 480 px, el video va arriba, con el ancho de las
   imágenes, y ellas debajo. El reproductor queda siempre en 9:16, sin franjas
   negras: si su lugar tiene otra proporción, se recorta apenas lo que sobra.

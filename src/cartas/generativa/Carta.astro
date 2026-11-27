@@ -13,9 +13,10 @@
 //     párrafo que es solo un enlace ("View work") va al pie del capítulo;
 //   - las imágenes, los videos ([youtube:ID], o [youtube:ID vertical] para un
 //     Short) y las listas (las obras) de un capítulo van a la galería, en el
-//     orden del Markdown. Un video vertical seguido de imágenes forma un par,
-//     como las obras de dos paneles: el video a la izquierda y esas imágenes,
-//     una debajo de la otra, a la derecha (en un lugar angosto, el video arriba).
+//     orden del Markdown. Un video vertical y las imágenes que lo siguen (hasta
+//     tres) forman un par, como las obras de dos paneles: el video a la
+//     izquierda y esas imágenes, una debajo de la otra, a la derecha (en un
+//     lugar angosto, el video arriba). Las imágenes siguientes van debajo.
 //
 // Según el ancho del lugar de la página (no de la ventana: con el Derrotero
 // abierto la página es más angosta) se muestran tres, dos o una columna (ver
@@ -70,14 +71,14 @@ const filas = partes.flatMap((parte) =>
 
 const enLinea = (texto: string) => renderizarEnLinea(texto);
 
-// Los medios de la galería, con cada video vertical y las imágenes que lo
-// siguen reunidos en un par.
+// Los medios de la galería, con cada video vertical y las (hasta tres)
+// imágenes que lo siguen reunidos en un par.
 type Video = Extract<Medio, { tipo: 'video' }>;
 type Imagen = Extract<Medio, { tipo: 'imagen' }>;
 type Pieza = Medio | { tipo: 'par'; video: Video; imagenes: Imagen[] };
 const piezas = (medios: Medio[]) => medios.reduce<Pieza[]>((lista, medio) => {
   const ultima = lista[lista.length - 1];
-  if (medio.tipo === 'imagen' && ultima?.tipo === 'par') ultima.imagenes.push(medio);
+  if (medio.tipo === 'imagen' && ultima?.tipo === 'par' && ultima.imagenes.length < 3) ultima.imagenes.push(medio);
   else if (medio.tipo === 'imagen' && ultima?.tipo === 'video' && ultima.vertical) lista[lista.length - 1] = { tipo: 'par', video: ultima, imagenes: [medio] };
   else lista.push(medio);
   return lista;

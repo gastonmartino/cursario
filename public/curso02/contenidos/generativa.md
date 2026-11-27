@@ -145,13 +145,15 @@ Opportunistic species will benefit most from new fragmented habitats.
 
 The big season finale will let nothing but soot.
 
-![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-1.webp)
+[youtube:42ZzFIso-ho vertical]
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-2.webp)
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-3.webp)
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-6.webp)
+
+![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-1.webp)
 
 ![Fire Season](/curso02/imagenes/editorial/cap12-fire-season-7.webp)
 
