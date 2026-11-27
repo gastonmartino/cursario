@@ -129,6 +129,7 @@ ENLACES = {
 AV = '/curso02/imagenes/avatares/'
 AVATARES = {
     4: 'cap04-computational-mythology',
+    6: 'cap06-meanwhile',
     8: 'cap08-digital-cartography',
     11: 'cap11-edge-effects',
     12: 'cap12-fire-season',
