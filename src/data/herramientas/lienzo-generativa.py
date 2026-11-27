@@ -93,6 +93,7 @@ ENLACES = {
     'gen-cap02-aigrette': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/121',  # The Marshal's Queer Aigrette
     'gen-cap02-three-body': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/124',  # The Three-Body Problem
     'gen-serie-04': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/122',  # Diaspores
+    'gen-cap02-battle': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/127',  # The Battle
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
