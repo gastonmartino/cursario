@@ -162,6 +162,7 @@ def isla(id_, x, y, ancho, alto_, cod, cabecera, etiqueta, titulo, descripcion, 
     campos = [('id', q(id_))]
     campos.append(('imageUrl', previo.get('imageUrl') or q(imagen)))
     if 'thumbnailImageUrl' in previo: campos.append(('thumbnailImageUrl', previo['thumbnailImageUrl']))
+    else: campos.append(('thumbnailImageUrl', q(imagen.replace('/lienzo/', '/miniaturas/'))))  # para el Derrotero
     campos += [('code', q(cod)),
                ('title', q(titulo) if titulo else previo['title']),
                ('description', q(descripcion) if descripcion else previo['description']),

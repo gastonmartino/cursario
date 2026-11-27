@@ -50,13 +50,40 @@ export const DERROTERO: {
     'arte-electronico-06',    // Fuera de temporada
     'expediente-1126',        // [ÍNSULA] Expte. 11/26 s/ Tendidos sobrentendidos (Nueva Toninas)
 
-    // DERIVA:02 · Gráfica Generativa
-    'gen-serie-01',           // Sarandí Revelation
-    'gen-serie-02',           // Meticulously Unplanned
+    // DERIVA:02 · Gráfica Generativa, en el orden de la página editorial
+    'gen-cap01',              // Stochastic Parrots
+    'gen-cap02-haemolacria',  // Haemolacria
     'gen-serie-03',           // Plastic Natianta
-    'gen-serie-04',           // Diasporas
+    'gen-cap02-aigrette',     // The Marshal's Queer Aigrette
+    'gen-cap02-three-body',   // The Three-Body Problem
+    'gen-serie-04',           // Diaspores
+    'gen-cap02-battle',       // The Battle
+    'gen-cap02-ointment',     // Fly in the Ointment
+    'gen-cap02-neural-rhythm', // Neural Rhythm
+    'gen-cap03',              // Orchestrion
+    'gen-cap04-blood-moon',   // Blood Moon Turban
+    'gen-cap04-inequalities', // Systems of Inequalities
+    'gen-cap04-false-northing', // False Northing
+    'gen-cap04-mboi-tata',    // Mbói Tatá
+    'gen-serie-01',           // Sarandí Revelation
     'gen-serie-05',           // Meanwhile, in the Southern Hemisphere, a lymphatic summer
-    'gen-serie-06',           // Regolito fértil
+    'gen-cap07',              // Blue Prowess
+    'gen-cap08-pormenores',   // Pormenores
+    'gen-cap08-green-velvet', // Green Velvet Reward
+    'gen-cap09',              // Dispensable Treasure Maps
+    'gen-cap10',              // Yabotí Lowlands
+    'gen-cap11-windowsill',   // Windowsill Ill Sprouts
+    'gen-serie-06',           // Fertile Regolith
+    'gen-cap12',              // Fire Season
+    'gen-cap13',              // The Ostrich Evidence
+    'gen-cap14-la-noria',     // La Noria
+    'gen-cap14-struggle',     // The Order of the Struggle
+    'gen-cap15',              // Eardrum Negentropy
+    'gen-cap16-scaffolded',   // Scaffolded Whole
+    'gen-cap16-kite',         // Kite Festival Above, But Temple Below
+    'gen-serie-02',           // Meticulously Unplanned
+    'gen-cap17',              // Astralium
+    'gen-cap18',              // Lombrela
   ],
 
   // De lo más reciente a lo más antiguo.

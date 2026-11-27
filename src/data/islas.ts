@@ -340,6 +340,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap01',
     imageUrl: '/curso02/imagenes/lienzo/cap01-stochastic-parrots.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap01-stochastic-parrots.webp',
     code: 'CAP:01',
     title: 'Stochastic Parrots',
     description: 'Raised for deterministic purposes.',
@@ -351,6 +352,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-haemolacria',
     imageUrl: '/curso02/imagenes/lienzo/cap02-haemolacria.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-haemolacria.webp',
     code: 'CAP:02',
     title: 'Haemolacria',
     description: 'Just as the last flash of green was fading, tears of the deepest red hit the ground.',
@@ -377,6 +379,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-aigrette',
     imageUrl: '/curso02/imagenes/lienzo/cap02-marshals-queer-aigrette.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-marshals-queer-aigrette.webp',
     code: 'CAP:02',
     title: 'The Marshal\'s Queer Aigrette',
     description: 'A prouder silhouette of the wearer, extending beyond the battlefield.',
@@ -388,6 +391,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-three-body',
     imageUrl: '/curso02/imagenes/lienzo/cap02-three-body-problem.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-three-body-problem.webp',
     code: 'CAP:02',
     title: 'The Three-Body Problem',
     description: 'Controlling the uncontrollable to become more controllable.',
@@ -414,6 +418,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-battle',
     imageUrl: '/curso02/imagenes/lienzo/cap02-the-battle.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-the-battle.webp',
     code: 'CAP:02',
     title: 'The Battle',
     description: 'The struggle only starts after the beast has been tamed.',
@@ -425,6 +430,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-ointment',
     imageUrl: '/curso02/imagenes/lienzo/cap02-fly-in-the-ointment.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-fly-in-the-ointment.webp',
     code: 'CAP:02',
     title: 'Fly in the Ointment',
     description: 'After the convenient discovery of the insect, no one questioned the alleged benefits of the ointment again.',
@@ -436,6 +442,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap02-neural-rhythm',
     imageUrl: '/curso02/imagenes/lienzo/cap02-neural-rhythm.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap02-neural-rhythm.webp',
     code: 'CAP:02',
     title: 'Neural Rhythm',
     description: 'The synchronized oscillations of the media platforms will tirelessly attempt to modulate attentions until all memories dance to the same drumbeat.',
@@ -447,6 +454,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap03',
     imageUrl: '/curso02/imagenes/lienzo/cap03-orchestrion.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap03-orchestrion.webp',
     code: 'CAP:03',
     title: 'Orchestrion',
     description: 'Although the artificiality of harmony goes unnoticed by most dancers, the insistence on the automatically regurgitated repertoire always ends up composing the same melody.',
@@ -458,6 +466,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap04-blood-moon',
     imageUrl: '/curso02/imagenes/lienzo/cap04-blood-moon-turban.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap04-blood-moon-turban.webp',
     code: 'CAP:04',
     title: 'Blood Moon Turban',
     description: 'Lurking behind the veil of the red moon, the killer is on the prowl. Not as innocuous as a snail can possibly be, but decidedly bloodier.',
@@ -469,6 +478,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap04-inequalities',
     imageUrl: '/curso02/imagenes/lienzo/cap04-systems-of-inequalities.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap04-systems-of-inequalities.webp',
     code: 'CAP:04',
     title: 'Systems of Inequalities',
     description: 'Apparently, no quadrant contains the solution to these inequalities.',
@@ -480,6 +490,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap04-false-northing',
     imageUrl: '/curso02/imagenes/lienzo/cap04-false-northing.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap04-false-northing.webp',
     code: 'CAP:04',
     title: 'False Northing',
     description: 'Always projecting North positivity for your convenience.',
@@ -491,6 +502,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap04-mboi-tata',
     imageUrl: '/curso02/imagenes/lienzo/cap04-mboi-tata.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap04-mboi-tata.webp',
     code: 'CAP:04',
     title: 'Mbói Tatá',
     description: 'Forever outfired by the serpent.',
@@ -532,6 +544,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap07',
     imageUrl: '/curso02/imagenes/lienzo/cap07-blue-prowess.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap07-blue-prowess.webp',
     code: 'CAP:07',
     title: 'Blue Prowess',
     description: 'A buggy blue superiority buried in our deepest thoughts.',
@@ -543,6 +556,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap08-pormenores',
     imageUrl: '/curso02/imagenes/lienzo/cap08-pormenores.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap08-pormenores.webp',
     code: 'CAP:08',
     title: 'Pormenores',
     description: 'In a distant land, a fearless elf set off on a quest to find a pot of gold at the end of the rainbow, only to discover that no one had properly explained the details of the path he needed to take.',
@@ -554,6 +568,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap08-green-velvet',
     imageUrl: '/curso02/imagenes/lienzo/cap08-green-velvet-reward.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap08-green-velvet-reward.webp',
     code: 'CAP:08',
     title: 'Green Velvet Reward',
     description: 'It has never been easier to place a bet.',
@@ -565,6 +580,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap09',
     imageUrl: '/curso02/imagenes/lienzo/cap09-dispensable-treasure-maps.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap09-dispensable-treasure-maps.webp',
     code: 'CAP:09',
     title: 'Dispensable Treasure Maps',
     description: 'Pointless artifacts describing the fateful legacy buried in landfills for future generations.',
@@ -576,6 +592,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap10',
     imageUrl: '/curso02/imagenes/lienzo/cap10-yaboti-1a.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap10-yaboti-1a.webp',
     code: 'CAP:10',
     title: 'Yabotí Lowlands',
     description: 'Aerial shots of the enigmatic signs of old that mark the verdant turtle\'s back in Yabotí lowlands.',
@@ -587,6 +604,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap11-windowsill',
     imageUrl: '/curso02/imagenes/lienzo/cap11-windowsill-ill-sprouts.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap11-windowsill-ill-sprouts.webp',
     code: 'CAP:11',
     title: 'Windowsill Ill Sprouts',
     description: 'No more marks/spots from acid rain on your windows! Protect your glass surfaces with the new eco-friendly, plant-powered, multi-surface cleaner, and clean your home naturally, without the unpleasant chemical residues.',
@@ -613,6 +631,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap12',
     imageUrl: '/curso02/imagenes/lienzo/cap12-fire-season-2a.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap12-fire-season-2a.webp',
     code: 'CAP:12',
     title: 'Fire Season',
     description: 'The big season finale will let nothing but soot.',
@@ -624,6 +643,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap13',
     imageUrl: '/curso02/imagenes/lienzo/cap13-the-ostrich-evidence.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap13-the-ostrich-evidence.webp',
     code: 'CAP:13',
     title: 'The Ostrich Evidence',
     description: 'There’s a secret in the blushed sand, a silent story buried in the bones of the feathered dinosaur. The runner of the sky.',
@@ -635,6 +655,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap14-la-noria',
     imageUrl: '/curso02/imagenes/lienzo/cap14-la-noria.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap14-la-noria.webp',
     code: 'CAP:14',
     title: 'La Noria',
     description: 'Stroboscopic seduction of the wagon-wheel effect during the Tenties Gold Rush.',
@@ -646,6 +667,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap14-struggle',
     imageUrl: '/curso02/imagenes/lienzo/cap14-the-order-of-the-struggle.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap14-the-order-of-the-struggle.webp',
     code: 'CAP:14',
     title: 'The Order of the Struggle',
     description: 'When predation, competition, and parasitism regulate the tangle, each pair of legs of the centipede must wait for its turn to move.',
@@ -657,6 +679,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap15',
     imageUrl: '/curso02/imagenes/lienzo/cap15-eardrum-negentropy.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap15-eardrum-negentropy.webp',
     code: 'CAP:15',
     title: 'Eardrum Negentropy',
     description: 'After hearing the red noise for so long, the exact words of the omen were whispered in their ears.',
@@ -668,6 +691,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap16-scaffolded',
     imageUrl: '/curso02/imagenes/lienzo/cap16-scaffolded-whole.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap16-scaffolded-whole.webp',
     code: 'CAP:16',
     title: 'Scaffolded Whole',
     description: 'The synapse during own thinking also relies on scaffolding.',
@@ -679,6 +703,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap16-kite',
     imageUrl: '/curso02/imagenes/lienzo/cap16-kite-festival.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap16-kite-festival.webp',
     code: 'CAP:16',
     title: 'Kite Festival Above, But Temple Below',
     description: 'Kites soar up in the sky, while temples root deep in the hills.',
@@ -705,6 +730,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap17',
     imageUrl: '/curso02/imagenes/lienzo/cap17-astralium-1a.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap17-astralium-1a.webp',
     code: 'CAP:17',
     title: 'Astralium',
     description: 'A series of generative web3 astral cards.',
@@ -716,6 +742,7 @@ export const ISLAS: IslaDefinition[] = [
   {
     id: 'gen-cap18',
     imageUrl: '/curso02/imagenes/lienzo/cap18-lombrela-1a.webp',
+    thumbnailImageUrl: '/curso02/imagenes/miniaturas/cap18-lombrela-1a.webp',
     code: 'CAP:18',
     title: 'Lombrela',
     description: 'In shadows of struggle, our path we sketch.',

@@ -60,3 +60,13 @@ for archivo in sorted(os.listdir(ALTA)) if os.path.isdir(ALTA) else []:
         t = round(h * 9 / 16); x0 = (w - t) // 2; im = im.crop((x0, 0, x0 + t, h))
     im.thumbnail((900, 1600), Image.LANCZOS)
     im.save(OUT + nombre + '.webp', quality=82, method=6)
+
+# Miniaturas del Derrotero (public/curso02/imagenes/miniaturas/): un cuadrado
+# de 600 px, recortado por el centro de la imagen del lienzo de cada isla que
+# la nombra como thumbnailImageUrl en src/data/islas.ts (los islotes no).
+import re
+MINI = 'public/curso02/imagenes/miniaturas/'
+os.makedirs(MINI, exist_ok=True)
+for archivo in sorted(set(re.findall(r"/curso02/imagenes/miniaturas/([^']+)'", open('src/data/islas.ts').read()))):
+    im = Image.open(OUT + archivo).convert('RGB'); w, h = im.size; y0 = (h - w) // 2
+    im.crop((0, y0, w, y0 + w)).resize((600, 600), Image.LANCZOS).save(MINI + archivo, quality=80, method=6)
