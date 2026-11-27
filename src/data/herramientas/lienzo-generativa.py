@@ -291,11 +291,10 @@ dx, dy = -round((min(xs) + max(xs)) / 2), -round((min(ys) + max(ys)) / 2)
 estructura_islas = [(a, b, round(x + dx), round(y + dy), w, round(h)) for a, b, x, y, w, h in estructura_islas]
 estructura_islotes = [(a, s, b, round(x + dx), round(y + dy), round(w), round(h)) for a, s, b, x, y, w, h in estructura_islotes]
 
-# El excurso "Max Extract" (islote-generativa-01) sigue con Sarandí Revelation,
-# a la izquierda de la primera fila.
-# Debajo de Sarandí Revelation, que en la primera fila deja lugar debajo.
-sar = next(e for e in estructura_islas if e[0] == 'gen-serie-01')
-estructura_islotes.append(('islote-generativa-01', 'gen-serie-01', 'islote002', sar[2] + 10, sar[3] + sar[5] // 2 + 60 + 216, 420, 431))
+# El excurso "Max Extract" (islote-generativa-01) va con Stochastic Parrots, la
+# primera isla del lienzo, debajo de ella (la primera fila deja lugar debajo).
+sp = next(e for e in estructura_islas if e[0] == 'gen-cap01')
+estructura_islotes.append(('islote-generativa-01', 'gen-cap01', 'islote002', sp[2] + 10, sp[3] + sp[5] // 2 + 60 + 216, 420, 431))
 
 # --- Escritura -------------------------------------------------------------------
 def bloque(campos, sangria='    '):

@@ -1711,10 +1711,10 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   },
   {
     id: 'islote-generativa-01',
-    idSuperior: 'gen-serie-01',
+    idSuperior: 'gen-cap01',
     subcurso: 'islote002',
-    x: 1157,
-    y: -1179,
+    x: -2683,
+    y: -1334,
     ancho: 420,
     alto: 431,
   },
