@@ -120,6 +120,8 @@ Aerial shots of the enigmatic signs of old that mark the verdant turtle's back i
 
 ![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-3.webp)
 
+[youtube:MY4IeHl7X0w vertical]
+
 [View collection](https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4)
 
 ## PART 3 - Max Extract

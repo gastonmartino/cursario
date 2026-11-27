@@ -282,7 +282,9 @@ capítulo (`###`) es una fila de tres columnas:
   primer capítulo (un párrafo todo en cursiva es la línea técnica);
 - **capítulo**: su título y sus párrafos; un párrafo que es solo un enlace
   ("View work") va al pie;
-- **galería**: sus imágenes (con su pie) y su lista de obras
+- **galería**: sus imágenes (con su pie) y sus videos de YouTube
+  (`[youtube:ID]`, o `[youtube:ID vertical]` para un Short, angosto y
+  centrado), en el orden del Markdown, y su lista de obras
   (`- **Nombre** — texto`).
 
 Las columnas dependen del ancho del lugar de la página (una *container query*

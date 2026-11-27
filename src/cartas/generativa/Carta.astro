@@ -11,7 +11,9 @@
 //     se muestra junto a su primer capítulo;
 //   - "###" abre un capítulo: sus párrafos van en la columna del capítulo, y un
 //     párrafo que es solo un enlace ("View work") va al pie del capítulo;
-//   - las imágenes y las listas (las obras) de un capítulo van a la galería.
+//   - las imágenes, los videos ([youtube:ID], o [youtube:ID vertical] para un
+//     Short) y las listas (las obras) de un capítulo van a la galería, en el
+//     orden del Markdown.
 //
 // Según el ancho del lugar de la página (no de la ventana: con el Derrotero
 // abierto la página es más angosta) se muestran tres, dos o una columna (ver
@@ -29,8 +31,8 @@ type Props = PropsCarta;
 
 const { pagina, documento, volver, vistas, mapa } = Astro.props;
 
-type Imagen = Extract<BloqueMimo, { tipo: 'imagen' }>;
-interface Capitulo { titulo: string; textos: string[]; enlaces: string[]; imagenes: Imagen[]; obras: string[] }
+type Medio = Extract<BloqueMimo, { tipo: 'imagen' | 'video' }>;
+interface Capitulo { titulo: string; textos: string[]; enlaces: string[]; medios: Medio[]; obras: string[] }
 interface Parte { titulo: string; nivel: number; textos: string[]; capitulos: Capitulo[] }
 
 const partes: Parte[] = [];
@@ -47,14 +49,14 @@ for (const bloque of documento.bloques) {
   if (partes.length === 0) partes.push({ titulo: '', nivel: 2, textos: [], capitulos: [] });
   const parte = partes[partes.length - 1];
   if (bloque.tipo === 'titulo') {
-    capitulo = { titulo: bloque.texto, textos: [], enlaces: [], imagenes: [], obras: [] };
+    capitulo = { titulo: bloque.texto, textos: [], enlaces: [], medios: [], obras: [] };
     parte.capitulos.push(capitulo);
   } else if (!capitulo) {
     if (bloque.tipo === 'parrafo') parte.textos.push(bloque.texto);
   } else if (bloque.tipo === 'parrafo') {
     (esEnlaceSolo(bloque.texto) ? capitulo.enlaces : capitulo.textos).push(bloque.texto);
-  } else if (bloque.tipo === 'imagen') {
-    capitulo.imagenes.push(bloque);
+  } else if (bloque.tipo === 'imagen' || bloque.tipo === 'video') {
+    capitulo.medios.push(bloque);
   } else if (bloque.tipo === 'lista') {
     capitulo.obras.push(...bloque.items);
   }
@@ -136,12 +138,23 @@ const titulo = partes.find((p) => p.nivel === 1)?.titulo ?? pagina.titulo;
             </div>
           )}
 
-          {cap && (cap.imagenes.length > 0 || cap.obras.length > 0) && (
+          {cap && (cap.medios.length > 0 || cap.obras.length > 0) && (
             <div class="gen-galeria">
-              {cap.imagenes.map((imagen) => (
+              {cap.medios.map((medio) => medio.tipo === 'video' ? (
+                <figure class:list={['gen-video', medio.vertical && 'gen-video-vertical']}>
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${medio.youtube}`}
+                    title={`Video de ${cap.titulo.replace(/^Chapter \d+ - /, '')}`}
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
+                </figure>
+              ) : (
                 <figure>
-                  <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
-                  {imagen.pie && <figcaption set:html={enLinea(imagen.pie)} />}
+                  <img src={withBase(medio.src)} alt={medio.alt} loading="lazy" decoding="async" />
+                  {medio.pie && <figcaption set:html={enLinea(medio.pie)} />}
                 </figure>
               ))}
               {cap.obras.length > 0 && (
