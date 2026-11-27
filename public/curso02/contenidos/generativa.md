@@ -209,6 +209,8 @@ Season of vulnerable cities blossoming.
 
 A series of generative web3 astral cards.
 
+[youtube:bfQP68QfAd8 vertical]
+
 ![Astralium](/curso02/imagenes/editorial/cap17-astralium-1.webp)
 
 ![Astralium](/curso02/imagenes/editorial/cap17-astralium-2.webp)
@@ -220,6 +222,8 @@ A series of generative web3 astral cards.
 ### Chapter 18 - Lombrela
 
 In shadows of struggle, our path we sketch.
+
+[youtube:2pFbg7F8cBI vertical]
 
 ![Lombrela](/curso02/imagenes/editorial/cap18-lombrela-1.webp)
 
