@@ -412,9 +412,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap02-neural-rhythm',
         subcurso: 'curso013',
         x: -853,
-        y: -943,
+        y: -934,
         ancho: 400,
-        alto: 964,
+        alto: 982,
       },
       {
         id: 'gen-cap03',
