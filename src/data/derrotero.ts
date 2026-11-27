@@ -31,7 +31,7 @@ export const DERROTERO: {
 
     'generativa',             // CURSO: Gráfica Generativa
       'gen-serie-01',         // Sarandí Revelation
-      'gen-serie-02',         // Meticulously Unplanned
+      'gen-cap04-mboi-tata',  // Mbói Tatá
       'gen-serie-03',         // Plastic Natianta
       'gen-serie-04',         // Diasporas
       'gen-cap01',            // Stochastic Parrots
