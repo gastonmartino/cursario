@@ -524,6 +524,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: '10 IMÁGENES',
     accentColor: '#16253D',
     headerLabel: 'SERIE',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/97',
     imageCaption: 'PNG: 1920 x 3414',
     imageDate: '2024',
     keywords: 'decolonialidad , sur global, crisis de occidente, cooperación sur-sur',

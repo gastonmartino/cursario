@@ -102,6 +102,7 @@ ENLACES = {
     'gen-cap04-false-northing': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/101',  # False Northing
     'gen-cap04-mboi-tata': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/113',  # Mbói Tatá
     'gen-serie-01': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/125',  # Sarandí Revelation
+    'gen-serie-05': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/97',  # Meanwhile, in the Southern Hemisphere, a lymphatic summer
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
