@@ -499,6 +499,18 @@ Como los antiguos *Bestiarios*, que reunían criaturas, relatos y saberes divers
     showAction: false,
   },
   {
+    id: 'islote-gen-parte1-sigue',
+    showHeader: true,
+    code: 'PARTE 1',
+    title: 'Generative Digital Art',
+    description: 'Visualization of mereological relationships within —and between— particle systems.',
+    tag: '',
+    accentColor: '#16253D',
+    backgroundColor: '#f0ffff',
+    headerLabel: 'GENERATIVE DIGITAL ART',
+    showAction: false,
+  },
+  {
     id: 'islote-gen-cap08-avatar',
     showHeader: false,
     imageUrl: '/curso02/imagenes/avatares/cap08-digital-cartography.webp',

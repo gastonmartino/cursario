@@ -147,8 +147,14 @@ AG = 20  # entre el avatar y el cartel
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
 
-# Filas del lienzo: qué partes van en cada una.
-FILAS = [[1], [2, 3], [4, 5]]
+# Filas del lienzo: qué partes van en cada una y, si una parte se reparte
+# entre dos filas, qué capítulos suyos van en cada una (None: todos). La parte
+# que sigue en otra fila repite allí su cartel (islote-gen-parte{n}-sigue).
+FILAS = [
+    [(1, [1, 2, 3, 4, 5, 6])],
+    [(1, [7]), (2, None), (3, None)],
+    [(4, None), (5, None)],
+]
 
 # Medidas (px del lienzo)
 IW, G, CG, PG, RG = 400, 40, 120, 300, 260   # isla, entre islas, entre capítulos, entre partes, entre filas
@@ -209,7 +215,7 @@ def avatar(n, nombre, superior, izquierda, arriba, lado):
 def ancho_capitulo(cap):
     n, parte, nombre, desc, tipo, cont = cap
     if tipo == 'obras':
-        cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 2, 8: 4}[len(cont)]
+        cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 8: 4}[len(cont)]
         return cols * IW + (cols - 1) * G
     if tipo == 'serie':
         scols = -(-len(cont[2]) // SROWS)
@@ -221,11 +227,12 @@ for fila in FILAS:
     x = 0
     alto_fila = 0
     # Alto de la banda de carteles: igual para toda la fila.
-    alto_parte = max(alto(f'islote-gen-parte{p}', 'parte') for p in fila)
-    alto_cartel = max([alto(f'islote-gen-cap{c[0]:02d}', 'cartel') for c in CAPITULOS if c[1] in fila and c[4] == 'obras'] or [0])
+    tramos = [(p, [c for c in CAPITULOS if c[1] == p and (ns is None or c[0] in ns)]) for p, ns in fila]
+    id_parte = lambda p, caps: f'islote-gen-parte{p}' + ('' if caps[0] == next(c for c in CAPITULOS if c[1] == p) else '-sigue')
+    alto_parte = max(alto(id_parte(p, caps), 'parte') for p, caps in tramos)
+    alto_cartel = max([alto(f'islote-gen-cap{c[0]:02d}', 'cartel') for _, caps in tramos for c in caps if c[4] == 'obras'] or [0])
     y_islas = y_fila + alto_parte + 30 + alto_cartel + 30
-    for p in fila:
-        caps = [c for c in CAPITULOS if c[1] == p]
+    for p, caps in tramos:
         ancho_parte = sum(ancho_capitulo(c) for c in caps) + CG * (len(caps) - 1)
         x_parte = x
         primera_isla_parte = None
@@ -255,11 +262,8 @@ for fila in FILAS:
                 if n in AVATARES and alto_cartel:
                     avatar(n, nombre, id_, x, y_islas - 30 - alto_cartel, alto_cartel)
             else:
-                cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 2, 8: 4}[len(cont)]
-                # Con cinco obras (Computational Mythology), la primera sola
-                # arriba, como el video en la página editorial, y dos filas de dos.
-                if len(cont) == 5: filas_cap = [cont[:1], cont[1:3], cont[3:]]
-                else: filas_cap = [cont[i:i + cols] for i in range(0, len(cont), cols)]
+                cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 8: 4}[len(cont)]
+                filas_cap = [cont[i:i + cols] for i in range(0, len(cont), cols)]
                 y_obra = y_islas
                 for r, obras in enumerate(filas_cap):
                     hs = [alto(o[0], 'isla') for o in obras]
@@ -282,8 +286,8 @@ for fila in FILAS:
             x += w + CG
         x = x - CG + PG
         pn, pnombre, pdesc = PARTES[p - 1]
-        hp = alto(f'islote-gen-parte{p}', 'parte')
-        islote(f'islote-gen-parte{p}', primera_isla_parte, x_parte + ancho_parte / 2, y_fila + hp / 2, ancho_parte, hp, [
+        hp = alto(id_parte(p, caps), 'parte')
+        islote(id_parte(p, caps), primera_isla_parte, x_parte + ancho_parte / 2, y_fila + hp / 2, ancho_parte, hp, [
             ('showHeader', 'true'), ('code', q(f'PARTE {p}')), ('title', q(pnombre)), ('description', q(pdesc)),
             ('tag', "''"), ('accentColor', q(COLOR)), ('backgroundColor', q('#f0ffff')),
             ('headerLabel', q(pnombre.upper())), ('showAction', 'false')])
