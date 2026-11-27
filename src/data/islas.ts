@@ -593,6 +593,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 1/2',
     accentColor: '#16253D',
     headerLabel: 'EDGE EFFECTS',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/847373',
   },
   {
     id: 'gen-serie-06',

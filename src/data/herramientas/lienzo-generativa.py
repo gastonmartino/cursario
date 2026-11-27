@@ -108,6 +108,7 @@ ENLACES = {
     'gen-cap08-green-velvet': 'https://objkt.com/tokens/KT1CgF2L4mF4hxMbYrFytiGHvnME3NLM8d64/8',  # Green Velvet Reward
     'gen-cap09': 'https://objkt.com/curations/objkt/dispensable-treasure-maps-7818d03c',  # Dispensable Treasure Maps
     'gen-cap10': 'https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4',  # Yabotí Lowlands
+    'gen-cap11-windowsill': 'https://objkt.com/tokens/hicetnunc/847373',  # Windowsill Ill Sprouts
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
