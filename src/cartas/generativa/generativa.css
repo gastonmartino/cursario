@@ -272,6 +272,42 @@ html.html-generativa .gen-video iframe {
   border: 0;
 }
 
+/* Un video vertical y las imágenes que lo siguen (el mosaico de la serie), lado
+   a lado como los dos paneles de una obra: el video toma el alto del mosaico.
+   En una galería angosta, uno debajo del otro: el video arriba. */
+html.html-generativa .gen-galeria {
+  container-type: inline-size;
+  container-name: gen-galeria;
+}
+
+html.html-generativa .gen-par {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+html.html-generativa .gen-par-imagenes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@container gen-galeria (min-width: 480px) {
+  html.html-generativa .gen-par {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  html.html-generativa .gen-par .gen-video-vertical {
+    aspect-ratio: auto;
+    max-width: none;
+    margin: 0;
+    min-height: 100%;
+  }
+}
+
 html.html-generativa .gen-obras {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

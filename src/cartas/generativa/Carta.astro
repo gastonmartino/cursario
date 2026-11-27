@@ -13,7 +13,9 @@
 //     párrafo que es solo un enlace ("View work") va al pie del capítulo;
 //   - las imágenes, los videos ([youtube:ID], o [youtube:ID vertical] para un
 //     Short) y las listas (las obras) de un capítulo van a la galería, en el
-//     orden del Markdown.
+//     orden del Markdown. Un video vertical seguido de imágenes forma un par,
+//     como las obras de dos paneles: el video a la izquierda y esas imágenes,
+//     una debajo de la otra, a la derecha (en un lugar angosto, el video arriba).
 //
 // Según el ancho del lugar de la página (no de la ventana: con el Derrotero
 // abierto la página es más angosta) se muestran tres, dos o una columna (ver
@@ -67,6 +69,20 @@ const filas = partes.flatMap((parte) =>
   (parte.capitulos.length > 0 ? parte.capitulos : [null]).map((cap, i) => ({ parte, capitulo: cap, conResumen: i === 0 })));
 
 const enLinea = (texto: string) => renderizarEnLinea(texto);
+
+// Los medios de la galería, con cada video vertical y las imágenes que lo
+// siguen reunidos en un par.
+type Video = Extract<Medio, { tipo: 'video' }>;
+type Imagen = Extract<Medio, { tipo: 'imagen' }>;
+type Pieza = Medio | { tipo: 'par'; video: Video; imagenes: Imagen[] };
+const piezas = (medios: Medio[]) => medios.reduce<Pieza[]>((lista, medio) => {
+  const ultima = lista[lista.length - 1];
+  if (medio.tipo === 'imagen' && ultima?.tipo === 'par') ultima.imagenes.push(medio);
+  else if (medio.tipo === 'imagen' && ultima?.tipo === 'video' && ultima.vertical) lista[lista.length - 1] = { tipo: 'par', video: ultima, imagenes: [medio] };
+  else lista.push(medio);
+  return lista;
+}, []);
+const tituloVideo = (cap: Capitulo) => `Video de ${cap.titulo.replace(/^Chapter \d+ - /, '')}`;
 // La línea técnica de una parte ("*HTML5, CSS…*"): un párrafo todo en cursiva.
 const esPie = (texto: string) => /^\*[^*].*[^*]\*$/.test(texto.trim());
 // Una obra de la lista: "**Nombre** — texto".
@@ -140,11 +156,29 @@ const titulo = partes.find((p) => p.nivel === 1)?.titulo ?? pagina.titulo;
 
           {cap && (cap.medios.length > 0 || cap.obras.length > 0) && (
             <div class="gen-galeria">
-              {cap.medios.map((medio) => medio.tipo === 'video' ? (
+              {piezas(cap.medios).map((medio) => medio.tipo === 'par' ? (
+                <div class="gen-par">
+                  <figure class="gen-video gen-video-vertical">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${medio.video.youtube}`}
+                      title={tituloVideo(cap)}
+                      loading="lazy"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </figure>
+                  <div class="gen-par-imagenes">
+                    {medio.imagenes.map((imagen) => (
+                      <img src={withBase(imagen.src)} alt={imagen.alt} loading="lazy" decoding="async" />
+                    ))}
+                  </div>
+                </div>
+              ) : medio.tipo === 'video' ? (
                 <figure class:list={['gen-video', medio.vertical && 'gen-video-vertical']}>
                   <iframe
                     src={`https://www.youtube-nocookie.com/embed/${medio.youtube}`}
-                    title={`Video de ${cap.titulo.replace(/^Chapter \d+ - /, '')}`}
+                    title={tituloVideo(cap)}
                     loading="lazy"
                     referrerpolicy="strict-origin-when-cross-origin"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -114,13 +114,13 @@ Pointless artifacts describing the fateful legacy buried in landfills for future
 
 Aerial shots of the enigmatic signs of old that mark the verdant turtle's back in Yabotí lowlands.
 
+[youtube:MY4IeHl7X0w vertical]
+
 ![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-1.webp)
 
 ![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-2.webp)
 
 ![Yabotí Lowlands](/curso02/imagenes/editorial/cap10-yabot-lowlands-3.webp)
-
-[youtube:MY4IeHl7X0w vertical]
 
 [View collection](https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4)
 
