@@ -685,6 +685,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 2/3',
     accentColor: '#16253D',
     headerLabel: 'SACRED URBANITY',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/847469',
   },
   {
     id: 'gen-serie-02',
