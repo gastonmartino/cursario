@@ -36,7 +36,6 @@ export const DERROTERO: {
       'gen-serie-04',         // Diasporas
       'gen-cap01',            // Stochastic Parrots
       'gen-cap07',            // Blue Prowess
-      'gen-cap09',            // Dispensable Treasure Maps
       'gen-cap10',            // Yabotí Lowlands
       'gen-cap12',            // Fire Season
       'gen-cap13',            // The Ostrich Evidence
