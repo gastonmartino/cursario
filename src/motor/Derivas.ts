@@ -348,9 +348,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap01',
         subcurso: 'curso007',
         x: -2693,
-        y: -2034,
+        y: -2017,
         ancho: 400,
-        alto: 883,
+        alto: 916,
       },
       {
         id: 'gen-cap02-haemolacria',
