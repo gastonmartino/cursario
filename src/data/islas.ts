@@ -722,6 +722,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: '9 IMÁGENES',
     accentColor: '#16253D',
     headerLabel: 'SERIE',
+    detailHref: 'https://objkt.com/curations/objkt/lombrela-73a6a925',
   },
     
  //

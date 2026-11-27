@@ -119,6 +119,7 @@ ENLACES = {
     'gen-cap16-kite': 'https://objkt.com/tokens/hicetnunc/847469',  # Kite Festival Above, But Temple Below
     'gen-serie-02': 'https://objkt.com/tokens/hicetnunc/850950',  # Meticulously Unplanned
     'gen-cap17': 'https://objkt.com/curations/objkt/astralium-2deb015d',  # Astralium
+    'gen-cap18': 'https://objkt.com/curations/objkt/lombrela-73a6a925',  # Lombrela
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
