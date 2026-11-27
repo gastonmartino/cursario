@@ -46,3 +46,17 @@ paneles('cap16-sacred-urbanity.webp',DOS_1400,['cap16-scaffolded-whole','cap16-k
 for i in (1,2,3):
     paneles(f'cap17-astralium-{i}.webp',TRES_CHICA,[f'cap17-astralium-{i}{l}' for l in 'abc'])
     paneles(f'cap18-lombrela-{i}.webp',TRES_CHICA,[f'cap18-lombrela-{i}{l}' for l in 'abc'])
+
+# Originales en alta resolución que fueron llegando (media/generativa/, con el
+# mismo nombre que su imagen del lienzo): reemplazan a la versión recortada de
+# la página editorial. Se recortan a 9:16 si hace falta y se reducen a 900 px.
+ALTA = 'media/generativa/'
+for archivo in sorted(os.listdir(ALTA)) if os.path.isdir(ALTA) else []:
+    nombre = os.path.splitext(archivo)[0]
+    im = Image.open(ALTA + archivo).convert('RGB'); w, h = im.size
+    if h / w > 16 / 9:
+        t = round(w * 16 / 9); y0 = (h - t) // 2; im = im.crop((0, y0, w, y0 + t))
+    elif h / w < 16 / 9:
+        t = round(h * 9 / 16); x0 = (w - t) // 2; im = im.crop((x0, 0, x0 + t, h))
+    im.thumbnail((900, 1600), Image.LANCZOS)
+    im.save(OUT + nombre + '.webp', quality=82, method=6)
