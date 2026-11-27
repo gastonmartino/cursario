@@ -316,7 +316,8 @@ export class MotorCursario {
   // lienzo de un curso, debajo del encabezado y del HUD (MARGEN_SUPERIOR) y a
   // MARGEN_IZQUIERDO de los costados y del borde de abajo (en pantallas chicas,
   // a MARGEN_IZQUIERDO_MOVIL). El zoom no baja de ZOOM_MINIMO_ENCUADRE: si el
-  // conjunto no entra, se centra a lo ancho y se muestra desde arriba.
+  // conjunto no entra, se centra a lo ancho y se muestra desde arriba, desde la
+  // primera de las islas (no los islotes) que quedan a la vista.
   private vistaEncuadre(deriva: DerivaInsula): Vista {
     const tarjetas = [
       ...deriva.subcursos,
@@ -337,10 +338,22 @@ export class MotorCursario {
     const x = (izquierda + derecha) / 2;
     // El centro del espacio útil queda en la pantalla en MARGEN_SUPERIOR +
     // altoUtil / 2; si el conjunto es más alto que ese espacio, se alinea arriba.
-    const y = (abajo - arriba) * zoom <= altoUtil
+    const entraAlto = (abajo - arriba) * zoom <= altoUtil;
+    const y = entraAlto
       ? (arriba + abajo) / 2 - (MARGEN_SUPERIOR + altoUtil / 2 - alto / 2) / zoom
       : arriba - (MARGEN_SUPERIOR - alto / 2) / zoom;
-    return { x, y, zoom };
+    if (entraAlto && (derecha - izquierda) * zoom <= anchoUtil) return { x, y, zoom };
+    // Si no entra todo (a lo ancho o a lo alto), con el zoom ya en su tope: de
+    // las islas (no los islotes) que quedan a la vista, la de más arriba se ve
+    // desde su comienzo, a MARGEN_SUPERIOR del borde de arriba.
+    const visibles = deriva.subcursos.filter((isla) => {
+      const izq = (isla.x - isla.ancho / 2 - x) * zoom + ancho / 2;
+      const sup = (isla.y - isla.alto / 2 - y) * zoom + alto / 2;
+      return izq < ancho && izq + isla.ancho * zoom > 0 && sup < alto && sup + isla.alto * zoom > 0;
+    });
+    if (visibles.length === 0) return { x, y, zoom };
+    const primera = Math.min(...visibles.map((isla) => isla.y - isla.alto / 2));
+    return { x, y: primera - (MARGEN_SUPERIOR - alto / 2) / zoom, zoom };
   }
 
   // El zoom mínimo de los vuelos de la cámara: el del encuadre completo
