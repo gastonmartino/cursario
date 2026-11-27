@@ -622,11 +622,11 @@ Cada elemento se define en **dos lugares** vinculados por su `id`:
 | --- | --- | --- | ---: | --- |
 | `DERIVA:00` | En Curso... (`en-curso`) | `curso00` | 11 | Bitácora del TFIC / MAE |
 | `DERIVA:01` | Artes Electrónicas (`arte-electronico`) | `curso01` | 5 | **Reflotada**: sus islas están en el lienzo principal; bloque en el Inicio del Derrotero |
-| `DERIVA:02` | Gráfica Generativa (`generativa`) | `curso02` | 6 | Página editorial propia en `/grafica-generativa/` (carta *generativa*); bloque en el Inicio del Derrotero |
+| `DERIVA:02` | Gráfica Generativa (`generativa`) | `curso02` | 33 | Página editorial propia en `/grafica-generativa/` (carta *generativa*); bloque en el Inicio del Derrotero. El lienzo sigue la página: partes, capítulos, una isla por obra o serie (generado con `src/data/herramientas/lienzo-generativa.py`) |
 | `DERIVA:03` | Pensamiento & Diseño (`pensamiento`) | `curso03` | 3 | — |
 | `DERIVA:04` | Expediente 11/26 (`expediente-1126`) | `curso04` | 24 | Página editorial propia en `/expediente-11-26/` |
 
-Además hay 18 islotes, distribuidos entre el lienzo principal y los lienzos de los cursos.
+Además hay 78 islotes, distribuidos entre el lienzo principal y los lienzos de los cursos.
 
 ### 11\.5. La portada: Mapa y Derrotero
 
