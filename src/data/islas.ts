@@ -711,6 +711,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: '9 IMÁGENES',
     accentColor: '#16253D',
     headerLabel: 'SERIE',
+    detailHref: 'https://objkt.com/curations/objkt/astralium-2deb015d',
   },
   {
     id: 'gen-cap18',
