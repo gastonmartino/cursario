@@ -247,7 +247,8 @@ for fila in FILAS:
         hp = alto(f'islote-gen-parte{p}', 'parte')
         islote(f'islote-gen-parte{p}', primera_isla_parte, x_parte + ancho_parte / 2, y_fila + hp / 2, ancho_parte, hp, [
             ('showHeader', 'true'), ('code', q(f'PARTE {p}')), ('title', q(pnombre)), ('description', q(pdesc)),
-            ('tag', "''"), ('accentColor', q(COLOR)), ('headerLabel', q(pnombre.upper())), ('showAction', 'false')])
+            ('tag', "''"), ('accentColor', q(COLOR)), ('backgroundColor', q('#f0ffff')),
+            ('headerLabel', q(pnombre.upper())), ('showAction', 'false')])
     y_fila += alto_fila + RG
 
 # Centrar el conjunto en el origen.
