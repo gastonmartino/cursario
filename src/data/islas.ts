@@ -674,6 +674,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 1/3',
     accentColor: '#16253D',
     headerLabel: 'SACRED URBANITY',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/847467',
   },
   {
     id: 'gen-cap16-kite',
