@@ -540,9 +540,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap13',
         subcurso: 'curso026',
         x: 2145,
-        y: 628,
+        y: 638,
         ancho: 400,
-        alto: 937,
+        alto: 955,
       },
       {
         id: 'gen-cap14-la-noria',

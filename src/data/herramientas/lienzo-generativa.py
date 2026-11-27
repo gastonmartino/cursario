@@ -111,6 +111,7 @@ ENLACES = {
     'gen-cap11-windowsill': 'https://objkt.com/tokens/hicetnunc/847373',  # Windowsill Ill Sprouts
     'gen-serie-06': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/99',  # Fertile Regolith
     'gen-cap12': 'https://objkt.com/curations/objkt/fire-season-2e1aa23d',  # Fire Season
+    'gen-cap13': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/57',  # The Ostrich Evidence
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
