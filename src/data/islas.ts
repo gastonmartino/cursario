@@ -663,6 +663,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'PARTE 4',
     accentColor: '#16253D',
     headerLabel: 'OBRA',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/848964',
   },
   {
     id: 'gen-cap16-scaffolded',
