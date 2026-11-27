@@ -108,6 +108,7 @@ export const INSULAS: InsulaDefinition[] = [
     pageMarkdownFile: 'generativa.md',
     pageUrl: 'grafica-generativa',
     imageMaxHeight: 440,
+    alias: 'generativa',
   },
   {
     id: 'pensamiento',
