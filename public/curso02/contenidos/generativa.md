@@ -71,6 +71,8 @@ Then the angel emptied out his bowl into the river and the beast was allowed to 
 
 While the eyes of the world are upon the blood, the lymph flows unnoticed, always in the same direction.
 
+[youtube:I5YwFjn4j5o vertical]
+
 ![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-2.webp)
 
 ![Meanwhile, in the Southern Hemisphere, a lymphatic summer](/curso02/imagenes/editorial/cap06-meanwhile-in-the-southern-hemisphere-a-l-3.webp)
