@@ -60,6 +60,7 @@ Authorless anthology narratives that steer the world's dark compass needle.
 
 [View collection](https://objkt.com/curations/objkt/computational-mythology-2863be52)
 
+- **Suspended Angel Dance** — Many said that their divine performance wouldn't have an intermission. But after our dastard rendition, they've placed their yellow dance in suspended animation for a while.
 - **Blood Moon Turban** — Lurking behind the veil of the red moon, the killer is on the prowl. Not as innocuous as a snail can possibly be, but decidedly bloodier.
 - **Systems of Inequalities** — Apparently, no quadrant contains the solution to these inequalities.
 - **False Northing** — Always projecting North positivity for your convenience.

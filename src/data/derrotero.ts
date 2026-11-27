@@ -77,6 +77,7 @@ export const DERROTERO: {
     'gen-cap02-ointment',     // Fly in the Ointment
     'gen-cap02-neural-rhythm', // Neural Rhythm
     'gen-cap03',              // Orchestrion
+    'gen-cap04-suspended-angel', // Suspended Angel Dance
     'gen-cap04-blood-moon',   // Blood Moon Turban
     'gen-cap04-inequalities', // Systems of Inequalities
     'gen-cap04-false-northing', // False Northing

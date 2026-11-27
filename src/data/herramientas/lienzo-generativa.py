@@ -48,6 +48,7 @@ CAPITULOS = [
     ]),
     (3, 1, 'Orchestrion', 'Although the artificiality of harmony goes unnoticed by most dancers, the insistence on the automatically regurgitated repertoire always ends up composing the same melody.', 'obra', ('gen-cap03', L + 'cap03-orchestrion.webp')),
     (4, 1, 'Computational Mythology', "Authorless anthology narratives that steer the world's dark compass needle.", 'obras', [
+        ('gen-cap04-suspended-angel', 'Suspended Angel Dance', "Many said that their divine performance wouldn't have an intermission. But after our dastard rendition, they've placed their yellow dance in suspended animation for a while.", L + 'cap04-suspended-angel-dance.webp'),
         ('gen-cap04-blood-moon', 'Blood Moon Turban', 'Lurking behind the veil of the red moon, the killer is on the prowl. Not as innocuous as a snail can possibly be, but decidedly bloodier.', L + 'cap04-blood-moon-turban.webp'),
         ('gen-cap04-inequalities', 'Systems of Inequalities', 'Apparently, no quadrant contains the solution to these inequalities.', L + 'cap04-systems-of-inequalities.webp'),
         ('gen-cap04-false-northing', 'False Northing', 'Always projecting North positivity for your convenience.', L + 'cap04-false-northing.webp'),
@@ -97,6 +98,7 @@ ENLACES = {
     'gen-cap02-ointment': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/128',  # Fly in the Ointment
     'gen-cap02-neural-rhythm': 'https://objkt.com/tokens/hicetnunc/866385',  # Neural Rhythm
     'gen-cap03': 'https://objkt.com/tokens/hicetnunc/866619',  # Orchestrion
+    'gen-cap04-suspended-angel': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/114',  # Suspended Angel Dance
     'gen-cap04-blood-moon': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/115',  # Blood Moon Turban
     'gen-cap04-inequalities': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/117',  # Systems of Inequalities
     'gen-cap04-false-northing': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/101',  # False Northing
@@ -207,7 +209,7 @@ def avatar(n, nombre, superior, izquierda, arriba, lado):
 def ancho_capitulo(cap):
     n, parte, nombre, desc, tipo, cont = cap
     if tipo == 'obras':
-        cols = {1: 1, 2: 2, 3: 3, 4: 2, 8: 4}[len(cont)]
+        cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 2, 8: 4}[len(cont)]
         return cols * IW + (cols - 1) * G
     if tipo == 'serie':
         scols = -(-len(cont[2]) // SROWS)
@@ -253,8 +255,11 @@ for fila in FILAS:
                 if n in AVATARES and alto_cartel:
                     avatar(n, nombre, id_, x, y_islas - 30 - alto_cartel, alto_cartel)
             else:
-                cols = {1: 1, 2: 2, 3: 3, 4: 2, 8: 4}[len(cont)]
-                filas_cap = [cont[i:i + cols] for i in range(0, len(cont), cols)]
+                cols = {1: 1, 2: 2, 3: 3, 4: 2, 5: 2, 8: 4}[len(cont)]
+                # Con cinco obras (Computational Mythology), la primera sola
+                # arriba, como el video en la página editorial, y dos filas de dos.
+                if len(cont) == 5: filas_cap = [cont[:1], cont[1:3], cont[3:]]
+                else: filas_cap = [cont[i:i + cols] for i in range(0, len(cont), cols)]
                 y_obra = y_islas
                 for r, obras in enumerate(filas_cap):
                     hs = [alto(o[0], 'isla') for o in obras]
