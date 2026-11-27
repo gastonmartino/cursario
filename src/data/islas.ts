@@ -431,6 +431,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 7/8',
     accentColor: '#16253D',
     headerLabel: 'METAVERSED NATURE',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/128',
   },
   {
     id: 'gen-cap02-neural-rhythm',
