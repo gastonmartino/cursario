@@ -70,3 +70,12 @@ os.makedirs(MINI, exist_ok=True)
 for archivo in sorted(set(re.findall(r"/curso02/imagenes/miniaturas/([^']+)'", open('src/data/islas.ts').read()))):
     im = Image.open(OUT + archivo).convert('RGB'); w, h = im.size; y0 = (h - w) // 2
     im.crop((0, y0, w, y0 + w)).resize((600, 600), Image.LANCZOS).save(MINI + archivo, quality=80, method=6)
+
+# Avatares de los capítulos (public/curso02/imagenes/avatares/): los originales
+# de media/generativa/avatares/, recortados al cuadrado por el centro, a 400 px.
+AVS = 'media/generativa/avatares/'; AVOUT = 'public/curso02/imagenes/avatares/'
+os.makedirs(AVOUT, exist_ok=True)
+for archivo in sorted(os.listdir(AVS)) if os.path.isdir(AVS) else []:
+    im = Image.open(AVS + archivo).convert('RGB'); w, h = im.size; s = min(w, h)
+    im = im.crop(((w - s) // 2, (h - s) // 2, (w - s) // 2 + s, (h - s) // 2 + s)).resize((400, 400), Image.LANCZOS)
+    im.save(AVOUT + os.path.splitext(archivo)[0] + '.webp', quality=82, method=6)

@@ -121,6 +121,20 @@ ENLACES = {
     'gen-cap17': 'https://objkt.com/curations/objkt/astralium-2deb015d',  # Astralium
     'gen-cap18': 'https://objkt.com/curations/objkt/lombrela-73a6a925',  # Lombrela
 }
+# Avatares de los capítulos: una imagen cuadrada (de AV, ver
+# lienzo-generativa-imagenes.py) en un islote a la izquierda del cartel del
+# capítulo, de su mismo alto; el cartel se achica para dejarle lugar. En un
+# capítulo sin cartel (una serie), a la altura de los carteles de la fila,
+# sobre la isla.
+AV = '/curso02/imagenes/avatares/'
+AVATARES = {
+    8: 'cap08-digital-cartography',
+    12: 'cap12-fire-season',
+    14: 'cap14-bubbled-by-design',
+    16: 'cap16-sacred-urbanity',
+}
+AG = 20  # entre el avatar y el cartel
+
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
 
@@ -176,6 +190,12 @@ def islote(id_, superior, x, y, ancho, alto_, campos):
     estructura_islotes.append((id_, superior, subislote(), x, y, ancho, alto_))
     islotes.append([('id', q(id_))] + campos)
 
+def avatar(n, nombre, superior, izquierda, arriba, lado):
+    islote(f'islote-gen-cap{n:02d}-avatar', superior, izquierda + lado / 2, arriba + lado / 2, lado, lado, [
+        ('showHeader', 'false'), ('imageUrl', q(AV + AVATARES[n] + '.webp')), ('imageMaxHeight', str(round(lado))),
+        ('code', q(f'CAPÍTULO {n:02d}')), ('tag', "''"), ('accentColor', q(COLOR)), ('backgroundColor', q('#ffffff')),
+        ('imageCaption', "''"), ('headerLabel', q(nombre)), ('showAction', 'false')])
+
 # --- Disposición ---------------------------------------------------------------
 def ancho_capitulo(cap):
     n, parte, nombre, desc, tipo, cont = cap
@@ -223,6 +243,8 @@ for fila in FILAS:
                         ('imageCaption', "''"), ('headerLabel', "''"), ('showAction', 'false')])
                 alto_fila = max(alto_fila, y_islas + h - y_fila)
                 primera = id_
+                if n in AVATARES and alto_cartel:
+                    avatar(n, nombre, id_, x, y_islas - 30 - alto_cartel, alto_cartel)
             else:
                 cols = {1: 1, 2: 2, 3: 3, 4: 2, 8: 4}[len(cont)]
                 filas_cap = [cont[i:i + cols] for i in range(0, len(cont), cols)]
@@ -236,7 +258,11 @@ for fila in FILAS:
                 alto_fila = max(alto_fila, y_obra - G - y_fila)
                 primera = cont[0][0]
                 hc = alto(f'islote-gen-cap{n:02d}', 'cartel')
-                islote(f'islote-gen-cap{n:02d}', primera, x + w / 2, y_islas - 30 - hc / 2, w, hc, [
+                xc, wc = x, w
+                if n in AVATARES:
+                    avatar(n, nombre, primera, x, y_islas - 30 - hc, hc)
+                    xc, wc = x + hc + AG, w - hc - AG
+                islote(f'islote-gen-cap{n:02d}', primera, xc + wc / 2, y_islas - 30 - hc / 2, wc, hc, [
                     ('showHeader', 'true'), ('code', q(f'CAPÍTULO {n:02d}')), ('title', q(nombre)), ('description', q(desc)),
                     ('tag', q(f'PARTE {parte}')), ('accentColor', q(COLOR)), ('backgroundColor', q('#ffffff')),
                     ('headerLabel', q(nombre.upper())), ('showAction', 'false')])
