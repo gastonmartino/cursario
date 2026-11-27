@@ -110,6 +110,7 @@ ENLACES = {
     'gen-cap10': 'https://objkt.com/curations/objkt/yaboti-lowlands-f925a5c4',  # Yabotí Lowlands
     'gen-cap11-windowsill': 'https://objkt.com/tokens/hicetnunc/847373',  # Windowsill Ill Sprouts
     'gen-serie-06': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/99',  # Fertile Regolith
+    'gen-cap12': 'https://objkt.com/curations/objkt/fire-season-2e1aa23d',  # Fire Season
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18

@@ -619,6 +619,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: '13 IMÁGENES',
     accentColor: '#16253D',
     headerLabel: 'SERIE',
+    detailHref: 'https://objkt.com/curations/objkt/fire-season-2e1aa23d',
   },
   {
     id: 'gen-cap13',
