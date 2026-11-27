@@ -137,6 +137,7 @@ AVATARES = {
     12: 'cap12-fire-season',
     14: 'cap14-bubbled-by-design',
     16: 'cap16-sacred-urbanity',
+    17: 'cap17-astralium',
     18: 'cap18-lombrela',
 }
 AG = 20  # entre el avatar y el cartel

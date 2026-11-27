@@ -1611,9 +1611,18 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     alto: 245,
   },
   {
+    id: 'islote-gen-cap17-avatar',
+    idSuperior: 'gen-cap17',
+    subcurso: 'islote079',
+    x: 228,
+    y: 1664,
+    ancho: 123,
+    alto: 123,
+  },
+  {
     id: 'islote-gen-cap18-01',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote079',
+    subcurso: 'islote080',
     x: 1692,
     y: 1878,
     ancho: 150,
@@ -1622,7 +1631,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-02',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote080',
+    subcurso: 'islote081',
     x: 1692,
     y: 2138,
     ancho: 150,
@@ -1631,7 +1640,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-03',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote081',
+    subcurso: 'islote082',
     x: 1692,
     y: 2402,
     ancho: 150,
@@ -1640,7 +1649,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-04',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote082',
+    subcurso: 'islote083',
     x: 1858,
     y: 1878,
     ancho: 150,
@@ -1649,7 +1658,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-05',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote083',
+    subcurso: 'islote084',
     x: 1858,
     y: 2138,
     ancho: 150,
@@ -1658,7 +1667,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-06',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote084',
+    subcurso: 'islote085',
     x: 1858,
     y: 2402,
     ancho: 150,
@@ -1667,7 +1676,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-07',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote085',
+    subcurso: 'islote086',
     x: 2024,
     y: 1878,
     ancho: 150,
@@ -1676,7 +1685,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-08',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote086',
+    subcurso: 'islote087',
     x: 2024,
     y: 2138,
     ancho: 150,
@@ -1685,7 +1694,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-cap18-avatar',
     idSuperior: 'gen-cap18',
-    subcurso: 'islote087',
+    subcurso: 'islote088',
     x: 1254,
     y: 1664,
     ancho: 123,
@@ -1694,7 +1703,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
   {
     id: 'islote-gen-parte5',
     idSuperior: 'gen-cap16-scaffolded',
-    subcurso: 'islote088',
+    subcurso: 'islote089',
     x: 433,
     y: 1510,
     ancho: 3332,
