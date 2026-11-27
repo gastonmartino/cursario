@@ -220,7 +220,7 @@ Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en col
 | `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
 | `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo con todas sus islas e islotes a la vista (por ejemplo, `alias: 'bitacora'` → `/bitacora/`). Si no entran ni con el zoom en su tope (22%), el lienzo se centra a lo ancho y se muestra desde la primera de las islas (no los islotes) que quedan a la vista. Solo minúsculas, números y guiones. Siempre abre el Mapa, aunque el Derrotero haya quedado abierto. `/?deriva={id}` sigue funcionando igual |
 
-Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren su página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA. La página va en `/{pageUrl}/` o, sin `pageUrl`, en `/{curso}/`.
+Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren su página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA y, desde el lienzo, se vuelve a la página con el botón del ícono de documento ("Ver página de resumen"), arriba a la derecha, con el color de la ínsula. La página va en `/{pageUrl}/` o, sin `pageUrl`, en `/{curso}/`.
 
 ### 6.3. Islas (`src/data/islas.ts`)
 

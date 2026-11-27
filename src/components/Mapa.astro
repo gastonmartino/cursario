@@ -228,6 +228,18 @@ const islotes = ISLOTES.map((islote) => {
 
     const macroIdentity = document.getElementById('hud-macro-identity');
     const derivaIdentity = document.getElementById('hud-deriva-identity');
+    // El botón a la página editorial de la ínsula, en su lienzo (ver HUD.astro).
+    const botonPagina = document.getElementById('btn-pagina-deriva') as HTMLAnchorElement | null;
+    const mostrarBotonPagina = (idDeriva: string | null, color?: string) => {
+      const url = idDeriva ? paginaDeInsula(idDeriva) : null;
+      if (!botonPagina) return;
+      botonPagina.classList.toggle('hidden', !url);
+      botonPagina.classList.toggle('flex', Boolean(url));
+      if (!url) return;
+      const destino = withBase(url) ?? url;
+      if (botonPagina.getAttribute('href') !== destino) botonPagina.setAttribute('href', destino);
+      if (color) { botonPagina.style.backgroundColor = color; botonPagina.style.borderColor = color; }
+    };
     const activeDerivaName = document.getElementById('hud-active-deriva-name');
     const btnExitDeriva = document.getElementById('btn-exit-deriva');
 
@@ -441,6 +453,7 @@ const islotes = ISLOTES.map((islote) => {
           macroIdentity?.classList.add('flex');
           derivaIdentity?.classList.add('hidden');
           derivaIdentity?.classList.remove('flex');
+          mostrarBotonPagina(null);
 
           if (radarBadge) radarBadge.textContent = ' ';
           if (radarInstruction) radarInstruction.textContent = 'Arrastrar para surcar • Click para incursionar';
@@ -468,6 +481,7 @@ const islotes = ISLOTES.map((islote) => {
           macroIdentity?.classList.remove('flex');
           derivaIdentity?.classList.remove('hidden');
           derivaIdentity?.classList.add('flex');
+          mostrarBotonPagina(data.activeDeriva.id, active.accentColor);
 
           if (activeDerivaName) {
             activeDerivaName.textContent = `[${active.code}] ${active.label.toUpperCase()}`;
