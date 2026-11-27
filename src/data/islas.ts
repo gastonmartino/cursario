@@ -605,6 +605,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 2/2',
     accentColor: '#16253D',
     headerLabel: 'EDGE EFFECTS',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/99',
     imageCaption: 'PNG: 2160 x 3840',
     imageDate: '2024',
     keywords: 'suelo, erosión, agotamiento, monicultivos, degradación, frontera agrícola',
