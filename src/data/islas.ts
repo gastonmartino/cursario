@@ -652,6 +652,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 2/2',
     accentColor: '#16253D',
     headerLabel: 'BUBBLED BY DESIGN',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/90',
   },
   {
     id: 'gen-cap15',
