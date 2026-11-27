@@ -538,6 +538,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'PARTE 1',
     accentColor: '#16253D',
     headerLabel: 'OBRA',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/119',
   },
   {
     id: 'gen-cap08-pormenores',
