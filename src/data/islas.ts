@@ -369,6 +369,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 2/8',
     accentColor: '#16253D',
     headerLabel: 'METAVERSED NATURE',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/123',
     imageCaption: 'PNG: 4320 x 7680',
     imageDate: '2025',
     keywords: 'microplásticos, mar, océanos, polución, krill, ecosistema, medioambiente',
