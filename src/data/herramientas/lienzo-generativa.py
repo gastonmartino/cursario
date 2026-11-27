@@ -146,7 +146,7 @@ def existente(id_):
     return campos
 
 q = lambda s: "'" + s.replace('\\', '\\\\').replace("'", "\\'") + "'"
-codigo = lambda n: f'CAP:{n:02d}'
+codigo = lambda n: f'#{n}'
 
 islas, estructura_islas, islotes, estructura_islotes = [], [], [], []
 contador = {'curso': 7, 'islote': 23}
@@ -231,7 +231,7 @@ for fila in FILAS:
                     hs = [alto(o[0], 'isla') for o in obras]
                     for c, (o, h) in enumerate(zip(obras, hs)):
                         oid, onombre, odesc, oimg = o
-                        isla(oid, x + c * (IW + G) + IW / 2, y_obra + h / 2, IW, h, codigo(n), nombre.upper(), f'OBRA {cont.index(o) + 1}/{len(cont)}', onombre, odesc, oimg)
+                        isla(oid, x + c * (IW + G) + IW / 2, y_obra + h / 2, IW, h, codigo(n), nombre.upper(), f'{cont.index(o) + 1}/{len(cont)}', onombre, odesc, oimg)
                     y_obra += max(hs) + G
                 alto_fila = max(alto_fila, y_obra - G - y_fila)
                 primera = cont[0][0]
