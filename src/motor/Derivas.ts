@@ -444,9 +444,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap04-false-northing',
         subcurso: 'curso017',
         x: 187,
-        y: -1018,
+        y: -1009,
         ancho: 400,
-        alto: 926,
+        alto: 944,
       },
       {
         id: 'gen-cap04-mboi-tata',

@@ -486,6 +486,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 3/4',
     accentColor: '#16253D',
     headerLabel: 'COMPUTATIONAL MYTHOLOGY',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/101',
   },
   {
     id: 'gen-cap04-mboi-tata',
