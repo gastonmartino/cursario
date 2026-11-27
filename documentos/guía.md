@@ -233,7 +233,7 @@ Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren s
 | `coverImageUrl`, `thumbnailImageUrl` | Portada y miniatura, fuera del lienzo. Sin miniatura, el Derrotero muestra un recuadro gris con el código |
 | `pageUrl` | URL propia de la página (ver 6.5) |
 | `actionHref` | Destino del botón INCURSIONAR, si debe ser distinto de la página |
-| `detailHref` | Destino del click sobre toda la tarjeta, si debe ser distinto de la página. Si es un enlace a otro sitio (`https://…`), se abre en una pestaña nueva, también desde el Derrotero; la tarjeta muestra el botón VER ↗ aunque no tenga página, y el enlace no aparece en el Aparejo |
+| `detailHref` | Destino del click sobre toda la tarjeta, si debe ser distinto de la página. Si es un enlace a otro sitio (`https://…`), se abre en una pestaña nueva; la tarjeta muestra el botón VER ↗ aunque no tenga página, y el enlace no aparece en el Aparejo. En el Derrotero, una isla así no abre el enlace: lleva al Mapa con su tarjeta enfocada (la esquina superior izquierda a la vista), y desde ahí se lo abre |
 | `showAction` | `false` oculta el botón INCURSIONAR (el click sobre la tarjeta sigue funcionando) |
 
 El botón INCURSIONAR solo aparece si la isla tiene `pageMarkdownFile`.

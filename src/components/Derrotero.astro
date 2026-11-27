@@ -59,7 +59,11 @@ const sinMarcas = (texto?: string | null) => texto?.replace(/\*+|__/g, '') ?? ''
 const piezaDeIsla = (isla: (typeof ISLAS)[number]) => {
   const ubicacion = ubicar(isla.id);
   const curso = INSULAS.find((insula) => insula.id === ubicacion.idDeriva);
-  const href = isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null);
+  const destino = isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null);
+  // Una isla con enlace externo no lo abre desde el Derrotero: lleva al Mapa,
+  // con su tarjeta enfocada (desde ahí, VER ↗ abre el enlace).
+  const externo = esEnlaceExterno(destino);
+  const href = externo ? `/?deriva=${ubicacion.idDeriva}&isla=${isla.id}` : destino;
   const titulo = isla.title || isla.headerLabel;
   return {
     id: isla.id,
@@ -71,6 +75,7 @@ const piezaDeIsla = (isla: (typeof ISLAS)[number]) => {
     tecnica: curso?.name ?? '',
     idCurso: ubicacion.idDeriva,
     href: href ? withBase(href) : null,
+    enMapa: externo ? isla.id : null,
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, isla.thumbnailImageUrl)) ?? null,
     // Texto en el que busca el buscador.
     textoBusqueda: [titulo, isla.code, isla.subtitle, sinMarcas(isla.description), isla.tag, isla.keywords, isla.headerLabel, curso?.name]
@@ -92,6 +97,7 @@ const piezaDeInsula = (insula: (typeof INSULAS)[number]) => {
     tecnica: insula.name,
     idCurso: insula.id,
     href: insula.pageMarkdownFile ? withBase(ubicacion.urlPagina!) : null,
+    enMapa: null as string | null,
     miniatura: withBase(resolveFile(ubicacion.carpetaMedios, insula.thumbnailImageUrl)) ?? null,
     textoBusqueda: [insula.title, insula.code, insula.name, insula.subtitle, sinMarcas(insula.description), insula.tag]
       .filter(Boolean).join(' '),
@@ -373,7 +379,7 @@ const secciones = [
                 <ul class="derrotero-grilla">
                   {curso.piezas.map((obra) => (
                     <li>
-                      <a href={obra.href ?? undefined} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
+                      <a href={obra.href ?? undefined} data-enfocar-isla={obra.enMapa ?? undefined} class="derrotero-obra">
                         <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                         <span class="derrotero-obra-titulo">{obra.titulo}</span>
                         <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -407,7 +413,7 @@ const secciones = [
             <ul class="derrotero-grilla">
               {destacadasSueltas.map((obra) => (
                 <li>
-                  <a href={obra.href ?? undefined} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
+                  <a href={obra.href ?? undefined} data-enfocar-isla={obra.enMapa ?? undefined} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -424,7 +430,7 @@ const secciones = [
             {obras.map((obra) => (
               <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
                 {obra.href ? (
-                  <a href={obra.href} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
+                  <a href={obra.href} data-enfocar-isla={obra.enMapa ?? undefined} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -447,7 +453,7 @@ const secciones = [
             {bitacora.map((entrada) => (
               <li data-pieza data-busqueda={entrada.textoBusqueda}>
                 {entrada.href ? (
-                  <a href={entrada.href} {...(esEnlaceExterno(entrada.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
+                  <a href={entrada.href} data-enfocar-isla={entrada.enMapa ?? undefined} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
@@ -690,6 +696,23 @@ const secciones = [
       fijarPosicion(boton.dataset.alternarVista as Posicion);
     });
   });
+
+  // Las islas con enlace externo llevan al Mapa, con su tarjeta enfocada
+  // (/?deriva=…&isla=…). Si el Mapa está en esta misma página, lo hace él sin
+  // recargarla (cursario:enfocar-isla, ver Mapa.astro). En los dos casos se
+  // cierra el Aparejo y, si el Derrotero cubre todo, también el Derrotero. Se escucha en
+  // window, en captura, para llegar antes que la transición entre páginas
+  // (TransicionPagina.astro, en document), que si no navegaría igual.
+  window.addEventListener('click', (event) => {
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    const enlace = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[data-enfocar-isla]') : null;
+    if (!enlace || !panel?.contains(enlace)) return;
+    const pedido = new CustomEvent('cursario:enfocar-isla', { detail: enlace.dataset.enfocarIsla, cancelable: true });
+    document.dispatchEvent(pedido);
+    if (pedido.defaultPrevented) event.preventDefault();
+    document.dispatchEvent(new CustomEvent('cursario:cerrar-aparejo'));
+    if (posicionActual() === 'completo') fijarPosicion('cerrado');
+  }, true);
 
   // Los enlaces del menú a otras páginas (CURSARIO), con vista compartida,
   // cierran antes el Derrotero: la página se abre a pantalla completa. La

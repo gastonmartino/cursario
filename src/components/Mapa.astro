@@ -533,6 +533,27 @@ const islotes = ISLOTES.map((islote) => {
       controller.incursionar(requestedDeriva);
     }
 
+    // Desde el Derrotero, una isla con enlace externo pide que se enfoque su
+    // tarjeta (ver Derrotero.astro): con el Mapa en la página, sin recargarla.
+    // Se enfoca cuando el Derrotero ya dejó lugar al Mapa (se cierra con una
+    // transición de ancho; en el móvil lo cubre entero): cuando el tamaño del
+    // lienzo deja de cambiar, o al segundo como mucho.
+    document.addEventListener('cursario:enfocar-isla', (event) => {
+      const id = (event as CustomEvent<string>).detail;
+      if (!id || !document.querySelector(`[data-id-tarjeta="${CSS.escape(id)}"]`)) return;
+      event.preventDefault();
+      const inicio = performance.now();
+      let tamano = '', quietos = 0;
+      const esperar = () => {
+        const actual = `${mainCanvas.clientWidth}x${mainCanvas.clientHeight}`;
+        quietos = actual === tamano && mainCanvas.clientWidth > 0 ? quietos + 1 : 0;
+        tamano = actual;
+        if (quietos >= 3 || performance.now() - inicio > 1000) controller.enfocarTarjeta(id);
+        else requestAnimationFrame(esperar);
+      };
+      requestAnimationFrame(esperar);
+    });
+
     // Las tarjetas detectan cuándo el puntero está encima (el navegador
     // conoce su tamaño real) y se lo avisan al motor. Con el dedo, el motor
     // quita la marca al terminar el toque: se ignora pointerleave, que llega
