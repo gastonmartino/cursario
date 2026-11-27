@@ -7,7 +7,7 @@
 import { INSULAS } from '../data/insulas';
 import { ISLAS } from '../data/islas';
 import { ubicar } from '../motor/Derivas';
-import { withBase } from '../utils/paths';
+import { esEnlaceExterno, withBase } from '../utils/paths';
 
 const islas = ISLAS.map((isla) => {
   const ubicacion = ubicar(isla.id);
@@ -15,7 +15,9 @@ const islas = ISLAS.map((isla) => {
     ...isla,
     idDeriva: ubicacion.idDeriva,
     subcurso: ubicacion.subcurso,
-    href: isla.actionHref || isla.detailHref || (isla.pageMarkdownFile ? ubicacion.urlPagina : null) || null,
+    // Solo destinos dentro del sitio: los enlaces externos no van al Aparejo.
+    href: [isla.actionHref, isla.detailHref, isla.pageMarkdownFile ? ubicacion.urlPagina : null]
+      .find((href) => href && !esEnlaceExterno(href)) || null,
   };
 });
 

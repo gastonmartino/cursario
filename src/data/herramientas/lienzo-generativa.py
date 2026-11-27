@@ -84,6 +84,13 @@ CAPITULOS = [
     (18, 5, 'Lombrela', 'In shadows of struggle, our path we sketch.', 'serie', ('gen-cap18', L + 'cap18-lombrela-1a.webp', serie('cap18-lombrela', '123')[1:])),
 ]
 
+# Enlaces externos de las islas (detailHref): la tarjeta lleva a esa
+# dirección, en una pestaña nueva, con el botón ENLACE EXTERNO.
+ENLACES = {
+}
+# Lo que el botón agrega a la altura de la tarjeta.
+ALTO_BOTON = 33
+
 # Filas del lienzo: qué partes van en cada una.
 FILAS = [[1], [2, 3], [4, 5]]
 
@@ -93,7 +100,7 @@ SW, SG, SROWS = 150, 16, 3                     # islotes de las series
 EST = {'isla': 930, 'cartel': 160, 'parte': 150, 'islote': 252}
 
 ALTURAS = json.load(open(sys.argv[1])) if len(sys.argv) > 1 and os.path.exists(sys.argv[1]) else {}
-alto = lambda id_, tipo: ALTURAS.get(id_, EST[tipo])
+alto = lambda id_, tipo: ALTURAS.get(id_, EST[tipo]) + (ALTO_BOTON if id_ in ENLACES else 0)
 
 # Los datos actuales de las islas que ya existían (se conservan sus campos).
 ISLAS_TS = open('src/data/islas.ts').read()
@@ -126,6 +133,7 @@ def isla(id_, x, y, ancho, alto_, cod, cabecera, etiqueta, titulo, descripcion, 
                ('title', q(titulo) if titulo else previo['title']),
                ('description', q(descripcion) if descripcion else previo['description']),
                ('tag', q(etiqueta)), ('accentColor', q(COLOR)), ('headerLabel', q(cabecera))]
+    if id_ in ENLACES: campos.append(('detailHref', q(ENLACES[id_])))
     for k in ('imageCaption', 'imageDate', 'keywords'):
         if k in previo: campos.append((k, previo[k]))
     islas.append(campos)

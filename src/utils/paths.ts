@@ -15,3 +15,6 @@ export function withBase<T extends string | null | undefined>(path: T): T {
 export function resolveFile(folder: string, file?: string | null) {
   return file && !file.startsWith('/') ? `${folder}/${file}` : file;
 }
+
+// Un enlace a otro sitio (http:// o https://): se abre en una pestaña nueva.
+export const esEnlaceExterno = (href?: string | null) => Boolean(href && /^https?:\/\//i.test(href));

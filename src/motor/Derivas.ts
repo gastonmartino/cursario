@@ -502,7 +502,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -1733,
         y: 620,
         ancho: 400,
-        alto: 938,
+        alto: 937,
       },
       {
         id: 'gen-cap10',
@@ -542,7 +542,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: 2145,
         y: 620,
         ancho: 400,
-        alto: 938,
+        alto: 937,
       },
       {
         id: 'gen-cap14-la-noria',
@@ -566,7 +566,7 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         x: -1733,
         y: 2206,
         ancho: 400,
-        alto: 938,
+        alto: 937,
       },
       {
         id: 'gen-cap16-scaffolded',
@@ -1320,7 +1320,7 @@ export const DERIVAS_ISLOTES: DerivaIslote[] = [
     x: 1252,
     y: 274,
     ancho: 150,
-    alto: 247,
+    alto: 246,
   },
   {
     id: 'islote-gen-cap12-02',

@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { CLASES_TARJETA, renderMarkdownToHtml, renderizarEnLinea } from '../utils/markdown';
-import { withBase } from '../utils/paths';
+import { esEnlaceExterno, withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
 interface Props {
@@ -121,8 +121,12 @@ const hasMediaMetadata = Boolean(imageCaption || imageDate);
 // A custom detailHref can be used for a card with an explicit destination.
 // Otherwise, the card only becomes clickable when its page exists.
 const navigableHref = detailHref || (pageMarkdownFile ? actionHref : undefined);
-// The action button opens the subcurso page, so it requires that page.
-const canShowAction = showAction && Boolean(pageMarkdownFile);
+// Un enlace externo (detailHref a otro sitio) se abre en una pestaña nueva,
+// y la tarjeta muestra el botón aunque no tenga página.
+const externo = esEnlaceExterno(navigableHref);
+// The action button opens the subcurso page (or the external link).
+const canShowAction = showAction && (Boolean(pageMarkdownFile) || externo);
+const hrefBoton = externo ? navigableHref : actionHref;
 ---
 
 {/* La tarjeta empieza oculta (display: none) hasta que el motor la ubique:
@@ -132,6 +136,7 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
   id={id}
   data-id-tarjeta={idTarjeta}
   data-detail-href={withBase(navigableHref)}
+  data-detail-externo={externo ? '' : undefined}
   class="absolute top-0 left-0 shadow-xl rounded-sm flex flex-col justify-between select-none pointer-events-auto transition-opacity duration-200"
   style={`
     width: ${widthCss}; 
@@ -282,13 +287,15 @@ const canShowAction = showAction && Boolean(pageMarkdownFile);
     <div class="font-mono text-[11px] text-ink-muted flex items-center gap-2">
       <span style={`color: ${accentColor};`}>✦</span> COORDENADAS: {coordinatesText}
     </div>
-    {canShowAction && actionHref && (
+    {canShowAction && hrefBoton && (
       <a
-        href={withBase(actionHref)}
+        href={withBase(hrefBoton)}
+        target={externo ? '_blank' : undefined}
+        rel={externo ? 'noopener noreferrer' : undefined}
         class="px-4 py-2 text-white transition-all font-mono text-[13px]/4 font-bold rounded-sm shadow-sm flex items-center gap-2 cursor-pointer border hover:scale-[1.02]"
         style={`background-color: ${accentColor}; border-color: ${accentColor};`}
       >
-        {actionLabel}
+        {externo ? 'ENLACE EXTERNO ↗' : actionLabel}
       </a>
     )}
   </div>

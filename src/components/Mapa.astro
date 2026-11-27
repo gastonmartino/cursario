@@ -596,6 +596,11 @@ const islotes = ISLOTES.map((islote) => {
     subderivaCards.forEach((card) => {
       const detailHref = card.dataset.detailHref;
       if (!detailHref) return;
+      // Un enlace a otro sitio se abre en una pestaña nueva.
+      const abrir = () => {
+        if (card.hasAttribute('data-detail-externo')) window.open(detailHref, '_blank', 'noopener');
+        else window.location.href = detailHref;
+      };
 
       card.style.cursor = 'pointer';
       let tapCandidate = false;
@@ -678,7 +683,7 @@ const islotes = ISLOTES.map((islote) => {
         tapCandidate = false;
 
         if (duration < 500 && distance < 10) {
-          window.location.href = detailHref;
+          abrir();
         }
       }, { passive: true });
 
@@ -695,7 +700,7 @@ const islotes = ISLOTES.map((islote) => {
 
         const target = event.target;
         if (target instanceof Element && target.closest('a, button, input, textarea')) return;
-        window.location.href = detailHref;
+        abrir();
       });
     });
 

@@ -34,7 +34,7 @@ import { DERROTERO } from '../data/derrotero';
 import { ubicar } from '../motor/Derivas';
 import { cargarDocumento } from '../cartas';
 import { renderizarBloques, renderizarEnLinea } from '../utils/markdown';
-import { resolveFile, withBase } from '../utils/paths';
+import { esEnlaceExterno, resolveFile, withBase } from '../utils/paths';
 import EsquinasPlano from './EsquinasPlano.astro';
 
 // En las páginas de contenido (LayoutCarta), lo que se ve al otro lado de la
@@ -373,7 +373,7 @@ const secciones = [
                 <ul class="derrotero-grilla">
                   {curso.piezas.map((obra) => (
                     <li>
-                      <a href={obra.href ?? undefined} class="derrotero-obra">
+                      <a href={obra.href ?? undefined} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
                         <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                         <span class="derrotero-obra-titulo">{obra.titulo}</span>
                         <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -407,7 +407,7 @@ const secciones = [
             <ul class="derrotero-grilla">
               {destacadasSueltas.map((obra) => (
                 <li>
-                  <a href={obra.href ?? undefined} class="derrotero-obra">
+                  <a href={obra.href ?? undefined} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -424,7 +424,7 @@ const secciones = [
             {obras.map((obra) => (
               <li data-pieza data-categoria={obra.idCurso} data-busqueda={obra.textoBusqueda}>
                 {obra.href ? (
-                  <a href={obra.href} class="derrotero-obra">
+                  <a href={obra.href} {...(esEnlaceExterno(obra.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{obra.miniatura ? <img src={obra.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{obra.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{obra.titulo}</span>
                     <span class="derrotero-obra-meta">{[obra.anio, obra.tecnica].filter(Boolean).join(' · ')}</span>
@@ -447,7 +447,7 @@ const secciones = [
             {bitacora.map((entrada) => (
               <li data-pieza data-busqueda={entrada.textoBusqueda}>
                 {entrada.href ? (
-                  <a href={entrada.href} class="derrotero-obra">
+                  <a href={entrada.href} {...(esEnlaceExterno(entrada.href) && { target: '_blank', rel: 'noopener noreferrer' })} class="derrotero-obra">
                     <span class="derrotero-imagen" aria-hidden="true">{entrada.miniatura ? <img src={entrada.miniatura} alt="" loading="lazy" decoding="async" /> : <span>{entrada.codigo}</span>}</span>
                     <span class="derrotero-obra-titulo">{entrada.titulo}</span>
                     <span class="derrotero-obra-meta">{entrada.etiqueta}</span>
