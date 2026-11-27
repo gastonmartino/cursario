@@ -49,7 +49,7 @@ export const DERROTERO: {
       'gen-serie-06',         // Fertile Regolith
       'gen-cap14-la-noria',   // La Noria
       'gen-cap16-kite',       // Kite Festival Above, But Temple Below
-      'gen-cap18',            // Lombrela
+      'gen-cap04-suspended-angel', // Suspended Angel Dance
   ],
 
   // OBRAS, BITÁCORA y ESCRITOS: los trabajos de cada sección, en el orden de
