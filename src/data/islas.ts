@@ -453,6 +453,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'PARTE 1',
     accentColor: '#16253D',
     headerLabel: 'OBRA',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/866619',
   },
   {
     id: 'gen-cap04-blood-moon',
