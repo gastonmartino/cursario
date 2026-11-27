@@ -12,7 +12,7 @@
 //   - "###" abre un capítulo: sus párrafos van en la columna del capítulo, y un
 //     párrafo que es solo un enlace ("View work") va al pie del capítulo;
 //   - las imágenes, los videos ([youtube:ID], o [youtube:ID vertical] para un
-//     Short) y las listas (las obras) de un capítulo van a la galería, en el
+//     Short; con "*pie*" después, como las imágenes, un epígrafe) y las listas (las obras) de un capítulo van a la galería, en el
 //     orden del Markdown. Un video vertical y las imágenes que lo siguen (hasta
 //     tres) forman un par, como las obras de dos paneles: el video a la
 //     izquierda y esas imágenes, una debajo de la otra, a la derecha (en un
@@ -176,15 +176,18 @@ const titulo = partes.find((p) => p.nivel === 1)?.titulo ?? pagina.titulo;
                   </div>
                 </div>
               ) : medio.tipo === 'video' ? (
-                <figure class:list={['gen-video', medio.vertical && 'gen-video-vertical']}>
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${medio.youtube}`}
-                    title={tituloVideo(cap)}
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  ></iframe>
+                <figure>
+                  <div class:list={['gen-video', medio.vertical && 'gen-video-vertical']}>
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${medio.youtube}`}
+                      title={medio.pie ? `Video de ${medio.pie}` : tituloVideo(cap)}
+                      loading="lazy"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                  {medio.pie && <figcaption set:html={enLinea(medio.pie)} />}
                 </figure>
               ) : (
                 <figure>

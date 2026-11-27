@@ -284,7 +284,7 @@ capítulo (`###`) es una fila de tres columnas:
   ("View work") va al pie;
 - **galería**: sus imágenes (con su pie) y sus videos de YouTube
   (`[youtube:ID]`, o `[youtube:ID vertical]` para un Short, angosto y
-  centrado), en el orden del Markdown, y su lista de obras
+  centrado; con `*pie*` después, un epígrafe, como en las imágenes), en el orden del Markdown, y su lista de obras
   (`- **Nombre** — texto`). Un video vertical y las imágenes que lo siguen
   (hasta tres; las demás van debajo) forman un par, como las obras de dos
   paneles (capítulos 14 y 16): el video a la izquierda, con el alto de las imágenes, y ellas apiladas a la derecha; si la

@@ -26,7 +26,7 @@ export type BloqueMimo =
   | { tipo: 'lista'; items: string[] }
   | { tipo: 'cita'; partes: Array<{ tipo: 'texto'; texto: string } | { tipo: 'separador'; marca: MarcaSeparador }> }
   | { tipo: 'imagen'; src: string; alt: string; pie?: string; lectura?: boolean }
-  | { tipo: 'video'; youtube: string; vertical?: boolean }
+  | { tipo: 'video'; youtube: string; vertical?: boolean; pie?: string }
   | { tipo: 'separador'; marca: MarcaSeparador };
 
 // Los textos de los bloques conservan su Markdown en línea (negritas,
@@ -149,13 +149,13 @@ export function interpretarBloques(markdown: string): BloqueMimo[] {
     }
     cerrarLista();
 
-    const youtube = linea.match(/^\[youtube:([A-Za-z0-9_-]{11})(\s+vertical)?\]$/i);
+    const youtube = linea.match(/^\[youtube:([A-Za-z0-9_-]{11})(\s+vertical)?\](?:\s+\*([^*]+)\*)?$/i);
     const imagen = linea.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)(?:\s+\*([^*]+)\*)?(\s+\{lectura\})?$/);
 
     if (esMarca(linea)) {
       bloques.push({ tipo: 'separador', marca: linea });
     } else if (youtube) {
-      bloques.push({ tipo: 'video', youtube: youtube[1], ...(youtube[2] && { vertical: true }) });
+      bloques.push({ tipo: 'video', youtube: youtube[1], ...(youtube[2] && { vertical: true }), ...(youtube[3] && { pie: youtube[3].trim() }) });
     } else if (imagen) {
       bloques.push({ tipo: 'imagen', alt: imagen[1], src: imagen[2], pie: imagen[3]?.trim(), ...(imagen[4] && { lectura: true }) });
     } else if (linea.startsWith('# ')) {
@@ -269,6 +269,7 @@ export function renderizarBloque(bloque: BloqueMimo, clases: ClasesMimo = {}): s
             allowfullscreen>
           </iframe>
         </div>
+        ${bloque.pie ? `<p${atributoClase(clases.pie)}>${bloque.pie}</p>` : ''}
       `;
     case 'imagen':
       return `

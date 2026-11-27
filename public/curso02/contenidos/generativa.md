@@ -52,6 +52,8 @@ Although the artificiality of harmony goes unnoticed by most dancers, the insist
 
 Authorless anthology narratives that steer the world's dark compass needle.
 
+[youtube:b8Zu1x7k5yM] *Suspended Angel Dance*
+
 ![Computational Mythology: Blood Moon Turban, Systems of Inequalities](/curso02/imagenes/editorial/cap04-computational-mythology-1.webp) *Blood Moon Turban · Systems of Inequalities*
 
 ![Computational Mythology: False Northing, Mbói Tatá](/curso02/imagenes/editorial/cap04-computational-mythology-2.webp) *False Northing · Mbói Tatá*

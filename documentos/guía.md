@@ -531,6 +531,12 @@ En `https://youtu.be/nnM_C6h1D_A` o `https://www.youtube.com/watch?v=nnM_C6h1D_A
 [youtube:k5DIJFpFXfs vertical]
 ```
 
+Como en las imágenes, un texto en cursiva a continuación es el epígrafe del video:
+
+```markdown
+[youtube:b8Zu1x7k5yM] *Suspended Angel Dance*
+```
+
 Los videos se cargan en diferido desde `youtube-nocookie.com`.
 
 ### 12.5. Enlaces
