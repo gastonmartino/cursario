@@ -560,6 +560,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 2/2',
     accentColor: '#16253D',
     headerLabel: 'DIGITAL CARTOGRAPHY',
+    detailHref: 'https://objkt.com/tokens/KT1CgF2L4mF4hxMbYrFytiGHvnME3NLM8d64/8',
   },
   {
     id: 'gen-cap09',

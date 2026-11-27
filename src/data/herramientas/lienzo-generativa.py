@@ -105,6 +105,7 @@ ENLACES = {
     'gen-serie-05': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/97',  # Meanwhile, in the Southern Hemisphere, a lymphatic summer
     'gen-cap07': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/119',  # Blue Prowess
     'gen-cap08-pormenores': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/126',  # Pormenores
+    'gen-cap08-green-velvet': 'https://objkt.com/tokens/KT1CgF2L4mF4hxMbYrFytiGHvnME3NLM8d64/8',  # Green Velvet Reward
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
