@@ -42,6 +42,15 @@ export const DERROTERO: {
       'gen-cap13',            // The Ostrich Evidence
       'gen-cap15',            // Eardrum Negentropy
       'gen-cap17',            // Astralium
+      'gen-cap02-haemolacria', // Haemolacria
+      'gen-cap03',            // Orchestrion
+      'gen-cap04-blood-moon', // Blood Moon Turban
+      'gen-serie-05',         // Meanwhile, in the Southern Hemisphere, a lymphatic summer
+      'gen-cap08-green-velvet', // Green Velvet Reward
+      'gen-serie-06',         // Fertile Regolith
+      'gen-cap14-la-noria',   // La Noria
+      'gen-cap16-kite',       // Kite Festival Above, But Temple Below
+      'gen-cap18',            // Lombrela
   ],
 
   // OBRAS, BITÁCORA y ESCRITOS: los trabajos de cada sección, en el orden de
