@@ -534,7 +534,8 @@ const islotes = ISLOTES.map((islote) => {
     }
 
     // Desde el Derrotero, una isla con enlace externo pide que se enfoque su
-    // tarjeta (ver Derrotero.astro): con el Mapa en la página, sin recargarla.
+    // tarjeta (ver Derrotero.astro): con el Mapa en la página, sin recargarla
+    // y sin cambiar el zoom.
     // Se enfoca cuando el Derrotero ya dejó lugar al Mapa (se cierra con una
     // transición de ancho; en el móvil lo cubre entero): cuando el tamaño del
     // lienzo deja de cambiar, o al segundo como mucho.
@@ -548,7 +549,7 @@ const islotes = ISLOTES.map((islote) => {
         const actual = `${mainCanvas.clientWidth}x${mainCanvas.clientHeight}`;
         quietos = actual === tamano && mainCanvas.clientWidth > 0 ? quietos + 1 : 0;
         tamano = actual;
-        if (quietos >= 3 || performance.now() - inicio > 1000) controller.enfocarTarjeta(id);
+        if (quietos >= 3 || performance.now() - inicio > 1000) controller.enfocarTarjeta(id, true);
         else requestAnimationFrame(esperar);
       };
       requestAnimationFrame(esperar);

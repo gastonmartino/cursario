@@ -777,9 +777,10 @@ export class MotorCursario {
 
   // La vista del lienzo actual que deja la esquina superior izquierda de la
   // tarjeta `id` arriba a la izquierda de la pantalla (ver MARGEN_IZQUIERDO),
-  // con el zoom de la vista inicial del lienzo. La tarjeta se mide en la
-  // página: su alto real puede ser mayor que el de Derivas.ts.
-  private vistaEnTarjeta(id: string): Vista | null {
+  // con el zoom de la vista inicial del lienzo, o con `zoomPedido` (sin bajar
+  // de ZOOM_MINIMO_ENCUADRE, donde las tarjetas se ocultan). La tarjeta se mide
+  // en la página: su alto real puede ser mayor que el de Derivas.ts.
+  private vistaEnTarjeta(id: string, zoomPedido?: number): Vista | null {
     const tarjeta = this.tarjetaEnLienzo(id);
     if (!tarjeta) return null;
     const { nodo } = tarjeta;
@@ -793,7 +794,8 @@ export class MotorCursario {
 
     const ancho = this.anchoVista();
     const alto = this.altoVista();
-    const { zoom } = this.vistaInicialActual();
+    const zoom = Math.min(this.camera.maxZoom,
+      Math.max(ZOOM_MINIMO_ENCUADRE, zoomPedido ?? this.vistaInicialActual().zoom));
     const margenIzquierdo = ancho < ANCHO_MOVIL ? MARGEN_IZQUIERDO_MOVIL : MARGEN_IZQUIERDO;
     // El borde izquierdo de la tarjeta queda en la pantalla en
     // (izquierda - x) * zoom + ancho / 2; el superior, igual con y.
@@ -806,20 +808,24 @@ export class MotorCursario {
 
   // Abre el lienzo donde está la tarjeta de una isla o islote y la enfoca
   // (vistaEnTarjeta). Es lo que hace VER EL MAPA en la página de una isla
-  // (/?deriva={curso}&isla={id}). Devuelve false si no hay tal tarjeta.
-  public enfocarTarjeta(id: string): boolean {
+  // (/?deriva={curso}&isla={id}). Con conservarZoom (desde el Derrotero), la
+  // vista se desplaza con el zoom que tiene, sin acercarse ni alejarse.
+  // Devuelve false si no hay tal tarjeta.
+  public enfocarTarjeta(id: string, conservarZoom = false): boolean {
     const lienzo = this.lienzoDeTarjeta(id);
     if (!lienzo) return false;
+    const zoomPedido = conservarZoom ? this.camera.targetZoom : undefined;
 
-    if (lienzo === 'macro') {
-      if (this.level === 'deriva') this.exitDeriva();
-      const vista = this.vistaEnTarjeta(id);
+    const enEsteLienzo = lienzo === 'macro' || (this.level === 'deriva' && this.activeDeriva?.id === lienzo);
+    if (enEsteLienzo) {
+      if (lienzo === 'macro' && this.level === 'deriva') this.exitDeriva();
+      const vista = this.vistaEnTarjeta(id, zoomPedido);
       if (!vista) return false;
       this.vistaAutomatica = false;
-      this.camera.flyTo(vista.x, vista.y, vista.zoom);
+      this.camera.flyTo(vista.x, vista.y, vista.zoom, ZOOM_MINIMO_ENCUADRE);
       this.despertar(true, true);
     } else {
-      this.incursionar(lienzo, id);
+      this.incursionar(lienzo, id, zoomPedido);
     }
 
     // Las tipografías pueden cambiar el alto de la tarjeta cuando terminan de
@@ -827,17 +833,18 @@ export class MotorCursario {
     const destino = { x: this.camera.targetX, y: this.camera.targetY, zoom: this.camera.targetZoom };
     document.fonts?.ready.then(() => {
       const quieta = this.camera.targetX === destino.x && this.camera.targetY === destino.y && this.camera.targetZoom === destino.zoom;
-      const vista = quieta && this.vistaEnTarjeta(id);
+      const vista = quieta && this.vistaEnTarjeta(id, destino.zoom);
       if (!vista) return;
-      this.camera.flyTo(vista.x, vista.y, vista.zoom);
+      this.camera.flyTo(vista.x, vista.y, vista.zoom, ZOOM_MINIMO_ENCUADRE);
       this.despertar();
     });
     return true;
   }
 
   // Entra al lienzo de un curso. Con `enfoque` (el id de una de sus islas o
-  // islotes), la vista enfoca esa tarjeta (ver enfocarTarjeta).
-  public incursionar(derivaId?: string, enfoque?: string) {
+  // islotes), la vista enfoca esa tarjeta (ver enfocarTarjeta), con el zoom
+  // `zoomEnfoque` si se lo da.
+  public incursionar(derivaId?: string, enfoque?: string, zoomEnfoque?: number) {
     const targetId = derivaId || this.hoveredDeriva?.id || 'en-curso';
     const targetDeriva = DERIVAS_INSULAS.find((d) => d.id === targetId);
 
@@ -866,7 +873,7 @@ export class MotorCursario {
 
     // La vista con que se dejó este lienzo o, la primera vez, la inicial.
     // Se entra desde un poco más lejos, con un acercamiento.
-    const enfocada = enfoque ? this.vistaEnTarjeta(enfoque) : null;
+    const enfocada = enfoque ? this.vistaEnTarjeta(enfoque, zoomEnfoque) : null;
     if (enfocada) this.vistaAutomatica = false;
     let vista: Vista;
     if (enfocada) {
@@ -880,7 +887,7 @@ export class MotorCursario {
     this.camera.x = vista.x;
     this.camera.y = vista.y;
     this.camera.zoom = Math.min(0.5, vista.zoom);
-    this.camera.flyTo(vista.x, vista.y, vista.zoom, this.zoomMinimo());
+    this.camera.flyTo(vista.x, vista.y, vista.zoom, enfocada ? ZOOM_MINIMO_ENCUADRE : this.zoomMinimo());
     this.despertar(true, true);
   }
 
