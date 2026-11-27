@@ -128,6 +128,7 @@ ENLACES = {
 # sobre la isla.
 AV = '/curso02/imagenes/avatares/'
 AVATARES = {
+    4: 'cap04-computational-mythology',
     8: 'cap08-digital-cartography',
     12: 'cap12-fire-season',
     14: 'cap14-bubbled-by-design',
