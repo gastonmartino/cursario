@@ -42,6 +42,10 @@ Although the artificiality of harmony goes unnoticed by most dancers, the insist
 
 ![Orchestrion: fotograma del video](/curso02/imagenes/editorial/cap03-orchestrion.webp)
 
+[youtube:tt_n_AXSCTI vertical]
+
+![Orchestrion](/curso02/imagenes/editorial/cap03-orchestrion-vertical.webp)
+
 [View work](https://objkt.com/tokens/hicetnunc/866619)
 
 ### Chapter 4 - Computational Mythology
