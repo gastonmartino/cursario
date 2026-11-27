@@ -697,6 +697,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 3/3',
     accentColor: '#16253D',
     headerLabel: 'SACRED URBANITY',
+    detailHref: 'https://objkt.com/tokens/hicetnunc/850950',
     imageCaption: 'GIF ANIMADO',
     imageDate: '2024',
     keywords: 'urbanización, degradación, urbanización no planificada, gentrificación, abandono',

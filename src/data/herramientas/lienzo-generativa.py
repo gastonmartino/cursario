@@ -117,6 +117,7 @@ ENLACES = {
     'gen-cap15': 'https://objkt.com/tokens/hicetnunc/848964',  # Eardrum Negentropy
     'gen-cap16-scaffolded': 'https://objkt.com/tokens/hicetnunc/847467',  # Scaffolded Whole
     'gen-cap16-kite': 'https://objkt.com/tokens/hicetnunc/847469',  # Kite Festival Above, But Temple Below
+    'gen-serie-02': 'https://objkt.com/tokens/hicetnunc/850950',  # Meticulously Unplanned
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
