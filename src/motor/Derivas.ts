@@ -436,9 +436,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap04-inequalities',
         subcurso: 'curso016',
         x: 627,
-        y: -2030,
+        y: -2022,
         ancho: 400,
-        alto: 925,
+        alto: 943,
       },
       {
         id: 'gen-cap04-false-northing',

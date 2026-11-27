@@ -98,6 +98,7 @@ ENLACES = {
     'gen-cap02-neural-rhythm': 'https://objkt.com/tokens/hicetnunc/866385',  # Neural Rhythm
     'gen-cap03': 'https://objkt.com/tokens/hicetnunc/866619',  # Orchestrion
     'gen-cap04-blood-moon': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/115',  # Blood Moon Turban
+    'gen-cap04-inequalities': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/117',  # Systems of Inequalities
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
