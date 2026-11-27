@@ -85,14 +85,14 @@ CAPITULOS = [
 ]
 
 # Enlaces externos de las islas (detailHref): la tarjeta lleva a esa
-# dirección, en una pestaña nueva, con el botón ENLACE EXTERNO.
+# dirección, en una pestaña nueva, con el botón VER ↗.
 ENLACES = {
     'gen-cap01': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/118',  # Stochastic Parrots
     'gen-cap02-haemolacria': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/120',  # Haemolacria
     'gen-serie-03': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/123',  # Plastic Natianta
 }
 # Lo que el botón agrega a la altura de la tarjeta.
-ALTO_BOTON = 33
+ALTO_BOTON = 18
 
 # Filas del lienzo: qué partes van en cada una.
 FILAS = [[1], [2, 3], [4, 5]]

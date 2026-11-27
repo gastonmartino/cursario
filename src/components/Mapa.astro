@@ -692,14 +692,20 @@ const islotes = ISLOTES.map((islote) => {
       }, { passive: true });
 
       card.addEventListener('click', (event) => {
+        // Un enlace o un botón de la tarjeta hacen lo suyo: el control de
+        // arrastre no los mide (pointerdown no registra dónde se apretó).
+        const target = event.target;
+        if (target instanceof Element && target.closest('a, button, input, textarea')) {
+          suppressNextClick = false;
+          return;
+        }
+
         if (suppressNextClick) {
           suppressNextClick = false;
           event.preventDefault();
           return;
         }
 
-        const target = event.target;
-        if (target instanceof Element && target.closest('a, button, input, textarea')) return;
         abrir();
       });
     });
