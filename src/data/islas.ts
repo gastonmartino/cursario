@@ -571,6 +571,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'PARTE 2',
     accentColor: '#16253D',
     headerLabel: 'OBRA',
+    detailHref: 'https://objkt.com/curations/objkt/dispensable-treasure-maps-7818d03c',
   },
   {
     id: 'gen-cap10',

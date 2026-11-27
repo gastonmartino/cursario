@@ -500,9 +500,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap09',
         subcurso: 'curso022',
         x: -1733,
-        y: 638,
+        y: 646,
         ancho: 400,
-        alto: 937,
+        alto: 955,
       },
       {
         id: 'gen-cap10',
