@@ -380,9 +380,9 @@ export const DERIVAS_INSULAS: DerivaInsula[] = [
         id: 'gen-cap02-three-body',
         subcurso: 'curso010',
         x: -853,
-        y: -2030,
+        y: -2020,
         ancho: 400,
-        alto: 909,
+        alto: 927,
       },
       {
         id: 'gen-serie-04',

@@ -91,6 +91,7 @@ ENLACES = {
     'gen-cap02-haemolacria': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/120',  # Haemolacria
     'gen-serie-03': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/123',  # Plastic Natianta
     'gen-cap02-aigrette': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/121',  # The Marshal's Queer Aigrette
+    'gen-cap02-three-body': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/124',  # The Three-Body Problem
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
