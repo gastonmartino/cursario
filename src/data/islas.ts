@@ -641,6 +641,7 @@ export const ISLAS: IslaDefinition[] = [
     tag: 'OBRA 1/2',
     accentColor: '#16253D',
     headerLabel: 'BUBBLED BY DESIGN',
+    detailHref: 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/91',
   },
   {
     id: 'gen-cap14-struggle',

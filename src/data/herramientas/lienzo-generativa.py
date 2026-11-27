@@ -112,6 +112,7 @@ ENLACES = {
     'gen-serie-06': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/99',  # Fertile Regolith
     'gen-cap12': 'https://objkt.com/curations/objkt/fire-season-2e1aa23d',  # Fire Season
     'gen-cap13': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/57',  # The Ostrich Evidence
+    'gen-cap14-la-noria': 'https://objkt.com/tokens/KT1Gj1viD8ggFTJVEL3GKcUazB2QE2K9HyLS/91',  # La Noria
 }
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
