@@ -288,7 +288,9 @@ capítulo (`###`) es una fila de tres columnas:
   (`- **Nombre** — texto`). Un video vertical seguido de imágenes forma un
   par, como las obras de dos paneles (capítulos 14 y 16): el video a la
   izquierda, con el alto de las imágenes, y ellas apiladas a la derecha; si la
-  galería mide menos de 480 px, el video va arriba y las imágenes debajo.
+  galería mide menos de 480 px, el video va arriba, con el ancho de las
+  imágenes, y ellas debajo. El reproductor queda siempre en 9:16, sin franjas
+  negras: si su lugar tiene otra proporción, se recorta apenas lo que sobra.
 
 Las columnas dependen del ancho del lugar de la página (una *container query*
 sobre `.gen-pagina`), no del de la ventana: desde 1150 px, las tres; desde
