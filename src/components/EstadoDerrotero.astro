@@ -10,8 +10,9 @@
 // la portada se ve solo el Derrotero y no el Mapa.
 //
 // En los atajos a los lienzos (/{alias}/, con alMapa) se tiene que ver el
-// Mapa: si el Derrotero lo cubriría (completo, guardado o por defecto en el
-// celular), se cierra, como al pasar al Mapa con su botón.
+// Mapa: con vista compartida (desde 1024 px), si el Derrotero está completo
+// se retrae a la mitad; sin ella (celular, tableta vertical), si está abierto
+// se cierra.
 interface Props {
   alMapa?: boolean;
 }
@@ -28,7 +29,11 @@ const { alMapa = false } = Astro.props;
     } else if (window.matchMedia('(max-width: 1023.98px)').matches) {
       posicion = 'completo';
     }
-    if (alMapa && posicion === 'completo') posicion = 'cerrado';
+    if (alMapa) {
+      const compartida = !window.matchMedia('(max-width: 1023.98px)').matches;
+      if (compartida && posicion === 'completo') posicion = 'mitad';
+      if (!compartida && posicion !== 'cerrado') posicion = 'cerrado';
+    }
     if (posicion) document.documentElement.dataset.derrotero = posicion;
   } catch {}
 </script>
