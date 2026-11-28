@@ -163,12 +163,14 @@ const hrefBoton = externo ? navigableHref : actionHref;
         <span class="font-mono text-[13px]/4 font-bold uppercase tracking-wider" style={`color: ${accentColor};`}>{code}</span>
         <span class="text-[13px]/4 text-ink-faint font-mono">{headerTypeLabel}</span>
       </div>
+      {tag && (
       <span 
         class="font-mono text-[11px] px-2 py-1 rounded font-semibold tracking-widest border uppercase"
         style={`color: ${accentColor}; border-color: ${accentColor}33; background-color: ${accentColor}12;`}
       >
         {tag}
       </span>
+      )}
     </div>
 
     <!-- Titles Section -->

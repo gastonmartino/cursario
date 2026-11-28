@@ -144,6 +144,20 @@ AVATARES = {
 }
 AG = 20  # entre el avatar y el cartel
 
+# Año de cada obra: va en el recuadro de arriba a la derecha de su isla (tag).
+# Por capítulo, con las excepciones por id. Las islas que ya existían toman el
+# de su imageDate; sin año, el recuadro no se muestra.
+ANIOS_CAPITULO = {2: '2024', 3: '2025', 4: '2024', 8: '2025', 11: '2024', 14: '2024', 16: '2024'}
+ANIOS = {
+    'gen-serie-03': '2025',             # Plastic Natianta
+    'gen-cap02-three-body': '2025',
+    'gen-cap02-neural-rhythm': '2025',
+    'gen-cap02-aigrette': '2025',
+    'gen-serie-04': '2025',             # Diaspores
+    'gen-cap02-ointment': '2025',
+    'gen-cap02-battle': '2025',
+}
+
 # Lo que el botón agrega a la altura de la tarjeta.
 ALTO_BOTON = 18
 
@@ -185,6 +199,11 @@ def subislote():
     s = f"islote{contador['islote']:03d}"; contador['islote'] += 1; return s
 SUBCURSOS_EXISTENTES = {f'gen-serie-0{i}': f'curso00{i}' for i in range(1, 7)}
 
+def anio(id_, n, previo):
+    if id_ in ANIOS: return ANIOS[id_]
+    fecha = re.search(r"\b(19|20)\d{2}\b", previo.get('imageDate', ''))
+    return fecha.group(0) if fecha else ANIOS_CAPITULO.get(n, '')
+
 def isla(id_, x, y, ancho, alto_, cod, cabecera, etiqueta, titulo, descripcion, imagen):
     estructura_islas.append((id_, SUBCURSOS_EXISTENTES.get(id_) or subcurso(), x, y, ancho, alto_))
     previo = existente(id_) if id_ in SUBCURSOS_EXISTENTES else {}
@@ -195,7 +214,7 @@ def isla(id_, x, y, ancho, alto_, cod, cabecera, etiqueta, titulo, descripcion, 
     campos += [('code', q(cod)),
                ('title', q(titulo) if titulo else previo['title']),
                ('description', q(descripcion) if descripcion else previo['description']),
-               ('tag', q(etiqueta)), ('accentColor', q(COLOR)), ('headerLabel', q(cabecera))]
+               ('tag', q(anio(id_, int(cod[1:]), previo))), ('accentColor', q(COLOR)), ('headerLabel', q(cabecera))]
     if id_ in ENLACES: campos.append(('detailHref', q(ENLACES[id_])))
     for k in ('imageCaption', 'imageDate', 'keywords'):
         if k in previo: campos.append((k, previo[k]))
