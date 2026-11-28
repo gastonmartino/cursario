@@ -327,6 +327,15 @@ export class MotorCursario {
   // inicial (el encuadre), sin la recordada; las demás entradas
   // (incursionar) usan la recordada si la hay.
   private forzarVistaInicial = false;
+
+  // El atajo /derivas/: el lienzo principal con su vista inicial, sin la
+  // recordada.
+  public encuadrarPrincipal() {
+    if (this.level === 'deriva') this.exitDeriva();
+    this.ubicarCamara(this.vistaInicialMacro());
+    this.vistaAutomatica = true;
+    this.despertar(true, true);
+  }
   public encuadrar(derivaId: string) {
     this.forzarVistaInicial = tieneLienzo(derivaId);
     this.incursionar(derivaId);

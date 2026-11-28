@@ -127,8 +127,11 @@ function rutasConUrlPropia(): RutaCarta<{ pagina: string }>[] {
     .map(({ url, props }) => conVistas({ params: { pagina: url.slice(1, -1) }, props }, url));
 }
 
-// Atajos a los lienzos de los cursos (alias, en src/data/insulas.ts): /{alias}/
-// muestra el Mapa con ese lienzo abierto y todas sus islas a la vista.
+// Atajos a los lienzos: /{alias}/ (alias, en src/data/insulas.ts) muestra el
+// Mapa con el lienzo de ese curso abierto, y /derivas/ (ATAJO_PRINCIPAL), con
+// el lienzo principal; los dos, siempre con su vista inicial (el encuadre).
+export const ATAJO_PRINCIPAL = 'derivas';
+
 export interface RutaAtajo {
   params: { pagina: string };
   props: { atajo: { deriva: string } };
@@ -137,7 +140,8 @@ export interface RutaAtajo {
 export const esAtajo = (ruta: RutaCarta<unknown> | RutaAtajo): ruta is RutaAtajo => 'atajo' in ruta.props;
 
 export function rutasDeAtajos(): RutaAtajo[] {
-  return INSULAS.filter((insula) => insula.alias).map((insula) => {
+  const principal: RutaAtajo = { params: { pagina: ATAJO_PRINCIPAL }, props: { atajo: { deriva: 'macro' } } };
+  return [principal, ...INSULAS.filter((insula) => insula.alias).map((insula) => {
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(insula.alias!)) {
       throw new Error(`El alias "${insula.alias}" de "${insula.id}" (src/data/insulas.ts) solo puede tener minúsculas, números y guiones, sin barras`);
     }
@@ -145,7 +149,7 @@ export function rutasDeAtajos(): RutaAtajo[] {
       throw new Error(`El alias "${insula.alias}" es de "${insula.id}", que no tiene lienzo propio`);
     }
     return { params: { pagina: insula.alias! }, props: { atajo: { deriva: insula.id } } };
-  });
+  })];
 }
 
 // Todas las páginas de un solo tramo (src/pages/[pagina].astro): las sueltas,

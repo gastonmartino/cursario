@@ -69,6 +69,10 @@ es `/?deriva={id}` (así vuelven las páginas de los subcursos). Con
 isla o islote) abre el lienzo donde está esa tarjeta y la enfoca
 (`enfocarTarjeta`, ver "Enfocar una tarjeta").
 
+El lienzo principal tiene el atajo `/derivas/` (`ATAJO_PRINCIPAL`, en
+`src/cartas/rutas.ts`; `encuadrarPrincipal`): la portada, como `/`, pero siempre
+con su vista inicial y con el Mapa a la vista, igual que los de los cursos.
+
 Un curso con `alias` (en `src/data/insulas.ts`) tiene además un atajo,
 `/{alias}/` (por ejemplo, `/bitacora/`): la misma portada, que abre el lienzo
 del curso siempre con su vista inicial, sin la recordada (`encuadrar`). Un

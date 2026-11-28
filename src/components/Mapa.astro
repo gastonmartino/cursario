@@ -540,7 +540,9 @@ const islotes = ISLOTES.map((islote) => {
     // En un atajo (/{alias}/), el lienzo del curso con todas sus islas a la vista.
     const derivaDelAtajo = mainCanvas.dataset.derivaInicial;
     const enfocada = islaPedida ? controller.enfocarTarjeta(islaPedida) : false;
-    if (!enfocada && derivaDelAtajo) {
+    if (!enfocada && derivaDelAtajo === 'macro') {
+      controller.encuadrarPrincipal();
+    } else if (!enfocada && derivaDelAtajo) {
       controller.encuadrar(derivaDelAtajo);
     } else if (!enfocada && requestedDeriva && DERIVAS_INSULAS.some((deriva) => deriva.id === requestedDeriva)) {
       controller.incursionar(requestedDeriva);

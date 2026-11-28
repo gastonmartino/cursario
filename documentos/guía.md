@@ -363,7 +363,7 @@ Todas las posiciones se definen en `src/motor/Derivas.ts`:
 
 Todos los lienzos (el principal y los de los cursos) usan la misma vista inicial: la cámara encuadra todas sus tarjetas, islotes incluidos, debajo del HUD, con un zoom de hasta 22 %. Si no entran, se centra a lo ancho y se muestra desde la primera tarjeta principal (ínsula o isla, no islote) que queda a la vista. Es igual en escritorio y en el celular. El algoritmo completo está en `src/motor/README.md`.
 
-Al entrar a un lienzo se usa la vista con que se lo dejó, si la hay; si no, la vista inicial. El atajo de un curso (`/{alias}/`) es la excepción: siempre usa la vista inicial.
+Al entrar a un lienzo se usa la vista con que se lo dejó, si la hay; si no, la vista inicial. Los atajos son la excepción: siempre usan la vista inicial y siempre muestran el Mapa (si el Derrotero está completo, en escritorio se retrae a la mitad; en el celular o la tableta vertical, si está abierto se cierra). El de cada curso es `/{alias}/`; el del lienzo principal, `/derivas/` (la portada, como `/`, con esas dos diferencias).
 
 La última vista de cada lienzo se recuerda en el navegador. Para ver la vista inicial, usar CENTRAR (`R`), el atajo del curso, o borrar el dato `cursario:vistas` del almacenamiento local del navegador.
 
