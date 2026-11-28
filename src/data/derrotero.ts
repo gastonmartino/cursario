@@ -22,11 +22,11 @@ export const DERROTERO: {
   // curso. Lo que está antes del primer bloque va suelto, al final.
   inicio: [
     'arte-electronico',       // CURSO: Artes Electrónicas
-      'arte-electronico-01',  // Siervos del Obnubilante Scrolling (S.O.S)
-      'arte-electronico-02',  // Rebelión en la Granja de Clics
       'arte-electronico-03',  // Homo Hamatus. Fenomenología de la vulnerabilidad
-      'arte-electronico-04',  // GPS (Goce Positioning System)
+      'arte-electronico-02',  // Rebelión en la Granja de Clics
       'arte-electronico-06',  // Fuera de temporada
+      'arte-electronico-01',  // Siervos del Obnubilante Scrolling (S.O.S)
+      'arte-electronico-04',  // GPS (Goce Positioning System)
       'expediente-1126',      // Expte. 11/26 (Nueva Toninas): una obra más del bloque
 
     'generativa',             // CURSO: Gráfica Generativa
