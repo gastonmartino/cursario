@@ -693,6 +693,13 @@ const secciones = [
         if (posicionActual() === 'completo') fijarPosicion('cerrado');
         return;
       }
+      // El botón del Mapa (en el HUD) que despliega el Derrotero: con vista
+      // compartida, avanza un paso, como la manija: de cerrado a la mitad, y de
+      // la mitad a completo. Sin ella (celular), abre el Derrotero completo.
+      if (boton.dataset.alternarVista === 'completo' && vistaCompartida.matches) {
+        fijarPosicion(posicionActual() === 'cerrado' ? 'mitad' : 'completo');
+        return;
+      }
       fijarPosicion(boton.dataset.alternarVista as Posicion);
     });
   });

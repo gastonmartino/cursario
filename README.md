@@ -635,7 +635,7 @@ La portada (`/`) se divide en dos mitades separadas por una **costura** vertical
 -   **Mapa** (`Mapa.astro`, "Gastón Martino // Cursario"): el lienzo infinito para recorrer el territorio a la deriva. Arma cada tarjeta combinando su contenido (`src/data/`) con su ubicación (`Derivas.ts`), y le pasa al motor lo que necesita para dibujar.
 -   **Derrotero** (`Derrotero.astro`, "Gastón Martino // Currículum"): una versión ordenada y esperable de los contenidos, como la de cualquier portfolio: **Inicio** (lo destacado), **Obras**, **Bitácora**, **Escritos**, **Bio** y **Contacto** (de `public/paginas/bio.md` y `contacto.md`), con un buscador. Qué trabajos aparecen en cada sección, y en qué orden, se define en `src/data/derrotero.ts`.
 
-La manija de la costura se arrastra, se mueve con sus flechas o con el teclado, y se imanta en tres posiciones (cerrado, mitad, completo); la posición se recuerda en el navegador. La costura existe desde 1024 px de ancho; por debajo se ve una vista o la otra, con un botón para pasar de una a otra.
+La manija de la costura se arrastra, se mueve con sus flechas o con el teclado, y se imanta en tres posiciones (cerrado, mitad, completo); la posición se recuerda en el navegador. El botón del Derrotero, arriba a la derecha del Mapa, avanza un paso: de cerrado a la mitad y de la mitad a completo. La costura existe desde 1024 px de ancho; por debajo se ve una vista o la otra, con un botón para pasar de una a otra.
 
 ### 11\.6. Navegación espacial
 
