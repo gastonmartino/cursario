@@ -149,6 +149,12 @@ const secciones = capitulos.map((cap, i) => {
     id: `estrato-${i + 1}`,
     numero: ROMANOS[i] ?? String(i + 1),
     titulo: sinMarcas(cap.titulo),
+    // Un paréntesis al final del título ("El sujeto sujeto (a la red)") va
+    // debajo, como subtítulo.
+    ...(() => {
+      const m = sinMarcas(cap.titulo).match(/^(.*\S)\s*\(([^()]+)\)$/);
+      return m ? { tituloPrincipal: m[1], subtitulo: m[2] } : { tituloPrincipal: sinMarcas(cap.titulo), subtitulo: '' };
+    })(),
     parrafos,
     piezas: piezasDe(cap.bloques),
     susurros: susurrosDe(parrafos),
@@ -356,7 +362,8 @@ const seccionReferencias = secciones.find((s) => s.referencias);
           ))}
           <header class="hm-estrato__encabezado">
             <p class="hm-etiqueta">ESTRATO {sec.numero} · PROF. {profundidad(i)} · CAPA DE OCUPACIÓN</p>
-            <h2 class="hm-display hm-estrato__titulo"><span class="hm-falla" data-texto={sec.titulo}>{sec.titulo}</span></h2>
+            <h2 class="hm-display hm-estrato__titulo"><span class="hm-falla" data-texto={sec.tituloPrincipal}>{sec.tituloPrincipal}</span></h2>
+            {sec.subtitulo && <p class="hm-estrato__subtitulo">{sec.subtitulo}</p>}
           </header>
 
           <div class="hm-estrato__texto">
