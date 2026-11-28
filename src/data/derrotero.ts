@@ -31,24 +31,24 @@ export const DERROTERO: {
 
     'generativa',             // CURSO: Gráfica Generativa
       // 2025
-      'gen-serie-01',         // Sarandí Revelation
       'gen-serie-03',         // Plastic Natianta
       'gen-serie-04',         // Diasporas
       'gen-cap03',            // Orchestrion
+      'gen-serie-01',         // Sarandí Revelation
       'gen-cap08-green-velvet', // Green Velvet Reward
       // 2024
-      'gen-cap04-mboi-tata',  // Mbói Tatá
       'gen-cap01',            // Stochastic Parrots
-      'gen-cap07',            // Blue Prowess
-      'gen-cap12',            // Fire Season
-      'gen-cap15',            // Eardrum Negentropy
       'gen-cap02-haemolacria', // Haemolacria
-      'gen-cap04-blood-moon', // Blood Moon Turban
-      'gen-serie-05',         // Meanwhile, in the Southern Hemisphere, a lymphatic summer
-      'gen-serie-06',         // Fertile Regolith
-      'gen-cap14-la-noria',   // La Noria
-      'gen-cap16-kite',       // Kite Festival Above, But Temple Below
       'gen-cap04-suspended-angel', // Suspended Angel Dance
+      'gen-cap04-blood-moon', // Blood Moon Turban
+      'gen-cap04-mboi-tata',  // Mbói Tatá
+      'gen-serie-05',         // Meanwhile, in the Southern Hemisphere, a lymphatic summer
+      'gen-cap07',            // Blue Prowess
+      'gen-serie-06',         // Fertile Regolith
+      'gen-cap12',            // Fire Season
+      'gen-cap14-la-noria',   // La Noria
+      'gen-cap15',            // Eardrum Negentropy
+      'gen-cap16-kite',       // Kite Festival Above, But Temple Below
       // 2023
       'gen-cap10',            // Yabotí Lowlands
       'gen-cap13',            // The Ostrich Evidence
