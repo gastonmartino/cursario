@@ -218,7 +218,7 @@ Una tarjeta puede tener imagen, Markdown o ambos: con los dos se muestran en col
 | `thumbnailImageUrl` | Miniatura cuadrada y liviana, para las grillas del Derrotero |
 | `refloated` | `true`: el curso no tiene lienzo propio y sus islas salen a flote en el lienzo principal (ver 8.3) |
 | `pageUrl` | URL propia de la página editorial, de un solo tramo (ver 6.5) |
-| `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo con todas sus islas e islotes a la vista (por ejemplo, `alias: 'bitacora'` → `/bitacora/`). Si no entran ni con el zoom en su tope (22%), el lienzo se centra a lo ancho y se muestra desde la primera de las islas (no los islotes) que quedan a la vista. Solo minúsculas, números y guiones. Siempre abre el Mapa, aunque el Derrotero haya quedado abierto. `/?deriva={id}` sigue funcionando igual |
+| `alias` | Atajo al lienzo del curso: `/{alias}/` abre el Mapa en ese lienzo (por ejemplo, `alias: 'bitacora'` → `/bitacora/`), con la misma vista que cualquier entrada al lienzo (ver 8.2). Solo minúsculas, números y guiones. Siempre abre el Mapa, aunque el Derrotero haya quedado abierto. `/?deriva={id}` sigue funcionando igual |
 
 Con `pageMarkdownFile`, el click, `Enter` e INCURSIONAR sobre la ínsula abren su página en lugar del lienzo del curso; al lienzo se llega desde la página con VER EL MAPA y, desde el lienzo, se vuelve a la página con el botón del ícono de documento ("Ver página de resumen"), arriba a la derecha. La página va en `/{pageUrl}/` o, sin `pageUrl`, en `/{curso}/`.
 
@@ -361,7 +361,7 @@ Todas las posiciones se definen en `src/motor/Derivas.ts`:
 
 ### 8.2. Vista inicial
 
-Al abrir un lienzo, la cámara se centra en el conjunto de las tarjetas, con un zoom del 70 % en escritorio (en el celular, el que hace entrar 1,25 tarjetas de ancho), y se ajusta para que la tarjeta de más arriba quede visible debajo del HUD. Los islotes no cuentan para ese cálculo. El algoritmo completo está en `src/motor/README.md`.
+Al abrir el lienzo de un curso (desde el lienzo principal, con `/?deriva={id}` o con su atajo `/{alias}/`), la cámara encuadra todas sus islas e islotes debajo del HUD, con un zoom de hasta 22 %. Si no entran, se centra a lo ancho y se muestra desde la primera isla (no islote) que queda a la vista. Es igual en escritorio y en el celular. En el lienzo principal, la cámara se centra en el conjunto de las ínsulas, con un zoom del 70 % en escritorio (en el celular, el que hace entrar 1,25 tarjetas de ancho), y se ajusta para que la de más arriba quede visible debajo del HUD. Los algoritmos completos están en `src/motor/README.md`.
 
 La última vista de cada lienzo se recuerda en el navegador. Para ver la vista inicial después de cambiar posiciones, usar CENTRAR (`R`) o borrar el dato `cursario:vistas` del almacenamiento local del navegador.
 

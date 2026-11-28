@@ -67,19 +67,14 @@ transición. La portada abre directamente el lienzo de un curso cuando la URL
 es `/?deriva={id}` (así vuelven las páginas de los subcursos). Con
 `/?deriva={id}&isla={id de la isla o islote}` (VER EL MAPA, en la página de una
 isla o islote) abre el lienzo donde está esa tarjeta y la enfoca
-(`enfocarTarjeta`): su esquina superior izquierda queda arriba a la izquierda,
-debajo del encabezado y del HUD, con el zoom de la vista inicial del lienzo.
+(`enfocarTarjeta`, ver "Enfocar una tarjeta").
 
 Un curso con `alias` (en `src/data/insulas.ts`) tiene además un atajo,
 `/{alias}/` (por ejemplo, `/bitacora/`): la misma portada, que abre el lienzo
-del curso con todas sus islas e islotes a la vista (`encuadrar` y
-`vistaEncuadre`), debajo del encabezado y del HUD. Para que entren, ese
-encuadre puede alejarse hasta un zoom de 0,22 (`ZOOM_MINIMO_ENCUADRE`), algo
-más que el mínimo de la cámara; si aun así no entran, el conjunto se centra a
-lo ancho y se muestra desde arriba. La vista se guarda como automática, así
-que `/?deriva={id}` conserva su vista inicial de siempre. Un atajo siempre
-muestra el Mapa: si el Derrotero lo cubriría (la costura en completo, guardada
-o por defecto en el celular), se cierra (`EstadoDerrotero.astro`).
+del curso igual que cualquier otra entrada (`encuadrar`, que llama a
+`incursionar`). Un atajo siempre muestra el Mapa: si el Derrotero lo cubriría
+(la costura en completo, guardada o por defecto en el celular), se cierra
+(`EstadoDerrotero.astro`).
 
 ### Ínsulas reflotadas
 
@@ -102,8 +97,10 @@ a ella y a las demás ínsulas, unidas a la ínsula por su línea de recorrido.
 
 ## Cámara
 
-- El zoom va de 0,25 a 2,5.
-- La vista inicial de cada lienzo se calcula con el algoritmo de la sección
+- El zoom va de 0,25 a 2,5. En el lienzo de un curso, la vista inicial y
+  CENTRAR pueden alejarse hasta 0,22 (`ZOOM_MINIMO_ENCUADRE`), donde las
+  tarjetas siguen visibles.
+- La vista inicial de cada lienzo se calcula con los algoritmos de la sección
   siguiente. CENTRAR (o `R`) vuelve a ella.
 - Mientras nadie mueva la vista inicial, se recalcula si cambia el tamaño del
   lienzo (al cargar en el celular, al mover la costura).
@@ -128,11 +125,32 @@ está abierto, el teclado no llega al lienzo.
 
 ## Vista inicial de cada lienzo
 
-Se calcula en `vistaInicial` (`MotorCursario.ts`), con las constantes del
-principio del archivo. Cuentan las **tarjetas** del lienzo: en el principal, las
-ínsulas y las islas de las ínsulas reflotadas; en el de un curso, sus islas. Los
-islotes nunca cuentan. "Pantalla chica" es un lienzo de menos de 768 px de
-ancho (`ANCHO_MOVIL`).
+La vista con que se abre un lienzo la primera vez (o cuando nadie había movido
+la suya), y a la que vuelve CENTRAR. Hay dos algoritmos: uno para el lienzo de
+un curso y otro para el principal. Las constantes están al principio de
+`MotorCursario.ts`.
+
+### Lienzo de un curso: encuadre
+
+Se calcula en `vistaEncuadre`. Es la misma vista se llegue como se llegue: desde
+el lienzo principal, con `/?deriva={id}` o con el atajo `/{alias}/`. Cuentan
+las islas y los islotes del lienzo. No distingue escritorio de celular, salvo
+en el margen lateral: 24 px (`MARGEN_IZQUIERDO`) o, en un lienzo de menos de
+768 px de ancho (`ANCHO_MOVIL`), 16 px (`MARGEN_IZQUIERDO_MOVIL`).
+
+1. **Zoom.** El que hace entrar todas las islas e islotes en el lienzo, debajo
+   del encabezado y del HUD (`MARGEN_SUPERIOR`, 100 px) y a ese margen de los
+   costados y del borde de abajo. Entre 0,22 (`ZOOM_MINIMO_ENCUADRE`) y 2,5.
+2. **Si todo entra:** el conjunto queda centrado en el espacio útil.
+3. **Si no entra** (a lo ancho o a lo alto), con el zoom ya en 0,22: se centra
+   a lo ancho y, de las **islas** que quedan a la vista (no los islotes), la de
+   más arriba se muestra desde su comienzo, a 100 px del borde superior. Los
+   islotes que estén más arriba pueden quedar cortados.
+
+### Lienzo principal
+
+Se calcula en `vistaInicial`. Cuentan las ínsulas y las islas de las ínsulas
+reflotadas; los islotes no cuentan.
 
 1. **Zoom.** En escritorio y tablets, 70 % (`ZOOM_INICIAL`). En pantallas
    chicas, el que hace entrar 1,25 tarjetas de ancho (`TARJETAS_MOVIL`, con el
@@ -153,6 +171,28 @@ ancho (`ANCHO_MOVIL`).
    deja así (puede quedar entera pero pegada al borde).
 
 En escritorio la vista termina en el paso 3, centrada en horizontal.
+
+### Memoria y recálculo
+
+- La vista de cada lienzo (posición y zoom) se guarda en el navegador
+  (`cursario:vistas`) y se restaura en la entrada siguiente, sea por donde sea.
+- Mientras sea la inicial (nadie la movió, o se usó CENTRAR), se guarda como
+  automática: no se restaura la posición, sino que se recalcula para la
+  pantalla de ese momento, también si cambia el tamaño del lienzo (al cargar en
+  el celular, al mover la costura).
+
+### Enfocar una tarjeta
+
+`enfocarTarjeta` deja la esquina superior izquierda de una tarjeta a 100 px del
+borde superior y a 24 px del izquierdo (16 px en pantallas chicas). El zoom
+depende de desde dónde se llega:
+
+- **VER EL MAPA** (`/?deriva={id}&isla={id}`): el zoom del paso 1 de
+  `vistaInicial` para ese lienzo (`zoomDeEnfoque`): 70 % o, en pantallas
+  chicas, el que hace entrar 1,25 tarjetas de ancho. No el del encuadre, que en
+  un lienzo grande dejaría la tarjeta muy chica.
+- **Derrotero** (las islas con enlace externo): el zoom que tenía la cámara,
+  con un mínimo de 0,22.
 
 ## Tarjetas HTML
 

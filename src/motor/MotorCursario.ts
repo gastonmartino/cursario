@@ -301,14 +301,12 @@ export class MotorCursario {
   // todavía no tiene su ancho definitivo, y también cambia con la costura.
   private vistaAutomatica = false;
 
-  // Encuadre completo (los atajos, /{alias}/): mientras dure, la vista inicial
-  // del lienzo es la que muestra todas sus islas e islotes (vistaEncuadre).
-  private encuadreCompleto = false;
-
+  // La vista inicial del lienzo actual: en el de un curso, el encuadre de
+  // todas sus islas e islotes (vistaEncuadre), se llegue como se llegue (desde
+  // el lienzo principal, con /?deriva={id} o con el atajo /{alias}/) y también
+  // con CENTRAR; en el principal, vistaInicial.
   private vistaInicialActual(): Vista {
-    if (this.level === 'deriva' && this.activeDeriva) {
-      return this.encuadreCompleto ? this.vistaEncuadre(this.activeDeriva) : this.vistaInicialCurso(this.activeDeriva);
-    }
+    if (this.level === 'deriva' && this.activeDeriva) return this.vistaEncuadre(this.activeDeriva);
     return this.vistaInicialMacro();
   }
 
@@ -356,22 +354,15 @@ export class MotorCursario {
     return { x, y: primera - (MARGEN_SUPERIOR - alto / 2) / zoom, zoom };
   }
 
-  // El zoom mínimo de los vuelos de la cámara: el del encuadre completo
-  // mientras dure; si no, el de la cámara.
+  // El zoom mínimo de los vuelos de la cámara: en el lienzo de un curso, el del
+  // encuadre; en el principal, el de la cámara.
   private zoomMinimo() {
-    return this.encuadreCompleto && this.level === 'deriva' ? ZOOM_MINIMO_ENCUADRE : this.camera.minZoom;
+    return this.level === 'deriva' ? ZOOM_MINIMO_ENCUADRE : this.camera.minZoom;
   }
 
-  // Abre el lienzo de un curso con todas sus islas a la vista (los atajos,
-  // /{alias}/). La vista sigue siendo la automática: se recalcula si cambia el
-  // tamaño del lienzo, y se guarda como tal, así que /?deriva={id} conserva
-  // su vista inicial de siempre.
+  // Los atajos (/{alias}/) abren el lienzo del curso como cualquier otra
+  // entrada (incursionar): con la vista recordada o, si no hay, el encuadre.
   public encuadrar(derivaId: string) {
-    if (!tieneLienzo(derivaId)) {
-      this.incursionar(derivaId);
-      return;
-    }
-    this.encuadreCompleto = true;
     this.incursionar(derivaId);
   }
 
@@ -775,9 +766,18 @@ export class MotorCursario {
     return { x: posicion.x, y: posicion.y, nodo };
   }
 
+  // El zoom con que se enfoca una tarjeta (VER EL MAPA): el de vistaInicial,
+  // 70 % o, en pantallas chicas, el que hace entrar 1,25 tarjetas de ancho (no
+  // el del encuadre, que en un lienzo grande deja la tarjeta muy chica).
+  private zoomDeEnfoque() {
+    return this.level === 'deriva' && this.activeDeriva
+      ? this.vistaInicialCurso(this.activeDeriva).zoom
+      : this.vistaInicialMacro().zoom;
+  }
+
   // La vista del lienzo actual que deja la esquina superior izquierda de la
   // tarjeta `id` arriba a la izquierda de la pantalla (ver MARGEN_IZQUIERDO),
-  // con el zoom de la vista inicial del lienzo, o con `zoomPedido` (sin bajar
+  // con zoomDeEnfoque, o con `zoomPedido` (sin bajar
   // de ZOOM_MINIMO_ENCUADRE, donde las tarjetas se ocultan). La tarjeta se mide
   // en la página: su alto real puede ser mayor que el de Derivas.ts.
   private vistaEnTarjeta(id: string, zoomPedido?: number): Vista | null {
@@ -795,7 +795,7 @@ export class MotorCursario {
     const ancho = this.anchoVista();
     const alto = this.altoVista();
     const zoom = Math.min(this.camera.maxZoom,
-      Math.max(ZOOM_MINIMO_ENCUADRE, zoomPedido ?? this.vistaInicialActual().zoom));
+      Math.max(ZOOM_MINIMO_ENCUADRE, zoomPedido ?? this.zoomDeEnfoque()));
     const margenIzquierdo = ancho < ANCHO_MOVIL ? MARGEN_IZQUIERDO_MOVIL : MARGEN_IZQUIERDO;
     // El borde izquierdo de la tarjeta queda en la pantalla en
     // (izquierda - x) * zoom + ancho / 2; el superior, igual con y.
@@ -878,11 +878,8 @@ export class MotorCursario {
     let vista: Vista;
     if (enfocada) {
       vista = enfocada;
-    } else if (this.encuadreCompleto) {
-      vista = this.vistaEncuadre(targetDeriva);
-      this.vistaAutomatica = true;
     } else {
-      vista = this.vistaRecordada(targetDeriva.id, () => this.vistaInicialCurso(targetDeriva));
+      vista = this.vistaRecordada(targetDeriva.id, () => this.vistaEncuadre(targetDeriva));
     }
     this.camera.x = vista.x;
     this.camera.y = vista.y;
@@ -903,7 +900,6 @@ export class MotorCursario {
 
     this.level = 'macro';
     this.activeDeriva = null;
-    this.encuadreCompleto = false;
     this.hoveredItem = null;
 
     // El lienzo principal como se dejó o, si nunca se lo vio (se llegó

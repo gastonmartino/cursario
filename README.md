@@ -666,11 +666,10 @@ Las URL de la portada aceptan parámetros: `/?deriva={id}` abre el lienzo de ese
 
 #### Atajos a los lienzos
 
-Un curso con `alias` (en `src/data/insulas.ts`) tiene además una URL corta que abre directamente su lienzo con todas sus islas e islotes a la vista. Hoy la tienen la Bitácora, **`/bitacora/`**, y la Gráfica Generativa, **`/generativa/`**.
+Un curso con `alias` (en `src/data/insulas.ts`) tiene además una URL corta que abre directamente su lienzo. Hoy la tienen la Bitácora, **`/bitacora/`**, y la Gráfica Generativa, **`/generativa/`**.
 
--   Es la misma portada, con el lienzo del curso encuadrado debajo del encabezado y del HUD. Para que entre todo, el zoom puede alejarse hasta 0,22.
+-   Es la misma portada, abierta en el lienzo del curso, igual que si se entrara desde el lienzo principal o con `/?deriva={id}`: con la vista recordada o, la primera vez, con el encuadre de todas sus islas e islotes (ver la vista inicial, en `src/motor/README.md`).
 -   Siempre muestra el Mapa: si el Derrotero lo cubriría (en el celular, o en escritorio con la costura en *completo*), se cierra.
--   `/?deriva={id}` sigue funcionando como siempre, con su vista inicial.
 
 ### 11\.7. Páginas de contenido y cartas
 
