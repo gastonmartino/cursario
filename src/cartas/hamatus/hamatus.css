@@ -570,6 +570,15 @@ html.html-hamatus .hm-portada__mapa {
   --hm-mascara-lado: linear-gradient(to right, transparent 0, #000 28%);
 }
 
+html.html-hamatus .hm-portada__mapa--estandar,
+html.html-hamatus:is([data-hm-composicion='media'], [data-hm-composicion='angosta']) .hm-portada__mapa--ancha {
+  display: none;
+}
+
+html.html-hamatus:is([data-hm-composicion='media'], [data-hm-composicion='angosta']) .hm-portada__mapa--estandar {
+  display: block;
+}
+
 html.html-hamatus .hm-portada__etiqueta {
   position: absolute;
   top: 70px;
@@ -1342,10 +1351,17 @@ html.html-hamatus[data-hm-composicion='media'] .hm-sitios {
   transform: rotate(-1.4deg);
 }
 
+/* Las láminas, superpuestas al mapa y entre sí, para ahorrar alto: la
+   primera monta el pie del mapa y la segunda, escalonada, el borde de la
+   primera. Se pueden reacomodar arrastrándolas. */
 html.html-hamatus[data-hm-composicion='media'] .hm-prologo__laminas {
   width: 100%;
-  gap: 40px;
-  margin-top: 0;
+  gap: 0;
+  margin-top: -220px;
+}
+
+html.html-hamatus[data-hm-composicion='media'] .hm-prologo__lamina + .hm-prologo__lamina {
+  margin-left: -24px;
 }
 
 html.html-hamatus[data-hm-composicion='media'] .hm-prologo__lamina--vertical .hm-lamina-img {
@@ -1616,15 +1632,22 @@ html.html-hamatus[data-hm-composicion='angosta'] .hm-sitios {
   transform: rotate(-0.8deg);
 }
 
+/* Las láminas, superpuestas en vertical: la primera monta el pie del mapa y
+   la segunda el de la primera, apenas corridas a la derecha. */
 html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__laminas {
   flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  margin: 0;
+  align-items: flex-start;
+  gap: 0;
+  margin: -144px 0 0;
+}
+
+html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina {
+  margin-left: 3%;
 }
 
 html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina + .hm-prologo__lamina {
-  margin-top: 0;
+  margin-top: -100px;
+  margin-left: auto;
 }
 
 html.html-hamatus[data-hm-composicion='angosta'] .hm-prologo__lamina--vertical {

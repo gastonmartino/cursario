@@ -59,6 +59,40 @@ export const ICONOS = {
     ${rayas('M-9 4.6H9')}
   </g>`,
 
+  // Anzuelo triple (potera): el ojal, el vástago y tres curvas con su
+  // lengüeta, una de ellas de frente.
+  potera: `<g transform="rotate(-10)">
+    <circle cx="0" cy="-9.2" r="1.7" fill="#f1efe9" stroke="${R}" stroke-width=".85"/>
+    ${linea('M0 -7.5V2.6', 1.1)}
+    ${linea('M0 2.6C0 8.6 -7 8.6 -7 3V0.2', 1)}
+    ${linea('M0 2.6C0 8.6 7 8.6 7 3V0.2', 1)}
+    ${linea('M0 2.6C0.2 7.4 2.4 8.4 3.2 6.2', 0.8)}
+    ${pieza('M-7 0.2L-8.4 -1.8L-5.8 1.9Z')}
+    ${pieza('M7 0.2L8.4 -1.8L5.8 1.9Z')}
+    ${rayas('M-0.8 -5.6L0.8 -6.2M-0.8 -3.6L0.8 -4.2M-0.8 -1.6L0.8 -2.2')}
+    ${linea('M0 -10.9C0.8 -11.8 2 -11.1 3 -12', 0.45)}
+  </g>`,
+
+  // Anzuelo circular: la curva cerrada que vuelve sobre el vástago.
+  anzueloCircular: `<g transform="rotate(18)">
+    <circle cx="-3.2" cy="-9" r="1.6" fill="#f1efe9" stroke="${R}" stroke-width=".85"/>
+    ${linea('M-3.2 -7.4V1.6C-3.2 9.8 8.2 9.8 8.2 2C8.2 -2.6 4.6 -3.6 2.6 -1.4', 1.1)}
+    ${linea('M-2.5 -6.8V1.6C-2.5 8.9 7.4 8.9 7.4 2', 0.4)}
+    ${pieza('M2.6 -1.4L0.6 -0.6L3.6 0.6Z')}
+    ${rayas('M-4 -4.6L-2.4 -5.2M-4 -2.6L-2.4 -3.2')}
+  </g>`,
+
+  // Alfiler de gancho abierto: la aguja suelta de la cabeza, en ángulo.
+  alfilerAbierto: `<g transform="rotate(-18)">
+    ${linea('M-7.4 1.6L9.4 0.5', 0.85)}
+    ${linea('M-7.2 -1.2L3.4 -9.6', 0.75)}
+    ${linea('M3.2 -9.4L4.8 -10.7', 0.45)}
+    <circle cx="-9" cy="0.3" r="2.5" fill="#f1efe9" stroke="${R}" stroke-width=".85"/>
+    <circle cx="-9" cy="0.3" r="1.25" fill="none" stroke="${R}" stroke-width=".55"/>
+    ${pieza('M5.4 -2.4H9.2Q11.6 -2.4 11.6 -0.2Q11.6 1.9 9.4 2.4L5.4 2.4Q4.6 0 5.4 -2.4Z')}
+    ${rayas('M6.5 -2V1.9M7.6 -2.2V2.1M8.7 -2.2V2.2M9.8 -2V2.1M10.8 -1.4V1.4')}
+  </g>`,
+
   // Aguja de crochet: el mango con su apoyo para el pulgar y la punta curva.
   crochet: `<g transform="rotate(-45)">
     ${pieza('M-11.6 -1.2H7.6Q9.4 -1.2 10.6 -2.4Q12.4 -3 12.6 -1.2Q12.8 1.2 10.4 1.2H-11.6Q-12.4 0 -11.6 -1.2Z')}

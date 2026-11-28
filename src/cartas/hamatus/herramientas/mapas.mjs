@@ -21,12 +21,12 @@ const paises110 = feature(load('countries-110m.json'), load('countries-110m.json
 const SITIOS = [
   { id: 'HH-01', nombre: 'Conurbano bonaerense', objeto: 'broche', lon: -58.4, lat: -34.75 },
   { id: 'HH-02', nombre: 'Montevideo', objeto: 'alfiler', lon: -56.17, lat: -34.88, lado: 'abajo' },
-  { id: 'HH-03', nombre: 'Asunción', objeto: 'percha', lon: -57.6, lat: -25.28 },
+  { id: 'HH-03', nombre: 'Asunción', objeto: 'potera', lon: -57.6, lat: -25.28 },
   { id: 'HH-04', nombre: 'La Paz', objeto: 'anzuelo', lon: -68.15, lat: -16.5 },
   { id: 'HH-05', nombre: 'Lima', objeto: 'carpeta', lon: -77.03, lat: -12.05 },
   { id: 'HH-06', nombre: 'São Paulo', objeto: 'crochet', lon: -46.63, lat: -23.55 },
-  { id: 'HH-07', nombre: 'Ciudad de México', objeto: 'alfiler', lon: -99.13, lat: 19.43 },
-  { id: 'HH-08', nombre: 'Santiago', objeto: 'percha', lon: -70.65, lat: -33.45 },
+  { id: 'HH-07', nombre: 'Ciudad de México', objeto: 'anzueloCircular', lon: -99.13, lat: 19.43 },
+  { id: 'HH-08', nombre: 'Santiago', objeto: 'alfilerAbierto', lon: -70.65, lat: -33.45 },
 ];
 
 const coord = (v, pos, neg) => `${Math.abs(v).toFixed(2)}°${v >= 0 ? pos : neg}`;
@@ -60,8 +60,11 @@ function mapa({ nombre, paisesFuente = 50, letra = 11, land, ancho, alto, centro
     const [x, y] = proj([sitio.lon, sitio.lat]);
     if (x < 0 || y < 0 || x > ancho || y > alto) continue;
     const k = letra / 11, c = 18 * k;
-    const tx = x + c, ty = sitio.lado === 'abajo' ? y + 2.6 * c : y - 0.5 * c;
-    s += `<g font-family="'IBM Plex Mono', monospace" font-size="${letra}" fill="${tinta}">
+    // La etiqueta, a la derecha del sitio; con lado 'abajo', debajo; con
+    // 'izquierda', a la izquierda, alineada a la derecha.
+    const izq = sitio.lado === 'izquierda';
+    const tx = izq ? x - c : x + c, ty = sitio.lado === 'abajo' ? y + 2.6 * c : y - 0.5 * c;
+    s += `<g font-family="'IBM Plex Mono', monospace" font-size="${letra}" fill="${tinta}"${izq ? ' text-anchor="end"' : ''}>
   <g transform="translate(${x} ${y}) scale(${k})">
     <!-- Cuadrícula de excavación: el cuadro, sus ejes y las estacas. -->
     <rect x="-13" y="-13" width="26" height="26" fill="#f1efe9" fill-opacity=".75" stroke="#c8102e" stroke-width="1" stroke-dasharray="3 2"/>
@@ -80,6 +83,10 @@ function mapa({ nombre, paisesFuente = 50, letra = 11, land, ancho, alto, centro
   console.log(nombre, (s.length / 1024).toFixed(0) + ' KB');
 }
 
+// La portada: en la composición ancha (de escritorio) se ve grande, y sus
+// referencias van más chicas (mapa-latinoamerica-ancha); en las demás, como
+// siempre.
+mapa({ nombre: 'mapa-latinoamerica-ancha', land: land50, paisesFuente: 110, letra: 9, ancho: 900, alto: 1200, centro: [-75, -8], escala: 430, anillos: [46, 38, 30, 22, 14, 7], sitios: SITIOS.filter((s) => s.id !== 'HH-02').map((s) => (['HH-03', 'HH-08'].includes(s.id) ? { ...s, lado: 'izquierda' } : s)), paises: true });
 mapa({ nombre: 'mapa-latinoamerica', land: land50, paisesFuente: 110, letra: 17, ancho: 900, alto: 1200, centro: [-75, -8], escala: 430, anillos: [46, 38, 30, 22, 14, 7], sitios: SITIOS.filter((s) => s.id !== 'HH-02'), paises: true });
 mapa({ nombre: 'mapa-rio-de-la-plata', land: land50, letra: 16, ancho: 1200, alto: 800, centro: [-57.6, -34.6], escala: 9000, anillos: [120, 100, 80, 60, 40, 20], sitios: SITIOS.slice(0, 2), graticula: 1 });
 mapa({ nombre: 'mapa-cono-sur', land: land50, ancho: 1000, alto: 900, centro: [-63, -33], escala: 1300, anillos: [70, 56, 42, 28, 14], sitios: [SITIOS[0], SITIOS[1], SITIOS[2], SITIOS[7]], paises: true, graticula: 5 });

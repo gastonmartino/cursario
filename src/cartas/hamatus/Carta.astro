@@ -39,6 +39,7 @@ import { renderizarEnLinea, type BloqueMimo } from '../../utils/markdown';
 import { withBase } from '../../utils/paths';
 import type { PropsCarta } from '../index';
 import mapaLatinoamerica from './mapas/mapa-latinoamerica.svg?url';
+import mapaLatinoamericaAncha from './mapas/mapa-latinoamerica-ancha.svg?url';
 import mapaConoSur from './mapas/mapa-cono-sur.svg?url';
 import mapaAndes from './mapas/mapa-andes.svg?url';
 import mapaRioDeLaPlata from './mapas/mapa-rio-de-la-plata.svg?url';
@@ -247,7 +248,11 @@ const seccionReferencias = secciones.find((s) => s.referencias);
 
       <!-- PORTADA -->
       <section class="hm-portada" id="superficie">
-        <img class="hm-mapa-fondo hm-portada__mapa" src={mapaLatinoamerica} alt="" aria-hidden="true" />
+        {/* Dos versiones del mapa: en la composición ancha, sus referencias van más
+            chicas. Se muestra una sola (hamatus.css); la otra, oculta y en
+            diferido, no se descarga. */}
+        <img class="hm-mapa-fondo hm-portada__mapa hm-portada__mapa--ancha" src={mapaLatinoamericaAncha} alt="" aria-hidden="true" loading="lazy" />
+        <img class="hm-mapa-fondo hm-portada__mapa hm-portada__mapa--estandar" src={mapaLatinoamerica} alt="" aria-hidden="true" loading="lazy" />
         <p class="hm-etiqueta hm-portada__etiqueta">
           EXPEDIENTE {pagina.codigo} · SUPERFICIE · ESPÉCIMEN TIPO<br />{pagina.subtitulo}
         </p>
