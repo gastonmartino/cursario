@@ -148,7 +148,7 @@ AG = 20  # entre el avatar y el cartel
 # Por capítulo, con las excepciones por id. Las islas que ya existían toman el
 # de su imageDate; sin año, el recuadro no se muestra.
 ANIOS_CAPITULO = {1: '2024', 2: '2024', 3: '2025', 4: '2024', 7: '2024', 8: '2025', 9: '2023', 10: '2023', 11: '2024',
-                  12: '2024', 14: '2024', 16: '2024', 17: '2023', 18: '2023'}
+                  12: '2024', 13: '2023', 14: '2024', 15: '2024', 16: '2024', 17: '2023', 18: '2023'}
 ANIOS = {
     'gen-serie-03': '2025',             # Plastic Natianta
     'gen-cap02-three-body': '2025',
